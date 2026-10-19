@@ -1,0 +1,56 @@
+# ---------------------------------------------------------
+# Environment, Credentials & Secrets
+# ---------------------------------------------------------
+**/.env
+**/.env.*
+!**/.env.example
+**/google-services.json
+**/GoogleService-Info.plist
+**/key.properties
+**/*.key
+**/*.keystore
+**/*.jks
+
+# ---------------------------------------------------------
+# Flutter & Dart Build Artifacts / Generated Code
+# ---------------------------------------------------------
+**/.dart_tool/**
+**/build/**
+**/coverage/**
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+
+# ---------------------------------------------------------
+# Native Platforms Build Output & Ephemeral Files
+# ---------------------------------------------------------
+**/.gradle/**
+**/android/**/*.apk
+**/android/**/*.aab
+**/android/**/generated/**
+**/ios/Pods/**
+**/ios/Flutter/ephemeral/**
+**/ios/.symlinks/**
+**/macos/Pods/**
+**/macos/Flutter/ephemeral/**
+**/linux/flutter/ephemeral/**
+**/windows/flutter/ephemeral/**
+
+# ---------------------------------------------------------
+# Local Databases
+# ---------------------------------------------------------
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# ---------------------------------------------------------
+# IDEs, System & Editor Files
+# ---------------------------------------------------------
+**/.idea/**
+**/.vs/**
+**/.vscode/*
+!**/.vscode/extensions.json
+!**/.vscode/settings.json
+.DS_Store
+Thumbs.db
