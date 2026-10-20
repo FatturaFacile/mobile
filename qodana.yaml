@@ -1,0 +1,16 @@
+version: "1.0"
+
+profile:
+  name: qodana.recommended
+
+exclude:
+  - name: All
+    paths:
+      - build
+      - .dart_tool
+      - ios/Pods
+      - android/.gradle
+
+bootstrap: |
+  flutter pub get
+  dart analyze .
