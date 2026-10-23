@@ -1,0 +1,47 @@
+name: Qodana
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Cancel in-progress runs for the same branch or PR to conserve GitHub Actions runner minutes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qodana:
+    name: Qodana Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run Qodana scan
+        uses: JetBrains/qodana-action@v2024.3
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+        with:
+          upload-result: true

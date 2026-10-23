@@ -1,28 +1,57 @@
-name: Build
+name: Build & Test
+
 on:
   push:
     branches:
       - main
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  sonarqube:
-    name: SonarQube
+  build-and-test:
+    name: Flutter Analyze, Test & SonarQube
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Full history recommended for accurate Sonar analysis
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze code
+        run: flutter analyze
+
+      - name: Run unit & widget tests with coverage
+        run: flutter test --coverage
+
       - name: Cache SonarQube packages
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      # The analysis requires to retrieve dependencies and build successfully
-      - name: Build
-        run: <mark><commands_to_build_your_project></mark>
+          key: ${{ runner.os }}-sonar-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-sonar-
+
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@d209202bc7d53ff1cc128f7f907dac145c9d6ae9 # v8.3.0
+        uses: SonarSource/sonarqube-scan-action@v5
+        if: env.SONAR_TOKEN != ''
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
