@@ -40,7 +40,7 @@ jobs:
         run: flutter pub get
 
       - name: Run Qodana scan
-        uses: JetBrains/qodana-action@2026.2
+        uses: JetBrains/qodana-action@v2026.2.2
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
         with:
