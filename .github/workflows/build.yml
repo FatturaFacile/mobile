@@ -43,7 +43,7 @@ jobs:
         run: flutter test --coverage
 
       - name: Cache SonarQube packages
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar-${{ hashFiles('pubspec.lock') }}
