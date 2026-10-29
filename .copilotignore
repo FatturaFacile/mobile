@@ -1,56 +1,34 @@
-# ---------------------------------------------------------
-# Environment, Credentials & Secrets
-# ---------------------------------------------------------
-**/.env
-**/.env.*
-!**/.env.example
-**/google-services.json
-**/GoogleService-Info.plist
-**/key.properties
-**/*.key
-**/*.keystore
-**/*.jks
+# ==========================================
+# .copilotignore - Exclude context from Copilot
+# ==========================================
 
-# ---------------------------------------------------------
-# Flutter & Dart Build Artifacts / Generated Code
-# ---------------------------------------------------------
-**/.dart_tool/**
-**/build/**
-**/coverage/**
-**/.flutter-plugins
-**/.flutter-plugins-dependencies
+# File generati e dipendenze
+node_modules/
+vendor/
+bin/
+obj/
+dist/
+build/
 
-# ---------------------------------------------------------
-# Native Platforms Build Output & Ephemeral Files
-# ---------------------------------------------------------
-**/.gradle/**
-**/android/**/*.apk
-**/android/**/*.aab
-**/android/**/generated/**
-**/ios/Pods/**
-**/ios/Flutter/ephemeral/**
-**/ios/.symlinks/**
-**/macos/Pods/**
-**/macos/Flutter/ephemeral/**
-**/linux/flutter/ephemeral/**
-**/windows/flutter/ephemeral/**
+# Lockfiles
+*.lock
+package-lock.json
+composer.lock
 
-# ---------------------------------------------------------
-# Local Databases
-# ---------------------------------------------------------
-*.db
-*.db-wal
-*.db-shm
+# Asset multimediali e documentazione binaria
+*.pdf
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.zip
+
+# Dati e configurazioni private
+*.env
+*.env.*
+appsettings*.secrets.json
+*.pem
+*.pfx
+*.key
 *.sqlite
-*.sqlite3
-
-# ---------------------------------------------------------
-# IDEs, System & Editor Files
-# ---------------------------------------------------------
-**/.idea/**
-**/.vs/**
-**/.vscode/*
-!**/.vscode/extensions.json
-!**/.vscode/settings.json
-.DS_Store
-Thumbs.db
+*.db
