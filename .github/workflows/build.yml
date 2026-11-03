@@ -42,16 +42,5 @@ jobs:
       - name: Run unit & widget tests with coverage
         run: flutter test --coverage
 
-      - name: Cache SonarQube packages
-        uses: actions/cache@v6
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar-${{ hashFiles('pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-sonar-
-
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v8
-        if: env.SONAR_TOKEN != ''
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # SonarCloud analyses this repository with Automatic Analysis: a CI scan on top of it fails
+      # ("You are running CI analysis while Automatic Analysis is enabled")
