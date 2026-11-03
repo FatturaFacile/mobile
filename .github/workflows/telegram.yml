@@ -8,21 +8,11 @@ on:
     types: [opened, closed]
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   notify:
-    name: Notify Telegram
-    runs-on: ubuntu-latest
-    if: ${{ !contains(github.actor, '[bot]') }}
-
-    steps:
-      - name: Send Telegram Message
-        uses: appleboy/telegram-action@v1.2.0
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            🚀 Repository: ${{ github.repository }}
-            👤 Triggered by: ${{ github.actor }}
-            📌 Event: ${{ github.event_name }}
-            🌿 Ref/Branch: ${{ github.ref_name }}
-            🔗 Link: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    # Dependabot runs get no repository secrets
+    if: github.actor != 'dependabot[bot]'
+    uses: FatturaFacile/FatturaFacile/.github/workflows/reusable-telegram.yml@main
+    secrets: inherit
