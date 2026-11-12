@@ -48,4 +48,5 @@ app.*.map.json
 .widget_preview/
 
 .claude-build/
-.claude/
+.claude/settings.local.json
+.claude/*.local.md
