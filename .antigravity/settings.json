@@ -3,14 +3,15 @@
   "maxBashOutputChars": 15000,
   "permissions": {
     "deny": [
-      "Read(./**/bin/**)",
-      "Read(./**/obj/**)",
-      "Read(./**/vendor/**)",
-      "Read(./**/node_modules/**)",
-      "Read(./**/*.Designer.cs)",
-      "Read(./**/*.lock)",
-      "Read(./**/*-lock.*)",
-      "Read(./**/.env*)"
+      "Read(./**/build/**)",
+      "Read(./**/.dart_tool/**)",
+      "Read(./**/android/.gradle/**)",
+      "Read(./**/ios/Pods/**)",
+      "Read(./**/ios/.symlinks/**)",
+      "Read(./**/*.sqlite*)",
+      "Read(./**/*.log)",
+      "Read(./**/.env*)",
+      "Read(./**/auth.json)"
     ]
   }
 }

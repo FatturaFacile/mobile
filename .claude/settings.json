@@ -6,20 +6,16 @@
   },
   "permissions": {
     "deny": [
-      "Read(./**/bin/**)",
-      "Read(./**/obj/**)",
-      "Read(./**/vendor/**)",
-      "Read(./**/node_modules/**)",
+      "Read(./**/build/**)",
+      "Read(./**/.dart_tool/**)",
+      "Read(./**/android/.gradle/**)",
+      "Read(./**/ios/Pods/**)",
+      "Read(./**/ios/.symlinks/**)",
       "Read(./**/.git/**)",
-      "Read(./**/*.Designer.cs)",
-      "Read(./**/*.g.cs)",
-      "Read(./**/package-lock.json)",
-      "Read(./**/yarn.lock)",
-      "Read(./**/pnpm-lock.yaml)",
-      "Read(./**/composer.lock)",
       "Read(./**/*.sqlite*)",
       "Read(./**/*.log)",
-      "Read(./**/.env*)"
+      "Read(./**/.env*)",
+      "Read(./**/auth.json)"
     ]
   },
   "hooks": {
