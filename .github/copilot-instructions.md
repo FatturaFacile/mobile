@@ -2,8 +2,6 @@
 
 Project: Flutter / Dart.
 
-Full cross-tool rules: `.ai/rules/project.md` (read it first).
-
 ## Essentials
 
 - Write all code, comments, commit messages and documentation in English.
