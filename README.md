@@ -42,7 +42,6 @@ The project adopts modern Clean Architecture and feature-driven design principle
 
 ```text
 fattura-facile/mobile/
-├── .copilotignore              # AI tooling exclusions & secret boundary enforcement
 ├── .gitattributes              # Line ending and Git path normalization
 ├── .gitignore                  # Global VCS ignore policies (ephemeral, secrets, builds)
 ├── LICENSE                     # MIT License specification
