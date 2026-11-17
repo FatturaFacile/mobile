@@ -1,0 +1,27 @@
+# Universal / VCS
+.git/
+*.log
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+coverage/
+build/
+.idea/
+.vs/
+.vscode/
+
+# Flutter / Dart
+.dart_tool/
+.pub-cache/
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+.widget_preview/
+.claude-build/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+/android/app/debug
+/android/app/profile
+/android/app/release
