@@ -1,0 +1,8 @@
+---
+description: Project rules and conventions
+globs: *
+alwaysApply: true
+---
+
+# Project Guidelines
+Refer to [AGENTS.md](../../AGENTS.md) for full project specifications, coding conventions, and verification commands.
