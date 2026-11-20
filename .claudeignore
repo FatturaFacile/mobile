@@ -25,3 +25,11 @@ build/
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Generated / heavy artifacts (token hygiene)
+android/.gradle/
+ios/Pods/
+macos/Pods/
+*.g.dart
+*.freezed.dart
+.vscode/

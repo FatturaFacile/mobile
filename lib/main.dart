@@ -1,27 +1,31 @@
+import 'dart:io';
 import 'dart:ui' show PlatformDispatcher;
 
-import 'package:material_ui/material_ui.dart';
+import 'package:drift/native.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
-import 'features/wms/data/wms_repository.dart';
-import 'features/wms/ui/wms_app.dart';
+import 'app/app.dart';
+import 'app/providers.dart';
+import 'core/database/app_database.dart';
+import 'core/localization/translation_service.dart';
 
-/// Connection settings come from build-time defines until a sign-in flow exists:
-/// `flutter run --dart-define=API_BASE_URL=https://host --dart-define=API_TOKEN=... --dart-define=TENANT_ID=...`
-const _baseUrl = String.fromEnvironment('API_BASE_URL', defaultValue: 'http://10.0.2.2:8000');
-const _token = String.fromEnvironment('API_TOKEN');
-const _tenantId = String.fromEnvironment('TENANT_ID');
+/// `flutter run --dart-define=API_BASE_URL=https://host` (defaults to production).
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final Directory dir = await getApplicationSupportDirectory();
+  final AppDatabase db = AppDatabase(NativeDatabase.createInBackground(File(p.join(dir.path, 'fattura_facile.sqlite'))));
 
-void main() {
-  runApp(
-    WmsApp(
-      repository: HttpWmsRepository(
-        config: ApiConfig(
-          baseUrl: _baseUrl,
-          token: _token,
-          tenantId: _tenantId,
-          locale: PlatformDispatcher.instance.locale.languageCode,
-        ),
-      ),
-    ),
+  final ProviderContainer container = ProviderContainer(
+    overrides: <Override>[databaseProvider.overrideWithValue(db)],
   );
+  final String device = PlatformDispatcher.instance.locale.languageCode;
+  final String language = supportedLanguages.contains(device) ? device : 'en';
+  container.read(requestContextProvider).languageCode = language;
+  await container.read(translationProvider).load(language);
+
+  runApp(UncontrolledProviderScope(container: container, child: const FatturaFacileApp()));
 }
