@@ -1,0 +1,45 @@
+{
+  "@@locale": "en",
+  "copilotTitle": "Copilot",
+  "copilotTooltip": "Open Copilot",
+  "copilotInputHint": "Ask anything about your ERP…",
+  "copilotSend": "Send",
+  "copilotEmptyTitle": "How can I help?",
+  "copilotEmptyBody": "Ask about invoices, stock, due dates or Swiss and Italian regulations.",
+  "copilotNewChat": "New conversation",
+  "copilotHistory": "History",
+  "copilotNoHistory": "No recent conversations",
+  "copilotUntitled": "Untitled conversation",
+  "copilotDeleteConversation": "Delete conversation",
+  "copilotOfflineBanner": "You are offline: saved conversations are read-only.",
+  "copilotThinking": "Thinking…",
+  "copilotToolRunning": "Running {tool}…",
+  "@copilotToolRunning": {
+    "placeholders": {
+      "tool": {
+        "type": "String"
+      }
+    }
+  },
+  "copilotConfirm": "Confirm & Execute",
+  "copilotCancel": "Cancel",
+  "copilotActionTitle": "Proposed action",
+  "copilotEditableFields": "Edit values before confirming",
+  "copilotActionPending": "Awaiting confirmation",
+  "copilotActionConfirmed": "Confirmed",
+  "copilotActionRejected": "Cancelled",
+  "copilotActionExecuted": "Executed",
+  "copilotActionFailed": "Failed",
+  "copilotSources": "Sources",
+  "copilotRouteUnavailable": "This screen is not available in the app.",
+  "copilotRetry": "Retry",
+  "copilotErrForbidden": "You do not have permission to use Copilot or this action.",
+  "copilotErrNotFound": "Item not found.",
+  "copilotErrConflict": "The action was already cancelled or has failed.",
+  "copilotErrInvalid": "Invalid values or the action failed.",
+  "copilotErrRateLimited": "Too many requests or quota exhausted. Try again later.",
+  "copilotErrProvider": "The AI model is currently unavailable.",
+  "copilotErrOffline": "You are offline. Try again when you are back online.",
+  "copilotErrUnknown": "Something went wrong.",
+  "copilotClose": "Close"
+}

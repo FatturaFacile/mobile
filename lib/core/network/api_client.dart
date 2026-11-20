@@ -19,7 +19,7 @@ class ContextInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final Map<String, dynamic> h = options.headers;
-    h['Accept'] = 'application/json';
+    h.putIfAbsent('Accept', () => 'application/json');
     h['X-Language-Code'] = _context.languageCode;
     h['Accept-Language'] = _context.languageCode;
     final String? token = _context.accessToken;

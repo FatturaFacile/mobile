@@ -16,7 +16,11 @@ import 'session_controller.dart';
 
 /// Email + password sign-in (PKCE flow runs in [SessionController]).
 class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({this.deviceId = 'device', this.platform = 'android', super.key});
+  const LoginPage({
+    this.deviceId = 'device',
+    this.platform = 'android',
+    super.key,
+  });
 
   final String deviceId;
   final String platform;
@@ -47,7 +51,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (current.twoFactorRequired) {
         message = t.t('mobile.login.twoFactor');
       } else if (current.error != null) {
-        message = current.error!.message.isNotEmpty ? current.error!.message : t.t('mobile.login.failed');
+        message = current.error!.message.isNotEmpty
+            ? current.error!.message
+            : t.t('mobile.login.failed');
       }
     }
     return Scaffold(
@@ -68,24 +74,38 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               key: const Key('login-password'),
               controller: _password,
               obscureText: true,
-              decoration: InputDecoration(labelText: t.t('mobile.login.password')),
+              decoration: InputDecoration(
+                labelText: t.t('mobile.login.password'),
+              ),
             ),
             if (message != null) ...<Widget>[
               const SizedBox(height: 12),
-              Text(message, key: const Key('login-error'), style: TextStyle(color: Theme.of(context).colorScheme.error)),
+              Text(
+                message,
+                key: const Key('login-error'),
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
             ],
             const SizedBox(height: 20),
             FilledButton(
               key: const Key('login-submit'),
               onPressed: busy
                   ? null
-                  : () => ref.read(sessionProvider.notifier).signIn(
-                        email: _email.text.trim(),
-                        password: _password.text,
-                        deviceId: widget.deviceId,
-                        platform: widget.platform,
-                      ),
-              child: busy ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : Text(t.t('mobile.login.submit')),
+                  : () => ref
+                        .read(sessionProvider.notifier)
+                        .signIn(
+                          email: _email.text.trim(),
+                          password: _password.text,
+                          deviceId: widget.deviceId,
+                          platform: widget.platform,
+                        ),
+              child: busy
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(t.t('mobile.login.submit')),
             ),
           ],
         ),
@@ -110,7 +130,9 @@ class HomePage extends ConsumerWidget {
         locale: ctx.languageCode,
       ),
     );
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => WmsHome(repository: repo)));
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => WmsHome(repository: repo)));
   }
 
   void _openModule(BuildContext context, WidgetRef ref, String module) {
@@ -120,25 +142,32 @@ class HomePage extends ConsumerWidget {
       'clock' => ClockPage(tenantId: b.tenantId),
       'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
       _ when moduleEntity.containsKey(module) => EntityListPage(
-          def: entityDefinitions[moduleEntity[module]]!,
-          tenantId: b.tenantId,
-          userId: b.userId,
-          syncEntities: b.syncEntities,
-        ),
+        def: entityDefinitions[moduleEntity[module]]!,
+        tenantId: b.tenantId,
+        userId: b.userId,
+        syncEntities: b.syncEntities,
+      ),
       _ => ModuleUnavailablePage(module: module),
     };
     if (page == null) {
       _openWms(context, ref);
       return;
     }
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page));
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        settings: RouteSettings(name: '/modules/$module'),
+        builder: (_) => page,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TranslationService t = ref.watch(translationProvider);
     final String tenantId = session.bootstrap.tenantId;
-    final SyncUiState sync = ref.watch(syncUiProvider(tenantId)).value ?? const SyncUiState(SyncUiKind.synced);
+    final SyncUiState sync =
+        ref.watch(syncUiProvider(tenantId)).value ??
+        const SyncUiState(SyncUiKind.synced);
     final List<String> modules = session.bootstrap.modules;
     return SyncLifecycle(
       tenantId: tenantId,
@@ -147,7 +176,14 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _scaffold(BuildContext context, WidgetRef ref, TranslationService t, String tenantId, SyncUiState sync, List<String> modules) {
+  Widget _scaffold(
+    BuildContext context,
+    WidgetRef ref,
+    TranslationService t,
+    String tenantId,
+    SyncUiState sync,
+    List<String> modules,
+  ) {
     return Scaffold(
       appBar: AppBar(
         title: Text(session.bootstrap.tenantName),
@@ -156,7 +192,9 @@ class HomePage extends ConsumerWidget {
             child: SyncStatusIndicator(
               state: sync,
               translations: t,
-              onRetry: () => ref.read(syncOrchestratorProvider).run(tenantId, session.bootstrap.syncEntities),
+              onRetry: () => ref
+                  .read(syncOrchestratorProvider)
+                  .run(tenantId, session.bootstrap.syncEntities),
             ),
           ),
           IconButton(
@@ -164,14 +202,22 @@ class HomePage extends ConsumerWidget {
             tooltip: t.t('mobile.conflicts.title'),
             icon: const Icon(Icons.rule_folder_outlined),
             onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(builder: (_) => ConflictsPage(tenantId: tenantId, syncEntities: session.bootstrap.syncEntities)),
+              MaterialPageRoute<void>(
+                builder: (_) => ConflictsPage(
+                  tenantId: tenantId,
+                  syncEntities: session.bootstrap.syncEntities,
+                ),
+              ),
             ),
           ),
           IconButton(
             key: const Key('switch-tenant'),
             tooltip: t.t('mobile.tenant.switch'),
             icon: const Icon(Icons.swap_horiz),
-            onPressed: () => showModalBottomSheet<void>(context: context, builder: (_) => TenantSwitcher(activeTenantId: tenantId)),
+            onPressed: () => showModalBottomSheet<void>(
+              context: context,
+              builder: (_) => TenantSwitcher(activeTenantId: tenantId),
+            ),
           ),
           IconButton(
             key: const Key('sign-out'),
@@ -195,7 +241,12 @@ class HomePage extends ConsumerWidget {
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
                       onTap: () => _openModule(context, ref, m),
-                      child: Center(child: Text(t.t('mobile.module.$m'), textAlign: TextAlign.center)),
+                      child: Center(
+                        child: Text(
+                          t.t('mobile.module.$m'),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                   ),
               ],
@@ -210,13 +261,16 @@ class RootPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(sessionProvider).when(
+    return ref
+        .watch(sessionProvider)
+        .when(
           skipLoadingOnReload: true,
           data: (SessionState s) => switch (s) {
             SignedIn() => HomePage(session: s),
             SignedOut() => const LoginPage(),
           },
-          loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+          loading: () =>
+              const Scaffold(body: Center(child: CircularProgressIndicator())),
           error: (Object e, StackTrace _) => const LoginPage(),
         );
   }

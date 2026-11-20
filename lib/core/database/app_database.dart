@@ -70,16 +70,49 @@ class Translations extends Table {
   Set<Column<Object>> get primaryKey => <Column<Object>>{locale, tenantId, key};
 }
 
-@DriftDatabase(tables: <Type>[EntityRecords, SyncQueue, SyncCursors, Translations])
+/// Recent Copilot conversations cached for offline reading (tenant scoped).
+@DataClassName('CopilotConversationRow')
+class CopilotConversations extends Table {
+  TextColumn get tenantId => text()();
+  TextColumn get id => text()();
+  TextColumn get title => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{tenantId, id};
+}
+
+/// Copilot messages; `payload` holds the full API message resource as JSON.
+@DataClassName('CopilotMessageRow')
+class CopilotMessages extends Table {
+  TextColumn get tenantId => text()();
+  TextColumn get id => text()();
+  TextColumn get conversationId => text()();
+  TextColumn get role => text()();
+  TextColumn get payload => text()();
+  DateTimeColumn get createdAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{tenantId, id};
+}
+
+@DriftDatabase(tables: <Type>[EntityRecords, SyncQueue, SyncCursors, Translations, CopilotConversations, CopilotMessages])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (Migrator m) => m.createAll(),
+        onUpgrade: (Migrator m, int from, int to) async {
+          if (from < 2) {
+            await m.createTable(copilotConversations);
+            await m.createTable(copilotMessages);
+          }
+        },
         beforeOpen: (OpeningDetails details) async {
           await customStatement('PRAGMA foreign_keys = ON');
         },
