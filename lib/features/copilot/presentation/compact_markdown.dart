@@ -135,8 +135,12 @@ class CompactMarkdown extends StatelessWidget {
 
   static List<String> _cells(String l) {
     String s = l;
-    if (s.startsWith('|')) s = s.substring(1);
-    if (s.endsWith('|')) s = s.substring(0, s.length - 1);
+    if (s.startsWith('|')) {
+      s = s.substring(1);
+    }
+    if (s.endsWith('|')) {
+      s = s.substring(0, s.length - 1);
+    }
     return s.split('|').map((String c) => c.trim()).toList();
   }
 
@@ -148,8 +152,9 @@ class CompactMarkdown extends StatelessWidget {
     final List<InlineSpan> spans = <InlineSpan>[];
     int last = 0;
     for (final RegExpMatch m in _tokens.allMatches(text)) {
-      if (m.start > last)
+      if (m.start > last) {
         spans.add(TextSpan(text: text.substring(last, m.start)));
+      }
       if (m.group(1) != null || m.group(2) != null) {
         spans.add(
           TextSpan(
@@ -189,7 +194,9 @@ class CompactMarkdown extends StatelessWidget {
       }
       last = m.end;
     }
-    if (last < text.length) spans.add(TextSpan(text: text.substring(last)));
+    if (last < text.length) {
+      spans.add(TextSpan(text: text.substring(last)));
+    }
     return TextSpan(style: style, children: spans);
   }
 }

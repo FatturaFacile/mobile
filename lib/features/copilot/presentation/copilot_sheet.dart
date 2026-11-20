@@ -55,7 +55,9 @@ class _CopilotPanelState extends ConsumerState<CopilotPanel> {
 
   void _send() {
     final String text = _input.text;
-    if (text.trim().isEmpty) return;
+    if (text.trim().isEmpty) {
+      return;
+    }
     _input.clear();
     ref.read(copilotControllerProvider.notifier).send(text);
   }
@@ -84,7 +86,9 @@ class _CopilotPanelState extends ConsumerState<CopilotPanel> {
       return;
     }
     final Widget? page = await resolveCitationPage(ref, c);
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     if (page == null) {
       ScaffoldMessenger.maybeOf(context)
           ?.showSnackBar(SnackBar(content: Text(l.copilotRouteUnavailable)));
@@ -124,8 +128,9 @@ class _CopilotPanelState extends ConsumerState<CopilotPanel> {
                   a?.messages.lastOrNull?.content !=
                       b.messages.last.content))) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (_scroll.hasClients)
+          if (_scroll.hasClients) {
             _scroll.jumpTo(_scroll.position.maxScrollExtent);
+          }
         });
       }
     });
@@ -235,7 +240,9 @@ class _CopilotPanelState extends ConsumerState<CopilotPanel> {
   }
 
   Widget _history(CopilotState s, CopilotController ctrl, AppLocalizations l) {
-    if (s.history.isEmpty) return Center(child: Text(l.copilotNoHistory));
+    if (s.history.isEmpty) {
+      return Center(child: Text(l.copilotNoHistory));
+    }
     return ListView(
       children: <Widget>[
         for (final CopilotConversation conv in s.history)

@@ -13,9 +13,13 @@ import '../domain/copilot_models.dart';
 /// Opens the record form when the record is in the offline store, else the entity list.
 Future<Widget?> resolveCitationPage(WidgetRef ref, Citation c) async {
   final SessionState? session = ref.read(sessionProvider).value;
-  if (session is! SignedIn) return null;
+  if (session is! SignedIn) {
+    return null;
+  }
   final String? key = _entityKey(c);
-  if (key == null) return null;
+  if (key == null) {
+    return null;
+  }
   final EntityDef def = entityDefinitions[key]!;
   final String tenant = session.bootstrap.tenantId;
   final String userId = session.bootstrap.userId;
@@ -32,13 +36,14 @@ Future<Widget?> resolveCitationPage(WidgetRef ref, Citation c) async {
               )
               ..limit(1))
             .get();
-    if (rows.isNotEmpty)
+    if (rows.isNotEmpty) {
       return EntityFormPage(
         def: def,
         tenantId: tenant,
         userId: userId,
         record: rows.first,
       );
+    }
   }
   return EntityListPage(
     def: def,
@@ -62,10 +67,14 @@ String? _entityKey(Citation c) {
       '${t}s',
       if (t.endsWith('s')) t.substring(0, t.length - 1),
     ]) {
-      if (entityDefinitions.containsKey(k)) return k;
+      if (entityDefinitions.containsKey(k)) {
+        return k;
+      }
     }
     final String? viaModule = moduleEntity[t];
-    if (viaModule != null) return viaModule;
+    if (viaModule != null) {
+      return viaModule;
+    }
   }
   return null;
 }

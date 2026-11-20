@@ -24,17 +24,23 @@ Stream<CopilotEvent> parseCopilotSse(Stream<List<int>> bytes) async* {
       final CopilotEvent? parsed = _decodeEvent(event, data.toString());
       event = 'message';
       data.clear();
-      if (parsed != null) yield parsed;
+      if (parsed != null) {
+        yield parsed;
+      }
     } else if (line.startsWith('event:')) {
       event = line.substring(6).trim();
     } else if (line.startsWith('data:')) {
-      if (data.isNotEmpty) data.write('\n');
+      if (data.isNotEmpty) {
+        data.write('\n');
+      }
       data.write(line.substring(5).trimLeft());
     }
   }
   if (data.isNotEmpty) {
     final CopilotEvent? parsed = _decodeEvent(event, data.toString());
-    if (parsed != null) yield parsed;
+    if (parsed != null) {
+      yield parsed;
+    }
   }
 }
 
@@ -43,7 +49,9 @@ CopilotEvent? _decodeEvent(String name, String raw) {
   if (raw.isNotEmpty) {
     try {
       final dynamic decoded = jsonDecode(raw);
-      if (decoded is Map) body = Map<String, dynamic>.from(decoded);
+      if (decoded is Map) {
+        body = Map<String, dynamic>.from(decoded);
+      }
     } on FormatException {
       return null;
     }
@@ -75,8 +83,9 @@ CopilotEvent? _decodeEvent(String name, String raw) {
 /// Maps an HTTP status to a [CopilotException].
 CopilotException copilotFailure(DioException e) {
   final int? status = e.response?.statusCode;
-  if (status == null)
+  if (status == null) {
     return CopilotException(CopilotErrorKind.offline, e.message ?? '');
+  }
   final CopilotErrorKind kind = switch (status) {
     403 => CopilotErrorKind.forbidden,
     404 => CopilotErrorKind.notFound,
@@ -339,7 +348,9 @@ class CopilotRepositoryImpl implements CopilotRepository {
       bool completed = false;
       try {
         await for (final CopilotEvent ev in parseCopilotSse(res.data!.stream)) {
-          if (ev is MessageCompleted) completed = true;
+          if (ev is MessageCompleted) {
+            completed = true;
+          }
           yield ev;
         }
       } on DioException catch (e) {
@@ -368,8 +379,12 @@ class CopilotRepositoryImpl implements CopilotRepository {
     await _storeMessage(tenantId, json);
     final CopilotMessage m = CopilotMessage.fromJson(json);
     yield const MessageStarted();
-    if (m.visualization != null) yield VisualizationEvent(m.visualization!);
-    if (m.proposedAction != null) yield ActionProposedEvent(m.proposedAction!);
+    if (m.visualization != null) {
+      yield VisualizationEvent(m.visualization!);
+    }
+    if (m.proposedAction != null) {
+      yield ActionProposedEvent(m.proposedAction!);
+    }
     yield TokenEvent(m.content);
     yield MessageCompleted(messageId: m.id, conversationId: conversationId);
   }
@@ -385,7 +400,9 @@ class CopilotRepositoryImpl implements CopilotRepository {
     );
     final Map<String, dynamic> json = Map<String, dynamic>.from(data as Map);
     final CopilotMessage parsed = CopilotMessage.fromJson(json);
-    if (parsed.conversationId.isNotEmpty) await _storeMessage(tenantId, json);
+    if (parsed.conversationId.isNotEmpty) {
+      await _storeMessage(tenantId, json);
+    }
     return parsed;
   });
 

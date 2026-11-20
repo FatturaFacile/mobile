@@ -33,7 +33,9 @@ class CopilotRouteObserver extends NavigatorObserver {
   final CopilotContextTracker _tracker;
 
   void _capture(Route<dynamic>? route) {
-    if (route is! PageRoute<dynamic>) return;
+    if (route is! PageRoute<dynamic>) {
+      return;
+    }
     final Object? args = route.settings.arguments;
     final String? name = route.settings.name;
     if (args is CopilotContext) {
@@ -57,7 +59,9 @@ class CopilotRouteObserver extends NavigatorObserver {
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    if (route is PageRoute<dynamic>) _capture(previousRoute);
+    if (route is PageRoute<dynamic>) {
+      _capture(previousRoute);
+    }
   }
 
   @override
@@ -154,8 +158,9 @@ class CopilotController extends Notifier<CopilotState> {
     String? id =
         state.conversationId ?? (cached.isEmpty ? null : cached.first.id);
     List<CopilotMessage> messages = state.messages;
-    if (id != null && messages.isEmpty)
+    if (id != null && messages.isEmpty) {
       messages = await _repo.cachedMessages(_tenant, id);
+    }
     state = state.copyWith(
       history: cached,
       conversationId: id,
@@ -166,8 +171,9 @@ class CopilotController extends Notifier<CopilotState> {
         _tenant,
       );
       id ??= fresh.isEmpty ? null : fresh.first.id;
-      if (id != null && !state.busy)
+      if (id != null && !state.busy) {
         messages = await _repo.syncMessages(_tenant, id);
+      }
       state = state.copyWith(
         history: fresh,
         conversationId: id,
@@ -198,8 +204,9 @@ class CopilotController extends Notifier<CopilotState> {
     );
     try {
       final List<CopilotMessage> fresh = await _repo.syncMessages(_tenant, id);
-      if (state.conversationId == id)
+      if (state.conversationId == id) {
         state = state.copyWith(messages: fresh, offline: false);
+      }
     } on CopilotException catch (e) {
       state = state.copyWith(offline: e.kind == CopilotErrorKind.offline);
     }
@@ -212,7 +219,9 @@ class CopilotController extends Notifier<CopilotState> {
           .where((CopilotConversation c) => c.id != id)
           .toList();
       state = state.copyWith(history: history);
-      if (state.conversationId == id) newChat();
+      if (state.conversationId == id) {
+        newChat();
+      }
     } on CopilotException catch (e) {
       state = state.copyWith(error: e.kind);
     }
@@ -223,7 +232,9 @@ class CopilotController extends Notifier<CopilotState> {
   /// Sends a prompt with the active screen context and streams the answer into the message list.
   Future<void> send(String prompt) async {
     final String text = prompt.trim();
-    if (text.isEmpty || state.busy) return;
+    if (text.isEmpty || state.busy) {
+      return;
+    }
     state = state.copyWith(busy: true, clearError: true, clearActivity: true);
     try {
       String? convId = state.conversationId;
@@ -352,7 +363,9 @@ class CopilotController extends Notifier<CopilotState> {
       );
     } on CopilotException catch (e) {
       state = state.copyWith(error: e.kind);
-      if (e.kind == CopilotErrorKind.conflict) await _reload();
+      if (e.kind == CopilotErrorKind.conflict) {
+        await _reload();
+      }
     }
   }
 
@@ -361,13 +374,17 @@ class CopilotController extends Notifier<CopilotState> {
       _replace(await _repo.rejectAction(_tenant, messageId));
     } on CopilotException catch (e) {
       state = state.copyWith(error: e.kind);
-      if (e.kind == CopilotErrorKind.conflict) await _reload();
+      if (e.kind == CopilotErrorKind.conflict) {
+        await _reload();
+      }
     }
   }
 
   Future<void> _reload() async {
     final String? id = state.conversationId;
-    if (id == null) return;
+    if (id == null) {
+      return;
+    }
     try {
       state = state.copyWith(messages: await _repo.syncMessages(_tenant, id));
     } on CopilotException {
