@@ -9,6 +9,7 @@ import 'package:fattura_facile/core/localization/translation_service.dart';
 import 'package:fattura_facile/core/security/pkce.dart';
 import 'package:fattura_facile/core/security/token_store.dart';
 import 'package:fattura_facile/core/sync/sync_indicator.dart';
+import 'package:fattura_facile/core/sync/sync_orchestrator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -26,6 +27,14 @@ Map<String, dynamic> bootstrapBody(List<String> modules, {String tenant = 't1'})
         'badges': <String, dynamic>{'pending_approvals': 0, 'unread_documents': 0},
       },
     };
+
+/// Drift needs real async, which widget tests do not give: the sync cycle is covered in sync_orchestrator_test.
+class _NoopOrchestrator extends SyncOrchestrator {
+  _NoopOrchestrator(super.engine);
+
+  @override
+  Future<void> run(String tenantId, List<String> entities) async {}
+}
 
 void main() {
   late AppDatabase db;
@@ -46,7 +55,13 @@ void main() {
           return json(201, <String, dynamic>{
             'data': <String, dynamic>{'access_token': 'tok', 'tenant_id': 't1', 'device_session_id': 'd1'},
           });
-        case '/mobile/bootstrap:':
+        case '/mobile/tenants':
+          return json(200, <String, dynamic>{
+            'data': <Map<String, dynamic>>[
+              <String, dynamic>{'tenant_id': 't1', 'tenant_name': 'Acme t1'},
+              <String, dynamic>{'tenant_id': 't2', 'tenant_name': 'Beta SA'},
+            ],
+          });
         default:
           return json(200, bootstrapBody(modules, tenant: o.headers['X-Tenant-Id']?.toString() ?? 't1'));
       }
@@ -55,6 +70,7 @@ void main() {
       databaseProvider.overrideWithValue(db),
       tokenStoreProvider.overrideWithValue(store),
       connectivityProvider.overrideWith((Ref ref) => Stream<bool>.value(true)),
+      syncOrchestratorProvider.overrideWith((Ref ref) => _NoopOrchestrator(ref.watch(syncEngineProvider))),
       syncUiProvider.overrideWith((Ref ref, String id) => Stream<SyncUiState>.value(const SyncUiState(SyncUiKind.synced))),
     ]);
     addTearDown(container.dispose);
@@ -125,6 +141,34 @@ void main() {
     await tester.pumpAndSettle();
     expect(await store.readToken(), isNull);
     expect(find.byKey(const Key('login-submit')), findsOneWidget);
+  });
+
+  testWidgets('tenant switcher lists the user companies and re-scopes the session', (WidgetTester tester) async {
+    final Widget w = await app(tester);
+    await store.save(token: 'tok', tenantId: 't1');
+    await tester.pumpWidget(w);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('switch-tenant')));
+    await tester.pumpAndSettle();
+    expect(find.text('Beta SA'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('tenant-t2')));
+    await tester.pumpAndSettle();
+
+    expect(seen.last.path, '/mobile/bootstrap');
+    expect(seen.last.headers['X-Tenant-Id'], 't2');
+    expect(await store.readTenantId(), 't2');
+  });
+
+  testWidgets('modules without a mobile screen say so instead of doing nothing', (WidgetTester tester) async {
+    final Widget w = await app(tester, modules: <String>['leave']);
+    await store.save(token: 'tok', tenantId: 't1');
+    await tester.pumpWidget(w);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('module-leave')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('module-unavailable')), findsOneWidget);
   });
 
   test('sync indicator state: offline beats error beats syncing', () {
