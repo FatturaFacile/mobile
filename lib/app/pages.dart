@@ -6,6 +6,11 @@ import '../core/network/api_client.dart';
 import '../features/wms/data/wms_repository.dart';
 import '../features/wms/ui/wms_app.dart' show WmsHome;
 import '../core/sync/sync_indicator.dart';
+import '../core/sync/sync_orchestrator.dart';
+import '../features/auth/domain/auth_models.dart';
+import '../features/entities/entity_definition.dart';
+import '../features/entities/entity_pages.dart';
+import '../features/workflow/workflow_pages.dart';
 import 'providers.dart';
 import 'session_controller.dart';
 
@@ -89,8 +94,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 }
 
-const Set<String> _wmsModules = <String>{'barcode_scanner', 'pick_lists'};
-
 /// Module launcher gated by the RBAC modules in the bootstrap payload.
 class HomePage extends ConsumerWidget {
   const HomePage({required this.session, super.key});
@@ -110,12 +113,41 @@ class HomePage extends ConsumerWidget {
     Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => WmsHome(repository: repo)));
   }
 
+  void _openModule(BuildContext context, WidgetRef ref, String module) {
+    final Bootstrap b = session.bootstrap;
+    final Widget? page = switch (module) {
+      'barcode_scanner' || 'pick_lists' => null,
+      'clock' => ClockPage(tenantId: b.tenantId),
+      'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
+      _ when moduleEntity.containsKey(module) => EntityListPage(
+          def: entityDefinitions[moduleEntity[module]]!,
+          tenantId: b.tenantId,
+          userId: b.userId,
+          syncEntities: b.syncEntities,
+        ),
+      _ => ModuleUnavailablePage(module: module),
+    };
+    if (page == null) {
+      _openWms(context, ref);
+      return;
+    }
+    Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page));
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TranslationService t = ref.watch(translationProvider);
     final String tenantId = session.bootstrap.tenantId;
     final SyncUiState sync = ref.watch(syncUiProvider(tenantId)).value ?? const SyncUiState(SyncUiKind.synced);
     final List<String> modules = session.bootstrap.modules;
+    return SyncLifecycle(
+      tenantId: tenantId,
+      entities: session.bootstrap.syncEntities,
+      child: _scaffold(context, ref, t, tenantId, sync, modules),
+    );
+  }
+
+  Widget _scaffold(BuildContext context, WidgetRef ref, TranslationService t, String tenantId, SyncUiState sync, List<String> modules) {
     return Scaffold(
       appBar: AppBar(
         title: Text(session.bootstrap.tenantName),
@@ -124,8 +156,22 @@ class HomePage extends ConsumerWidget {
             child: SyncStatusIndicator(
               state: sync,
               translations: t,
-              onRetry: () => ref.read(syncEngineProvider).flush(tenantId),
+              onRetry: () => ref.read(syncOrchestratorProvider).run(tenantId, session.bootstrap.syncEntities),
             ),
+          ),
+          IconButton(
+            key: const Key('open-conflicts'),
+            tooltip: t.t('mobile.conflicts.title'),
+            icon: const Icon(Icons.rule_folder_outlined),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => ConflictsPage(tenantId: tenantId, syncEntities: session.bootstrap.syncEntities)),
+            ),
+          ),
+          IconButton(
+            key: const Key('switch-tenant'),
+            tooltip: t.t('mobile.tenant.switch'),
+            icon: const Icon(Icons.swap_horiz),
+            onPressed: () => showModalBottomSheet<void>(context: context, builder: (_) => TenantSwitcher(activeTenantId: tenantId)),
           ),
           IconButton(
             key: const Key('sign-out'),
@@ -148,7 +194,7 @@ class HomePage extends ConsumerWidget {
                     key: Key('module-$m'),
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
-                      onTap: _wmsModules.contains(m) ? () => _openWms(context, ref) : null,
+                      onTap: () => _openModule(context, ref, m),
                       child: Center(child: Text(t.t('mobile.module.$m'), textAlign: TextAlign.center)),
                     ),
                   ),

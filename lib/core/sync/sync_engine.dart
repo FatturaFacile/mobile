@@ -140,6 +140,47 @@ class SyncEngine {
     });
   }
 
+  /// Queues a server command that has no local record (clock in/out, approval decision, read receipt).
+  Future<String> enqueueCommand({
+    required String tenantId,
+    required String entity,
+    required String path,
+    Map<String, dynamic>? data,
+    String method = 'POST',
+  }) async {
+    final String id = _uuid.v7();
+    await _enqueue(tenantId, entity, id, method, path, data, null);
+    return id;
+  }
+
+  /// Queue rows that need attention (failed or conflicting), oldest first.
+  Stream<List<QueueItem>> watchIssues(String tenantId) {
+    return (_db.select(_db.syncQueue)
+          ..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.state.isIn(<int>[QueueState.failed, QueueState.conflict]))
+          ..orderBy(<OrderingTerm Function(SyncQueue)>[(SyncQueue q) => OrderingTerm.asc(q.sequence)]))
+        .watch();
+  }
+
+  /// Puts a failed/conflicting write back in line so the next flush resends the local edit.
+  Future<void> retry(String queueUuid) async {
+    await (_db.update(_db.syncQueue)..where((SyncQueue q) => q.uuid.equals(queueUuid)))
+        .write(const SyncQueueCompanion(state: Value<int>(QueueState.pending), lastError: Value<String?>(null)));
+  }
+
+  /// Drops the local edit: removes the queued write and the local copy, and resets the entity watermark so the
+  /// next [pull] restores the server version.
+  Future<void> discard(String queueUuid) async {
+    await _db.transaction(() async {
+      final QueueItem? item = await (_db.select(_db.syncQueue)..where((SyncQueue q) => q.uuid.equals(queueUuid))).getSingleOrNull();
+      if (item == null) {
+        return;
+      }
+      await (_db.delete(_db.syncQueue)..where((SyncQueue q) => q.entityId.equals(item.entityId) & q.tenantId.equals(item.tenantId))).go();
+      await (_db.delete(_db.entityRecords)..where((EntityRecords t) => _key(t, item.tenantId, item.entity, item.entityId))).go();
+      await (_db.delete(_db.syncCursors)..where((SyncCursors c) => c.tenantId.equals(item.tenantId) & c.entity.equals(item.entity))).go();
+    });
+  }
+
   /// Live, tenant-scoped, non-deleted records of [entity].
   Stream<List<EntityRecord>> watch(String tenantId, String entity) {
     return (_db.select(_db.entityRecords)
