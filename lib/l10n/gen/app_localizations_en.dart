@@ -443,4 +443,268 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cogOfflineCached => 'Showing saved suggestions (offline)';
+
+  @override
+  String get dssTitle => 'Executive DSS';
+
+  @override
+  String dssSyncedAt(String time) {
+    return 'Synced $time';
+  }
+
+  @override
+  String dssOfflineSince(String time) {
+    return 'Offline · synced $time';
+  }
+
+  @override
+  String get dssNeverSynced => 'Not synced yet';
+
+  @override
+  String get dssSyncing => 'Syncing…';
+
+  @override
+  String get dssAllEntities => 'All entities';
+
+  @override
+  String get dssLegalEntity => 'Legal entity';
+
+  @override
+  String get dssCurrency => 'Currency';
+
+  @override
+  String get dssPeriodMtd => 'MTD';
+
+  @override
+  String get dssPeriodQtd => 'QTD';
+
+  @override
+  String get dssPeriodYtd => 'YTD';
+
+  @override
+  String get dssPeriodL12m => 'L12M';
+
+  @override
+  String get dssKpiRevenue => 'Revenue';
+
+  @override
+  String get dssKpiGrossMargin => 'Gross margin %';
+
+  @override
+  String get dssKpiEbitda => 'EBITDA';
+
+  @override
+  String get dssKpiNetCash => 'Net cash flow';
+
+  @override
+  String get dssKpiCcc => 'Cash conversion cycle';
+
+  @override
+  String get dssKpiDso => 'DSO';
+
+  @override
+  String dssDays(String value) {
+    return '$value d';
+  }
+
+  @override
+  String get dssKpiUnavailable => 'No data source';
+
+  @override
+  String get dssNoData => 'No data yet';
+
+  @override
+  String get dssNoDataBody =>
+      'Connect to the internet and pull down to load the executive figures.';
+
+  @override
+  String get dssVsBaseline => 'vs baseline';
+
+  @override
+  String get dssAlertsTitle => 'Strategic alerts';
+
+  @override
+  String get dssNoAlerts => 'No active alerts.';
+
+  @override
+  String get dssSeverityCritical => 'Critical';
+
+  @override
+  String get dssSeverityWarning => 'Warning';
+
+  @override
+  String get dssSeverityInfo => 'Info';
+
+  @override
+  String get dssAlertMarginErosion => 'Gross margin erosion';
+
+  @override
+  String get dssAlertDsoSpike => 'DSO spike';
+
+  @override
+  String get dssAlertCustomerConcentration => 'Single-customer concentration';
+
+  @override
+  String get dssAlertBudgetOverrun => 'Budget overrun';
+
+  @override
+  String get dssAlertOutlier => 'Outlier against history';
+
+  @override
+  String dssAlertSummaryMarginErosion(String value, String threshold) {
+    return 'Gross margin fell $value pts (limit $threshold pts).';
+  }
+
+  @override
+  String dssAlertSummaryDsoSpike(String value, String threshold) {
+    return 'DSO rose by $value days (limit $threshold).';
+  }
+
+  @override
+  String dssAlertSummaryCustomerConcentration(
+    String label,
+    String value,
+    String threshold,
+  ) {
+    return '$label is $value% of revenue (limit $threshold%).';
+  }
+
+  @override
+  String dssAlertSummaryBudgetOverrun(String value, String threshold) {
+    return 'Over budget by $value% (limit $threshold%).';
+  }
+
+  @override
+  String dssAlertSummaryOutlier(String value, String threshold) {
+    return 'Deviation of $value σ (threshold $threshold σ).';
+  }
+
+  @override
+  String get dssRootCause => 'Root cause';
+
+  @override
+  String get dssRecommendedAction => 'Recommended action';
+
+  @override
+  String get dssCauseMarginErosion =>
+      'Cost of goods is growing faster than prices, or the mix is shifting to low-margin products.';
+
+  @override
+  String get dssActionMarginErosion =>
+      'Review price lists and supplier costs; open the what-if check to size a price increase.';
+
+  @override
+  String get dssCauseDsoSpike =>
+      'Customers are paying later, or large invoices are overdue.';
+
+  @override
+  String get dssActionDsoSpike =>
+      'Start dunning on the oldest invoices and agree payment plans with the largest debtors.';
+
+  @override
+  String get dssCauseCustomerConcentration =>
+      'One customer generates a disproportionate share of revenue.';
+
+  @override
+  String get dssActionCustomerConcentration =>
+      'Diversify the customer base and secure a long-term contract with this customer.';
+
+  @override
+  String get dssCauseBudgetOverrun =>
+      'Actual spending on this budget line exceeds the approved amount.';
+
+  @override
+  String get dssActionBudgetOverrun =>
+      'Freeze discretionary spend on the line and ask the cost-centre owner for a recovery plan.';
+
+  @override
+  String get dssCauseOutlier =>
+      'The latest value is far from its historical average.';
+
+  @override
+  String get dssActionOutlier =>
+      'Check the source data for errors, then confirm whether the change is a real trend.';
+
+  @override
+  String get dssTopCustomers => 'Top 5 customers';
+
+  @override
+  String get dssBottomCustomers => 'Bottom 5 customers';
+
+  @override
+  String get dssTopProducts => 'Top 5 products';
+
+  @override
+  String get dssBottomProducts => 'Bottom 5 products';
+
+  @override
+  String get dssNetMargin => 'Net margin';
+
+  @override
+  String get dssParetoCore => 'Core';
+
+  @override
+  String get dssValueDestroying => 'Eroding value';
+
+  @override
+  String get dssVarianceTitle => 'EBITDA bridge';
+
+  @override
+  String get dssVarBaseline => 'Baseline';
+
+  @override
+  String get dssVarVolume => 'Volume';
+
+  @override
+  String get dssVarPrice => 'Price';
+
+  @override
+  String get dssVarCogs => 'COGS';
+
+  @override
+  String get dssVarOpex => 'OPEX';
+
+  @override
+  String get dssVarFx => 'FX';
+
+  @override
+  String get dssVarActual => 'Actual';
+
+  @override
+  String get dssWhatIfTitle => 'What-if quick check';
+
+  @override
+  String get dssWhatIfPrice => 'Price change';
+
+  @override
+  String get dssWhatIfCogs => 'COGS change';
+
+  @override
+  String get dssWhatIfCurrent => 'Current';
+
+  @override
+  String get dssWhatIfSimulated => 'Simulated EBITDA';
+
+  @override
+  String get dssWhatIfChange => 'Change';
+
+  @override
+  String get dssWhatIfReset => 'Reset';
+
+  @override
+  String get dssWhatIfOnDevice =>
+      'Computed on this device from the last synced figures.';
+
+  @override
+  String get dssErrUnauthorized => 'Your session has expired. Sign in again.';
+
+  @override
+  String get dssErrForbidden => 'You do not have access to the Executive DSS.';
+
+  @override
+  String get dssErrFailed =>
+      'The server could not provide the figures. Showing the last synced data.';
+
+  @override
+  String get dssClose => 'Close';
 }
