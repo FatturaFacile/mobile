@@ -1,4 +1,4 @@
-import 'package:fattura_facile/l10n/app_localizations.dart';
+import 'package:fattura_facile/l10n/gen/app_localizations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 

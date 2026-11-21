@@ -80,6 +80,92 @@ class Translations extends Table {
   Set<Column<Object>> get primaryKey => <Column<Object>>{locale, tenantId, key};
 }
 
+/// Recent Copilot conversations cached for offline reading (tenant scoped).
+@DataClassName('CopilotConversationRow')
+class CopilotConversations extends Table {
+  TextColumn get tenantId => text()();
+  TextColumn get id => text()();
+  TextColumn get title => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{tenantId, id};
+}
+
+/// Copilot messages; `payload` holds the full API message resource as JSON.
+@DataClassName('CopilotMessageRow')
+class CopilotMessages extends Table {
+  TextColumn get tenantId => text()();
+  TextColumn get id => text()();
+  TextColumn get conversationId => text()();
+  TextColumn get role => text()();
+  TextColumn get payload => text()();
+  DateTimeColumn get createdAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{tenantId, id};
+}
+
+/// Last Executive DSS read models pulled from the API for one filter, kept for offline reading (tenant scoped).
+/// The payloads are the `data` objects of the API answers, stored as received.
+@DataClassName('DssSnapshotRow')
+class DssExecutiveSnapshots extends Table {
+  TextColumn get tenantId => text()();
+
+  /// Server legal entity id; empty for the snapshot that spans every legal entity.
+  TextColumn get legalEntityId => text().withDefault(const Constant(''))();
+  TextColumn get currency => text()();
+  TextColumn get periodPreset => text()();
+  TextColumn get comparisonBaseline => text()();
+  TextColumn get overviewJson => text()();
+  TextColumn get customersJson => text()();
+  TextColumn get productsJson => text().nullable()();
+  TextColumn get varianceJson => text().nullable()();
+  TextColumn get inputsJson => text().nullable()();
+  TextColumn get legalEntitiesJson => text().nullable()();
+  DateTimeColumn get syncedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{
+    tenantId,
+    legalEntityId,
+    currency,
+    periodPreset,
+    comparisonBaseline,
+  };
+}
+
+/// Offline, hash-chained security audit queue (one chain per tenant).
+///
+/// The signed fields (sequence, hashes, payload, metadata) are immutable once written; only the
+/// sync bookkeeping columns (`syncedAt`, `syncAttempts`, `lastError`, `serverReceipt`) ever change.
+@DataClassName('AuditQueueRow')
+class AuditQueueEntries extends Table {
+  TextColumn get tenantId => text()();
+  IntColumn get sequenceNumber => integer()();
+  TextColumn get uuid => text().unique()();
+  TextColumn get entityType => text()();
+  TextColumn get entityId => text()();
+  TextColumn get action => text()();
+  TextColumn get payloadJson => text()();
+  TextColumn get metadataJson => text()();
+  TextColumn get previousHash => text()();
+  TextColumn get payloadHash => text()();
+  TextColumn get recordHash => text()();
+  DateTimeColumn get occurredAt => dateTime()();
+  DateTimeColumn get syncedAt => dateTime().nullable()();
+  IntColumn get syncAttempts => integer().withDefault(const Constant(0))();
+  TextColumn get lastError => text().nullable()();
+  TextColumn get serverReceipt => text().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{
+    tenantId,
+    sequenceNumber,
+  };
+}
+
 /// Cached permission snapshots, one per tenant, user and company (empty company id = whole tenant). The payload holds the
 /// permissions and field policies only; a revoked row is never read back.
 @DataClassName('PermissionSnapshotRow')
@@ -105,6 +191,10 @@ class PermissionSnapshots extends Table {
     SyncQueue,
     SyncCursors,
     Translations,
+    CopilotConversations,
+    CopilotMessages,
+    AuditQueueEntries,
+    DssExecutiveSnapshots,
     PermissionSnapshots,
     LocalPurchaseRequisitions,
     LocalPurchaseRequisitionLines,
@@ -117,20 +207,34 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 5;
+
+  /// Two release lines used the same version numbers for different tables, so a device may be at version 2–4
+  /// with either set. Every step creates its tables only when they are missing.
+  Future<void> _ensureTable(Migrator m, TableInfo<Table, dynamic> table) async {
+    final List<QueryRow> found = await customSelect(
+      "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?",
+      variables: <Variable<Object>>[Variable<String>(table.actualTableName)],
+    ).get();
+    if (found.isEmpty) {
+      await m.createTable(table);
+    }
+  }
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
     onUpgrade: (Migrator m, int from, int to) async {
-      if (from < 2) {
-        await m.createTable(permissionSnapshots);
-      }
-      if (from < 3) {
-        await m.createTable(localPurchaseRequisitions);
-        await m.createTable(localPurchaseRequisitionLines);
-        await m.createTable(localPendingApprovals);
-        await m.createTable(localApprovalAuditLogs);
+      if (from < 5) {
+        await _ensureTable(m, copilotConversations);
+        await _ensureTable(m, copilotMessages);
+        await _ensureTable(m, auditQueueEntries);
+        await _ensureTable(m, dssExecutiveSnapshots);
+        await _ensureTable(m, permissionSnapshots);
+        await _ensureTable(m, localPurchaseRequisitions);
+        await _ensureTable(m, localPurchaseRequisitionLines);
+        await _ensureTable(m, localPendingApprovals);
+        await _ensureTable(m, localApprovalAuditLogs);
       }
     },
     beforeOpen: (OpeningDetails details) async {

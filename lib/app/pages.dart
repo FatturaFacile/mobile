@@ -5,8 +5,16 @@ import '../core/localization/translation_service.dart';
 import '../core/network/api_client.dart';
 import '../core/sync/sync_indicator.dart';
 import '../core/sync/sync_orchestrator.dart';
+import '../features/ai_cognitive/presentation/ai_suggestions_page.dart';
 import '../features/auth/domain/auth_models.dart';
+import '../features/copilot/presentation/copilot_controller.dart'
+    show copilotStrings;
 import '../features/entities/entity_definition.dart';
+import '../features/dss/presentation/executive_dss_page.dart';
+import '../features/security/presentation/security_providers.dart';
+import '../features/payslip_vault/presentation/payslip_pages.dart';
+import '../features/shift_planning/presentation/shift_pages.dart';
+import '../features/security/presentation/security_screen.dart';
 import '../features/entities/entity_pages.dart';
 import '../features/purchase_requisitions/notifications/pr_notification_handler.dart';
 import '../features/purchase_requisitions/presentation/providers/pr_providers.dart';
@@ -14,7 +22,7 @@ import '../features/purchase_requisitions/presentation/screens/pr_hub_screen.dar
 import '../features/wms/data/wms_repository.dart';
 import '../features/wms/ui/wms_app.dart' show WmsHome;
 import '../features/workflow/workflow_pages.dart';
-import '../l10n/app_localizations.dart';
+import '../l10n/gen/app_localizations.dart';
 import 'providers.dart';
 import 'session_controller.dart';
 
@@ -118,6 +126,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 }
 
+/// RBAC module key that unlocks the AI suggestion queue and the cognitive capture.
+const String aiReviewModule = 'ai_review';
+
 /// Module launcher gated by the RBAC modules in the bootstrap payload.
 class HomePage extends ConsumerWidget {
   const HomePage({required this.session, super.key});
@@ -145,6 +156,10 @@ class HomePage extends ConsumerWidget {
       'barcode_scanner' || 'pick_lists' => null,
       'clock' => ClockPage(tenantId: b.tenantId),
       'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
+      'executive_dss' => const ExecutiveDssPage(),
+      aiReviewModule => const AiSuggestionsPage(),
+      shiftSelfServiceModule => const ShiftHomePage(),
+      payslipVaultModule => const PayslipVaultPage(),
       'purchase_requisitions' || 'procurement_requisitions' => PrHubScreen(
         tenantId: b.tenantId,
         userId: b.userId,
@@ -163,11 +178,19 @@ class HomePage extends ConsumerWidget {
       _openWms(context, ref);
       return;
     }
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page));
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        settings: RouteSettings(name: '/modules/$module'),
+        builder: (_) => page,
+      ),
+    );
   }
 
+  /// Label from the API dictionary; the AI and purchase requisition modules fall back to bundled strings
+  /// until the backend ships them.
   String _moduleLabel(
     BuildContext context,
+    WidgetRef ref,
     TranslationService t,
     String module,
   ) {
@@ -178,6 +201,10 @@ class HomePage extends ConsumerWidget {
     if (module == 'purchase_requisitions' ||
         module == 'procurement_requisitions') {
       return AppLocalizations.of(context).prModuleTitle;
+    }
+    if (module == aiReviewModule) {
+      return copilotStrings(ref.read(requestContextProvider).languageCode)
+          .cogModule;
     }
     return '';
   }
@@ -281,6 +308,16 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           IconButton(
+            key: const Key('open-security'),
+            tooltip: ref.watch(securityStringsProvider).securityTitle,
+            icon: const Icon(Icons.shield_outlined),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => SecurityScreen(tenantId: tenantId),
+              ),
+            ),
+          ),
+          IconButton(
             key: const Key('switch-tenant'),
             tooltip: t.t('mobile.tenant.switch'),
             icon: const Icon(Icons.swap_horiz),
@@ -297,31 +334,48 @@ class HomePage extends ConsumerWidget {
           ),
         ],
       ),
-      body: modules.isEmpty
-          ? Center(child: Text(t.t('mobile.home.noModules')))
-          : GridView.count(
-              padding: const EdgeInsets.all(16),
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              children: <Widget>[
-                for (final String m in modules)
-                  Card(
-                    key: Key('module-$m'),
-                    clipBehavior: Clip.antiAlias,
-                    child: InkWell(
-                      onTap: () => _openModule(context, ref, m),
-                      child: Center(
-                        child: Text(
-                          _moduleLabel(context, t, m),
-                          textAlign: TextAlign.center,
-                        ),
+      body: Column(
+        children: <Widget>[
+          if (modules.contains(aiReviewModule))
+            AiAlertBanner(
+              onOpen: () => _openModule(context, ref, aiReviewModule),
+            ),
+          Expanded(child: _modules(context, ref, t, modules)),
+        ],
+      ),
+    );
+  }
+
+  Widget _modules(
+    BuildContext context,
+    WidgetRef ref,
+    TranslationService t,
+    List<String> modules,
+  ) {
+    return modules.isEmpty
+        ? Center(child: Text(t.t('mobile.home.noModules')))
+        : GridView.count(
+            padding: const EdgeInsets.all(16),
+            crossAxisCount: 2,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            children: <Widget>[
+              for (final String m in modules)
+                Card(
+                  key: Key('module-$m'),
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: () => _openModule(context, ref, m),
+                    child: Center(
+                      child: Text(
+                        _moduleLabel(context, ref, t, m),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
-              ],
-            ),
-    );
+                ),
+            ],
+          );
   }
 }
 

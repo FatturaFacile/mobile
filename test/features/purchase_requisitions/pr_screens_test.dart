@@ -13,7 +13,7 @@ import 'package:fattura_facile/features/purchase_requisitions/presentation/provi
 import 'package:fattura_facile/features/purchase_requisitions/presentation/screens/pr_create_screen.dart';
 import 'package:fattura_facile/features/purchase_requisitions/presentation/screens/pr_detail_screen.dart';
 import 'package:fattura_facile/features/purchase_requisitions/presentation/screens/pr_hub_screen.dart';
-import 'package:fattura_facile/l10n/app_localizations.dart';
+import 'package:fattura_facile/l10n/gen/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
     show GlobalWidgetsLocalizations;
 import 'package:flutter_riverpod/flutter_riverpod.dart';

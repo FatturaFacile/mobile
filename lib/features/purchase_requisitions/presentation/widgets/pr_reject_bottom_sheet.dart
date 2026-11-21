@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../../../../design/ff_tokens.dart';
-import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/gen/app_localizations.dart';
 
 /// Modal bottom sheet prompting a manager for a mandatory rejection reason.
 class PrRejectBottomSheet extends StatefulWidget {

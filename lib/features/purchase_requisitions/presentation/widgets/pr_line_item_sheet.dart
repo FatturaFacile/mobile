@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../design/ff_tokens.dart';
-import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/gen/app_localizations.dart';
 import '../../../wms/ui/scan_field.dart' show CameraScanner;
 import '../../domain/entities/pr_reference_models.dart';
 import '../../domain/entities/purchase_requisition.dart';

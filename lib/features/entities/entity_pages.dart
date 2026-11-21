@@ -8,6 +8,7 @@ import '../../core/database/app_database.dart';
 import '../../core/localization/translation_service.dart';
 import '../../core/sync/sync_engine.dart';
 import '../../core/sync/sync_orchestrator.dart';
+import '../copilot/domain/copilot_models.dart';
 import 'entity_definition.dart';
 
 Map<String, dynamic> _payload(EntityRecord r) => jsonDecode(r.payload) as Map<String, dynamic>;
@@ -31,6 +32,10 @@ class _EntityListPageState extends ConsumerState<EntityListPage> {
   Future<void> _open({EntityRecord? record}) async {
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
+        settings: RouteSettings(
+          name: '/${widget.def.entity}${record == null ? '' : '/${record.serverId ?? record.id}'}',
+          arguments: CopilotContext(route: '/${widget.def.entity}', entityType: widget.def.entity, entityId: record == null ? null : (record.serverId ?? record.id)),
+        ),
         builder: (_) => EntityFormPage(def: widget.def, tenantId: widget.tenantId, userId: widget.userId, record: record),
       ),
     );
