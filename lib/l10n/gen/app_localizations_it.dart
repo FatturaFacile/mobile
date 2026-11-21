@@ -122,4 +122,268 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get copilotClose => 'Chiudi';
+
+  @override
+  String get dssTitle => 'DSS direzionale';
+
+  @override
+  String dssSyncedAt(String time) {
+    return 'Sincronizzato $time';
+  }
+
+  @override
+  String dssOfflineSince(String time) {
+    return 'Offline · sincronizzato $time';
+  }
+
+  @override
+  String get dssNeverSynced => 'Non ancora sincronizzato';
+
+  @override
+  String get dssSyncing => 'Sincronizzazione…';
+
+  @override
+  String get dssAllEntities => 'Tutte le entità';
+
+  @override
+  String get dssLegalEntity => 'Entità legale';
+
+  @override
+  String get dssCurrency => 'Valuta';
+
+  @override
+  String get dssPeriodMtd => 'MTD';
+
+  @override
+  String get dssPeriodQtd => 'QTD';
+
+  @override
+  String get dssPeriodYtd => 'YTD';
+
+  @override
+  String get dssPeriodL12m => 'L12M';
+
+  @override
+  String get dssKpiRevenue => 'Ricavi';
+
+  @override
+  String get dssKpiGrossMargin => 'Margine lordo %';
+
+  @override
+  String get dssKpiEbitda => 'EBITDA';
+
+  @override
+  String get dssKpiNetCash => 'Flusso di cassa netto';
+
+  @override
+  String get dssKpiCcc => 'Ciclo di conversione di cassa';
+
+  @override
+  String get dssKpiDso => 'DSO';
+
+  @override
+  String dssDays(String value) {
+    return '$value gg';
+  }
+
+  @override
+  String get dssKpiUnavailable => 'Nessuna fonte dati';
+
+  @override
+  String get dssNoData => 'Ancora nessun dato';
+
+  @override
+  String get dssNoDataBody =>
+      'Connettiti a internet e trascina verso il basso per caricare i dati direzionali.';
+
+  @override
+  String get dssVsBaseline => 'vs riferimento';
+
+  @override
+  String get dssAlertsTitle => 'Alert strategici';
+
+  @override
+  String get dssNoAlerts => 'Nessun alert attivo.';
+
+  @override
+  String get dssSeverityCritical => 'Critico';
+
+  @override
+  String get dssSeverityWarning => 'Attenzione';
+
+  @override
+  String get dssSeverityInfo => 'Info';
+
+  @override
+  String get dssAlertMarginErosion => 'Erosione del margine lordo';
+
+  @override
+  String get dssAlertDsoSpike => 'Picco del DSO';
+
+  @override
+  String get dssAlertCustomerConcentration => 'Concentrazione su un cliente';
+
+  @override
+  String get dssAlertBudgetOverrun => 'Sforamento di budget';
+
+  @override
+  String get dssAlertOutlier => 'Anomalia rispetto allo storico';
+
+  @override
+  String dssAlertSummaryMarginErosion(String value, String threshold) {
+    return 'Il margine lordo è sceso di $value pt (limite $threshold pt).';
+  }
+
+  @override
+  String dssAlertSummaryDsoSpike(String value, String threshold) {
+    return 'Il DSO è salito di $value giorni (limite $threshold).';
+  }
+
+  @override
+  String dssAlertSummaryCustomerConcentration(
+    String label,
+    String value,
+    String threshold,
+  ) {
+    return '$label pesa il $value% dei ricavi (limite $threshold%).';
+  }
+
+  @override
+  String dssAlertSummaryBudgetOverrun(String value, String threshold) {
+    return 'Oltre il budget del $value% (limite $threshold%).';
+  }
+
+  @override
+  String dssAlertSummaryOutlier(String value, String threshold) {
+    return 'Scostamento di $value σ (soglia $threshold σ).';
+  }
+
+  @override
+  String get dssRootCause => 'Causa principale';
+
+  @override
+  String get dssRecommendedAction => 'Azione consigliata';
+
+  @override
+  String get dssCauseMarginErosion =>
+      'Il costo del venduto cresce più dei prezzi, oppure il mix si sposta su prodotti a basso margine.';
+
+  @override
+  String get dssActionMarginErosion =>
+      'Rivedi listini e costi dei fornitori; usa la verifica what-if per dimensionare un aumento di prezzo.';
+
+  @override
+  String get dssCauseDsoSpike =>
+      'I clienti pagano più tardi oppure ci sono fatture di importo elevato scadute.';
+
+  @override
+  String get dssActionDsoSpike =>
+      'Avvia i solleciti sulle fatture più vecchie e concorda piani di pagamento con i maggiori debitori.';
+
+  @override
+  String get dssCauseCustomerConcentration =>
+      'Un solo cliente genera una quota sproporzionata dei ricavi.';
+
+  @override
+  String get dssActionCustomerConcentration =>
+      'Diversifica il portafoglio clienti e assicura un contratto a lungo termine con questo cliente.';
+
+  @override
+  String get dssCauseBudgetOverrun =>
+      'La spesa effettiva su questa voce di budget supera l\'importo approvato.';
+
+  @override
+  String get dssActionBudgetOverrun =>
+      'Blocca le spese discrezionali sulla voce e chiedi un piano di rientro al responsabile del centro di costo.';
+
+  @override
+  String get dssCauseOutlier =>
+      'L\'ultimo valore è molto lontano dalla media storica.';
+
+  @override
+  String get dssActionOutlier =>
+      'Verifica i dati di origine alla ricerca di errori, poi conferma se la variazione è un trend reale.';
+
+  @override
+  String get dssTopCustomers => 'Primi 5 clienti';
+
+  @override
+  String get dssBottomCustomers => 'Ultimi 5 clienti';
+
+  @override
+  String get dssTopProducts => 'Primi 5 prodotti';
+
+  @override
+  String get dssBottomProducts => 'Ultimi 5 prodotti';
+
+  @override
+  String get dssNetMargin => 'Margine netto';
+
+  @override
+  String get dssParetoCore => 'Nucleo';
+
+  @override
+  String get dssValueDestroying => 'Distrugge valore';
+
+  @override
+  String get dssVarianceTitle => 'Ponte EBITDA';
+
+  @override
+  String get dssVarBaseline => 'Riferimento';
+
+  @override
+  String get dssVarVolume => 'Volume';
+
+  @override
+  String get dssVarPrice => 'Prezzo';
+
+  @override
+  String get dssVarCogs => 'Costo del venduto';
+
+  @override
+  String get dssVarOpex => 'OPEX';
+
+  @override
+  String get dssVarFx => 'Cambio';
+
+  @override
+  String get dssVarActual => 'Consuntivo';
+
+  @override
+  String get dssWhatIfTitle => 'Verifica what-if';
+
+  @override
+  String get dssWhatIfPrice => 'Variazione prezzi';
+
+  @override
+  String get dssWhatIfCogs => 'Variazione costo del venduto';
+
+  @override
+  String get dssWhatIfCurrent => 'Attuale';
+
+  @override
+  String get dssWhatIfSimulated => 'EBITDA simulato';
+
+  @override
+  String get dssWhatIfChange => 'Variazione';
+
+  @override
+  String get dssWhatIfReset => 'Azzera';
+
+  @override
+  String get dssWhatIfOnDevice =>
+      'Calcolato su questo dispositivo con gli ultimi dati sincronizzati.';
+
+  @override
+  String get dssErrUnauthorized => 'La sessione è scaduta. Accedi di nuovo.';
+
+  @override
+  String get dssErrForbidden => 'Non hai accesso al DSS direzionale.';
+
+  @override
+  String get dssErrFailed =>
+      'Il server non ha fornito i dati. Vengono mostrati gli ultimi dati sincronizzati.';
+
+  @override
+  String get dssClose => 'Chiudi';
 }

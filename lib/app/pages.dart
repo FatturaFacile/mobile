@@ -9,6 +9,7 @@ import '../core/sync/sync_indicator.dart';
 import '../core/sync/sync_orchestrator.dart';
 import '../features/auth/domain/auth_models.dart';
 import '../features/entities/entity_definition.dart';
+import '../features/dss/presentation/executive_dss_page.dart';
 import '../features/entities/entity_pages.dart';
 import '../features/workflow/workflow_pages.dart';
 import 'providers.dart';
@@ -141,6 +142,7 @@ class HomePage extends ConsumerWidget {
       'barcode_scanner' || 'pick_lists' => null,
       'clock' => ClockPage(tenantId: b.tenantId),
       'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
+      'executive_dss' => const ExecutiveDssPage(),
       _ when moduleEntity.containsKey(module) => EntityListPage(
         def: entityDefinitions[moduleEntity[module]]!,
         tenantId: b.tenantId,

@@ -311,6 +311,472 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get copilotClose;
+
+  /// No description provided for @dssTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Executive DSS'**
+  String get dssTitle;
+
+  /// No description provided for @dssSyncedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced {time}'**
+  String dssSyncedAt(String time);
+
+  /// No description provided for @dssOfflineSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline · synced {time}'**
+  String dssOfflineSince(String time);
+
+  /// No description provided for @dssNeverSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced yet'**
+  String get dssNeverSynced;
+
+  /// No description provided for @dssSyncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing…'**
+  String get dssSyncing;
+
+  /// No description provided for @dssAllEntities.
+  ///
+  /// In en, this message translates to:
+  /// **'All entities'**
+  String get dssAllEntities;
+
+  /// No description provided for @dssLegalEntity.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal entity'**
+  String get dssLegalEntity;
+
+  /// No description provided for @dssCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get dssCurrency;
+
+  /// No description provided for @dssPeriodMtd.
+  ///
+  /// In en, this message translates to:
+  /// **'MTD'**
+  String get dssPeriodMtd;
+
+  /// No description provided for @dssPeriodQtd.
+  ///
+  /// In en, this message translates to:
+  /// **'QTD'**
+  String get dssPeriodQtd;
+
+  /// No description provided for @dssPeriodYtd.
+  ///
+  /// In en, this message translates to:
+  /// **'YTD'**
+  String get dssPeriodYtd;
+
+  /// No description provided for @dssPeriodL12m.
+  ///
+  /// In en, this message translates to:
+  /// **'L12M'**
+  String get dssPeriodL12m;
+
+  /// No description provided for @dssKpiRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get dssKpiRevenue;
+
+  /// No description provided for @dssKpiGrossMargin.
+  ///
+  /// In en, this message translates to:
+  /// **'Gross margin %'**
+  String get dssKpiGrossMargin;
+
+  /// No description provided for @dssKpiEbitda.
+  ///
+  /// In en, this message translates to:
+  /// **'EBITDA'**
+  String get dssKpiEbitda;
+
+  /// No description provided for @dssKpiNetCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Net cash flow'**
+  String get dssKpiNetCash;
+
+  /// No description provided for @dssKpiCcc.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash conversion cycle'**
+  String get dssKpiCcc;
+
+  /// No description provided for @dssKpiDso.
+  ///
+  /// In en, this message translates to:
+  /// **'DSO'**
+  String get dssKpiDso;
+
+  /// No description provided for @dssDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} d'**
+  String dssDays(String value);
+
+  /// No description provided for @dssKpiUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No data source'**
+  String get dssKpiUnavailable;
+
+  /// No description provided for @dssNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data yet'**
+  String get dssNoData;
+
+  /// No description provided for @dssNoDataBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to the internet and pull down to load the executive figures.'**
+  String get dssNoDataBody;
+
+  /// No description provided for @dssVsBaseline.
+  ///
+  /// In en, this message translates to:
+  /// **'vs baseline'**
+  String get dssVsBaseline;
+
+  /// No description provided for @dssAlertsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Strategic alerts'**
+  String get dssAlertsTitle;
+
+  /// No description provided for @dssNoAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'No active alerts.'**
+  String get dssNoAlerts;
+
+  /// No description provided for @dssSeverityCritical.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical'**
+  String get dssSeverityCritical;
+
+  /// No description provided for @dssSeverityWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get dssSeverityWarning;
+
+  /// No description provided for @dssSeverityInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get dssSeverityInfo;
+
+  /// No description provided for @dssAlertMarginErosion.
+  ///
+  /// In en, this message translates to:
+  /// **'Gross margin erosion'**
+  String get dssAlertMarginErosion;
+
+  /// No description provided for @dssAlertDsoSpike.
+  ///
+  /// In en, this message translates to:
+  /// **'DSO spike'**
+  String get dssAlertDsoSpike;
+
+  /// No description provided for @dssAlertCustomerConcentration.
+  ///
+  /// In en, this message translates to:
+  /// **'Single-customer concentration'**
+  String get dssAlertCustomerConcentration;
+
+  /// No description provided for @dssAlertBudgetOverrun.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget overrun'**
+  String get dssAlertBudgetOverrun;
+
+  /// No description provided for @dssAlertOutlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Outlier against history'**
+  String get dssAlertOutlier;
+
+  /// No description provided for @dssAlertSummaryMarginErosion.
+  ///
+  /// In en, this message translates to:
+  /// **'Gross margin fell {value} pts (limit {threshold} pts).'**
+  String dssAlertSummaryMarginErosion(String value, String threshold);
+
+  /// No description provided for @dssAlertSummaryDsoSpike.
+  ///
+  /// In en, this message translates to:
+  /// **'DSO rose by {value} days (limit {threshold}).'**
+  String dssAlertSummaryDsoSpike(String value, String threshold);
+
+  /// No description provided for @dssAlertSummaryCustomerConcentration.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} is {value}% of revenue (limit {threshold}%).'**
+  String dssAlertSummaryCustomerConcentration(
+    String label,
+    String value,
+    String threshold,
+  );
+
+  /// No description provided for @dssAlertSummaryBudgetOverrun.
+  ///
+  /// In en, this message translates to:
+  /// **'Over budget by {value}% (limit {threshold}%).'**
+  String dssAlertSummaryBudgetOverrun(String value, String threshold);
+
+  /// No description provided for @dssAlertSummaryOutlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Deviation of {value} σ (threshold {threshold} σ).'**
+  String dssAlertSummaryOutlier(String value, String threshold);
+
+  /// No description provided for @dssRootCause.
+  ///
+  /// In en, this message translates to:
+  /// **'Root cause'**
+  String get dssRootCause;
+
+  /// No description provided for @dssRecommendedAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended action'**
+  String get dssRecommendedAction;
+
+  /// No description provided for @dssCauseMarginErosion.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost of goods is growing faster than prices, or the mix is shifting to low-margin products.'**
+  String get dssCauseMarginErosion;
+
+  /// No description provided for @dssActionMarginErosion.
+  ///
+  /// In en, this message translates to:
+  /// **'Review price lists and supplier costs; open the what-if check to size a price increase.'**
+  String get dssActionMarginErosion;
+
+  /// No description provided for @dssCauseDsoSpike.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers are paying later, or large invoices are overdue.'**
+  String get dssCauseDsoSpike;
+
+  /// No description provided for @dssActionDsoSpike.
+  ///
+  /// In en, this message translates to:
+  /// **'Start dunning on the oldest invoices and agree payment plans with the largest debtors.'**
+  String get dssActionDsoSpike;
+
+  /// No description provided for @dssCauseCustomerConcentration.
+  ///
+  /// In en, this message translates to:
+  /// **'One customer generates a disproportionate share of revenue.'**
+  String get dssCauseCustomerConcentration;
+
+  /// No description provided for @dssActionCustomerConcentration.
+  ///
+  /// In en, this message translates to:
+  /// **'Diversify the customer base and secure a long-term contract with this customer.'**
+  String get dssActionCustomerConcentration;
+
+  /// No description provided for @dssCauseBudgetOverrun.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual spending on this budget line exceeds the approved amount.'**
+  String get dssCauseBudgetOverrun;
+
+  /// No description provided for @dssActionBudgetOverrun.
+  ///
+  /// In en, this message translates to:
+  /// **'Freeze discretionary spend on the line and ask the cost-centre owner for a recovery plan.'**
+  String get dssActionBudgetOverrun;
+
+  /// No description provided for @dssCauseOutlier.
+  ///
+  /// In en, this message translates to:
+  /// **'The latest value is far from its historical average.'**
+  String get dssCauseOutlier;
+
+  /// No description provided for @dssActionOutlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the source data for errors, then confirm whether the change is a real trend.'**
+  String get dssActionOutlier;
+
+  /// No description provided for @dssTopCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Top 5 customers'**
+  String get dssTopCustomers;
+
+  /// No description provided for @dssBottomCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Bottom 5 customers'**
+  String get dssBottomCustomers;
+
+  /// No description provided for @dssTopProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Top 5 products'**
+  String get dssTopProducts;
+
+  /// No description provided for @dssBottomProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Bottom 5 products'**
+  String get dssBottomProducts;
+
+  /// No description provided for @dssNetMargin.
+  ///
+  /// In en, this message translates to:
+  /// **'Net margin'**
+  String get dssNetMargin;
+
+  /// No description provided for @dssParetoCore.
+  ///
+  /// In en, this message translates to:
+  /// **'Core'**
+  String get dssParetoCore;
+
+  /// No description provided for @dssValueDestroying.
+  ///
+  /// In en, this message translates to:
+  /// **'Eroding value'**
+  String get dssValueDestroying;
+
+  /// No description provided for @dssVarianceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EBITDA bridge'**
+  String get dssVarianceTitle;
+
+  /// No description provided for @dssVarBaseline.
+  ///
+  /// In en, this message translates to:
+  /// **'Baseline'**
+  String get dssVarBaseline;
+
+  /// No description provided for @dssVarVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get dssVarVolume;
+
+  /// No description provided for @dssVarPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get dssVarPrice;
+
+  /// No description provided for @dssVarCogs.
+  ///
+  /// In en, this message translates to:
+  /// **'COGS'**
+  String get dssVarCogs;
+
+  /// No description provided for @dssVarOpex.
+  ///
+  /// In en, this message translates to:
+  /// **'OPEX'**
+  String get dssVarOpex;
+
+  /// No description provided for @dssVarFx.
+  ///
+  /// In en, this message translates to:
+  /// **'FX'**
+  String get dssVarFx;
+
+  /// No description provided for @dssVarActual.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual'**
+  String get dssVarActual;
+
+  /// No description provided for @dssWhatIfTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What-if quick check'**
+  String get dssWhatIfTitle;
+
+  /// No description provided for @dssWhatIfPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price change'**
+  String get dssWhatIfPrice;
+
+  /// No description provided for @dssWhatIfCogs.
+  ///
+  /// In en, this message translates to:
+  /// **'COGS change'**
+  String get dssWhatIfCogs;
+
+  /// No description provided for @dssWhatIfCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get dssWhatIfCurrent;
+
+  /// No description provided for @dssWhatIfSimulated.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulated EBITDA'**
+  String get dssWhatIfSimulated;
+
+  /// No description provided for @dssWhatIfChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get dssWhatIfChange;
+
+  /// No description provided for @dssWhatIfReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get dssWhatIfReset;
+
+  /// No description provided for @dssWhatIfOnDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Computed on this device from the last synced figures.'**
+  String get dssWhatIfOnDevice;
+
+  /// No description provided for @dssErrUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Sign in again.'**
+  String get dssErrUnauthorized;
+
+  /// No description provided for @dssErrForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have access to the Executive DSS.'**
+  String get dssErrForbidden;
+
+  /// No description provided for @dssErrFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The server could not provide the figures. Showing the last synced data.'**
+  String get dssErrFailed;
+
+  /// No description provided for @dssClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get dssClose;
 }
 
 class _AppLocalizationsDelegate

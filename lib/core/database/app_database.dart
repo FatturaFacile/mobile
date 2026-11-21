@@ -3,7 +3,13 @@ import 'package:drift/drift.dart';
 part 'app_database.g.dart';
 
 /// Lifecycle of a locally stored record.
-enum SyncStatus { synced, pendingCreate, pendingUpdate, pendingDelete, conflict }
+enum SyncStatus {
+  synced,
+  pendingCreate,
+  pendingUpdate,
+  pendingDelete,
+  conflict,
+}
 
 /// Generic tenant-scoped entity store; the JSON payload mirrors the API resource.
 @DataClassName('EntityRecord')
@@ -13,7 +19,8 @@ class EntityRecords extends Table {
   TextColumn get tenantId => text()();
   TextColumn get serverId => text().nullable()();
   TextColumn get payload => text()();
-  IntColumn get syncStatus => integer().map(const EnumIndexConverter<SyncStatus>(SyncStatus.values))();
+  IntColumn get syncStatus =>
+      integer().map(const EnumIndexConverter<SyncStatus>(SyncStatus.values))();
   DateTimeColumn get localUpdatedAt => dateTime()();
   DateTimeColumn get serverUpdatedAt => dateTime().nullable()();
   DateTimeColumn get createdAt => dateTime()();
@@ -97,24 +104,66 @@ class CopilotMessages extends Table {
   Set<Column<Object>> get primaryKey => <Column<Object>>{tenantId, id};
 }
 
-@DriftDatabase(tables: <Type>[EntityRecords, SyncQueue, SyncCursors, Translations, CopilotConversations, CopilotMessages])
+/// Last Executive DSS read models pulled from the API for one filter, kept for offline reading (tenant scoped).
+/// The payloads are the `data` objects of the API answers, stored as received.
+@DataClassName('DssSnapshotRow')
+class DssExecutiveSnapshots extends Table {
+  TextColumn get tenantId => text()();
+
+  /// Server legal entity id; empty for the snapshot that spans every legal entity.
+  TextColumn get legalEntityId => text().withDefault(const Constant(''))();
+  TextColumn get currency => text()();
+  TextColumn get periodPreset => text()();
+  TextColumn get comparisonBaseline => text()();
+  TextColumn get overviewJson => text()();
+  TextColumn get customersJson => text()();
+  TextColumn get productsJson => text().nullable()();
+  TextColumn get varianceJson => text().nullable()();
+  TextColumn get inputsJson => text().nullable()();
+  TextColumn get legalEntitiesJson => text().nullable()();
+  DateTimeColumn get syncedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{
+    tenantId,
+    legalEntityId,
+    currency,
+    periodPreset,
+    comparisonBaseline,
+  };
+}
+
+@DriftDatabase(
+  tables: <Type>[
+    EntityRecords,
+    SyncQueue,
+    SyncCursors,
+    Translations,
+    CopilotConversations,
+    CopilotMessages,
+    DssExecutiveSnapshots,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (Migrator m) => m.createAll(),
-        onUpgrade: (Migrator m, int from, int to) async {
-          if (from < 2) {
-            await m.createTable(copilotConversations);
-            await m.createTable(copilotMessages);
-          }
-        },
-        beforeOpen: (OpeningDetails details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-      );
+    onCreate: (Migrator m) => m.createAll(),
+    onUpgrade: (Migrator m, int from, int to) async {
+      if (from < 2) {
+        await m.createTable(copilotConversations);
+        await m.createTable(copilotMessages);
+      }
+      if (from < 3) {
+        await m.createTable(dssExecutiveSnapshots);
+      }
+    },
+    beforeOpen: (OpeningDetails details) async {
+      await customStatement('PRAGMA foreign_keys = ON');
+    },
+  );
 }
