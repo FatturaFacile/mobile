@@ -32,3 +32,14 @@ Use `FfTokens`/`FfColors` (ThemeExtension in `lib/design/ff_tokens.dart`). No li
 
 ## Verification
 `flutter pub get` · `dart run build_runner build --delete-conflicting-outputs` · `flutter analyze` · `flutter test`
+
+
+## Git Workflow & Direct Merge Policy (STRICT)
+- **Target Branch (`dev`):** Integrate all work directly into `dev` via local merge. **NEVER commit, merge, or push directly to `main`**, and **NEVER create Pull Requests (`gh pr create` / `gh pr`).**
+- **Worktree Handling:** If running inside a linked git worktree, finish commits and tests on the feature branch, then run the merge on `dev` from the primary repository root (`git checkout dev && git pull --rebase origin dev && git merge --no-ff <branch>`).
+- **Conflict Resolution:** Resolve any merge conflict markers autonomously, preserving Clean Architecture layers, Drift/SQLite migrations, and all 4 ARB localization files (`it`, `de`, `fr`, `en`).
+- **Pre-Push Quality Gate:** Before `git push origin dev`, execute and ensure zero issues on:
+  - `dart format --output=none --set-exit-if-changed .`
+  - `flutter analyze`
+  - `flutter test`
+- **Cleanup:** Delete merged local/remote feature branches and remove temporary worktrees (`git worktree remove` + `git branch -D <branch>`).
