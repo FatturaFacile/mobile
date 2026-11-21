@@ -1122,6 +1122,219 @@ class AppLocalizationsDe extends AppLocalizations {
   String prLevelBadge(int current, int total) {
     return 'Stufe $current/$total';
   }
+
+  @override
+  String get mfgModuleTitle => 'Produktionstechnik';
+
+  @override
+  String get mfgHubTitle => 'Produktionstechnik';
+
+  @override
+  String get mfgTabRoutings => 'Arbeitspläne';
+
+  @override
+  String get mfgTabMachines => 'Maschinen';
+
+  @override
+  String get mfgTabOee => 'OEE';
+
+  @override
+  String get mfgSyncAction => 'Jetzt synchronisieren';
+
+  @override
+  String get mfgSyncFailed => 'Synchronisierung fehlgeschlagen, Offline-Daten';
+
+  @override
+  String get mfgEmptyRoutings => 'Keine Arbeitspläne offline verfügbar';
+
+  @override
+  String get mfgEmptyMachines => 'Keine Maschinen offline verfügbar';
+
+  @override
+  String get mfgEmptyOee => 'Keine OEE-Daten offline verfügbar';
+
+  @override
+  String mfgRevisionLabel(String revision) {
+    return 'Rev. $revision';
+  }
+
+  @override
+  String mfgStepsCount(int count) {
+    return '$count Arbeitsgänge';
+  }
+
+  @override
+  String mfgStepTitle(int sequence, String code) {
+    return '$sequence · $code';
+  }
+
+  @override
+  String mfgWorkCenterLabel(String code) {
+    return 'Arbeitsplatz $code';
+  }
+
+  @override
+  String mfgMinutesValue(String value) {
+    return '$value Min.';
+  }
+
+  @override
+  String get mfgSetupTime => 'Rüsten';
+
+  @override
+  String get mfgRunTime => 'Bearbeitung / Einheit';
+
+  @override
+  String get mfgQueueTime => 'Wartezeit';
+
+  @override
+  String get mfgMoveTime => 'Transport';
+
+  @override
+  String get mfgSubcontracted => 'Fremdfertigung';
+
+  @override
+  String get mfgCalculatorTitle => 'Durchlaufzeit und Kosten';
+
+  @override
+  String get mfgLotQuantity => 'Losgröße';
+
+  @override
+  String get mfgIncludeOverlap => 'Überlappung der Transferlose';
+
+  @override
+  String get mfgCalculate => 'Berechnen';
+
+  @override
+  String get mfgCalcInvalid => 'Menge größer als null eingeben';
+
+  @override
+  String get mfgCalcMissingWorkCenter =>
+      'Ein Arbeitsplatz dieses Arbeitsplans ist offline nicht verfügbar';
+
+  @override
+  String get mfgTotalLeadTime => 'Gesamtdurchlaufzeit';
+
+  @override
+  String get mfgSerialLeadTime => 'Ohne Überlappung';
+
+  @override
+  String get mfgOverlapSaving => 'Überlappungsersparnis';
+
+  @override
+  String get mfgTotalCost => 'Gesamtkosten';
+
+  @override
+  String get mfgUnitCost => 'Kosten pro Einheit';
+
+  @override
+  String get mfgCostSetup => 'Rüsten';
+
+  @override
+  String get mfgCostMachine => 'Maschinenlauf';
+
+  @override
+  String get mfgCostLabor => 'Direkte Arbeit';
+
+  @override
+  String get mfgCostOverhead => 'Gemeinkosten';
+
+  @override
+  String get mfgCostSubcontracting => 'Fremdfertigung';
+
+  @override
+  String get mfgCostMaterialNote =>
+      'Materialkosten sind offline nicht enthalten';
+
+  @override
+  String mfgMachineStatus(String status) {
+    return 'Status: $status';
+  }
+
+  @override
+  String get mfgIndustria40 => 'Industrie 4.0';
+
+  @override
+  String get mfgTransizione50 => 'Transizione 5.0';
+
+  @override
+  String mfgIdealCycle(String seconds) {
+    return 'Idealzyklus: $seconds s/Einheit';
+  }
+
+  @override
+  String get mfgTelemetryNever => 'Keine Telemetrie';
+
+  @override
+  String get mfgTelemetryStale => 'Telemetrie veraltet';
+
+  @override
+  String get mfgTelemetryOnline => 'Telemetrie online';
+
+  @override
+  String mfgOeeValue(String percent) {
+    return 'OEE $percent%';
+  }
+
+  @override
+  String get mfgAvailability => 'Verfügbarkeit';
+
+  @override
+  String get mfgPerformance => 'Leistung';
+
+  @override
+  String get mfgQuality => 'Qualität';
+
+  @override
+  String mfgOeeTarget(String percent) {
+    return 'Ziel $percent%';
+  }
+
+  @override
+  String get mfgOeeMeetsTarget => 'Ziel erreicht';
+
+  @override
+  String mfgOeeBelowTarget(String gap) {
+    return '$gap Pkt. unter Ziel';
+  }
+
+  @override
+  String mfgOeePeriod(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get mfgGoodUnits => 'Gutstücke';
+
+  @override
+  String get mfgScrapUnits => 'Ausschuss';
+
+  @override
+  String get mfgReworkUnits => 'Nacharbeit';
+
+  @override
+  String get mfgOperatingMinutes => 'Betriebszeit';
+
+  @override
+  String get mfgLossesTitle => 'Sechs große Verluste (Minuten)';
+
+  @override
+  String get mfgLossEquipmentFailure => 'Anlagenausfall';
+
+  @override
+  String get mfgLossSetupAdjustment => 'Rüsten und Einstellen';
+
+  @override
+  String get mfgLossMinorStops => 'Kleinstillstände';
+
+  @override
+  String get mfgLossReducedSpeed => 'Reduzierte Geschwindigkeit';
+
+  @override
+  String get mfgLossProcessDefects => 'Prozessfehler';
+
+  @override
+  String get mfgLossStartupRejects => 'Anlaufausschuss';
 }
 
 /// The translations for German, as used in Switzerland (`de_CH`).

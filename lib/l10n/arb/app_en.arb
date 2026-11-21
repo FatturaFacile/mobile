@@ -918,5 +918,318 @@
                 "type": "int"
             }
         }
+    },
+    "mfgModuleTitle": "Production Engineering",
+    "@mfgModuleTitle": {
+        "description": "Mod 061 production engineering: mfgModuleTitle"
+    },
+    "mfgHubTitle": "Production Engineering",
+    "@mfgHubTitle": {
+        "description": "Mod 061 production engineering: mfgHubTitle"
+    },
+    "mfgTabRoutings": "Routings",
+    "@mfgTabRoutings": {
+        "description": "Mod 061 production engineering: mfgTabRoutings"
+    },
+    "mfgTabMachines": "Machines",
+    "@mfgTabMachines": {
+        "description": "Mod 061 production engineering: mfgTabMachines"
+    },
+    "mfgTabOee": "OEE",
+    "@mfgTabOee": {
+        "description": "Mod 061 production engineering: mfgTabOee"
+    },
+    "mfgSyncAction": "Sync now",
+    "@mfgSyncAction": {
+        "description": "Mod 061 production engineering: mfgSyncAction"
+    },
+    "mfgSyncFailed": "Sync failed, showing offline data",
+    "@mfgSyncFailed": {
+        "description": "Mod 061 production engineering: mfgSyncFailed"
+    },
+    "mfgEmptyRoutings": "No routings available offline",
+    "@mfgEmptyRoutings": {
+        "description": "Mod 061 production engineering: mfgEmptyRoutings"
+    },
+    "mfgEmptyMachines": "No machines available offline",
+    "@mfgEmptyMachines": {
+        "description": "Mod 061 production engineering: mfgEmptyMachines"
+    },
+    "mfgEmptyOee": "No OEE data available offline",
+    "@mfgEmptyOee": {
+        "description": "Mod 061 production engineering: mfgEmptyOee"
+    },
+    "mfgRevisionLabel": "Rev. {revision}",
+    "@mfgRevisionLabel": {
+        "description": "Mod 061 production engineering: mfgRevisionLabel",
+        "placeholders": {
+            "revision": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgStepsCount": "{count} steps",
+    "@mfgStepsCount": {
+        "description": "Mod 061 production engineering: mfgStepsCount",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "mfgStepTitle": "{sequence} · {code}",
+    "@mfgStepTitle": {
+        "description": "Mod 061 production engineering: mfgStepTitle",
+        "placeholders": {
+            "sequence": {
+                "type": "int"
+            },
+            "code": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgWorkCenterLabel": "Work centre {code}",
+    "@mfgWorkCenterLabel": {
+        "description": "Mod 061 production engineering: mfgWorkCenterLabel",
+        "placeholders": {
+            "code": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgMinutesValue": "{value} min",
+    "@mfgMinutesValue": {
+        "description": "Mod 061 production engineering: mfgMinutesValue",
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgSetupTime": "Setup",
+    "@mfgSetupTime": {
+        "description": "Mod 061 production engineering: mfgSetupTime"
+    },
+    "mfgRunTime": "Run / unit",
+    "@mfgRunTime": {
+        "description": "Mod 061 production engineering: mfgRunTime"
+    },
+    "mfgQueueTime": "Queue",
+    "@mfgQueueTime": {
+        "description": "Mod 061 production engineering: mfgQueueTime"
+    },
+    "mfgMoveTime": "Move",
+    "@mfgMoveTime": {
+        "description": "Mod 061 production engineering: mfgMoveTime"
+    },
+    "mfgSubcontracted": "Subcontracted",
+    "@mfgSubcontracted": {
+        "description": "Mod 061 production engineering: mfgSubcontracted"
+    },
+    "mfgCalculatorTitle": "Lead time and cost",
+    "@mfgCalculatorTitle": {
+        "description": "Mod 061 production engineering: mfgCalculatorTitle"
+    },
+    "mfgLotQuantity": "Lot quantity",
+    "@mfgLotQuantity": {
+        "description": "Mod 061 production engineering: mfgLotQuantity"
+    },
+    "mfgIncludeOverlap": "Overlap transfer batches",
+    "@mfgIncludeOverlap": {
+        "description": "Mod 061 production engineering: mfgIncludeOverlap"
+    },
+    "mfgCalculate": "Calculate",
+    "@mfgCalculate": {
+        "description": "Mod 061 production engineering: mfgCalculate"
+    },
+    "mfgCalcInvalid": "Enter a quantity greater than zero",
+    "@mfgCalcInvalid": {
+        "description": "Mod 061 production engineering: mfgCalcInvalid"
+    },
+    "mfgCalcMissingWorkCenter": "A work centre of this routing is not available offline",
+    "@mfgCalcMissingWorkCenter": {
+        "description": "Mod 061 production engineering: mfgCalcMissingWorkCenter"
+    },
+    "mfgTotalLeadTime": "Total lead time",
+    "@mfgTotalLeadTime": {
+        "description": "Mod 061 production engineering: mfgTotalLeadTime"
+    },
+    "mfgSerialLeadTime": "Without overlap",
+    "@mfgSerialLeadTime": {
+        "description": "Mod 061 production engineering: mfgSerialLeadTime"
+    },
+    "mfgOverlapSaving": "Overlap saving",
+    "@mfgOverlapSaving": {
+        "description": "Mod 061 production engineering: mfgOverlapSaving"
+    },
+    "mfgTotalCost": "Total cost",
+    "@mfgTotalCost": {
+        "description": "Mod 061 production engineering: mfgTotalCost"
+    },
+    "mfgUnitCost": "Cost per unit",
+    "@mfgUnitCost": {
+        "description": "Mod 061 production engineering: mfgUnitCost"
+    },
+    "mfgCostSetup": "Setup",
+    "@mfgCostSetup": {
+        "description": "Mod 061 production engineering: mfgCostSetup"
+    },
+    "mfgCostMachine": "Machine run",
+    "@mfgCostMachine": {
+        "description": "Mod 061 production engineering: mfgCostMachine"
+    },
+    "mfgCostLabor": "Direct labour",
+    "@mfgCostLabor": {
+        "description": "Mod 061 production engineering: mfgCostLabor"
+    },
+    "mfgCostOverhead": "Overhead",
+    "@mfgCostOverhead": {
+        "description": "Mod 061 production engineering: mfgCostOverhead"
+    },
+    "mfgCostSubcontracting": "Subcontracting",
+    "@mfgCostSubcontracting": {
+        "description": "Mod 061 production engineering: mfgCostSubcontracting"
+    },
+    "mfgCostMaterialNote": "Material cost is not included offline",
+    "@mfgCostMaterialNote": {
+        "description": "Mod 061 production engineering: mfgCostMaterialNote"
+    },
+    "mfgMachineStatus": "Status: {status}",
+    "@mfgMachineStatus": {
+        "description": "Mod 061 production engineering: mfgMachineStatus",
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgIndustria40": "Industria 4.0",
+    "@mfgIndustria40": {
+        "description": "Mod 061 production engineering: mfgIndustria40"
+    },
+    "mfgTransizione50": "Transizione 5.0",
+    "@mfgTransizione50": {
+        "description": "Mod 061 production engineering: mfgTransizione50"
+    },
+    "mfgIdealCycle": "Ideal cycle: {seconds} s/unit",
+    "@mfgIdealCycle": {
+        "description": "Mod 061 production engineering: mfgIdealCycle",
+        "placeholders": {
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgTelemetryNever": "No telemetry",
+    "@mfgTelemetryNever": {
+        "description": "Mod 061 production engineering: mfgTelemetryNever"
+    },
+    "mfgTelemetryStale": "Telemetry stale",
+    "@mfgTelemetryStale": {
+        "description": "Mod 061 production engineering: mfgTelemetryStale"
+    },
+    "mfgTelemetryOnline": "Telemetry online",
+    "@mfgTelemetryOnline": {
+        "description": "Mod 061 production engineering: mfgTelemetryOnline"
+    },
+    "mfgOeeValue": "OEE {percent}%",
+    "@mfgOeeValue": {
+        "description": "Mod 061 production engineering: mfgOeeValue",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgAvailability": "Availability",
+    "@mfgAvailability": {
+        "description": "Mod 061 production engineering: mfgAvailability"
+    },
+    "mfgPerformance": "Performance",
+    "@mfgPerformance": {
+        "description": "Mod 061 production engineering: mfgPerformance"
+    },
+    "mfgQuality": "Quality",
+    "@mfgQuality": {
+        "description": "Mod 061 production engineering: mfgQuality"
+    },
+    "mfgOeeTarget": "Target {percent}%",
+    "@mfgOeeTarget": {
+        "description": "Mod 061 production engineering: mfgOeeTarget",
+        "placeholders": {
+            "percent": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgOeeMeetsTarget": "Target met",
+    "@mfgOeeMeetsTarget": {
+        "description": "Mod 061 production engineering: mfgOeeMeetsTarget"
+    },
+    "mfgOeeBelowTarget": "Below target by {gap} pts",
+    "@mfgOeeBelowTarget": {
+        "description": "Mod 061 production engineering: mfgOeeBelowTarget",
+        "placeholders": {
+            "gap": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgOeePeriod": "{from} – {to}",
+    "@mfgOeePeriod": {
+        "description": "Mod 061 production engineering: mfgOeePeriod",
+        "placeholders": {
+            "from": {
+                "type": "String"
+            },
+            "to": {
+                "type": "String"
+            }
+        }
+    },
+    "mfgGoodUnits": "Good units",
+    "@mfgGoodUnits": {
+        "description": "Mod 061 production engineering: mfgGoodUnits"
+    },
+    "mfgScrapUnits": "Scrap",
+    "@mfgScrapUnits": {
+        "description": "Mod 061 production engineering: mfgScrapUnits"
+    },
+    "mfgReworkUnits": "Rework",
+    "@mfgReworkUnits": {
+        "description": "Mod 061 production engineering: mfgReworkUnits"
+    },
+    "mfgOperatingMinutes": "Operating time",
+    "@mfgOperatingMinutes": {
+        "description": "Mod 061 production engineering: mfgOperatingMinutes"
+    },
+    "mfgLossesTitle": "Six big losses (minutes)",
+    "@mfgLossesTitle": {
+        "description": "Mod 061 production engineering: mfgLossesTitle"
+    },
+    "mfgLossEquipmentFailure": "Equipment failure",
+    "@mfgLossEquipmentFailure": {
+        "description": "Mod 061 production engineering: mfgLossEquipmentFailure"
+    },
+    "mfgLossSetupAdjustment": "Setup and adjustment",
+    "@mfgLossSetupAdjustment": {
+        "description": "Mod 061 production engineering: mfgLossSetupAdjustment"
+    },
+    "mfgLossMinorStops": "Minor stops",
+    "@mfgLossMinorStops": {
+        "description": "Mod 061 production engineering: mfgLossMinorStops"
+    },
+    "mfgLossReducedSpeed": "Reduced speed",
+    "@mfgLossReducedSpeed": {
+        "description": "Mod 061 production engineering: mfgLossReducedSpeed"
+    },
+    "mfgLossProcessDefects": "Process defects",
+    "@mfgLossProcessDefects": {
+        "description": "Mod 061 production engineering: mfgLossProcessDefects"
+    },
+    "mfgLossStartupRejects": "Start-up rejects",
+    "@mfgLossStartupRejects": {
+        "description": "Mod 061 production engineering: mfgLossStartupRejects"
     }
 }

@@ -9662,6 +9662,2534 @@ class LocalApprovalAuditLogsCompanion
   }
 }
 
+class $MfgLocalWorkCentersTable extends MfgLocalWorkCenters
+    with TableInfo<$MfgLocalWorkCentersTable, MfgWorkCenterRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgLocalWorkCentersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('active'),
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    id,
+    code,
+    name,
+    status,
+    payload,
+    syncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_work_centers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgWorkCenterRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_syncedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  MfgWorkCenterRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgWorkCenterRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgLocalWorkCentersTable createAlias(String alias) {
+    return $MfgLocalWorkCentersTable(attachedDatabase, alias);
+  }
+}
+
+class MfgWorkCenterRow extends DataClass
+    implements Insertable<MfgWorkCenterRow> {
+  final String tenantId;
+  final String id;
+  final String code;
+  final String name;
+  final String status;
+  final String payload;
+  final DateTime syncedAt;
+  const MfgWorkCenterRow({
+    required this.tenantId,
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.status,
+    required this.payload,
+    required this.syncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['name'] = Variable<String>(name);
+    map['status'] = Variable<String>(status);
+    map['payload'] = Variable<String>(payload);
+    map['synced_at'] = Variable<DateTime>(syncedAt);
+    return map;
+  }
+
+  MfgLocalWorkCentersCompanion toCompanion(bool nullToAbsent) {
+    return MfgLocalWorkCentersCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      code: Value(code),
+      name: Value(name),
+      status: Value(status),
+      payload: Value(payload),
+      syncedAt: Value(syncedAt),
+    );
+  }
+
+  factory MfgWorkCenterRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgWorkCenterRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+      status: serializer.fromJson<String>(json['status']),
+      payload: serializer.fromJson<String>(json['payload']),
+      syncedAt: serializer.fromJson<DateTime>(json['syncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'name': serializer.toJson<String>(name),
+      'status': serializer.toJson<String>(status),
+      'payload': serializer.toJson<String>(payload),
+      'syncedAt': serializer.toJson<DateTime>(syncedAt),
+    };
+  }
+
+  MfgWorkCenterRow copyWith({
+    String? tenantId,
+    String? id,
+    String? code,
+    String? name,
+    String? status,
+    String? payload,
+    DateTime? syncedAt,
+  }) => MfgWorkCenterRow(
+    tenantId: tenantId ?? this.tenantId,
+    id: id ?? this.id,
+    code: code ?? this.code,
+    name: name ?? this.name,
+    status: status ?? this.status,
+    payload: payload ?? this.payload,
+    syncedAt: syncedAt ?? this.syncedAt,
+  );
+  MfgWorkCenterRow copyWithCompanion(MfgLocalWorkCentersCompanion data) {
+    return MfgWorkCenterRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+      status: data.status.present ? data.status.value : this.status,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgWorkCenterRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('status: $status, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(tenantId, id, code, name, status, payload, syncedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgWorkCenterRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.name == this.name &&
+          other.status == this.status &&
+          other.payload == this.payload &&
+          other.syncedAt == this.syncedAt);
+}
+
+class MfgLocalWorkCentersCompanion extends UpdateCompanion<MfgWorkCenterRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> name;
+  final Value<String> status;
+  final Value<String> payload;
+  final Value<DateTime> syncedAt;
+  final Value<int> rowid;
+  const MfgLocalWorkCentersCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+    this.status = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgLocalWorkCentersCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String code,
+    required String name,
+    this.status = const Value.absent(),
+    required String payload,
+    required DateTime syncedAt,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       code = Value(code),
+       name = Value(name),
+       payload = Value(payload),
+       syncedAt = Value(syncedAt);
+  static Insertable<MfgWorkCenterRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? name,
+    Expression<String>? status,
+    Expression<String>? payload,
+    Expression<DateTime>? syncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+      if (payload != null) 'payload': payload,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgLocalWorkCentersCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? name,
+    Value<String>? status,
+    Value<String>? payload,
+    Value<DateTime>? syncedAt,
+    Value<int>? rowid,
+  }) {
+    return MfgLocalWorkCentersCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      code: code ?? this.code,
+      name: name ?? this.name,
+      status: status ?? this.status,
+      payload: payload ?? this.payload,
+      syncedAt: syncedAt ?? this.syncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgLocalWorkCentersCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('status: $status, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgLocalMachinesTable extends MfgLocalMachines
+    with TableInfo<$MfgLocalMachinesTable, MfgMachineRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgLocalMachinesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _workCenterIdMeta = const VerificationMeta(
+    'workCenterId',
+  );
+  @override
+  late final GeneratedColumn<String> workCenterId = GeneratedColumn<String>(
+    'work_center_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('active'),
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    id,
+    code,
+    name,
+    workCenterId,
+    status,
+    payload,
+    syncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_machines';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgMachineRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('work_center_id')) {
+      context.handle(
+        _workCenterIdMeta,
+        workCenterId.isAcceptableOrUnknown(
+          data['work_center_id']!,
+          _workCenterIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_workCenterIdMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_syncedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  MfgMachineRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgMachineRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      workCenterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}work_center_id'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgLocalMachinesTable createAlias(String alias) {
+    return $MfgLocalMachinesTable(attachedDatabase, alias);
+  }
+}
+
+class MfgMachineRow extends DataClass implements Insertable<MfgMachineRow> {
+  final String tenantId;
+  final String id;
+  final String code;
+  final String name;
+  final String workCenterId;
+  final String status;
+  final String payload;
+  final DateTime syncedAt;
+  const MfgMachineRow({
+    required this.tenantId,
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.workCenterId,
+    required this.status,
+    required this.payload,
+    required this.syncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['name'] = Variable<String>(name);
+    map['work_center_id'] = Variable<String>(workCenterId);
+    map['status'] = Variable<String>(status);
+    map['payload'] = Variable<String>(payload);
+    map['synced_at'] = Variable<DateTime>(syncedAt);
+    return map;
+  }
+
+  MfgLocalMachinesCompanion toCompanion(bool nullToAbsent) {
+    return MfgLocalMachinesCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      code: Value(code),
+      name: Value(name),
+      workCenterId: Value(workCenterId),
+      status: Value(status),
+      payload: Value(payload),
+      syncedAt: Value(syncedAt),
+    );
+  }
+
+  factory MfgMachineRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgMachineRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+      workCenterId: serializer.fromJson<String>(json['workCenterId']),
+      status: serializer.fromJson<String>(json['status']),
+      payload: serializer.fromJson<String>(json['payload']),
+      syncedAt: serializer.fromJson<DateTime>(json['syncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'name': serializer.toJson<String>(name),
+      'workCenterId': serializer.toJson<String>(workCenterId),
+      'status': serializer.toJson<String>(status),
+      'payload': serializer.toJson<String>(payload),
+      'syncedAt': serializer.toJson<DateTime>(syncedAt),
+    };
+  }
+
+  MfgMachineRow copyWith({
+    String? tenantId,
+    String? id,
+    String? code,
+    String? name,
+    String? workCenterId,
+    String? status,
+    String? payload,
+    DateTime? syncedAt,
+  }) => MfgMachineRow(
+    tenantId: tenantId ?? this.tenantId,
+    id: id ?? this.id,
+    code: code ?? this.code,
+    name: name ?? this.name,
+    workCenterId: workCenterId ?? this.workCenterId,
+    status: status ?? this.status,
+    payload: payload ?? this.payload,
+    syncedAt: syncedAt ?? this.syncedAt,
+  );
+  MfgMachineRow copyWithCompanion(MfgLocalMachinesCompanion data) {
+    return MfgMachineRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+      workCenterId: data.workCenterId.present
+          ? data.workCenterId.value
+          : this.workCenterId,
+      status: data.status.present ? data.status.value : this.status,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgMachineRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('workCenterId: $workCenterId, ')
+          ..write('status: $status, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    tenantId,
+    id,
+    code,
+    name,
+    workCenterId,
+    status,
+    payload,
+    syncedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgMachineRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.name == this.name &&
+          other.workCenterId == this.workCenterId &&
+          other.status == this.status &&
+          other.payload == this.payload &&
+          other.syncedAt == this.syncedAt);
+}
+
+class MfgLocalMachinesCompanion extends UpdateCompanion<MfgMachineRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> name;
+  final Value<String> workCenterId;
+  final Value<String> status;
+  final Value<String> payload;
+  final Value<DateTime> syncedAt;
+  final Value<int> rowid;
+  const MfgLocalMachinesCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+    this.workCenterId = const Value.absent(),
+    this.status = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgLocalMachinesCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String code,
+    required String name,
+    required String workCenterId,
+    this.status = const Value.absent(),
+    required String payload,
+    required DateTime syncedAt,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       code = Value(code),
+       name = Value(name),
+       workCenterId = Value(workCenterId),
+       payload = Value(payload),
+       syncedAt = Value(syncedAt);
+  static Insertable<MfgMachineRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? name,
+    Expression<String>? workCenterId,
+    Expression<String>? status,
+    Expression<String>? payload,
+    Expression<DateTime>? syncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+      if (workCenterId != null) 'work_center_id': workCenterId,
+      if (status != null) 'status': status,
+      if (payload != null) 'payload': payload,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgLocalMachinesCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? name,
+    Value<String>? workCenterId,
+    Value<String>? status,
+    Value<String>? payload,
+    Value<DateTime>? syncedAt,
+    Value<int>? rowid,
+  }) {
+    return MfgLocalMachinesCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      code: code ?? this.code,
+      name: name ?? this.name,
+      workCenterId: workCenterId ?? this.workCenterId,
+      status: status ?? this.status,
+      payload: payload ?? this.payload,
+      syncedAt: syncedAt ?? this.syncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (workCenterId.present) {
+      map['work_center_id'] = Variable<String>(workCenterId.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgLocalMachinesCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('workCenterId: $workCenterId, ')
+          ..write('status: $status, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgLocalRoutingsTable extends MfgLocalRoutings
+    with TableInfo<$MfgLocalRoutingsTable, MfgRoutingRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgLocalRoutingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _routingNumberMeta = const VerificationMeta(
+    'routingNumber',
+  );
+  @override
+  late final GeneratedColumn<String> routingNumber = GeneratedColumn<String>(
+    'routing_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _revisionMeta = const VerificationMeta(
+    'revision',
+  );
+  @override
+  late final GeneratedColumn<String> revision = GeneratedColumn<String>(
+    'revision',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isDefaultMeta = const VerificationMeta(
+    'isDefault',
+  );
+  @override
+  late final GeneratedColumn<bool> isDefault = GeneratedColumn<bool>(
+    'is_default',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_default" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    id,
+    routingNumber,
+    name,
+    revision,
+    status,
+    isDefault,
+    payload,
+    syncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_routings';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgRoutingRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('routing_number')) {
+      context.handle(
+        _routingNumberMeta,
+        routingNumber.isAcceptableOrUnknown(
+          data['routing_number']!,
+          _routingNumberMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_routingNumberMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('revision')) {
+      context.handle(
+        _revisionMeta,
+        revision.isAcceptableOrUnknown(data['revision']!, _revisionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_revisionMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('is_default')) {
+      context.handle(
+        _isDefaultMeta,
+        isDefault.isAcceptableOrUnknown(data['is_default']!, _isDefaultMeta),
+      );
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_syncedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  MfgRoutingRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgRoutingRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      routingNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}routing_number'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      revision: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}revision'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      isDefault: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_default'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgLocalRoutingsTable createAlias(String alias) {
+    return $MfgLocalRoutingsTable(attachedDatabase, alias);
+  }
+}
+
+class MfgRoutingRow extends DataClass implements Insertable<MfgRoutingRow> {
+  final String tenantId;
+  final String id;
+  final String routingNumber;
+  final String name;
+  final String revision;
+  final String status;
+  final bool isDefault;
+  final String payload;
+  final DateTime syncedAt;
+  const MfgRoutingRow({
+    required this.tenantId,
+    required this.id,
+    required this.routingNumber,
+    required this.name,
+    required this.revision,
+    required this.status,
+    required this.isDefault,
+    required this.payload,
+    required this.syncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['routing_number'] = Variable<String>(routingNumber);
+    map['name'] = Variable<String>(name);
+    map['revision'] = Variable<String>(revision);
+    map['status'] = Variable<String>(status);
+    map['is_default'] = Variable<bool>(isDefault);
+    map['payload'] = Variable<String>(payload);
+    map['synced_at'] = Variable<DateTime>(syncedAt);
+    return map;
+  }
+
+  MfgLocalRoutingsCompanion toCompanion(bool nullToAbsent) {
+    return MfgLocalRoutingsCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      routingNumber: Value(routingNumber),
+      name: Value(name),
+      revision: Value(revision),
+      status: Value(status),
+      isDefault: Value(isDefault),
+      payload: Value(payload),
+      syncedAt: Value(syncedAt),
+    );
+  }
+
+  factory MfgRoutingRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgRoutingRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      routingNumber: serializer.fromJson<String>(json['routingNumber']),
+      name: serializer.fromJson<String>(json['name']),
+      revision: serializer.fromJson<String>(json['revision']),
+      status: serializer.fromJson<String>(json['status']),
+      isDefault: serializer.fromJson<bool>(json['isDefault']),
+      payload: serializer.fromJson<String>(json['payload']),
+      syncedAt: serializer.fromJson<DateTime>(json['syncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'routingNumber': serializer.toJson<String>(routingNumber),
+      'name': serializer.toJson<String>(name),
+      'revision': serializer.toJson<String>(revision),
+      'status': serializer.toJson<String>(status),
+      'isDefault': serializer.toJson<bool>(isDefault),
+      'payload': serializer.toJson<String>(payload),
+      'syncedAt': serializer.toJson<DateTime>(syncedAt),
+    };
+  }
+
+  MfgRoutingRow copyWith({
+    String? tenantId,
+    String? id,
+    String? routingNumber,
+    String? name,
+    String? revision,
+    String? status,
+    bool? isDefault,
+    String? payload,
+    DateTime? syncedAt,
+  }) => MfgRoutingRow(
+    tenantId: tenantId ?? this.tenantId,
+    id: id ?? this.id,
+    routingNumber: routingNumber ?? this.routingNumber,
+    name: name ?? this.name,
+    revision: revision ?? this.revision,
+    status: status ?? this.status,
+    isDefault: isDefault ?? this.isDefault,
+    payload: payload ?? this.payload,
+    syncedAt: syncedAt ?? this.syncedAt,
+  );
+  MfgRoutingRow copyWithCompanion(MfgLocalRoutingsCompanion data) {
+    return MfgRoutingRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      routingNumber: data.routingNumber.present
+          ? data.routingNumber.value
+          : this.routingNumber,
+      name: data.name.present ? data.name.value : this.name,
+      revision: data.revision.present ? data.revision.value : this.revision,
+      status: data.status.present ? data.status.value : this.status,
+      isDefault: data.isDefault.present ? data.isDefault.value : this.isDefault,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgRoutingRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('routingNumber: $routingNumber, ')
+          ..write('name: $name, ')
+          ..write('revision: $revision, ')
+          ..write('status: $status, ')
+          ..write('isDefault: $isDefault, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    tenantId,
+    id,
+    routingNumber,
+    name,
+    revision,
+    status,
+    isDefault,
+    payload,
+    syncedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgRoutingRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.routingNumber == this.routingNumber &&
+          other.name == this.name &&
+          other.revision == this.revision &&
+          other.status == this.status &&
+          other.isDefault == this.isDefault &&
+          other.payload == this.payload &&
+          other.syncedAt == this.syncedAt);
+}
+
+class MfgLocalRoutingsCompanion extends UpdateCompanion<MfgRoutingRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> routingNumber;
+  final Value<String> name;
+  final Value<String> revision;
+  final Value<String> status;
+  final Value<bool> isDefault;
+  final Value<String> payload;
+  final Value<DateTime> syncedAt;
+  final Value<int> rowid;
+  const MfgLocalRoutingsCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.routingNumber = const Value.absent(),
+    this.name = const Value.absent(),
+    this.revision = const Value.absent(),
+    this.status = const Value.absent(),
+    this.isDefault = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgLocalRoutingsCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String routingNumber,
+    required String name,
+    required String revision,
+    required String status,
+    this.isDefault = const Value.absent(),
+    required String payload,
+    required DateTime syncedAt,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       routingNumber = Value(routingNumber),
+       name = Value(name),
+       revision = Value(revision),
+       status = Value(status),
+       payload = Value(payload),
+       syncedAt = Value(syncedAt);
+  static Insertable<MfgRoutingRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? routingNumber,
+    Expression<String>? name,
+    Expression<String>? revision,
+    Expression<String>? status,
+    Expression<bool>? isDefault,
+    Expression<String>? payload,
+    Expression<DateTime>? syncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (routingNumber != null) 'routing_number': routingNumber,
+      if (name != null) 'name': name,
+      if (revision != null) 'revision': revision,
+      if (status != null) 'status': status,
+      if (isDefault != null) 'is_default': isDefault,
+      if (payload != null) 'payload': payload,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgLocalRoutingsCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? routingNumber,
+    Value<String>? name,
+    Value<String>? revision,
+    Value<String>? status,
+    Value<bool>? isDefault,
+    Value<String>? payload,
+    Value<DateTime>? syncedAt,
+    Value<int>? rowid,
+  }) {
+    return MfgLocalRoutingsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      routingNumber: routingNumber ?? this.routingNumber,
+      name: name ?? this.name,
+      revision: revision ?? this.revision,
+      status: status ?? this.status,
+      isDefault: isDefault ?? this.isDefault,
+      payload: payload ?? this.payload,
+      syncedAt: syncedAt ?? this.syncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (routingNumber.present) {
+      map['routing_number'] = Variable<String>(routingNumber.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (revision.present) {
+      map['revision'] = Variable<String>(revision.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (isDefault.present) {
+      map['is_default'] = Variable<bool>(isDefault.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgLocalRoutingsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('routingNumber: $routingNumber, ')
+          ..write('name: $name, ')
+          ..write('revision: $revision, ')
+          ..write('status: $status, ')
+          ..write('isDefault: $isDefault, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgLocalRoutingStepsTable extends MfgLocalRoutingSteps
+    with TableInfo<$MfgLocalRoutingStepsTable, MfgRoutingStepRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgLocalRoutingStepsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _routingIdMeta = const VerificationMeta(
+    'routingId',
+  );
+  @override
+  late final GeneratedColumn<String> routingId = GeneratedColumn<String>(
+    'routing_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sequenceMeta = const VerificationMeta(
+    'sequence',
+  );
+  @override
+  late final GeneratedColumn<int> sequence = GeneratedColumn<int>(
+    'sequence',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _workCenterIdMeta = const VerificationMeta(
+    'workCenterId',
+  );
+  @override
+  late final GeneratedColumn<String> workCenterId = GeneratedColumn<String>(
+    'work_center_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _machineCenterIdMeta = const VerificationMeta(
+    'machineCenterId',
+  );
+  @override
+  late final GeneratedColumn<String> machineCenterId = GeneratedColumn<String>(
+    'machine_center_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    id,
+    routingId,
+    sequence,
+    workCenterId,
+    machineCenterId,
+    payload,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_routing_steps';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgRoutingStepRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('routing_id')) {
+      context.handle(
+        _routingIdMeta,
+        routingId.isAcceptableOrUnknown(data['routing_id']!, _routingIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_routingIdMeta);
+    }
+    if (data.containsKey('sequence')) {
+      context.handle(
+        _sequenceMeta,
+        sequence.isAcceptableOrUnknown(data['sequence']!, _sequenceMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sequenceMeta);
+    }
+    if (data.containsKey('work_center_id')) {
+      context.handle(
+        _workCenterIdMeta,
+        workCenterId.isAcceptableOrUnknown(
+          data['work_center_id']!,
+          _workCenterIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_workCenterIdMeta);
+    }
+    if (data.containsKey('machine_center_id')) {
+      context.handle(
+        _machineCenterIdMeta,
+        machineCenterId.isAcceptableOrUnknown(
+          data['machine_center_id']!,
+          _machineCenterIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  MfgRoutingStepRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgRoutingStepRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      routingId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}routing_id'],
+      )!,
+      sequence: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sequence'],
+      )!,
+      workCenterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}work_center_id'],
+      )!,
+      machineCenterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}machine_center_id'],
+      ),
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgLocalRoutingStepsTable createAlias(String alias) {
+    return $MfgLocalRoutingStepsTable(attachedDatabase, alias);
+  }
+}
+
+class MfgRoutingStepRow extends DataClass
+    implements Insertable<MfgRoutingStepRow> {
+  final String tenantId;
+  final String id;
+  final String routingId;
+  final int sequence;
+  final String workCenterId;
+  final String? machineCenterId;
+  final String payload;
+  const MfgRoutingStepRow({
+    required this.tenantId,
+    required this.id,
+    required this.routingId,
+    required this.sequence,
+    required this.workCenterId,
+    this.machineCenterId,
+    required this.payload,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['routing_id'] = Variable<String>(routingId);
+    map['sequence'] = Variable<int>(sequence);
+    map['work_center_id'] = Variable<String>(workCenterId);
+    if (!nullToAbsent || machineCenterId != null) {
+      map['machine_center_id'] = Variable<String>(machineCenterId);
+    }
+    map['payload'] = Variable<String>(payload);
+    return map;
+  }
+
+  MfgLocalRoutingStepsCompanion toCompanion(bool nullToAbsent) {
+    return MfgLocalRoutingStepsCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      routingId: Value(routingId),
+      sequence: Value(sequence),
+      workCenterId: Value(workCenterId),
+      machineCenterId: machineCenterId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(machineCenterId),
+      payload: Value(payload),
+    );
+  }
+
+  factory MfgRoutingStepRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgRoutingStepRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      routingId: serializer.fromJson<String>(json['routingId']),
+      sequence: serializer.fromJson<int>(json['sequence']),
+      workCenterId: serializer.fromJson<String>(json['workCenterId']),
+      machineCenterId: serializer.fromJson<String?>(json['machineCenterId']),
+      payload: serializer.fromJson<String>(json['payload']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'routingId': serializer.toJson<String>(routingId),
+      'sequence': serializer.toJson<int>(sequence),
+      'workCenterId': serializer.toJson<String>(workCenterId),
+      'machineCenterId': serializer.toJson<String?>(machineCenterId),
+      'payload': serializer.toJson<String>(payload),
+    };
+  }
+
+  MfgRoutingStepRow copyWith({
+    String? tenantId,
+    String? id,
+    String? routingId,
+    int? sequence,
+    String? workCenterId,
+    Value<String?> machineCenterId = const Value.absent(),
+    String? payload,
+  }) => MfgRoutingStepRow(
+    tenantId: tenantId ?? this.tenantId,
+    id: id ?? this.id,
+    routingId: routingId ?? this.routingId,
+    sequence: sequence ?? this.sequence,
+    workCenterId: workCenterId ?? this.workCenterId,
+    machineCenterId: machineCenterId.present
+        ? machineCenterId.value
+        : this.machineCenterId,
+    payload: payload ?? this.payload,
+  );
+  MfgRoutingStepRow copyWithCompanion(MfgLocalRoutingStepsCompanion data) {
+    return MfgRoutingStepRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      routingId: data.routingId.present ? data.routingId.value : this.routingId,
+      sequence: data.sequence.present ? data.sequence.value : this.sequence,
+      workCenterId: data.workCenterId.present
+          ? data.workCenterId.value
+          : this.workCenterId,
+      machineCenterId: data.machineCenterId.present
+          ? data.machineCenterId.value
+          : this.machineCenterId,
+      payload: data.payload.present ? data.payload.value : this.payload,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgRoutingStepRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('routingId: $routingId, ')
+          ..write('sequence: $sequence, ')
+          ..write('workCenterId: $workCenterId, ')
+          ..write('machineCenterId: $machineCenterId, ')
+          ..write('payload: $payload')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    tenantId,
+    id,
+    routingId,
+    sequence,
+    workCenterId,
+    machineCenterId,
+    payload,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgRoutingStepRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.routingId == this.routingId &&
+          other.sequence == this.sequence &&
+          other.workCenterId == this.workCenterId &&
+          other.machineCenterId == this.machineCenterId &&
+          other.payload == this.payload);
+}
+
+class MfgLocalRoutingStepsCompanion extends UpdateCompanion<MfgRoutingStepRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> routingId;
+  final Value<int> sequence;
+  final Value<String> workCenterId;
+  final Value<String?> machineCenterId;
+  final Value<String> payload;
+  final Value<int> rowid;
+  const MfgLocalRoutingStepsCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.routingId = const Value.absent(),
+    this.sequence = const Value.absent(),
+    this.workCenterId = const Value.absent(),
+    this.machineCenterId = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgLocalRoutingStepsCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String routingId,
+    required int sequence,
+    required String workCenterId,
+    this.machineCenterId = const Value.absent(),
+    required String payload,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       routingId = Value(routingId),
+       sequence = Value(sequence),
+       workCenterId = Value(workCenterId),
+       payload = Value(payload);
+  static Insertable<MfgRoutingStepRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? routingId,
+    Expression<int>? sequence,
+    Expression<String>? workCenterId,
+    Expression<String>? machineCenterId,
+    Expression<String>? payload,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (routingId != null) 'routing_id': routingId,
+      if (sequence != null) 'sequence': sequence,
+      if (workCenterId != null) 'work_center_id': workCenterId,
+      if (machineCenterId != null) 'machine_center_id': machineCenterId,
+      if (payload != null) 'payload': payload,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgLocalRoutingStepsCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? routingId,
+    Value<int>? sequence,
+    Value<String>? workCenterId,
+    Value<String?>? machineCenterId,
+    Value<String>? payload,
+    Value<int>? rowid,
+  }) {
+    return MfgLocalRoutingStepsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      routingId: routingId ?? this.routingId,
+      sequence: sequence ?? this.sequence,
+      workCenterId: workCenterId ?? this.workCenterId,
+      machineCenterId: machineCenterId ?? this.machineCenterId,
+      payload: payload ?? this.payload,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (routingId.present) {
+      map['routing_id'] = Variable<String>(routingId.value);
+    }
+    if (sequence.present) {
+      map['sequence'] = Variable<int>(sequence.value);
+    }
+    if (workCenterId.present) {
+      map['work_center_id'] = Variable<String>(workCenterId.value);
+    }
+    if (machineCenterId.present) {
+      map['machine_center_id'] = Variable<String>(machineCenterId.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgLocalRoutingStepsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('routingId: $routingId, ')
+          ..write('sequence: $sequence, ')
+          ..write('workCenterId: $workCenterId, ')
+          ..write('machineCenterId: $machineCenterId, ')
+          ..write('payload: $payload, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgLocalOeeSummariesTable extends MfgLocalOeeSummaries
+    with TableInfo<$MfgLocalOeeSummariesTable, MfgOeeSummaryRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgLocalOeeSummariesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _scopeKeyMeta = const VerificationMeta(
+    'scopeKey',
+  );
+  @override
+  late final GeneratedColumn<String> scopeKey = GeneratedColumn<String>(
+    'scope_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _workCenterIdMeta = const VerificationMeta(
+    'workCenterId',
+  );
+  @override
+  late final GeneratedColumn<String> workCenterId = GeneratedColumn<String>(
+    'work_center_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _machineCenterIdMeta = const VerificationMeta(
+    'machineCenterId',
+  );
+  @override
+  late final GeneratedColumn<String> machineCenterId = GeneratedColumn<String>(
+    'machine_center_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _fromAtMeta = const VerificationMeta('fromAt');
+  @override
+  late final GeneratedColumn<DateTime> fromAt = GeneratedColumn<DateTime>(
+    'from_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _toAtMeta = const VerificationMeta('toAt');
+  @override
+  late final GeneratedColumn<DateTime> toAt = GeneratedColumn<DateTime>(
+    'to_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    scopeKey,
+    workCenterId,
+    machineCenterId,
+    fromAt,
+    toAt,
+    payload,
+    syncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_oee_summaries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgOeeSummaryRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('scope_key')) {
+      context.handle(
+        _scopeKeyMeta,
+        scopeKey.isAcceptableOrUnknown(data['scope_key']!, _scopeKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_scopeKeyMeta);
+    }
+    if (data.containsKey('work_center_id')) {
+      context.handle(
+        _workCenterIdMeta,
+        workCenterId.isAcceptableOrUnknown(
+          data['work_center_id']!,
+          _workCenterIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_workCenterIdMeta);
+    }
+    if (data.containsKey('machine_center_id')) {
+      context.handle(
+        _machineCenterIdMeta,
+        machineCenterId.isAcceptableOrUnknown(
+          data['machine_center_id']!,
+          _machineCenterIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('from_at')) {
+      context.handle(
+        _fromAtMeta,
+        fromAt.isAcceptableOrUnknown(data['from_at']!, _fromAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fromAtMeta);
+    }
+    if (data.containsKey('to_at')) {
+      context.handle(
+        _toAtMeta,
+        toAt.isAcceptableOrUnknown(data['to_at']!, _toAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_toAtMeta);
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_syncedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, scopeKey};
+  @override
+  MfgOeeSummaryRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgOeeSummaryRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      scopeKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scope_key'],
+      )!,
+      workCenterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}work_center_id'],
+      )!,
+      machineCenterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}machine_center_id'],
+      ),
+      fromAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}from_at'],
+      )!,
+      toAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}to_at'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgLocalOeeSummariesTable createAlias(String alias) {
+    return $MfgLocalOeeSummariesTable(attachedDatabase, alias);
+  }
+}
+
+class MfgOeeSummaryRow extends DataClass
+    implements Insertable<MfgOeeSummaryRow> {
+  final String tenantId;
+
+  /// `<workCenterId>:<machineId|all>`.
+  final String scopeKey;
+  final String workCenterId;
+  final String? machineCenterId;
+  final DateTime fromAt;
+  final DateTime toAt;
+  final String payload;
+  final DateTime syncedAt;
+  const MfgOeeSummaryRow({
+    required this.tenantId,
+    required this.scopeKey,
+    required this.workCenterId,
+    this.machineCenterId,
+    required this.fromAt,
+    required this.toAt,
+    required this.payload,
+    required this.syncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['scope_key'] = Variable<String>(scopeKey);
+    map['work_center_id'] = Variable<String>(workCenterId);
+    if (!nullToAbsent || machineCenterId != null) {
+      map['machine_center_id'] = Variable<String>(machineCenterId);
+    }
+    map['from_at'] = Variable<DateTime>(fromAt);
+    map['to_at'] = Variable<DateTime>(toAt);
+    map['payload'] = Variable<String>(payload);
+    map['synced_at'] = Variable<DateTime>(syncedAt);
+    return map;
+  }
+
+  MfgLocalOeeSummariesCompanion toCompanion(bool nullToAbsent) {
+    return MfgLocalOeeSummariesCompanion(
+      tenantId: Value(tenantId),
+      scopeKey: Value(scopeKey),
+      workCenterId: Value(workCenterId),
+      machineCenterId: machineCenterId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(machineCenterId),
+      fromAt: Value(fromAt),
+      toAt: Value(toAt),
+      payload: Value(payload),
+      syncedAt: Value(syncedAt),
+    );
+  }
+
+  factory MfgOeeSummaryRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgOeeSummaryRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      scopeKey: serializer.fromJson<String>(json['scopeKey']),
+      workCenterId: serializer.fromJson<String>(json['workCenterId']),
+      machineCenterId: serializer.fromJson<String?>(json['machineCenterId']),
+      fromAt: serializer.fromJson<DateTime>(json['fromAt']),
+      toAt: serializer.fromJson<DateTime>(json['toAt']),
+      payload: serializer.fromJson<String>(json['payload']),
+      syncedAt: serializer.fromJson<DateTime>(json['syncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'scopeKey': serializer.toJson<String>(scopeKey),
+      'workCenterId': serializer.toJson<String>(workCenterId),
+      'machineCenterId': serializer.toJson<String?>(machineCenterId),
+      'fromAt': serializer.toJson<DateTime>(fromAt),
+      'toAt': serializer.toJson<DateTime>(toAt),
+      'payload': serializer.toJson<String>(payload),
+      'syncedAt': serializer.toJson<DateTime>(syncedAt),
+    };
+  }
+
+  MfgOeeSummaryRow copyWith({
+    String? tenantId,
+    String? scopeKey,
+    String? workCenterId,
+    Value<String?> machineCenterId = const Value.absent(),
+    DateTime? fromAt,
+    DateTime? toAt,
+    String? payload,
+    DateTime? syncedAt,
+  }) => MfgOeeSummaryRow(
+    tenantId: tenantId ?? this.tenantId,
+    scopeKey: scopeKey ?? this.scopeKey,
+    workCenterId: workCenterId ?? this.workCenterId,
+    machineCenterId: machineCenterId.present
+        ? machineCenterId.value
+        : this.machineCenterId,
+    fromAt: fromAt ?? this.fromAt,
+    toAt: toAt ?? this.toAt,
+    payload: payload ?? this.payload,
+    syncedAt: syncedAt ?? this.syncedAt,
+  );
+  MfgOeeSummaryRow copyWithCompanion(MfgLocalOeeSummariesCompanion data) {
+    return MfgOeeSummaryRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      scopeKey: data.scopeKey.present ? data.scopeKey.value : this.scopeKey,
+      workCenterId: data.workCenterId.present
+          ? data.workCenterId.value
+          : this.workCenterId,
+      machineCenterId: data.machineCenterId.present
+          ? data.machineCenterId.value
+          : this.machineCenterId,
+      fromAt: data.fromAt.present ? data.fromAt.value : this.fromAt,
+      toAt: data.toAt.present ? data.toAt.value : this.toAt,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgOeeSummaryRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('scopeKey: $scopeKey, ')
+          ..write('workCenterId: $workCenterId, ')
+          ..write('machineCenterId: $machineCenterId, ')
+          ..write('fromAt: $fromAt, ')
+          ..write('toAt: $toAt, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    tenantId,
+    scopeKey,
+    workCenterId,
+    machineCenterId,
+    fromAt,
+    toAt,
+    payload,
+    syncedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgOeeSummaryRow &&
+          other.tenantId == this.tenantId &&
+          other.scopeKey == this.scopeKey &&
+          other.workCenterId == this.workCenterId &&
+          other.machineCenterId == this.machineCenterId &&
+          other.fromAt == this.fromAt &&
+          other.toAt == this.toAt &&
+          other.payload == this.payload &&
+          other.syncedAt == this.syncedAt);
+}
+
+class MfgLocalOeeSummariesCompanion extends UpdateCompanion<MfgOeeSummaryRow> {
+  final Value<String> tenantId;
+  final Value<String> scopeKey;
+  final Value<String> workCenterId;
+  final Value<String?> machineCenterId;
+  final Value<DateTime> fromAt;
+  final Value<DateTime> toAt;
+  final Value<String> payload;
+  final Value<DateTime> syncedAt;
+  final Value<int> rowid;
+  const MfgLocalOeeSummariesCompanion({
+    this.tenantId = const Value.absent(),
+    this.scopeKey = const Value.absent(),
+    this.workCenterId = const Value.absent(),
+    this.machineCenterId = const Value.absent(),
+    this.fromAt = const Value.absent(),
+    this.toAt = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgLocalOeeSummariesCompanion.insert({
+    required String tenantId,
+    required String scopeKey,
+    required String workCenterId,
+    this.machineCenterId = const Value.absent(),
+    required DateTime fromAt,
+    required DateTime toAt,
+    required String payload,
+    required DateTime syncedAt,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       scopeKey = Value(scopeKey),
+       workCenterId = Value(workCenterId),
+       fromAt = Value(fromAt),
+       toAt = Value(toAt),
+       payload = Value(payload),
+       syncedAt = Value(syncedAt);
+  static Insertable<MfgOeeSummaryRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? scopeKey,
+    Expression<String>? workCenterId,
+    Expression<String>? machineCenterId,
+    Expression<DateTime>? fromAt,
+    Expression<DateTime>? toAt,
+    Expression<String>? payload,
+    Expression<DateTime>? syncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (scopeKey != null) 'scope_key': scopeKey,
+      if (workCenterId != null) 'work_center_id': workCenterId,
+      if (machineCenterId != null) 'machine_center_id': machineCenterId,
+      if (fromAt != null) 'from_at': fromAt,
+      if (toAt != null) 'to_at': toAt,
+      if (payload != null) 'payload': payload,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgLocalOeeSummariesCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? scopeKey,
+    Value<String>? workCenterId,
+    Value<String?>? machineCenterId,
+    Value<DateTime>? fromAt,
+    Value<DateTime>? toAt,
+    Value<String>? payload,
+    Value<DateTime>? syncedAt,
+    Value<int>? rowid,
+  }) {
+    return MfgLocalOeeSummariesCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      scopeKey: scopeKey ?? this.scopeKey,
+      workCenterId: workCenterId ?? this.workCenterId,
+      machineCenterId: machineCenterId ?? this.machineCenterId,
+      fromAt: fromAt ?? this.fromAt,
+      toAt: toAt ?? this.toAt,
+      payload: payload ?? this.payload,
+      syncedAt: syncedAt ?? this.syncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (scopeKey.present) {
+      map['scope_key'] = Variable<String>(scopeKey.value);
+    }
+    if (workCenterId.present) {
+      map['work_center_id'] = Variable<String>(workCenterId.value);
+    }
+    if (machineCenterId.present) {
+      map['machine_center_id'] = Variable<String>(machineCenterId.value);
+    }
+    if (fromAt.present) {
+      map['from_at'] = Variable<DateTime>(fromAt.value);
+    }
+    if (toAt.present) {
+      map['to_at'] = Variable<DateTime>(toAt.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgLocalOeeSummariesCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('scopeKey: $scopeKey, ')
+          ..write('workCenterId: $workCenterId, ')
+          ..write('machineCenterId: $machineCenterId, ')
+          ..write('fromAt: $fromAt, ')
+          ..write('toAt: $toAt, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -9688,8 +12216,23 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $LocalPendingApprovalsTable(this);
   late final $LocalApprovalAuditLogsTable localApprovalAuditLogs =
       $LocalApprovalAuditLogsTable(this);
+  late final $MfgLocalWorkCentersTable mfgLocalWorkCenters =
+      $MfgLocalWorkCentersTable(this);
+  late final $MfgLocalMachinesTable mfgLocalMachines = $MfgLocalMachinesTable(
+    this,
+  );
+  late final $MfgLocalRoutingsTable mfgLocalRoutings = $MfgLocalRoutingsTable(
+    this,
+  );
+  late final $MfgLocalRoutingStepsTable mfgLocalRoutingSteps =
+      $MfgLocalRoutingStepsTable(this);
+  late final $MfgLocalOeeSummariesTable mfgLocalOeeSummaries =
+      $MfgLocalOeeSummariesTable(this);
   late final PurchaseRequisitionDao purchaseRequisitionDao =
       PurchaseRequisitionDao(this as AppDatabase);
+  late final ManufacturingDao manufacturingDao = ManufacturingDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -9708,6 +12251,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     localPurchaseRequisitionLines,
     localPendingApprovals,
     localApprovalAuditLogs,
+    mfgLocalWorkCenters,
+    mfgLocalMachines,
+    mfgLocalRoutings,
+    mfgLocalRoutingSteps,
+    mfgLocalOeeSummaries,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -14738,6 +17286,1395 @@ typedef $$LocalApprovalAuditLogsTableProcessedTableManager =
       LocalApprovalAuditLogRow,
       PrefetchHooks Function()
     >;
+typedef $$MfgLocalWorkCentersTableCreateCompanionBuilder =
+    MfgLocalWorkCentersCompanion Function({
+      required String tenantId,
+      required String id,
+      required String code,
+      required String name,
+      Value<String> status,
+      required String payload,
+      required DateTime syncedAt,
+      Value<int> rowid,
+    });
+typedef $$MfgLocalWorkCentersTableUpdateCompanionBuilder =
+    MfgLocalWorkCentersCompanion Function({
+      Value<String> tenantId,
+      Value<String> id,
+      Value<String> code,
+      Value<String> name,
+      Value<String> status,
+      Value<String> payload,
+      Value<DateTime> syncedAt,
+      Value<int> rowid,
+    });
+
+class $$MfgLocalWorkCentersTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgLocalWorkCentersTable> {
+  $$MfgLocalWorkCentersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgLocalWorkCentersTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgLocalWorkCentersTable> {
+  $$MfgLocalWorkCentersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgLocalWorkCentersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgLocalWorkCentersTable> {
+  $$MfgLocalWorkCentersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+}
+
+class $$MfgLocalWorkCentersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgLocalWorkCentersTable,
+          MfgWorkCenterRow,
+          $$MfgLocalWorkCentersTableFilterComposer,
+          $$MfgLocalWorkCentersTableOrderingComposer,
+          $$MfgLocalWorkCentersTableAnnotationComposer,
+          $$MfgLocalWorkCentersTableCreateCompanionBuilder,
+          $$MfgLocalWorkCentersTableUpdateCompanionBuilder,
+          (
+            MfgWorkCenterRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MfgLocalWorkCentersTable,
+              MfgWorkCenterRow
+            >,
+          ),
+          MfgWorkCenterRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgLocalWorkCentersTableTableManager(
+    _$AppDatabase db,
+    $MfgLocalWorkCentersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgLocalWorkCentersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgLocalWorkCentersTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$MfgLocalWorkCentersTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalWorkCentersCompanion(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                name: name,
+                status: status,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String code,
+                required String name,
+                Value<String> status = const Value.absent(),
+                required String payload,
+                required DateTime syncedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalWorkCentersCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                name: name,
+                status: status,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgLocalWorkCentersTable, MfgWorkCenterRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgLocalWorkCentersTable,
+                    MfgWorkCenterRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgLocalWorkCentersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgLocalWorkCentersTable,
+      MfgWorkCenterRow,
+      $$MfgLocalWorkCentersTableFilterComposer,
+      $$MfgLocalWorkCentersTableOrderingComposer,
+      $$MfgLocalWorkCentersTableAnnotationComposer,
+      $$MfgLocalWorkCentersTableCreateCompanionBuilder,
+      $$MfgLocalWorkCentersTableUpdateCompanionBuilder,
+      (
+        MfgWorkCenterRow,
+        BaseReferences<
+          _$AppDatabase,
+          $MfgLocalWorkCentersTable,
+          MfgWorkCenterRow
+        >,
+      ),
+      MfgWorkCenterRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgLocalMachinesTableCreateCompanionBuilder =
+    MfgLocalMachinesCompanion Function({
+      required String tenantId,
+      required String id,
+      required String code,
+      required String name,
+      required String workCenterId,
+      Value<String> status,
+      required String payload,
+      required DateTime syncedAt,
+      Value<int> rowid,
+    });
+typedef $$MfgLocalMachinesTableUpdateCompanionBuilder =
+    MfgLocalMachinesCompanion Function({
+      Value<String> tenantId,
+      Value<String> id,
+      Value<String> code,
+      Value<String> name,
+      Value<String> workCenterId,
+      Value<String> status,
+      Value<String> payload,
+      Value<DateTime> syncedAt,
+      Value<int> rowid,
+    });
+
+class $$MfgLocalMachinesTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgLocalMachinesTable> {
+  $$MfgLocalMachinesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgLocalMachinesTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgLocalMachinesTable> {
+  $$MfgLocalMachinesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgLocalMachinesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgLocalMachinesTable> {
+  $$MfgLocalMachinesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+}
+
+class $$MfgLocalMachinesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgLocalMachinesTable,
+          MfgMachineRow,
+          $$MfgLocalMachinesTableFilterComposer,
+          $$MfgLocalMachinesTableOrderingComposer,
+          $$MfgLocalMachinesTableAnnotationComposer,
+          $$MfgLocalMachinesTableCreateCompanionBuilder,
+          $$MfgLocalMachinesTableUpdateCompanionBuilder,
+          (
+            MfgMachineRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MfgLocalMachinesTable,
+              MfgMachineRow
+            >,
+          ),
+          MfgMachineRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgLocalMachinesTableTableManager(
+    _$AppDatabase db,
+    $MfgLocalMachinesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgLocalMachinesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgLocalMachinesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MfgLocalMachinesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> workCenterId = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalMachinesCompanion(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                name: name,
+                workCenterId: workCenterId,
+                status: status,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String code,
+                required String name,
+                required String workCenterId,
+                Value<String> status = const Value.absent(),
+                required String payload,
+                required DateTime syncedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalMachinesCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                name: name,
+                workCenterId: workCenterId,
+                status: status,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgLocalMachinesTable, MfgMachineRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgLocalMachinesTable,
+                    MfgMachineRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgLocalMachinesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgLocalMachinesTable,
+      MfgMachineRow,
+      $$MfgLocalMachinesTableFilterComposer,
+      $$MfgLocalMachinesTableOrderingComposer,
+      $$MfgLocalMachinesTableAnnotationComposer,
+      $$MfgLocalMachinesTableCreateCompanionBuilder,
+      $$MfgLocalMachinesTableUpdateCompanionBuilder,
+      (
+        MfgMachineRow,
+        BaseReferences<_$AppDatabase, $MfgLocalMachinesTable, MfgMachineRow>,
+      ),
+      MfgMachineRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgLocalRoutingsTableCreateCompanionBuilder =
+    MfgLocalRoutingsCompanion Function({
+      required String tenantId,
+      required String id,
+      required String routingNumber,
+      required String name,
+      required String revision,
+      required String status,
+      Value<bool> isDefault,
+      required String payload,
+      required DateTime syncedAt,
+      Value<int> rowid,
+    });
+typedef $$MfgLocalRoutingsTableUpdateCompanionBuilder =
+    MfgLocalRoutingsCompanion Function({
+      Value<String> tenantId,
+      Value<String> id,
+      Value<String> routingNumber,
+      Value<String> name,
+      Value<String> revision,
+      Value<String> status,
+      Value<bool> isDefault,
+      Value<String> payload,
+      Value<DateTime> syncedAt,
+      Value<int> rowid,
+    });
+
+class $$MfgLocalRoutingsTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgLocalRoutingsTable> {
+  $$MfgLocalRoutingsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get routingNumber => $composableBuilder(
+    column: $table.routingNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get revision => $composableBuilder(
+    column: $table.revision,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDefault => $composableBuilder(
+    column: $table.isDefault,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgLocalRoutingsTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgLocalRoutingsTable> {
+  $$MfgLocalRoutingsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get routingNumber => $composableBuilder(
+    column: $table.routingNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get revision => $composableBuilder(
+    column: $table.revision,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDefault => $composableBuilder(
+    column: $table.isDefault,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgLocalRoutingsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgLocalRoutingsTable> {
+  $$MfgLocalRoutingsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get routingNumber => $composableBuilder(
+    column: $table.routingNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get revision =>
+      $composableBuilder(column: $table.revision, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDefault =>
+      $composableBuilder(column: $table.isDefault, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+}
+
+class $$MfgLocalRoutingsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgLocalRoutingsTable,
+          MfgRoutingRow,
+          $$MfgLocalRoutingsTableFilterComposer,
+          $$MfgLocalRoutingsTableOrderingComposer,
+          $$MfgLocalRoutingsTableAnnotationComposer,
+          $$MfgLocalRoutingsTableCreateCompanionBuilder,
+          $$MfgLocalRoutingsTableUpdateCompanionBuilder,
+          (
+            MfgRoutingRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MfgLocalRoutingsTable,
+              MfgRoutingRow
+            >,
+          ),
+          MfgRoutingRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgLocalRoutingsTableTableManager(
+    _$AppDatabase db,
+    $MfgLocalRoutingsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgLocalRoutingsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgLocalRoutingsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MfgLocalRoutingsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> routingNumber = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> revision = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<bool> isDefault = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalRoutingsCompanion(
+                tenantId: tenantId,
+                id: id,
+                routingNumber: routingNumber,
+                name: name,
+                revision: revision,
+                status: status,
+                isDefault: isDefault,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String routingNumber,
+                required String name,
+                required String revision,
+                required String status,
+                Value<bool> isDefault = const Value.absent(),
+                required String payload,
+                required DateTime syncedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalRoutingsCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                routingNumber: routingNumber,
+                name: name,
+                revision: revision,
+                status: status,
+                isDefault: isDefault,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgLocalRoutingsTable, MfgRoutingRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgLocalRoutingsTable,
+                    MfgRoutingRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgLocalRoutingsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgLocalRoutingsTable,
+      MfgRoutingRow,
+      $$MfgLocalRoutingsTableFilterComposer,
+      $$MfgLocalRoutingsTableOrderingComposer,
+      $$MfgLocalRoutingsTableAnnotationComposer,
+      $$MfgLocalRoutingsTableCreateCompanionBuilder,
+      $$MfgLocalRoutingsTableUpdateCompanionBuilder,
+      (
+        MfgRoutingRow,
+        BaseReferences<_$AppDatabase, $MfgLocalRoutingsTable, MfgRoutingRow>,
+      ),
+      MfgRoutingRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgLocalRoutingStepsTableCreateCompanionBuilder =
+    MfgLocalRoutingStepsCompanion Function({
+      required String tenantId,
+      required String id,
+      required String routingId,
+      required int sequence,
+      required String workCenterId,
+      Value<String?> machineCenterId,
+      required String payload,
+      Value<int> rowid,
+    });
+typedef $$MfgLocalRoutingStepsTableUpdateCompanionBuilder =
+    MfgLocalRoutingStepsCompanion Function({
+      Value<String> tenantId,
+      Value<String> id,
+      Value<String> routingId,
+      Value<int> sequence,
+      Value<String> workCenterId,
+      Value<String?> machineCenterId,
+      Value<String> payload,
+      Value<int> rowid,
+    });
+
+class $$MfgLocalRoutingStepsTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgLocalRoutingStepsTable> {
+  $$MfgLocalRoutingStepsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get routingId => $composableBuilder(
+    column: $table.routingId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sequence => $composableBuilder(
+    column: $table.sequence,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get machineCenterId => $composableBuilder(
+    column: $table.machineCenterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgLocalRoutingStepsTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgLocalRoutingStepsTable> {
+  $$MfgLocalRoutingStepsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get routingId => $composableBuilder(
+    column: $table.routingId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sequence => $composableBuilder(
+    column: $table.sequence,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get machineCenterId => $composableBuilder(
+    column: $table.machineCenterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgLocalRoutingStepsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgLocalRoutingStepsTable> {
+  $$MfgLocalRoutingStepsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get routingId =>
+      $composableBuilder(column: $table.routingId, builder: (column) => column);
+
+  GeneratedColumn<int> get sequence =>
+      $composableBuilder(column: $table.sequence, builder: (column) => column);
+
+  GeneratedColumn<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get machineCenterId => $composableBuilder(
+    column: $table.machineCenterId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+}
+
+class $$MfgLocalRoutingStepsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgLocalRoutingStepsTable,
+          MfgRoutingStepRow,
+          $$MfgLocalRoutingStepsTableFilterComposer,
+          $$MfgLocalRoutingStepsTableOrderingComposer,
+          $$MfgLocalRoutingStepsTableAnnotationComposer,
+          $$MfgLocalRoutingStepsTableCreateCompanionBuilder,
+          $$MfgLocalRoutingStepsTableUpdateCompanionBuilder,
+          (
+            MfgRoutingStepRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MfgLocalRoutingStepsTable,
+              MfgRoutingStepRow
+            >,
+          ),
+          MfgRoutingStepRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgLocalRoutingStepsTableTableManager(
+    _$AppDatabase db,
+    $MfgLocalRoutingStepsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgLocalRoutingStepsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgLocalRoutingStepsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$MfgLocalRoutingStepsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> routingId = const Value.absent(),
+                Value<int> sequence = const Value.absent(),
+                Value<String> workCenterId = const Value.absent(),
+                Value<String?> machineCenterId = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalRoutingStepsCompanion(
+                tenantId: tenantId,
+                id: id,
+                routingId: routingId,
+                sequence: sequence,
+                workCenterId: workCenterId,
+                machineCenterId: machineCenterId,
+                payload: payload,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String routingId,
+                required int sequence,
+                required String workCenterId,
+                Value<String?> machineCenterId = const Value.absent(),
+                required String payload,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalRoutingStepsCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                routingId: routingId,
+                sequence: sequence,
+                workCenterId: workCenterId,
+                machineCenterId: machineCenterId,
+                payload: payload,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgLocalRoutingStepsTable, MfgRoutingStepRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgLocalRoutingStepsTable,
+                    MfgRoutingStepRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgLocalRoutingStepsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgLocalRoutingStepsTable,
+      MfgRoutingStepRow,
+      $$MfgLocalRoutingStepsTableFilterComposer,
+      $$MfgLocalRoutingStepsTableOrderingComposer,
+      $$MfgLocalRoutingStepsTableAnnotationComposer,
+      $$MfgLocalRoutingStepsTableCreateCompanionBuilder,
+      $$MfgLocalRoutingStepsTableUpdateCompanionBuilder,
+      (
+        MfgRoutingStepRow,
+        BaseReferences<
+          _$AppDatabase,
+          $MfgLocalRoutingStepsTable,
+          MfgRoutingStepRow
+        >,
+      ),
+      MfgRoutingStepRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgLocalOeeSummariesTableCreateCompanionBuilder =
+    MfgLocalOeeSummariesCompanion Function({
+      required String tenantId,
+      required String scopeKey,
+      required String workCenterId,
+      Value<String?> machineCenterId,
+      required DateTime fromAt,
+      required DateTime toAt,
+      required String payload,
+      required DateTime syncedAt,
+      Value<int> rowid,
+    });
+typedef $$MfgLocalOeeSummariesTableUpdateCompanionBuilder =
+    MfgLocalOeeSummariesCompanion Function({
+      Value<String> tenantId,
+      Value<String> scopeKey,
+      Value<String> workCenterId,
+      Value<String?> machineCenterId,
+      Value<DateTime> fromAt,
+      Value<DateTime> toAt,
+      Value<String> payload,
+      Value<DateTime> syncedAt,
+      Value<int> rowid,
+    });
+
+class $$MfgLocalOeeSummariesTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgLocalOeeSummariesTable> {
+  $$MfgLocalOeeSummariesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get scopeKey => $composableBuilder(
+    column: $table.scopeKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get machineCenterId => $composableBuilder(
+    column: $table.machineCenterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get fromAt => $composableBuilder(
+    column: $table.fromAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get toAt => $composableBuilder(
+    column: $table.toAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgLocalOeeSummariesTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgLocalOeeSummariesTable> {
+  $$MfgLocalOeeSummariesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get scopeKey => $composableBuilder(
+    column: $table.scopeKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get machineCenterId => $composableBuilder(
+    column: $table.machineCenterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get fromAt => $composableBuilder(
+    column: $table.fromAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get toAt => $composableBuilder(
+    column: $table.toAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgLocalOeeSummariesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgLocalOeeSummariesTable> {
+  $$MfgLocalOeeSummariesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get scopeKey =>
+      $composableBuilder(column: $table.scopeKey, builder: (column) => column);
+
+  GeneratedColumn<String> get workCenterId => $composableBuilder(
+    column: $table.workCenterId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get machineCenterId => $composableBuilder(
+    column: $table.machineCenterId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get fromAt =>
+      $composableBuilder(column: $table.fromAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get toAt =>
+      $composableBuilder(column: $table.toAt, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+}
+
+class $$MfgLocalOeeSummariesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgLocalOeeSummariesTable,
+          MfgOeeSummaryRow,
+          $$MfgLocalOeeSummariesTableFilterComposer,
+          $$MfgLocalOeeSummariesTableOrderingComposer,
+          $$MfgLocalOeeSummariesTableAnnotationComposer,
+          $$MfgLocalOeeSummariesTableCreateCompanionBuilder,
+          $$MfgLocalOeeSummariesTableUpdateCompanionBuilder,
+          (
+            MfgOeeSummaryRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MfgLocalOeeSummariesTable,
+              MfgOeeSummaryRow
+            >,
+          ),
+          MfgOeeSummaryRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgLocalOeeSummariesTableTableManager(
+    _$AppDatabase db,
+    $MfgLocalOeeSummariesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgLocalOeeSummariesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgLocalOeeSummariesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$MfgLocalOeeSummariesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> scopeKey = const Value.absent(),
+                Value<String> workCenterId = const Value.absent(),
+                Value<String?> machineCenterId = const Value.absent(),
+                Value<DateTime> fromAt = const Value.absent(),
+                Value<DateTime> toAt = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalOeeSummariesCompanion(
+                tenantId: tenantId,
+                scopeKey: scopeKey,
+                workCenterId: workCenterId,
+                machineCenterId: machineCenterId,
+                fromAt: fromAt,
+                toAt: toAt,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String scopeKey,
+                required String workCenterId,
+                Value<String?> machineCenterId = const Value.absent(),
+                required DateTime fromAt,
+                required DateTime toAt,
+                required String payload,
+                required DateTime syncedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgLocalOeeSummariesCompanion.insert(
+                tenantId: tenantId,
+                scopeKey: scopeKey,
+                workCenterId: workCenterId,
+                machineCenterId: machineCenterId,
+                fromAt: fromAt,
+                toAt: toAt,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgLocalOeeSummariesTable, MfgOeeSummaryRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgLocalOeeSummariesTable,
+                    MfgOeeSummaryRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgLocalOeeSummariesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgLocalOeeSummariesTable,
+      MfgOeeSummaryRow,
+      $$MfgLocalOeeSummariesTableFilterComposer,
+      $$MfgLocalOeeSummariesTableOrderingComposer,
+      $$MfgLocalOeeSummariesTableAnnotationComposer,
+      $$MfgLocalOeeSummariesTableCreateCompanionBuilder,
+      $$MfgLocalOeeSummariesTableUpdateCompanionBuilder,
+      (
+        MfgOeeSummaryRow,
+        BaseReferences<
+          _$AppDatabase,
+          $MfgLocalOeeSummariesTable,
+          MfgOeeSummaryRow
+        >,
+      ),
+      MfgOeeSummaryRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -14778,4 +18715,14 @@ class $AppDatabaseManager {
         _db,
         _db.localApprovalAuditLogs,
       );
+  $$MfgLocalWorkCentersTableTableManager get mfgLocalWorkCenters =>
+      $$MfgLocalWorkCentersTableTableManager(_db, _db.mfgLocalWorkCenters);
+  $$MfgLocalMachinesTableTableManager get mfgLocalMachines =>
+      $$MfgLocalMachinesTableTableManager(_db, _db.mfgLocalMachines);
+  $$MfgLocalRoutingsTableTableManager get mfgLocalRoutings =>
+      $$MfgLocalRoutingsTableTableManager(_db, _db.mfgLocalRoutings);
+  $$MfgLocalRoutingStepsTableTableManager get mfgLocalRoutingSteps =>
+      $$MfgLocalRoutingStepsTableTableManager(_db, _db.mfgLocalRoutingSteps);
+  $$MfgLocalOeeSummariesTableTableManager get mfgLocalOeeSummaries =>
+      $$MfgLocalOeeSummariesTableTableManager(_db, _db.mfgLocalOeeSummaries);
 }
