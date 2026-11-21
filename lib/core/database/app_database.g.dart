@@ -9662,6 +9662,3298 @@ class LocalApprovalAuditLogsCompanion
   }
 }
 
+class $MfgOrdersTable extends MfgOrders
+    with TableInfo<$MfgOrdersTable, MfgOrderRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgOrdersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _orderNumberMeta = const VerificationMeta(
+    'orderNumber',
+  );
+  @override
+  late final GeneratedColumn<String> orderNumber = GeneratedColumn<String>(
+    'order_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    id,
+    orderNumber,
+    status,
+    payload,
+    syncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_orders';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgOrderRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('order_number')) {
+      context.handle(
+        _orderNumberMeta,
+        orderNumber.isAcceptableOrUnknown(
+          data['order_number']!,
+          _orderNumberMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_orderNumberMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_syncedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  MfgOrderRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgOrderRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      orderNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}order_number'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgOrdersTable createAlias(String alias) {
+    return $MfgOrdersTable(attachedDatabase, alias);
+  }
+}
+
+class MfgOrderRow extends DataClass implements Insertable<MfgOrderRow> {
+  final String tenantId;
+  final String id;
+  final String orderNumber;
+  final String status;
+  final String payload;
+  final DateTime syncedAt;
+  const MfgOrderRow({
+    required this.tenantId,
+    required this.id,
+    required this.orderNumber,
+    required this.status,
+    required this.payload,
+    required this.syncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['order_number'] = Variable<String>(orderNumber);
+    map['status'] = Variable<String>(status);
+    map['payload'] = Variable<String>(payload);
+    map['synced_at'] = Variable<DateTime>(syncedAt);
+    return map;
+  }
+
+  MfgOrdersCompanion toCompanion(bool nullToAbsent) {
+    return MfgOrdersCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      orderNumber: Value(orderNumber),
+      status: Value(status),
+      payload: Value(payload),
+      syncedAt: Value(syncedAt),
+    );
+  }
+
+  factory MfgOrderRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgOrderRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      orderNumber: serializer.fromJson<String>(json['orderNumber']),
+      status: serializer.fromJson<String>(json['status']),
+      payload: serializer.fromJson<String>(json['payload']),
+      syncedAt: serializer.fromJson<DateTime>(json['syncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'orderNumber': serializer.toJson<String>(orderNumber),
+      'status': serializer.toJson<String>(status),
+      'payload': serializer.toJson<String>(payload),
+      'syncedAt': serializer.toJson<DateTime>(syncedAt),
+    };
+  }
+
+  MfgOrderRow copyWith({
+    String? tenantId,
+    String? id,
+    String? orderNumber,
+    String? status,
+    String? payload,
+    DateTime? syncedAt,
+  }) => MfgOrderRow(
+    tenantId: tenantId ?? this.tenantId,
+    id: id ?? this.id,
+    orderNumber: orderNumber ?? this.orderNumber,
+    status: status ?? this.status,
+    payload: payload ?? this.payload,
+    syncedAt: syncedAt ?? this.syncedAt,
+  );
+  MfgOrderRow copyWithCompanion(MfgOrdersCompanion data) {
+    return MfgOrderRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      orderNumber: data.orderNumber.present
+          ? data.orderNumber.value
+          : this.orderNumber,
+      status: data.status.present ? data.status.value : this.status,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgOrderRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('orderNumber: $orderNumber, ')
+          ..write('status: $status, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(tenantId, id, orderNumber, status, payload, syncedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgOrderRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.orderNumber == this.orderNumber &&
+          other.status == this.status &&
+          other.payload == this.payload &&
+          other.syncedAt == this.syncedAt);
+}
+
+class MfgOrdersCompanion extends UpdateCompanion<MfgOrderRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> orderNumber;
+  final Value<String> status;
+  final Value<String> payload;
+  final Value<DateTime> syncedAt;
+  final Value<int> rowid;
+  const MfgOrdersCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.orderNumber = const Value.absent(),
+    this.status = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgOrdersCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String orderNumber,
+    required String status,
+    required String payload,
+    required DateTime syncedAt,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       orderNumber = Value(orderNumber),
+       status = Value(status),
+       payload = Value(payload),
+       syncedAt = Value(syncedAt);
+  static Insertable<MfgOrderRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? orderNumber,
+    Expression<String>? status,
+    Expression<String>? payload,
+    Expression<DateTime>? syncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (orderNumber != null) 'order_number': orderNumber,
+      if (status != null) 'status': status,
+      if (payload != null) 'payload': payload,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgOrdersCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? orderNumber,
+    Value<String>? status,
+    Value<String>? payload,
+    Value<DateTime>? syncedAt,
+    Value<int>? rowid,
+  }) {
+    return MfgOrdersCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      orderNumber: orderNumber ?? this.orderNumber,
+      status: status ?? this.status,
+      payload: payload ?? this.payload,
+      syncedAt: syncedAt ?? this.syncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (orderNumber.present) {
+      map['order_number'] = Variable<String>(orderNumber.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgOrdersCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('orderNumber: $orderNumber, ')
+          ..write('status: $status, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgWorkCentersTable extends MfgWorkCenters
+    with TableInfo<$MfgWorkCentersTable, MfgWorkCenterRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgWorkCentersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [tenantId, id, code, payload];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_work_centers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgWorkCenterRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  MfgWorkCenterRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgWorkCenterRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgWorkCentersTable createAlias(String alias) {
+    return $MfgWorkCentersTable(attachedDatabase, alias);
+  }
+}
+
+class MfgWorkCenterRow extends DataClass
+    implements Insertable<MfgWorkCenterRow> {
+  final String tenantId;
+  final String id;
+  final String code;
+  final String payload;
+  const MfgWorkCenterRow({
+    required this.tenantId,
+    required this.id,
+    required this.code,
+    required this.payload,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['payload'] = Variable<String>(payload);
+    return map;
+  }
+
+  MfgWorkCentersCompanion toCompanion(bool nullToAbsent) {
+    return MfgWorkCentersCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      code: Value(code),
+      payload: Value(payload),
+    );
+  }
+
+  factory MfgWorkCenterRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgWorkCenterRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      payload: serializer.fromJson<String>(json['payload']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'payload': serializer.toJson<String>(payload),
+    };
+  }
+
+  MfgWorkCenterRow copyWith({
+    String? tenantId,
+    String? id,
+    String? code,
+    String? payload,
+  }) => MfgWorkCenterRow(
+    tenantId: tenantId ?? this.tenantId,
+    id: id ?? this.id,
+    code: code ?? this.code,
+    payload: payload ?? this.payload,
+  );
+  MfgWorkCenterRow copyWithCompanion(MfgWorkCentersCompanion data) {
+    return MfgWorkCenterRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      payload: data.payload.present ? data.payload.value : this.payload,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgWorkCenterRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('payload: $payload')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(tenantId, id, code, payload);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgWorkCenterRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.payload == this.payload);
+}
+
+class MfgWorkCentersCompanion extends UpdateCompanion<MfgWorkCenterRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> payload;
+  final Value<int> rowid;
+  const MfgWorkCentersCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgWorkCentersCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String code,
+    required String payload,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       code = Value(code),
+       payload = Value(payload);
+  static Insertable<MfgWorkCenterRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? payload,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (payload != null) 'payload': payload,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgWorkCentersCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? payload,
+    Value<int>? rowid,
+  }) {
+    return MfgWorkCentersCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      code: code ?? this.code,
+      payload: payload ?? this.payload,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgWorkCentersCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('payload: $payload, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgQualityPlansTable extends MfgQualityPlans
+    with TableInfo<$MfgQualityPlansTable, MfgQualityPlanRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgQualityPlansTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [tenantId, id, payload];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_quality_plans';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgQualityPlanRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  MfgQualityPlanRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgQualityPlanRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgQualityPlansTable createAlias(String alias) {
+    return $MfgQualityPlansTable(attachedDatabase, alias);
+  }
+}
+
+class MfgQualityPlanRow extends DataClass
+    implements Insertable<MfgQualityPlanRow> {
+  final String tenantId;
+  final String id;
+  final String payload;
+  const MfgQualityPlanRow({
+    required this.tenantId,
+    required this.id,
+    required this.payload,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['payload'] = Variable<String>(payload);
+    return map;
+  }
+
+  MfgQualityPlansCompanion toCompanion(bool nullToAbsent) {
+    return MfgQualityPlansCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      payload: Value(payload),
+    );
+  }
+
+  factory MfgQualityPlanRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgQualityPlanRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      payload: serializer.fromJson<String>(json['payload']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'payload': serializer.toJson<String>(payload),
+    };
+  }
+
+  MfgQualityPlanRow copyWith({String? tenantId, String? id, String? payload}) =>
+      MfgQualityPlanRow(
+        tenantId: tenantId ?? this.tenantId,
+        id: id ?? this.id,
+        payload: payload ?? this.payload,
+      );
+  MfgQualityPlanRow copyWithCompanion(MfgQualityPlansCompanion data) {
+    return MfgQualityPlanRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      payload: data.payload.present ? data.payload.value : this.payload,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgQualityPlanRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('payload: $payload')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(tenantId, id, payload);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgQualityPlanRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.payload == this.payload);
+}
+
+class MfgQualityPlansCompanion extends UpdateCompanion<MfgQualityPlanRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> payload;
+  final Value<int> rowid;
+  const MfgQualityPlansCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgQualityPlansCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String payload,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       payload = Value(payload);
+  static Insertable<MfgQualityPlanRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? payload,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (payload != null) 'payload': payload,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgQualityPlansCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? payload,
+    Value<int>? rowid,
+  }) {
+    return MfgQualityPlansCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      payload: payload ?? this.payload,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgQualityPlansCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('payload: $payload, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgStagedLotsTable extends MfgStagedLots
+    with TableInfo<$MfgStagedLotsTable, MfgStagedLotRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgStagedLotsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _orderIdMeta = const VerificationMeta(
+    'orderId',
+  );
+  @override
+  late final GeneratedColumn<String> orderId = GeneratedColumn<String>(
+    'order_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lineIdMeta = const VerificationMeta('lineId');
+  @override
+  late final GeneratedColumn<String> lineId = GeneratedColumn<String>(
+    'line_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lotNumberMeta = const VerificationMeta(
+    'lotNumber',
+  );
+  @override
+  late final GeneratedColumn<String> lotNumber = GeneratedColumn<String>(
+    'lot_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lotIdMeta = const VerificationMeta('lotId');
+  @override
+  late final GeneratedColumn<String> lotId = GeneratedColumn<String>(
+    'lot_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _gtinMeta = const VerificationMeta('gtin');
+  @override
+  late final GeneratedColumn<String> gtin = GeneratedColumn<String>(
+    'gtin',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _quantityMeta = const VerificationMeta(
+    'quantity',
+  );
+  @override
+  late final GeneratedColumn<double> quantity = GeneratedColumn<double>(
+    'quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _outboxUuidMeta = const VerificationMeta(
+    'outboxUuid',
+  );
+  @override
+  late final GeneratedColumn<String> outboxUuid = GeneratedColumn<String>(
+    'outbox_uuid',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    tenantId,
+    orderId,
+    lineId,
+    lotNumber,
+    lotId,
+    gtin,
+    quantity,
+    outboxUuid,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_staged_lots';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgStagedLotRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('order_id')) {
+      context.handle(
+        _orderIdMeta,
+        orderId.isAcceptableOrUnknown(data['order_id']!, _orderIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_orderIdMeta);
+    }
+    if (data.containsKey('line_id')) {
+      context.handle(
+        _lineIdMeta,
+        lineId.isAcceptableOrUnknown(data['line_id']!, _lineIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lineIdMeta);
+    }
+    if (data.containsKey('lot_number')) {
+      context.handle(
+        _lotNumberMeta,
+        lotNumber.isAcceptableOrUnknown(data['lot_number']!, _lotNumberMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lotNumberMeta);
+    }
+    if (data.containsKey('lot_id')) {
+      context.handle(
+        _lotIdMeta,
+        lotId.isAcceptableOrUnknown(data['lot_id']!, _lotIdMeta),
+      );
+    }
+    if (data.containsKey('gtin')) {
+      context.handle(
+        _gtinMeta,
+        gtin.isAcceptableOrUnknown(data['gtin']!, _gtinMeta),
+      );
+    }
+    if (data.containsKey('quantity')) {
+      context.handle(
+        _quantityMeta,
+        quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_quantityMeta);
+    }
+    if (data.containsKey('outbox_uuid')) {
+      context.handle(
+        _outboxUuidMeta,
+        outboxUuid.isAcceptableOrUnknown(data['outbox_uuid']!, _outboxUuidMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MfgStagedLotRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgStagedLotRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      orderId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}order_id'],
+      )!,
+      lineId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}line_id'],
+      )!,
+      lotNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}lot_number'],
+      )!,
+      lotId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}lot_id'],
+      ),
+      gtin: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}gtin'],
+      ),
+      quantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}quantity'],
+      )!,
+      outboxUuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}outbox_uuid'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $MfgStagedLotsTable createAlias(String alias) {
+    return $MfgStagedLotsTable(attachedDatabase, alias);
+  }
+}
+
+class MfgStagedLotRow extends DataClass implements Insertable<MfgStagedLotRow> {
+  final String id;
+  final String tenantId;
+  final String orderId;
+  final String lineId;
+  final String lotNumber;
+  final String? lotId;
+  final String? gtin;
+  final double quantity;
+
+  /// Outbox uuid of the issue that posted it; null while still staged.
+  final String? outboxUuid;
+  final DateTime createdAt;
+  const MfgStagedLotRow({
+    required this.id,
+    required this.tenantId,
+    required this.orderId,
+    required this.lineId,
+    required this.lotNumber,
+    this.lotId,
+    this.gtin,
+    required this.quantity,
+    this.outboxUuid,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['order_id'] = Variable<String>(orderId);
+    map['line_id'] = Variable<String>(lineId);
+    map['lot_number'] = Variable<String>(lotNumber);
+    if (!nullToAbsent || lotId != null) {
+      map['lot_id'] = Variable<String>(lotId);
+    }
+    if (!nullToAbsent || gtin != null) {
+      map['gtin'] = Variable<String>(gtin);
+    }
+    map['quantity'] = Variable<double>(quantity);
+    if (!nullToAbsent || outboxUuid != null) {
+      map['outbox_uuid'] = Variable<String>(outboxUuid);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  MfgStagedLotsCompanion toCompanion(bool nullToAbsent) {
+    return MfgStagedLotsCompanion(
+      id: Value(id),
+      tenantId: Value(tenantId),
+      orderId: Value(orderId),
+      lineId: Value(lineId),
+      lotNumber: Value(lotNumber),
+      lotId: lotId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lotId),
+      gtin: gtin == null && nullToAbsent ? const Value.absent() : Value(gtin),
+      quantity: Value(quantity),
+      outboxUuid: outboxUuid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(outboxUuid),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory MfgStagedLotRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgStagedLotRow(
+      id: serializer.fromJson<String>(json['id']),
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      orderId: serializer.fromJson<String>(json['orderId']),
+      lineId: serializer.fromJson<String>(json['lineId']),
+      lotNumber: serializer.fromJson<String>(json['lotNumber']),
+      lotId: serializer.fromJson<String?>(json['lotId']),
+      gtin: serializer.fromJson<String?>(json['gtin']),
+      quantity: serializer.fromJson<double>(json['quantity']),
+      outboxUuid: serializer.fromJson<String?>(json['outboxUuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'tenantId': serializer.toJson<String>(tenantId),
+      'orderId': serializer.toJson<String>(orderId),
+      'lineId': serializer.toJson<String>(lineId),
+      'lotNumber': serializer.toJson<String>(lotNumber),
+      'lotId': serializer.toJson<String?>(lotId),
+      'gtin': serializer.toJson<String?>(gtin),
+      'quantity': serializer.toJson<double>(quantity),
+      'outboxUuid': serializer.toJson<String?>(outboxUuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  MfgStagedLotRow copyWith({
+    String? id,
+    String? tenantId,
+    String? orderId,
+    String? lineId,
+    String? lotNumber,
+    Value<String?> lotId = const Value.absent(),
+    Value<String?> gtin = const Value.absent(),
+    double? quantity,
+    Value<String?> outboxUuid = const Value.absent(),
+    DateTime? createdAt,
+  }) => MfgStagedLotRow(
+    id: id ?? this.id,
+    tenantId: tenantId ?? this.tenantId,
+    orderId: orderId ?? this.orderId,
+    lineId: lineId ?? this.lineId,
+    lotNumber: lotNumber ?? this.lotNumber,
+    lotId: lotId.present ? lotId.value : this.lotId,
+    gtin: gtin.present ? gtin.value : this.gtin,
+    quantity: quantity ?? this.quantity,
+    outboxUuid: outboxUuid.present ? outboxUuid.value : this.outboxUuid,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  MfgStagedLotRow copyWithCompanion(MfgStagedLotsCompanion data) {
+    return MfgStagedLotRow(
+      id: data.id.present ? data.id.value : this.id,
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      orderId: data.orderId.present ? data.orderId.value : this.orderId,
+      lineId: data.lineId.present ? data.lineId.value : this.lineId,
+      lotNumber: data.lotNumber.present ? data.lotNumber.value : this.lotNumber,
+      lotId: data.lotId.present ? data.lotId.value : this.lotId,
+      gtin: data.gtin.present ? data.gtin.value : this.gtin,
+      quantity: data.quantity.present ? data.quantity.value : this.quantity,
+      outboxUuid: data.outboxUuid.present
+          ? data.outboxUuid.value
+          : this.outboxUuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgStagedLotRow(')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('orderId: $orderId, ')
+          ..write('lineId: $lineId, ')
+          ..write('lotNumber: $lotNumber, ')
+          ..write('lotId: $lotId, ')
+          ..write('gtin: $gtin, ')
+          ..write('quantity: $quantity, ')
+          ..write('outboxUuid: $outboxUuid, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    tenantId,
+    orderId,
+    lineId,
+    lotNumber,
+    lotId,
+    gtin,
+    quantity,
+    outboxUuid,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgStagedLotRow &&
+          other.id == this.id &&
+          other.tenantId == this.tenantId &&
+          other.orderId == this.orderId &&
+          other.lineId == this.lineId &&
+          other.lotNumber == this.lotNumber &&
+          other.lotId == this.lotId &&
+          other.gtin == this.gtin &&
+          other.quantity == this.quantity &&
+          other.outboxUuid == this.outboxUuid &&
+          other.createdAt == this.createdAt);
+}
+
+class MfgStagedLotsCompanion extends UpdateCompanion<MfgStagedLotRow> {
+  final Value<String> id;
+  final Value<String> tenantId;
+  final Value<String> orderId;
+  final Value<String> lineId;
+  final Value<String> lotNumber;
+  final Value<String?> lotId;
+  final Value<String?> gtin;
+  final Value<double> quantity;
+  final Value<String?> outboxUuid;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const MfgStagedLotsCompanion({
+    this.id = const Value.absent(),
+    this.tenantId = const Value.absent(),
+    this.orderId = const Value.absent(),
+    this.lineId = const Value.absent(),
+    this.lotNumber = const Value.absent(),
+    this.lotId = const Value.absent(),
+    this.gtin = const Value.absent(),
+    this.quantity = const Value.absent(),
+    this.outboxUuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgStagedLotsCompanion.insert({
+    required String id,
+    required String tenantId,
+    required String orderId,
+    required String lineId,
+    required String lotNumber,
+    this.lotId = const Value.absent(),
+    this.gtin = const Value.absent(),
+    required double quantity,
+    this.outboxUuid = const Value.absent(),
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       tenantId = Value(tenantId),
+       orderId = Value(orderId),
+       lineId = Value(lineId),
+       lotNumber = Value(lotNumber),
+       quantity = Value(quantity),
+       createdAt = Value(createdAt);
+  static Insertable<MfgStagedLotRow> custom({
+    Expression<String>? id,
+    Expression<String>? tenantId,
+    Expression<String>? orderId,
+    Expression<String>? lineId,
+    Expression<String>? lotNumber,
+    Expression<String>? lotId,
+    Expression<String>? gtin,
+    Expression<double>? quantity,
+    Expression<String>? outboxUuid,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (orderId != null) 'order_id': orderId,
+      if (lineId != null) 'line_id': lineId,
+      if (lotNumber != null) 'lot_number': lotNumber,
+      if (lotId != null) 'lot_id': lotId,
+      if (gtin != null) 'gtin': gtin,
+      if (quantity != null) 'quantity': quantity,
+      if (outboxUuid != null) 'outbox_uuid': outboxUuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgStagedLotsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? tenantId,
+    Value<String>? orderId,
+    Value<String>? lineId,
+    Value<String>? lotNumber,
+    Value<String?>? lotId,
+    Value<String?>? gtin,
+    Value<double>? quantity,
+    Value<String?>? outboxUuid,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return MfgStagedLotsCompanion(
+      id: id ?? this.id,
+      tenantId: tenantId ?? this.tenantId,
+      orderId: orderId ?? this.orderId,
+      lineId: lineId ?? this.lineId,
+      lotNumber: lotNumber ?? this.lotNumber,
+      lotId: lotId ?? this.lotId,
+      gtin: gtin ?? this.gtin,
+      quantity: quantity ?? this.quantity,
+      outboxUuid: outboxUuid ?? this.outboxUuid,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (orderId.present) {
+      map['order_id'] = Variable<String>(orderId.value);
+    }
+    if (lineId.present) {
+      map['line_id'] = Variable<String>(lineId.value);
+    }
+    if (lotNumber.present) {
+      map['lot_number'] = Variable<String>(lotNumber.value);
+    }
+    if (lotId.present) {
+      map['lot_id'] = Variable<String>(lotId.value);
+    }
+    if (gtin.present) {
+      map['gtin'] = Variable<String>(gtin.value);
+    }
+    if (quantity.present) {
+      map['quantity'] = Variable<double>(quantity.value);
+    }
+    if (outboxUuid.present) {
+      map['outbox_uuid'] = Variable<String>(outboxUuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgStagedLotsCompanion(')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('orderId: $orderId, ')
+          ..write('lineId: $lineId, ')
+          ..write('lotNumber: $lotNumber, ')
+          ..write('lotId: $lotId, ')
+          ..write('gtin: $gtin, ')
+          ..write('quantity: $quantity, ')
+          ..write('outboxUuid: $outboxUuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgOperationTimersTable extends MfgOperationTimers
+    with TableInfo<$MfgOperationTimersTable, MfgOperationTimerRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgOperationTimersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _operationIdMeta = const VerificationMeta(
+    'operationId',
+  );
+  @override
+  late final GeneratedColumn<String> operationId = GeneratedColumn<String>(
+    'operation_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _orderIdMeta = const VerificationMeta(
+    'orderId',
+  );
+  @override
+  late final GeneratedColumn<String> orderId = GeneratedColumn<String>(
+    'order_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _phaseMeta = const VerificationMeta('phase');
+  @override
+  late final GeneratedColumn<int> phase = GeneratedColumn<int>(
+    'phase',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _resumePhaseMeta = const VerificationMeta(
+    'resumePhase',
+  );
+  @override
+  late final GeneratedColumn<int> resumePhase = GeneratedColumn<int>(
+    'resume_phase',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(2),
+  );
+  static const VerificationMeta _setupSecondsMeta = const VerificationMeta(
+    'setupSeconds',
+  );
+  @override
+  late final GeneratedColumn<int> setupSeconds = GeneratedColumn<int>(
+    'setup_seconds',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _runSecondsMeta = const VerificationMeta(
+    'runSeconds',
+  );
+  @override
+  late final GeneratedColumn<int> runSeconds = GeneratedColumn<int>(
+    'run_seconds',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _downtimeSecondsMeta = const VerificationMeta(
+    'downtimeSeconds',
+  );
+  @override
+  late final GeneratedColumn<int> downtimeSeconds = GeneratedColumn<int>(
+    'downtime_seconds',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _phaseStartedAtMeta = const VerificationMeta(
+    'phaseStartedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> phaseStartedAt =
+      GeneratedColumn<DateTime>(
+        'phase_started_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _goodQuantityMeta = const VerificationMeta(
+    'goodQuantity',
+  );
+  @override
+  late final GeneratedColumn<double> goodQuantity = GeneratedColumn<double>(
+    'good_quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _scrapQuantityMeta = const VerificationMeta(
+    'scrapQuantity',
+  );
+  @override
+  late final GeneratedColumn<double> scrapQuantity = GeneratedColumn<double>(
+    'scrap_quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _scrapReasonMeta = const VerificationMeta(
+    'scrapReason',
+  );
+  @override
+  late final GeneratedColumn<String> scrapReason = GeneratedColumn<String>(
+    'scrap_reason',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _machineWorkCenterIdMeta =
+      const VerificationMeta('machineWorkCenterId');
+  @override
+  late final GeneratedColumn<String> machineWorkCenterId =
+      GeneratedColumn<String>(
+        'machine_work_center_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    operationId,
+    orderId,
+    phase,
+    resumePhase,
+    setupSeconds,
+    runSeconds,
+    downtimeSeconds,
+    phaseStartedAt,
+    goodQuantity,
+    scrapQuantity,
+    scrapReason,
+    machineWorkCenterId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_operation_timers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgOperationTimerRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('operation_id')) {
+      context.handle(
+        _operationIdMeta,
+        operationId.isAcceptableOrUnknown(
+          data['operation_id']!,
+          _operationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_operationIdMeta);
+    }
+    if (data.containsKey('order_id')) {
+      context.handle(
+        _orderIdMeta,
+        orderId.isAcceptableOrUnknown(data['order_id']!, _orderIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_orderIdMeta);
+    }
+    if (data.containsKey('phase')) {
+      context.handle(
+        _phaseMeta,
+        phase.isAcceptableOrUnknown(data['phase']!, _phaseMeta),
+      );
+    }
+    if (data.containsKey('resume_phase')) {
+      context.handle(
+        _resumePhaseMeta,
+        resumePhase.isAcceptableOrUnknown(
+          data['resume_phase']!,
+          _resumePhaseMeta,
+        ),
+      );
+    }
+    if (data.containsKey('setup_seconds')) {
+      context.handle(
+        _setupSecondsMeta,
+        setupSeconds.isAcceptableOrUnknown(
+          data['setup_seconds']!,
+          _setupSecondsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('run_seconds')) {
+      context.handle(
+        _runSecondsMeta,
+        runSeconds.isAcceptableOrUnknown(data['run_seconds']!, _runSecondsMeta),
+      );
+    }
+    if (data.containsKey('downtime_seconds')) {
+      context.handle(
+        _downtimeSecondsMeta,
+        downtimeSeconds.isAcceptableOrUnknown(
+          data['downtime_seconds']!,
+          _downtimeSecondsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('phase_started_at')) {
+      context.handle(
+        _phaseStartedAtMeta,
+        phaseStartedAt.isAcceptableOrUnknown(
+          data['phase_started_at']!,
+          _phaseStartedAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('good_quantity')) {
+      context.handle(
+        _goodQuantityMeta,
+        goodQuantity.isAcceptableOrUnknown(
+          data['good_quantity']!,
+          _goodQuantityMeta,
+        ),
+      );
+    }
+    if (data.containsKey('scrap_quantity')) {
+      context.handle(
+        _scrapQuantityMeta,
+        scrapQuantity.isAcceptableOrUnknown(
+          data['scrap_quantity']!,
+          _scrapQuantityMeta,
+        ),
+      );
+    }
+    if (data.containsKey('scrap_reason')) {
+      context.handle(
+        _scrapReasonMeta,
+        scrapReason.isAcceptableOrUnknown(
+          data['scrap_reason']!,
+          _scrapReasonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('machine_work_center_id')) {
+      context.handle(
+        _machineWorkCenterIdMeta,
+        machineWorkCenterId.isAcceptableOrUnknown(
+          data['machine_work_center_id']!,
+          _machineWorkCenterIdMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, operationId};
+  @override
+  MfgOperationTimerRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgOperationTimerRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      operationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}operation_id'],
+      )!,
+      orderId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}order_id'],
+      )!,
+      phase: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}phase'],
+      )!,
+      resumePhase: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}resume_phase'],
+      )!,
+      setupSeconds: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}setup_seconds'],
+      )!,
+      runSeconds: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}run_seconds'],
+      )!,
+      downtimeSeconds: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}downtime_seconds'],
+      )!,
+      phaseStartedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}phase_started_at'],
+      ),
+      goodQuantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}good_quantity'],
+      )!,
+      scrapQuantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}scrap_quantity'],
+      )!,
+      scrapReason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scrap_reason'],
+      ),
+      machineWorkCenterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}machine_work_center_id'],
+      ),
+    );
+  }
+
+  @override
+  $MfgOperationTimersTable createAlias(String alias) {
+    return $MfgOperationTimersTable(attachedDatabase, alias);
+  }
+}
+
+class MfgOperationTimerRow extends DataClass
+    implements Insertable<MfgOperationTimerRow> {
+  final String tenantId;
+  final String operationId;
+  final String orderId;
+  final int phase;
+  final int resumePhase;
+  final int setupSeconds;
+  final int runSeconds;
+  final int downtimeSeconds;
+  final DateTime? phaseStartedAt;
+  final double goodQuantity;
+  final double scrapQuantity;
+  final String? scrapReason;
+  final String? machineWorkCenterId;
+  const MfgOperationTimerRow({
+    required this.tenantId,
+    required this.operationId,
+    required this.orderId,
+    required this.phase,
+    required this.resumePhase,
+    required this.setupSeconds,
+    required this.runSeconds,
+    required this.downtimeSeconds,
+    this.phaseStartedAt,
+    required this.goodQuantity,
+    required this.scrapQuantity,
+    this.scrapReason,
+    this.machineWorkCenterId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['operation_id'] = Variable<String>(operationId);
+    map['order_id'] = Variable<String>(orderId);
+    map['phase'] = Variable<int>(phase);
+    map['resume_phase'] = Variable<int>(resumePhase);
+    map['setup_seconds'] = Variable<int>(setupSeconds);
+    map['run_seconds'] = Variable<int>(runSeconds);
+    map['downtime_seconds'] = Variable<int>(downtimeSeconds);
+    if (!nullToAbsent || phaseStartedAt != null) {
+      map['phase_started_at'] = Variable<DateTime>(phaseStartedAt);
+    }
+    map['good_quantity'] = Variable<double>(goodQuantity);
+    map['scrap_quantity'] = Variable<double>(scrapQuantity);
+    if (!nullToAbsent || scrapReason != null) {
+      map['scrap_reason'] = Variable<String>(scrapReason);
+    }
+    if (!nullToAbsent || machineWorkCenterId != null) {
+      map['machine_work_center_id'] = Variable<String>(machineWorkCenterId);
+    }
+    return map;
+  }
+
+  MfgOperationTimersCompanion toCompanion(bool nullToAbsent) {
+    return MfgOperationTimersCompanion(
+      tenantId: Value(tenantId),
+      operationId: Value(operationId),
+      orderId: Value(orderId),
+      phase: Value(phase),
+      resumePhase: Value(resumePhase),
+      setupSeconds: Value(setupSeconds),
+      runSeconds: Value(runSeconds),
+      downtimeSeconds: Value(downtimeSeconds),
+      phaseStartedAt: phaseStartedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phaseStartedAt),
+      goodQuantity: Value(goodQuantity),
+      scrapQuantity: Value(scrapQuantity),
+      scrapReason: scrapReason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(scrapReason),
+      machineWorkCenterId: machineWorkCenterId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(machineWorkCenterId),
+    );
+  }
+
+  factory MfgOperationTimerRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgOperationTimerRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      operationId: serializer.fromJson<String>(json['operationId']),
+      orderId: serializer.fromJson<String>(json['orderId']),
+      phase: serializer.fromJson<int>(json['phase']),
+      resumePhase: serializer.fromJson<int>(json['resumePhase']),
+      setupSeconds: serializer.fromJson<int>(json['setupSeconds']),
+      runSeconds: serializer.fromJson<int>(json['runSeconds']),
+      downtimeSeconds: serializer.fromJson<int>(json['downtimeSeconds']),
+      phaseStartedAt: serializer.fromJson<DateTime?>(json['phaseStartedAt']),
+      goodQuantity: serializer.fromJson<double>(json['goodQuantity']),
+      scrapQuantity: serializer.fromJson<double>(json['scrapQuantity']),
+      scrapReason: serializer.fromJson<String?>(json['scrapReason']),
+      machineWorkCenterId: serializer.fromJson<String?>(
+        json['machineWorkCenterId'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'operationId': serializer.toJson<String>(operationId),
+      'orderId': serializer.toJson<String>(orderId),
+      'phase': serializer.toJson<int>(phase),
+      'resumePhase': serializer.toJson<int>(resumePhase),
+      'setupSeconds': serializer.toJson<int>(setupSeconds),
+      'runSeconds': serializer.toJson<int>(runSeconds),
+      'downtimeSeconds': serializer.toJson<int>(downtimeSeconds),
+      'phaseStartedAt': serializer.toJson<DateTime?>(phaseStartedAt),
+      'goodQuantity': serializer.toJson<double>(goodQuantity),
+      'scrapQuantity': serializer.toJson<double>(scrapQuantity),
+      'scrapReason': serializer.toJson<String?>(scrapReason),
+      'machineWorkCenterId': serializer.toJson<String?>(machineWorkCenterId),
+    };
+  }
+
+  MfgOperationTimerRow copyWith({
+    String? tenantId,
+    String? operationId,
+    String? orderId,
+    int? phase,
+    int? resumePhase,
+    int? setupSeconds,
+    int? runSeconds,
+    int? downtimeSeconds,
+    Value<DateTime?> phaseStartedAt = const Value.absent(),
+    double? goodQuantity,
+    double? scrapQuantity,
+    Value<String?> scrapReason = const Value.absent(),
+    Value<String?> machineWorkCenterId = const Value.absent(),
+  }) => MfgOperationTimerRow(
+    tenantId: tenantId ?? this.tenantId,
+    operationId: operationId ?? this.operationId,
+    orderId: orderId ?? this.orderId,
+    phase: phase ?? this.phase,
+    resumePhase: resumePhase ?? this.resumePhase,
+    setupSeconds: setupSeconds ?? this.setupSeconds,
+    runSeconds: runSeconds ?? this.runSeconds,
+    downtimeSeconds: downtimeSeconds ?? this.downtimeSeconds,
+    phaseStartedAt: phaseStartedAt.present
+        ? phaseStartedAt.value
+        : this.phaseStartedAt,
+    goodQuantity: goodQuantity ?? this.goodQuantity,
+    scrapQuantity: scrapQuantity ?? this.scrapQuantity,
+    scrapReason: scrapReason.present ? scrapReason.value : this.scrapReason,
+    machineWorkCenterId: machineWorkCenterId.present
+        ? machineWorkCenterId.value
+        : this.machineWorkCenterId,
+  );
+  MfgOperationTimerRow copyWithCompanion(MfgOperationTimersCompanion data) {
+    return MfgOperationTimerRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      operationId: data.operationId.present
+          ? data.operationId.value
+          : this.operationId,
+      orderId: data.orderId.present ? data.orderId.value : this.orderId,
+      phase: data.phase.present ? data.phase.value : this.phase,
+      resumePhase: data.resumePhase.present
+          ? data.resumePhase.value
+          : this.resumePhase,
+      setupSeconds: data.setupSeconds.present
+          ? data.setupSeconds.value
+          : this.setupSeconds,
+      runSeconds: data.runSeconds.present
+          ? data.runSeconds.value
+          : this.runSeconds,
+      downtimeSeconds: data.downtimeSeconds.present
+          ? data.downtimeSeconds.value
+          : this.downtimeSeconds,
+      phaseStartedAt: data.phaseStartedAt.present
+          ? data.phaseStartedAt.value
+          : this.phaseStartedAt,
+      goodQuantity: data.goodQuantity.present
+          ? data.goodQuantity.value
+          : this.goodQuantity,
+      scrapQuantity: data.scrapQuantity.present
+          ? data.scrapQuantity.value
+          : this.scrapQuantity,
+      scrapReason: data.scrapReason.present
+          ? data.scrapReason.value
+          : this.scrapReason,
+      machineWorkCenterId: data.machineWorkCenterId.present
+          ? data.machineWorkCenterId.value
+          : this.machineWorkCenterId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgOperationTimerRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('operationId: $operationId, ')
+          ..write('orderId: $orderId, ')
+          ..write('phase: $phase, ')
+          ..write('resumePhase: $resumePhase, ')
+          ..write('setupSeconds: $setupSeconds, ')
+          ..write('runSeconds: $runSeconds, ')
+          ..write('downtimeSeconds: $downtimeSeconds, ')
+          ..write('phaseStartedAt: $phaseStartedAt, ')
+          ..write('goodQuantity: $goodQuantity, ')
+          ..write('scrapQuantity: $scrapQuantity, ')
+          ..write('scrapReason: $scrapReason, ')
+          ..write('machineWorkCenterId: $machineWorkCenterId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    tenantId,
+    operationId,
+    orderId,
+    phase,
+    resumePhase,
+    setupSeconds,
+    runSeconds,
+    downtimeSeconds,
+    phaseStartedAt,
+    goodQuantity,
+    scrapQuantity,
+    scrapReason,
+    machineWorkCenterId,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgOperationTimerRow &&
+          other.tenantId == this.tenantId &&
+          other.operationId == this.operationId &&
+          other.orderId == this.orderId &&
+          other.phase == this.phase &&
+          other.resumePhase == this.resumePhase &&
+          other.setupSeconds == this.setupSeconds &&
+          other.runSeconds == this.runSeconds &&
+          other.downtimeSeconds == this.downtimeSeconds &&
+          other.phaseStartedAt == this.phaseStartedAt &&
+          other.goodQuantity == this.goodQuantity &&
+          other.scrapQuantity == this.scrapQuantity &&
+          other.scrapReason == this.scrapReason &&
+          other.machineWorkCenterId == this.machineWorkCenterId);
+}
+
+class MfgOperationTimersCompanion
+    extends UpdateCompanion<MfgOperationTimerRow> {
+  final Value<String> tenantId;
+  final Value<String> operationId;
+  final Value<String> orderId;
+  final Value<int> phase;
+  final Value<int> resumePhase;
+  final Value<int> setupSeconds;
+  final Value<int> runSeconds;
+  final Value<int> downtimeSeconds;
+  final Value<DateTime?> phaseStartedAt;
+  final Value<double> goodQuantity;
+  final Value<double> scrapQuantity;
+  final Value<String?> scrapReason;
+  final Value<String?> machineWorkCenterId;
+  final Value<int> rowid;
+  const MfgOperationTimersCompanion({
+    this.tenantId = const Value.absent(),
+    this.operationId = const Value.absent(),
+    this.orderId = const Value.absent(),
+    this.phase = const Value.absent(),
+    this.resumePhase = const Value.absent(),
+    this.setupSeconds = const Value.absent(),
+    this.runSeconds = const Value.absent(),
+    this.downtimeSeconds = const Value.absent(),
+    this.phaseStartedAt = const Value.absent(),
+    this.goodQuantity = const Value.absent(),
+    this.scrapQuantity = const Value.absent(),
+    this.scrapReason = const Value.absent(),
+    this.machineWorkCenterId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  MfgOperationTimersCompanion.insert({
+    required String tenantId,
+    required String operationId,
+    required String orderId,
+    this.phase = const Value.absent(),
+    this.resumePhase = const Value.absent(),
+    this.setupSeconds = const Value.absent(),
+    this.runSeconds = const Value.absent(),
+    this.downtimeSeconds = const Value.absent(),
+    this.phaseStartedAt = const Value.absent(),
+    this.goodQuantity = const Value.absent(),
+    this.scrapQuantity = const Value.absent(),
+    this.scrapReason = const Value.absent(),
+    this.machineWorkCenterId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       operationId = Value(operationId),
+       orderId = Value(orderId);
+  static Insertable<MfgOperationTimerRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? operationId,
+    Expression<String>? orderId,
+    Expression<int>? phase,
+    Expression<int>? resumePhase,
+    Expression<int>? setupSeconds,
+    Expression<int>? runSeconds,
+    Expression<int>? downtimeSeconds,
+    Expression<DateTime>? phaseStartedAt,
+    Expression<double>? goodQuantity,
+    Expression<double>? scrapQuantity,
+    Expression<String>? scrapReason,
+    Expression<String>? machineWorkCenterId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (operationId != null) 'operation_id': operationId,
+      if (orderId != null) 'order_id': orderId,
+      if (phase != null) 'phase': phase,
+      if (resumePhase != null) 'resume_phase': resumePhase,
+      if (setupSeconds != null) 'setup_seconds': setupSeconds,
+      if (runSeconds != null) 'run_seconds': runSeconds,
+      if (downtimeSeconds != null) 'downtime_seconds': downtimeSeconds,
+      if (phaseStartedAt != null) 'phase_started_at': phaseStartedAt,
+      if (goodQuantity != null) 'good_quantity': goodQuantity,
+      if (scrapQuantity != null) 'scrap_quantity': scrapQuantity,
+      if (scrapReason != null) 'scrap_reason': scrapReason,
+      if (machineWorkCenterId != null)
+        'machine_work_center_id': machineWorkCenterId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  MfgOperationTimersCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? operationId,
+    Value<String>? orderId,
+    Value<int>? phase,
+    Value<int>? resumePhase,
+    Value<int>? setupSeconds,
+    Value<int>? runSeconds,
+    Value<int>? downtimeSeconds,
+    Value<DateTime?>? phaseStartedAt,
+    Value<double>? goodQuantity,
+    Value<double>? scrapQuantity,
+    Value<String?>? scrapReason,
+    Value<String?>? machineWorkCenterId,
+    Value<int>? rowid,
+  }) {
+    return MfgOperationTimersCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      operationId: operationId ?? this.operationId,
+      orderId: orderId ?? this.orderId,
+      phase: phase ?? this.phase,
+      resumePhase: resumePhase ?? this.resumePhase,
+      setupSeconds: setupSeconds ?? this.setupSeconds,
+      runSeconds: runSeconds ?? this.runSeconds,
+      downtimeSeconds: downtimeSeconds ?? this.downtimeSeconds,
+      phaseStartedAt: phaseStartedAt ?? this.phaseStartedAt,
+      goodQuantity: goodQuantity ?? this.goodQuantity,
+      scrapQuantity: scrapQuantity ?? this.scrapQuantity,
+      scrapReason: scrapReason ?? this.scrapReason,
+      machineWorkCenterId: machineWorkCenterId ?? this.machineWorkCenterId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (operationId.present) {
+      map['operation_id'] = Variable<String>(operationId.value);
+    }
+    if (orderId.present) {
+      map['order_id'] = Variable<String>(orderId.value);
+    }
+    if (phase.present) {
+      map['phase'] = Variable<int>(phase.value);
+    }
+    if (resumePhase.present) {
+      map['resume_phase'] = Variable<int>(resumePhase.value);
+    }
+    if (setupSeconds.present) {
+      map['setup_seconds'] = Variable<int>(setupSeconds.value);
+    }
+    if (runSeconds.present) {
+      map['run_seconds'] = Variable<int>(runSeconds.value);
+    }
+    if (downtimeSeconds.present) {
+      map['downtime_seconds'] = Variable<int>(downtimeSeconds.value);
+    }
+    if (phaseStartedAt.present) {
+      map['phase_started_at'] = Variable<DateTime>(phaseStartedAt.value);
+    }
+    if (goodQuantity.present) {
+      map['good_quantity'] = Variable<double>(goodQuantity.value);
+    }
+    if (scrapQuantity.present) {
+      map['scrap_quantity'] = Variable<double>(scrapQuantity.value);
+    }
+    if (scrapReason.present) {
+      map['scrap_reason'] = Variable<String>(scrapReason.value);
+    }
+    if (machineWorkCenterId.present) {
+      map['machine_work_center_id'] = Variable<String>(
+        machineWorkCenterId.value,
+      );
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgOperationTimersCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('operationId: $operationId, ')
+          ..write('orderId: $orderId, ')
+          ..write('phase: $phase, ')
+          ..write('resumePhase: $resumePhase, ')
+          ..write('setupSeconds: $setupSeconds, ')
+          ..write('runSeconds: $runSeconds, ')
+          ..write('downtimeSeconds: $downtimeSeconds, ')
+          ..write('phaseStartedAt: $phaseStartedAt, ')
+          ..write('goodQuantity: $goodQuantity, ')
+          ..write('scrapQuantity: $scrapQuantity, ')
+          ..write('scrapReason: $scrapReason, ')
+          ..write('machineWorkCenterId: $machineWorkCenterId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MfgOutboxTable extends MfgOutbox
+    with TableInfo<$MfgOutboxTable, MfgOutboxRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MfgOutboxTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _sequenceMeta = const VerificationMeta(
+    'sequence',
+  );
+  @override
+  late final GeneratedColumn<int> sequence = GeneratedColumn<int>(
+    'sequence',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+    'uuid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kindMeta = const VerificationMeta('kind');
+  @override
+  late final GeneratedColumn<String> kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _orderIdMeta = const VerificationMeta(
+    'orderId',
+  );
+  @override
+  late final GeneratedColumn<String> orderId = GeneratedColumn<String>(
+    'order_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _methodMeta = const VerificationMeta('method');
+  @override
+  late final GeneratedColumn<String> method = GeneratedColumn<String>(
+    'method',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('POST'),
+  );
+  static const VerificationMeta _pathMeta = const VerificationMeta('path');
+  @override
+  late final GeneratedColumn<String> path = GeneratedColumn<String>(
+    'path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dependsOnMeta = const VerificationMeta(
+    'dependsOn',
+  );
+  @override
+  late final GeneratedColumn<String> dependsOn = GeneratedColumn<String>(
+    'depends_on',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _stateMeta = const VerificationMeta('state');
+  @override
+  late final GeneratedColumn<int> state = GeneratedColumn<int>(
+    'state',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _attemptsMeta = const VerificationMeta(
+    'attempts',
+  );
+  @override
+  late final GeneratedColumn<int> attempts = GeneratedColumn<int>(
+    'attempts',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _nextAttemptAtMeta = const VerificationMeta(
+    'nextAttemptAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> nextAttemptAt =
+      GeneratedColumn<DateTime>(
+        'next_attempt_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _lastErrorMeta = const VerificationMeta(
+    'lastError',
+  );
+  @override
+  late final GeneratedColumn<String> lastError = GeneratedColumn<String>(
+    'last_error',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _replayedMeta = const VerificationMeta(
+    'replayed',
+  );
+  @override
+  late final GeneratedColumn<bool> replayed = GeneratedColumn<bool>(
+    'replayed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("replayed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _completedAtMeta = const VerificationMeta(
+    'completedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
+    'completed_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    sequence,
+    uuid,
+    tenantId,
+    kind,
+    orderId,
+    method,
+    path,
+    payload,
+    dependsOn,
+    state,
+    attempts,
+    nextAttemptAt,
+    lastError,
+    replayed,
+    createdAt,
+    completedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mfg_outbox';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<MfgOutboxRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('sequence')) {
+      context.handle(
+        _sequenceMeta,
+        sequence.isAcceptableOrUnknown(data['sequence']!, _sequenceMeta),
+      );
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+        _uuidMeta,
+        uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('kind')) {
+      context.handle(
+        _kindMeta,
+        kind.isAcceptableOrUnknown(data['kind']!, _kindMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_kindMeta);
+    }
+    if (data.containsKey('order_id')) {
+      context.handle(
+        _orderIdMeta,
+        orderId.isAcceptableOrUnknown(data['order_id']!, _orderIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_orderIdMeta);
+    }
+    if (data.containsKey('method')) {
+      context.handle(
+        _methodMeta,
+        method.isAcceptableOrUnknown(data['method']!, _methodMeta),
+      );
+    }
+    if (data.containsKey('path')) {
+      context.handle(
+        _pathMeta,
+        path.isAcceptableOrUnknown(data['path']!, _pathMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pathMeta);
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('depends_on')) {
+      context.handle(
+        _dependsOnMeta,
+        dependsOn.isAcceptableOrUnknown(data['depends_on']!, _dependsOnMeta),
+      );
+    }
+    if (data.containsKey('state')) {
+      context.handle(
+        _stateMeta,
+        state.isAcceptableOrUnknown(data['state']!, _stateMeta),
+      );
+    }
+    if (data.containsKey('attempts')) {
+      context.handle(
+        _attemptsMeta,
+        attempts.isAcceptableOrUnknown(data['attempts']!, _attemptsMeta),
+      );
+    }
+    if (data.containsKey('next_attempt_at')) {
+      context.handle(
+        _nextAttemptAtMeta,
+        nextAttemptAt.isAcceptableOrUnknown(
+          data['next_attempt_at']!,
+          _nextAttemptAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_error')) {
+      context.handle(
+        _lastErrorMeta,
+        lastError.isAcceptableOrUnknown(data['last_error']!, _lastErrorMeta),
+      );
+    }
+    if (data.containsKey('replayed')) {
+      context.handle(
+        _replayedMeta,
+        replayed.isAcceptableOrUnknown(data['replayed']!, _replayedMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('completed_at')) {
+      context.handle(
+        _completedAtMeta,
+        completedAt.isAcceptableOrUnknown(
+          data['completed_at']!,
+          _completedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {sequence};
+  @override
+  MfgOutboxRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MfgOutboxRow(
+      sequence: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sequence'],
+      )!,
+      uuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}uuid'],
+      )!,
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      kind: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}kind'],
+      )!,
+      orderId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}order_id'],
+      )!,
+      method: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}method'],
+      )!,
+      path: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}path'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      dependsOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}depends_on'],
+      ),
+      state: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}state'],
+      )!,
+      attempts: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}attempts'],
+      )!,
+      nextAttemptAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}next_attempt_at'],
+      ),
+      lastError: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_error'],
+      ),
+      replayed: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}replayed'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      completedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}completed_at'],
+      ),
+    );
+  }
+
+  @override
+  $MfgOutboxTable createAlias(String alias) {
+    return $MfgOutboxTable(attachedDatabase, alias);
+  }
+}
+
+class MfgOutboxRow extends DataClass implements Insertable<MfgOutboxRow> {
+  final int sequence;
+  final String uuid;
+  final String tenantId;
+  final String kind;
+  final String orderId;
+  final String method;
+  final String path;
+  final String payload;
+
+  /// Queue uuid that must be acknowledged first (explicit dependency across orders).
+  final String? dependsOn;
+  final int state;
+  final int attempts;
+  final DateTime? nextAttemptAt;
+  final String? lastError;
+
+  /// The server answered 200 instead of 201: the posting had already been applied (idempotent replay).
+  final bool replayed;
+  final DateTime createdAt;
+  final DateTime? completedAt;
+  const MfgOutboxRow({
+    required this.sequence,
+    required this.uuid,
+    required this.tenantId,
+    required this.kind,
+    required this.orderId,
+    required this.method,
+    required this.path,
+    required this.payload,
+    this.dependsOn,
+    required this.state,
+    required this.attempts,
+    this.nextAttemptAt,
+    this.lastError,
+    required this.replayed,
+    required this.createdAt,
+    this.completedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['sequence'] = Variable<int>(sequence);
+    map['uuid'] = Variable<String>(uuid);
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['kind'] = Variable<String>(kind);
+    map['order_id'] = Variable<String>(orderId);
+    map['method'] = Variable<String>(method);
+    map['path'] = Variable<String>(path);
+    map['payload'] = Variable<String>(payload);
+    if (!nullToAbsent || dependsOn != null) {
+      map['depends_on'] = Variable<String>(dependsOn);
+    }
+    map['state'] = Variable<int>(state);
+    map['attempts'] = Variable<int>(attempts);
+    if (!nullToAbsent || nextAttemptAt != null) {
+      map['next_attempt_at'] = Variable<DateTime>(nextAttemptAt);
+    }
+    if (!nullToAbsent || lastError != null) {
+      map['last_error'] = Variable<String>(lastError);
+    }
+    map['replayed'] = Variable<bool>(replayed);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || completedAt != null) {
+      map['completed_at'] = Variable<DateTime>(completedAt);
+    }
+    return map;
+  }
+
+  MfgOutboxCompanion toCompanion(bool nullToAbsent) {
+    return MfgOutboxCompanion(
+      sequence: Value(sequence),
+      uuid: Value(uuid),
+      tenantId: Value(tenantId),
+      kind: Value(kind),
+      orderId: Value(orderId),
+      method: Value(method),
+      path: Value(path),
+      payload: Value(payload),
+      dependsOn: dependsOn == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dependsOn),
+      state: Value(state),
+      attempts: Value(attempts),
+      nextAttemptAt: nextAttemptAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nextAttemptAt),
+      lastError: lastError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastError),
+      replayed: Value(replayed),
+      createdAt: Value(createdAt),
+      completedAt: completedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(completedAt),
+    );
+  }
+
+  factory MfgOutboxRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MfgOutboxRow(
+      sequence: serializer.fromJson<int>(json['sequence']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      kind: serializer.fromJson<String>(json['kind']),
+      orderId: serializer.fromJson<String>(json['orderId']),
+      method: serializer.fromJson<String>(json['method']),
+      path: serializer.fromJson<String>(json['path']),
+      payload: serializer.fromJson<String>(json['payload']),
+      dependsOn: serializer.fromJson<String?>(json['dependsOn']),
+      state: serializer.fromJson<int>(json['state']),
+      attempts: serializer.fromJson<int>(json['attempts']),
+      nextAttemptAt: serializer.fromJson<DateTime?>(json['nextAttemptAt']),
+      lastError: serializer.fromJson<String?>(json['lastError']),
+      replayed: serializer.fromJson<bool>(json['replayed']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      completedAt: serializer.fromJson<DateTime?>(json['completedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'sequence': serializer.toJson<int>(sequence),
+      'uuid': serializer.toJson<String>(uuid),
+      'tenantId': serializer.toJson<String>(tenantId),
+      'kind': serializer.toJson<String>(kind),
+      'orderId': serializer.toJson<String>(orderId),
+      'method': serializer.toJson<String>(method),
+      'path': serializer.toJson<String>(path),
+      'payload': serializer.toJson<String>(payload),
+      'dependsOn': serializer.toJson<String?>(dependsOn),
+      'state': serializer.toJson<int>(state),
+      'attempts': serializer.toJson<int>(attempts),
+      'nextAttemptAt': serializer.toJson<DateTime?>(nextAttemptAt),
+      'lastError': serializer.toJson<String?>(lastError),
+      'replayed': serializer.toJson<bool>(replayed),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'completedAt': serializer.toJson<DateTime?>(completedAt),
+    };
+  }
+
+  MfgOutboxRow copyWith({
+    int? sequence,
+    String? uuid,
+    String? tenantId,
+    String? kind,
+    String? orderId,
+    String? method,
+    String? path,
+    String? payload,
+    Value<String?> dependsOn = const Value.absent(),
+    int? state,
+    int? attempts,
+    Value<DateTime?> nextAttemptAt = const Value.absent(),
+    Value<String?> lastError = const Value.absent(),
+    bool? replayed,
+    DateTime? createdAt,
+    Value<DateTime?> completedAt = const Value.absent(),
+  }) => MfgOutboxRow(
+    sequence: sequence ?? this.sequence,
+    uuid: uuid ?? this.uuid,
+    tenantId: tenantId ?? this.tenantId,
+    kind: kind ?? this.kind,
+    orderId: orderId ?? this.orderId,
+    method: method ?? this.method,
+    path: path ?? this.path,
+    payload: payload ?? this.payload,
+    dependsOn: dependsOn.present ? dependsOn.value : this.dependsOn,
+    state: state ?? this.state,
+    attempts: attempts ?? this.attempts,
+    nextAttemptAt: nextAttemptAt.present
+        ? nextAttemptAt.value
+        : this.nextAttemptAt,
+    lastError: lastError.present ? lastError.value : this.lastError,
+    replayed: replayed ?? this.replayed,
+    createdAt: createdAt ?? this.createdAt,
+    completedAt: completedAt.present ? completedAt.value : this.completedAt,
+  );
+  MfgOutboxRow copyWithCompanion(MfgOutboxCompanion data) {
+    return MfgOutboxRow(
+      sequence: data.sequence.present ? data.sequence.value : this.sequence,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      orderId: data.orderId.present ? data.orderId.value : this.orderId,
+      method: data.method.present ? data.method.value : this.method,
+      path: data.path.present ? data.path.value : this.path,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      dependsOn: data.dependsOn.present ? data.dependsOn.value : this.dependsOn,
+      state: data.state.present ? data.state.value : this.state,
+      attempts: data.attempts.present ? data.attempts.value : this.attempts,
+      nextAttemptAt: data.nextAttemptAt.present
+          ? data.nextAttemptAt.value
+          : this.nextAttemptAt,
+      lastError: data.lastError.present ? data.lastError.value : this.lastError,
+      replayed: data.replayed.present ? data.replayed.value : this.replayed,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      completedAt: data.completedAt.present
+          ? data.completedAt.value
+          : this.completedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgOutboxRow(')
+          ..write('sequence: $sequence, ')
+          ..write('uuid: $uuid, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('kind: $kind, ')
+          ..write('orderId: $orderId, ')
+          ..write('method: $method, ')
+          ..write('path: $path, ')
+          ..write('payload: $payload, ')
+          ..write('dependsOn: $dependsOn, ')
+          ..write('state: $state, ')
+          ..write('attempts: $attempts, ')
+          ..write('nextAttemptAt: $nextAttemptAt, ')
+          ..write('lastError: $lastError, ')
+          ..write('replayed: $replayed, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('completedAt: $completedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    sequence,
+    uuid,
+    tenantId,
+    kind,
+    orderId,
+    method,
+    path,
+    payload,
+    dependsOn,
+    state,
+    attempts,
+    nextAttemptAt,
+    lastError,
+    replayed,
+    createdAt,
+    completedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MfgOutboxRow &&
+          other.sequence == this.sequence &&
+          other.uuid == this.uuid &&
+          other.tenantId == this.tenantId &&
+          other.kind == this.kind &&
+          other.orderId == this.orderId &&
+          other.method == this.method &&
+          other.path == this.path &&
+          other.payload == this.payload &&
+          other.dependsOn == this.dependsOn &&
+          other.state == this.state &&
+          other.attempts == this.attempts &&
+          other.nextAttemptAt == this.nextAttemptAt &&
+          other.lastError == this.lastError &&
+          other.replayed == this.replayed &&
+          other.createdAt == this.createdAt &&
+          other.completedAt == this.completedAt);
+}
+
+class MfgOutboxCompanion extends UpdateCompanion<MfgOutboxRow> {
+  final Value<int> sequence;
+  final Value<String> uuid;
+  final Value<String> tenantId;
+  final Value<String> kind;
+  final Value<String> orderId;
+  final Value<String> method;
+  final Value<String> path;
+  final Value<String> payload;
+  final Value<String?> dependsOn;
+  final Value<int> state;
+  final Value<int> attempts;
+  final Value<DateTime?> nextAttemptAt;
+  final Value<String?> lastError;
+  final Value<bool> replayed;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> completedAt;
+  const MfgOutboxCompanion({
+    this.sequence = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.tenantId = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.orderId = const Value.absent(),
+    this.method = const Value.absent(),
+    this.path = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.dependsOn = const Value.absent(),
+    this.state = const Value.absent(),
+    this.attempts = const Value.absent(),
+    this.nextAttemptAt = const Value.absent(),
+    this.lastError = const Value.absent(),
+    this.replayed = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.completedAt = const Value.absent(),
+  });
+  MfgOutboxCompanion.insert({
+    this.sequence = const Value.absent(),
+    required String uuid,
+    required String tenantId,
+    required String kind,
+    required String orderId,
+    this.method = const Value.absent(),
+    required String path,
+    required String payload,
+    this.dependsOn = const Value.absent(),
+    this.state = const Value.absent(),
+    this.attempts = const Value.absent(),
+    this.nextAttemptAt = const Value.absent(),
+    this.lastError = const Value.absent(),
+    this.replayed = const Value.absent(),
+    required DateTime createdAt,
+    this.completedAt = const Value.absent(),
+  }) : uuid = Value(uuid),
+       tenantId = Value(tenantId),
+       kind = Value(kind),
+       orderId = Value(orderId),
+       path = Value(path),
+       payload = Value(payload),
+       createdAt = Value(createdAt);
+  static Insertable<MfgOutboxRow> custom({
+    Expression<int>? sequence,
+    Expression<String>? uuid,
+    Expression<String>? tenantId,
+    Expression<String>? kind,
+    Expression<String>? orderId,
+    Expression<String>? method,
+    Expression<String>? path,
+    Expression<String>? payload,
+    Expression<String>? dependsOn,
+    Expression<int>? state,
+    Expression<int>? attempts,
+    Expression<DateTime>? nextAttemptAt,
+    Expression<String>? lastError,
+    Expression<bool>? replayed,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? completedAt,
+  }) {
+    return RawValuesInsertable({
+      if (sequence != null) 'sequence': sequence,
+      if (uuid != null) 'uuid': uuid,
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (kind != null) 'kind': kind,
+      if (orderId != null) 'order_id': orderId,
+      if (method != null) 'method': method,
+      if (path != null) 'path': path,
+      if (payload != null) 'payload': payload,
+      if (dependsOn != null) 'depends_on': dependsOn,
+      if (state != null) 'state': state,
+      if (attempts != null) 'attempts': attempts,
+      if (nextAttemptAt != null) 'next_attempt_at': nextAttemptAt,
+      if (lastError != null) 'last_error': lastError,
+      if (replayed != null) 'replayed': replayed,
+      if (createdAt != null) 'created_at': createdAt,
+      if (completedAt != null) 'completed_at': completedAt,
+    });
+  }
+
+  MfgOutboxCompanion copyWith({
+    Value<int>? sequence,
+    Value<String>? uuid,
+    Value<String>? tenantId,
+    Value<String>? kind,
+    Value<String>? orderId,
+    Value<String>? method,
+    Value<String>? path,
+    Value<String>? payload,
+    Value<String?>? dependsOn,
+    Value<int>? state,
+    Value<int>? attempts,
+    Value<DateTime?>? nextAttemptAt,
+    Value<String?>? lastError,
+    Value<bool>? replayed,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? completedAt,
+  }) {
+    return MfgOutboxCompanion(
+      sequence: sequence ?? this.sequence,
+      uuid: uuid ?? this.uuid,
+      tenantId: tenantId ?? this.tenantId,
+      kind: kind ?? this.kind,
+      orderId: orderId ?? this.orderId,
+      method: method ?? this.method,
+      path: path ?? this.path,
+      payload: payload ?? this.payload,
+      dependsOn: dependsOn ?? this.dependsOn,
+      state: state ?? this.state,
+      attempts: attempts ?? this.attempts,
+      nextAttemptAt: nextAttemptAt ?? this.nextAttemptAt,
+      lastError: lastError ?? this.lastError,
+      replayed: replayed ?? this.replayed,
+      createdAt: createdAt ?? this.createdAt,
+      completedAt: completedAt ?? this.completedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (sequence.present) {
+      map['sequence'] = Variable<int>(sequence.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(kind.value);
+    }
+    if (orderId.present) {
+      map['order_id'] = Variable<String>(orderId.value);
+    }
+    if (method.present) {
+      map['method'] = Variable<String>(method.value);
+    }
+    if (path.present) {
+      map['path'] = Variable<String>(path.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (dependsOn.present) {
+      map['depends_on'] = Variable<String>(dependsOn.value);
+    }
+    if (state.present) {
+      map['state'] = Variable<int>(state.value);
+    }
+    if (attempts.present) {
+      map['attempts'] = Variable<int>(attempts.value);
+    }
+    if (nextAttemptAt.present) {
+      map['next_attempt_at'] = Variable<DateTime>(nextAttemptAt.value);
+    }
+    if (lastError.present) {
+      map['last_error'] = Variable<String>(lastError.value);
+    }
+    if (replayed.present) {
+      map['replayed'] = Variable<bool>(replayed.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (completedAt.present) {
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MfgOutboxCompanion(')
+          ..write('sequence: $sequence, ')
+          ..write('uuid: $uuid, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('kind: $kind, ')
+          ..write('orderId: $orderId, ')
+          ..write('method: $method, ')
+          ..write('path: $path, ')
+          ..write('payload: $payload, ')
+          ..write('dependsOn: $dependsOn, ')
+          ..write('state: $state, ')
+          ..write('attempts: $attempts, ')
+          ..write('nextAttemptAt: $nextAttemptAt, ')
+          ..write('lastError: $lastError, ')
+          ..write('replayed: $replayed, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('completedAt: $completedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -9688,6 +12980,15 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $LocalPendingApprovalsTable(this);
   late final $LocalApprovalAuditLogsTable localApprovalAuditLogs =
       $LocalApprovalAuditLogsTable(this);
+  late final $MfgOrdersTable mfgOrders = $MfgOrdersTable(this);
+  late final $MfgWorkCentersTable mfgWorkCenters = $MfgWorkCentersTable(this);
+  late final $MfgQualityPlansTable mfgQualityPlans = $MfgQualityPlansTable(
+    this,
+  );
+  late final $MfgStagedLotsTable mfgStagedLots = $MfgStagedLotsTable(this);
+  late final $MfgOperationTimersTable mfgOperationTimers =
+      $MfgOperationTimersTable(this);
+  late final $MfgOutboxTable mfgOutbox = $MfgOutboxTable(this);
   late final PurchaseRequisitionDao purchaseRequisitionDao =
       PurchaseRequisitionDao(this as AppDatabase);
   @override
@@ -9708,6 +13009,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     localPurchaseRequisitionLines,
     localPendingApprovals,
     localApprovalAuditLogs,
+    mfgOrders,
+    mfgWorkCenters,
+    mfgQualityPlans,
+    mfgStagedLots,
+    mfgOperationTimers,
+    mfgOutbox,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -14738,6 +18045,1723 @@ typedef $$LocalApprovalAuditLogsTableProcessedTableManager =
       LocalApprovalAuditLogRow,
       PrefetchHooks Function()
     >;
+typedef $$MfgOrdersTableCreateCompanionBuilder = MfgOrdersCompanion Function({
+  required String tenantId,
+  required String id,
+  required String orderNumber,
+  required String status,
+  required String payload,
+  required DateTime syncedAt,
+  Value<int> rowid,
+});
+typedef $$MfgOrdersTableUpdateCompanionBuilder = MfgOrdersCompanion Function({
+  Value<String> tenantId,
+  Value<String> id,
+  Value<String> orderNumber,
+  Value<String> status,
+  Value<String> payload,
+  Value<DateTime> syncedAt,
+  Value<int> rowid,
+});
+
+class $$MfgOrdersTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgOrdersTable> {
+  $$MfgOrdersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get orderNumber => $composableBuilder(
+    column: $table.orderNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgOrdersTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgOrdersTable> {
+  $$MfgOrdersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get orderNumber => $composableBuilder(
+    column: $table.orderNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgOrdersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgOrdersTable> {
+  $$MfgOrdersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get orderNumber => $composableBuilder(
+    column: $table.orderNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+}
+
+class $$MfgOrdersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgOrdersTable,
+          MfgOrderRow,
+          $$MfgOrdersTableFilterComposer,
+          $$MfgOrdersTableOrderingComposer,
+          $$MfgOrdersTableAnnotationComposer,
+          $$MfgOrdersTableCreateCompanionBuilder,
+          $$MfgOrdersTableUpdateCompanionBuilder,
+          (
+            MfgOrderRow,
+            BaseReferences<_$AppDatabase, $MfgOrdersTable, MfgOrderRow>,
+          ),
+          MfgOrderRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgOrdersTableTableManager(_$AppDatabase db, $MfgOrdersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgOrdersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgOrdersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MfgOrdersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> orderNumber = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgOrdersCompanion(
+                tenantId: tenantId,
+                id: id,
+                orderNumber: orderNumber,
+                status: status,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String orderNumber,
+                required String status,
+                required String payload,
+                required DateTime syncedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgOrdersCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                orderNumber: orderNumber,
+                status: status,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgOrdersTable, MfgOrderRow>(table),
+                  BaseReferences<_$AppDatabase, $MfgOrdersTable, MfgOrderRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgOrdersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgOrdersTable,
+      MfgOrderRow,
+      $$MfgOrdersTableFilterComposer,
+      $$MfgOrdersTableOrderingComposer,
+      $$MfgOrdersTableAnnotationComposer,
+      $$MfgOrdersTableCreateCompanionBuilder,
+      $$MfgOrdersTableUpdateCompanionBuilder,
+      (
+        MfgOrderRow,
+        BaseReferences<_$AppDatabase, $MfgOrdersTable, MfgOrderRow>,
+      ),
+      MfgOrderRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgWorkCentersTableCreateCompanionBuilder =
+    MfgWorkCentersCompanion Function({
+      required String tenantId,
+      required String id,
+      required String code,
+      required String payload,
+      Value<int> rowid,
+    });
+typedef $$MfgWorkCentersTableUpdateCompanionBuilder =
+    MfgWorkCentersCompanion Function({
+      Value<String> tenantId,
+      Value<String> id,
+      Value<String> code,
+      Value<String> payload,
+      Value<int> rowid,
+    });
+
+class $$MfgWorkCentersTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgWorkCentersTable> {
+  $$MfgWorkCentersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgWorkCentersTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgWorkCentersTable> {
+  $$MfgWorkCentersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgWorkCentersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgWorkCentersTable> {
+  $$MfgWorkCentersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+}
+
+class $$MfgWorkCentersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgWorkCentersTable,
+          MfgWorkCenterRow,
+          $$MfgWorkCentersTableFilterComposer,
+          $$MfgWorkCentersTableOrderingComposer,
+          $$MfgWorkCentersTableAnnotationComposer,
+          $$MfgWorkCentersTableCreateCompanionBuilder,
+          $$MfgWorkCentersTableUpdateCompanionBuilder,
+          (
+            MfgWorkCenterRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MfgWorkCentersTable,
+              MfgWorkCenterRow
+            >,
+          ),
+          MfgWorkCenterRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgWorkCentersTableTableManager(
+    _$AppDatabase db,
+    $MfgWorkCentersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgWorkCentersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgWorkCentersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MfgWorkCentersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgWorkCentersCompanion(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                payload: payload,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String code,
+                required String payload,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgWorkCentersCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                payload: payload,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgWorkCentersTable, MfgWorkCenterRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgWorkCentersTable,
+                    MfgWorkCenterRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgWorkCentersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgWorkCentersTable,
+      MfgWorkCenterRow,
+      $$MfgWorkCentersTableFilterComposer,
+      $$MfgWorkCentersTableOrderingComposer,
+      $$MfgWorkCentersTableAnnotationComposer,
+      $$MfgWorkCentersTableCreateCompanionBuilder,
+      $$MfgWorkCentersTableUpdateCompanionBuilder,
+      (
+        MfgWorkCenterRow,
+        BaseReferences<_$AppDatabase, $MfgWorkCentersTable, MfgWorkCenterRow>,
+      ),
+      MfgWorkCenterRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgQualityPlansTableCreateCompanionBuilder =
+    MfgQualityPlansCompanion Function({
+      required String tenantId,
+      required String id,
+      required String payload,
+      Value<int> rowid,
+    });
+typedef $$MfgQualityPlansTableUpdateCompanionBuilder =
+    MfgQualityPlansCompanion Function({
+      Value<String> tenantId,
+      Value<String> id,
+      Value<String> payload,
+      Value<int> rowid,
+    });
+
+class $$MfgQualityPlansTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgQualityPlansTable> {
+  $$MfgQualityPlansTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgQualityPlansTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgQualityPlansTable> {
+  $$MfgQualityPlansTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgQualityPlansTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgQualityPlansTable> {
+  $$MfgQualityPlansTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+}
+
+class $$MfgQualityPlansTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgQualityPlansTable,
+          MfgQualityPlanRow,
+          $$MfgQualityPlansTableFilterComposer,
+          $$MfgQualityPlansTableOrderingComposer,
+          $$MfgQualityPlansTableAnnotationComposer,
+          $$MfgQualityPlansTableCreateCompanionBuilder,
+          $$MfgQualityPlansTableUpdateCompanionBuilder,
+          (
+            MfgQualityPlanRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MfgQualityPlansTable,
+              MfgQualityPlanRow
+            >,
+          ),
+          MfgQualityPlanRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgQualityPlansTableTableManager(
+    _$AppDatabase db,
+    $MfgQualityPlansTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgQualityPlansTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgQualityPlansTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MfgQualityPlansTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgQualityPlansCompanion(
+                tenantId: tenantId,
+                id: id,
+                payload: payload,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String payload,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgQualityPlansCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                payload: payload,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgQualityPlansTable, MfgQualityPlanRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgQualityPlansTable,
+                    MfgQualityPlanRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgQualityPlansTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgQualityPlansTable,
+      MfgQualityPlanRow,
+      $$MfgQualityPlansTableFilterComposer,
+      $$MfgQualityPlansTableOrderingComposer,
+      $$MfgQualityPlansTableAnnotationComposer,
+      $$MfgQualityPlansTableCreateCompanionBuilder,
+      $$MfgQualityPlansTableUpdateCompanionBuilder,
+      (
+        MfgQualityPlanRow,
+        BaseReferences<_$AppDatabase, $MfgQualityPlansTable, MfgQualityPlanRow>,
+      ),
+      MfgQualityPlanRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgStagedLotsTableCreateCompanionBuilder =
+    MfgStagedLotsCompanion Function({
+      required String id,
+      required String tenantId,
+      required String orderId,
+      required String lineId,
+      required String lotNumber,
+      Value<String?> lotId,
+      Value<String?> gtin,
+      required double quantity,
+      Value<String?> outboxUuid,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$MfgStagedLotsTableUpdateCompanionBuilder =
+    MfgStagedLotsCompanion Function({
+      Value<String> id,
+      Value<String> tenantId,
+      Value<String> orderId,
+      Value<String> lineId,
+      Value<String> lotNumber,
+      Value<String?> lotId,
+      Value<String?> gtin,
+      Value<double> quantity,
+      Value<String?> outboxUuid,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+class $$MfgStagedLotsTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgStagedLotsTable> {
+  $$MfgStagedLotsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get orderId => $composableBuilder(
+    column: $table.orderId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lineId => $composableBuilder(
+    column: $table.lineId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lotNumber => $composableBuilder(
+    column: $table.lotNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lotId => $composableBuilder(
+    column: $table.lotId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get gtin => $composableBuilder(
+    column: $table.gtin,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get outboxUuid => $composableBuilder(
+    column: $table.outboxUuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgStagedLotsTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgStagedLotsTable> {
+  $$MfgStagedLotsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get orderId => $composableBuilder(
+    column: $table.orderId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lineId => $composableBuilder(
+    column: $table.lineId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lotNumber => $composableBuilder(
+    column: $table.lotNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lotId => $composableBuilder(
+    column: $table.lotId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get gtin => $composableBuilder(
+    column: $table.gtin,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get outboxUuid => $composableBuilder(
+    column: $table.outboxUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgStagedLotsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgStagedLotsTable> {
+  $$MfgStagedLotsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get orderId =>
+      $composableBuilder(column: $table.orderId, builder: (column) => column);
+
+  GeneratedColumn<String> get lineId =>
+      $composableBuilder(column: $table.lineId, builder: (column) => column);
+
+  GeneratedColumn<String> get lotNumber =>
+      $composableBuilder(column: $table.lotNumber, builder: (column) => column);
+
+  GeneratedColumn<String> get lotId =>
+      $composableBuilder(column: $table.lotId, builder: (column) => column);
+
+  GeneratedColumn<String> get gtin =>
+      $composableBuilder(column: $table.gtin, builder: (column) => column);
+
+  GeneratedColumn<double> get quantity =>
+      $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  GeneratedColumn<String> get outboxUuid => $composableBuilder(
+    column: $table.outboxUuid,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$MfgStagedLotsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgStagedLotsTable,
+          MfgStagedLotRow,
+          $$MfgStagedLotsTableFilterComposer,
+          $$MfgStagedLotsTableOrderingComposer,
+          $$MfgStagedLotsTableAnnotationComposer,
+          $$MfgStagedLotsTableCreateCompanionBuilder,
+          $$MfgStagedLotsTableUpdateCompanionBuilder,
+          (
+            MfgStagedLotRow,
+            BaseReferences<_$AppDatabase, $MfgStagedLotsTable, MfgStagedLotRow>,
+          ),
+          MfgStagedLotRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgStagedLotsTableTableManager(_$AppDatabase db, $MfgStagedLotsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgStagedLotsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgStagedLotsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MfgStagedLotsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> tenantId = const Value.absent(),
+                Value<String> orderId = const Value.absent(),
+                Value<String> lineId = const Value.absent(),
+                Value<String> lotNumber = const Value.absent(),
+                Value<String?> lotId = const Value.absent(),
+                Value<String?> gtin = const Value.absent(),
+                Value<double> quantity = const Value.absent(),
+                Value<String?> outboxUuid = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgStagedLotsCompanion(
+                id: id,
+                tenantId: tenantId,
+                orderId: orderId,
+                lineId: lineId,
+                lotNumber: lotNumber,
+                lotId: lotId,
+                gtin: gtin,
+                quantity: quantity,
+                outboxUuid: outboxUuid,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String tenantId,
+                required String orderId,
+                required String lineId,
+                required String lotNumber,
+                Value<String?> lotId = const Value.absent(),
+                Value<String?> gtin = const Value.absent(),
+                required double quantity,
+                Value<String?> outboxUuid = const Value.absent(),
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => MfgStagedLotsCompanion.insert(
+                id: id,
+                tenantId: tenantId,
+                orderId: orderId,
+                lineId: lineId,
+                lotNumber: lotNumber,
+                lotId: lotId,
+                gtin: gtin,
+                quantity: quantity,
+                outboxUuid: outboxUuid,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgStagedLotsTable, MfgStagedLotRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgStagedLotsTable,
+                    MfgStagedLotRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgStagedLotsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgStagedLotsTable,
+      MfgStagedLotRow,
+      $$MfgStagedLotsTableFilterComposer,
+      $$MfgStagedLotsTableOrderingComposer,
+      $$MfgStagedLotsTableAnnotationComposer,
+      $$MfgStagedLotsTableCreateCompanionBuilder,
+      $$MfgStagedLotsTableUpdateCompanionBuilder,
+      (
+        MfgStagedLotRow,
+        BaseReferences<_$AppDatabase, $MfgStagedLotsTable, MfgStagedLotRow>,
+      ),
+      MfgStagedLotRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgOperationTimersTableCreateCompanionBuilder =
+    MfgOperationTimersCompanion Function({
+      required String tenantId,
+      required String operationId,
+      required String orderId,
+      Value<int> phase,
+      Value<int> resumePhase,
+      Value<int> setupSeconds,
+      Value<int> runSeconds,
+      Value<int> downtimeSeconds,
+      Value<DateTime?> phaseStartedAt,
+      Value<double> goodQuantity,
+      Value<double> scrapQuantity,
+      Value<String?> scrapReason,
+      Value<String?> machineWorkCenterId,
+      Value<int> rowid,
+    });
+typedef $$MfgOperationTimersTableUpdateCompanionBuilder =
+    MfgOperationTimersCompanion Function({
+      Value<String> tenantId,
+      Value<String> operationId,
+      Value<String> orderId,
+      Value<int> phase,
+      Value<int> resumePhase,
+      Value<int> setupSeconds,
+      Value<int> runSeconds,
+      Value<int> downtimeSeconds,
+      Value<DateTime?> phaseStartedAt,
+      Value<double> goodQuantity,
+      Value<double> scrapQuantity,
+      Value<String?> scrapReason,
+      Value<String?> machineWorkCenterId,
+      Value<int> rowid,
+    });
+
+class $$MfgOperationTimersTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgOperationTimersTable> {
+  $$MfgOperationTimersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get operationId => $composableBuilder(
+    column: $table.operationId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get orderId => $composableBuilder(
+    column: $table.orderId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get phase => $composableBuilder(
+    column: $table.phase,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get resumePhase => $composableBuilder(
+    column: $table.resumePhase,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get setupSeconds => $composableBuilder(
+    column: $table.setupSeconds,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get runSeconds => $composableBuilder(
+    column: $table.runSeconds,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get downtimeSeconds => $composableBuilder(
+    column: $table.downtimeSeconds,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get phaseStartedAt => $composableBuilder(
+    column: $table.phaseStartedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get goodQuantity => $composableBuilder(
+    column: $table.goodQuantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get scrapQuantity => $composableBuilder(
+    column: $table.scrapQuantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get scrapReason => $composableBuilder(
+    column: $table.scrapReason,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get machineWorkCenterId => $composableBuilder(
+    column: $table.machineWorkCenterId,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgOperationTimersTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgOperationTimersTable> {
+  $$MfgOperationTimersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get operationId => $composableBuilder(
+    column: $table.operationId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get orderId => $composableBuilder(
+    column: $table.orderId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get phase => $composableBuilder(
+    column: $table.phase,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get resumePhase => $composableBuilder(
+    column: $table.resumePhase,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get setupSeconds => $composableBuilder(
+    column: $table.setupSeconds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get runSeconds => $composableBuilder(
+    column: $table.runSeconds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get downtimeSeconds => $composableBuilder(
+    column: $table.downtimeSeconds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get phaseStartedAt => $composableBuilder(
+    column: $table.phaseStartedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get goodQuantity => $composableBuilder(
+    column: $table.goodQuantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get scrapQuantity => $composableBuilder(
+    column: $table.scrapQuantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get scrapReason => $composableBuilder(
+    column: $table.scrapReason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get machineWorkCenterId => $composableBuilder(
+    column: $table.machineWorkCenterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgOperationTimersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgOperationTimersTable> {
+  $$MfgOperationTimersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get operationId => $composableBuilder(
+    column: $table.operationId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get orderId =>
+      $composableBuilder(column: $table.orderId, builder: (column) => column);
+
+  GeneratedColumn<int> get phase =>
+      $composableBuilder(column: $table.phase, builder: (column) => column);
+
+  GeneratedColumn<int> get resumePhase => $composableBuilder(
+    column: $table.resumePhase,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get setupSeconds => $composableBuilder(
+    column: $table.setupSeconds,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get runSeconds => $composableBuilder(
+    column: $table.runSeconds,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get downtimeSeconds => $composableBuilder(
+    column: $table.downtimeSeconds,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get phaseStartedAt => $composableBuilder(
+    column: $table.phaseStartedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get goodQuantity => $composableBuilder(
+    column: $table.goodQuantity,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get scrapQuantity => $composableBuilder(
+    column: $table.scrapQuantity,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get scrapReason => $composableBuilder(
+    column: $table.scrapReason,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get machineWorkCenterId => $composableBuilder(
+    column: $table.machineWorkCenterId,
+    builder: (column) => column,
+  );
+}
+
+class $$MfgOperationTimersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgOperationTimersTable,
+          MfgOperationTimerRow,
+          $$MfgOperationTimersTableFilterComposer,
+          $$MfgOperationTimersTableOrderingComposer,
+          $$MfgOperationTimersTableAnnotationComposer,
+          $$MfgOperationTimersTableCreateCompanionBuilder,
+          $$MfgOperationTimersTableUpdateCompanionBuilder,
+          (
+            MfgOperationTimerRow,
+            BaseReferences<
+              _$AppDatabase,
+              $MfgOperationTimersTable,
+              MfgOperationTimerRow
+            >,
+          ),
+          MfgOperationTimerRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgOperationTimersTableTableManager(
+    _$AppDatabase db,
+    $MfgOperationTimersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgOperationTimersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgOperationTimersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MfgOperationTimersTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> operationId = const Value.absent(),
+                Value<String> orderId = const Value.absent(),
+                Value<int> phase = const Value.absent(),
+                Value<int> resumePhase = const Value.absent(),
+                Value<int> setupSeconds = const Value.absent(),
+                Value<int> runSeconds = const Value.absent(),
+                Value<int> downtimeSeconds = const Value.absent(),
+                Value<DateTime?> phaseStartedAt = const Value.absent(),
+                Value<double> goodQuantity = const Value.absent(),
+                Value<double> scrapQuantity = const Value.absent(),
+                Value<String?> scrapReason = const Value.absent(),
+                Value<String?> machineWorkCenterId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgOperationTimersCompanion(
+                tenantId: tenantId,
+                operationId: operationId,
+                orderId: orderId,
+                phase: phase,
+                resumePhase: resumePhase,
+                setupSeconds: setupSeconds,
+                runSeconds: runSeconds,
+                downtimeSeconds: downtimeSeconds,
+                phaseStartedAt: phaseStartedAt,
+                goodQuantity: goodQuantity,
+                scrapQuantity: scrapQuantity,
+                scrapReason: scrapReason,
+                machineWorkCenterId: machineWorkCenterId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String operationId,
+                required String orderId,
+                Value<int> phase = const Value.absent(),
+                Value<int> resumePhase = const Value.absent(),
+                Value<int> setupSeconds = const Value.absent(),
+                Value<int> runSeconds = const Value.absent(),
+                Value<int> downtimeSeconds = const Value.absent(),
+                Value<DateTime?> phaseStartedAt = const Value.absent(),
+                Value<double> goodQuantity = const Value.absent(),
+                Value<double> scrapQuantity = const Value.absent(),
+                Value<String?> scrapReason = const Value.absent(),
+                Value<String?> machineWorkCenterId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => MfgOperationTimersCompanion.insert(
+                tenantId: tenantId,
+                operationId: operationId,
+                orderId: orderId,
+                phase: phase,
+                resumePhase: resumePhase,
+                setupSeconds: setupSeconds,
+                runSeconds: runSeconds,
+                downtimeSeconds: downtimeSeconds,
+                phaseStartedAt: phaseStartedAt,
+                goodQuantity: goodQuantity,
+                scrapQuantity: scrapQuantity,
+                scrapReason: scrapReason,
+                machineWorkCenterId: machineWorkCenterId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgOperationTimersTable, MfgOperationTimerRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $MfgOperationTimersTable,
+                    MfgOperationTimerRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgOperationTimersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgOperationTimersTable,
+      MfgOperationTimerRow,
+      $$MfgOperationTimersTableFilterComposer,
+      $$MfgOperationTimersTableOrderingComposer,
+      $$MfgOperationTimersTableAnnotationComposer,
+      $$MfgOperationTimersTableCreateCompanionBuilder,
+      $$MfgOperationTimersTableUpdateCompanionBuilder,
+      (
+        MfgOperationTimerRow,
+        BaseReferences<
+          _$AppDatabase,
+          $MfgOperationTimersTable,
+          MfgOperationTimerRow
+        >,
+      ),
+      MfgOperationTimerRow,
+      PrefetchHooks Function()
+    >;
+typedef $$MfgOutboxTableCreateCompanionBuilder = MfgOutboxCompanion Function({
+  Value<int> sequence,
+  required String uuid,
+  required String tenantId,
+  required String kind,
+  required String orderId,
+  Value<String> method,
+  required String path,
+  required String payload,
+  Value<String?> dependsOn,
+  Value<int> state,
+  Value<int> attempts,
+  Value<DateTime?> nextAttemptAt,
+  Value<String?> lastError,
+  Value<bool> replayed,
+  required DateTime createdAt,
+  Value<DateTime?> completedAt,
+});
+typedef $$MfgOutboxTableUpdateCompanionBuilder = MfgOutboxCompanion Function({
+  Value<int> sequence,
+  Value<String> uuid,
+  Value<String> tenantId,
+  Value<String> kind,
+  Value<String> orderId,
+  Value<String> method,
+  Value<String> path,
+  Value<String> payload,
+  Value<String?> dependsOn,
+  Value<int> state,
+  Value<int> attempts,
+  Value<DateTime?> nextAttemptAt,
+  Value<String?> lastError,
+  Value<bool> replayed,
+  Value<DateTime> createdAt,
+  Value<DateTime?> completedAt,
+});
+
+class $$MfgOutboxTableFilterComposer
+    extends Composer<_$AppDatabase, $MfgOutboxTable> {
+  $$MfgOutboxTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get sequence => $composableBuilder(
+    column: $table.sequence,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+    column: $table.uuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get orderId => $composableBuilder(
+    column: $table.orderId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get method => $composableBuilder(
+    column: $table.method,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get path => $composableBuilder(
+    column: $table.path,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get dependsOn => $composableBuilder(
+    column: $table.dependsOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get attempts => $composableBuilder(
+    column: $table.attempts,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get nextAttemptAt => $composableBuilder(
+    column: $table.nextAttemptAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastError => $composableBuilder(
+    column: $table.lastError,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get replayed => $composableBuilder(
+    column: $table.replayed,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$MfgOutboxTableOrderingComposer
+    extends Composer<_$AppDatabase, $MfgOutboxTable> {
+  $$MfgOutboxTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get sequence => $composableBuilder(
+    column: $table.sequence,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+    column: $table.uuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get orderId => $composableBuilder(
+    column: $table.orderId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get method => $composableBuilder(
+    column: $table.method,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get path => $composableBuilder(
+    column: $table.path,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get dependsOn => $composableBuilder(
+    column: $table.dependsOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get attempts => $composableBuilder(
+    column: $table.attempts,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get nextAttemptAt => $composableBuilder(
+    column: $table.nextAttemptAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastError => $composableBuilder(
+    column: $table.lastError,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get replayed => $composableBuilder(
+    column: $table.replayed,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$MfgOutboxTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MfgOutboxTable> {
+  $$MfgOutboxTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get sequence =>
+      $composableBuilder(column: $table.sequence, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<String> get orderId =>
+      $composableBuilder(column: $table.orderId, builder: (column) => column);
+
+  GeneratedColumn<String> get method =>
+      $composableBuilder(column: $table.method, builder: (column) => column);
+
+  GeneratedColumn<String> get path =>
+      $composableBuilder(column: $table.path, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<String> get dependsOn =>
+      $composableBuilder(column: $table.dependsOn, builder: (column) => column);
+
+  GeneratedColumn<int> get state =>
+      $composableBuilder(column: $table.state, builder: (column) => column);
+
+  GeneratedColumn<int> get attempts =>
+      $composableBuilder(column: $table.attempts, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get nextAttemptAt => $composableBuilder(
+    column: $table.nextAttemptAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get lastError =>
+      $composableBuilder(column: $table.lastError, builder: (column) => column);
+
+  GeneratedColumn<bool> get replayed =>
+      $composableBuilder(column: $table.replayed, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$MfgOutboxTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $MfgOutboxTable,
+          MfgOutboxRow,
+          $$MfgOutboxTableFilterComposer,
+          $$MfgOutboxTableOrderingComposer,
+          $$MfgOutboxTableAnnotationComposer,
+          $$MfgOutboxTableCreateCompanionBuilder,
+          $$MfgOutboxTableUpdateCompanionBuilder,
+          (
+            MfgOutboxRow,
+            BaseReferences<_$AppDatabase, $MfgOutboxTable, MfgOutboxRow>,
+          ),
+          MfgOutboxRow,
+          PrefetchHooks Function()
+        > {
+  $$MfgOutboxTableTableManager(_$AppDatabase db, $MfgOutboxTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MfgOutboxTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MfgOutboxTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MfgOutboxTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> sequence = const Value.absent(),
+                Value<String> uuid = const Value.absent(),
+                Value<String> tenantId = const Value.absent(),
+                Value<String> kind = const Value.absent(),
+                Value<String> orderId = const Value.absent(),
+                Value<String> method = const Value.absent(),
+                Value<String> path = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<String?> dependsOn = const Value.absent(),
+                Value<int> state = const Value.absent(),
+                Value<int> attempts = const Value.absent(),
+                Value<DateTime?> nextAttemptAt = const Value.absent(),
+                Value<String?> lastError = const Value.absent(),
+                Value<bool> replayed = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> completedAt = const Value.absent(),
+              }) => MfgOutboxCompanion(
+                sequence: sequence,
+                uuid: uuid,
+                tenantId: tenantId,
+                kind: kind,
+                orderId: orderId,
+                method: method,
+                path: path,
+                payload: payload,
+                dependsOn: dependsOn,
+                state: state,
+                attempts: attempts,
+                nextAttemptAt: nextAttemptAt,
+                lastError: lastError,
+                replayed: replayed,
+                createdAt: createdAt,
+                completedAt: completedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> sequence = const Value.absent(),
+                required String uuid,
+                required String tenantId,
+                required String kind,
+                required String orderId,
+                Value<String> method = const Value.absent(),
+                required String path,
+                required String payload,
+                Value<String?> dependsOn = const Value.absent(),
+                Value<int> state = const Value.absent(),
+                Value<int> attempts = const Value.absent(),
+                Value<DateTime?> nextAttemptAt = const Value.absent(),
+                Value<String?> lastError = const Value.absent(),
+                Value<bool> replayed = const Value.absent(),
+                required DateTime createdAt,
+                Value<DateTime?> completedAt = const Value.absent(),
+              }) => MfgOutboxCompanion.insert(
+                sequence: sequence,
+                uuid: uuid,
+                tenantId: tenantId,
+                kind: kind,
+                orderId: orderId,
+                method: method,
+                path: path,
+                payload: payload,
+                dependsOn: dependsOn,
+                state: state,
+                attempts: attempts,
+                nextAttemptAt: nextAttemptAt,
+                lastError: lastError,
+                replayed: replayed,
+                createdAt: createdAt,
+                completedAt: completedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MfgOutboxTable, MfgOutboxRow>(table),
+                  BaseReferences<_$AppDatabase, $MfgOutboxTable, MfgOutboxRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$MfgOutboxTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $MfgOutboxTable,
+      MfgOutboxRow,
+      $$MfgOutboxTableFilterComposer,
+      $$MfgOutboxTableOrderingComposer,
+      $$MfgOutboxTableAnnotationComposer,
+      $$MfgOutboxTableCreateCompanionBuilder,
+      $$MfgOutboxTableUpdateCompanionBuilder,
+      (
+        MfgOutboxRow,
+        BaseReferences<_$AppDatabase, $MfgOutboxTable, MfgOutboxRow>,
+      ),
+      MfgOutboxRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -14778,4 +19802,16 @@ class $AppDatabaseManager {
         _db,
         _db.localApprovalAuditLogs,
       );
+  $$MfgOrdersTableTableManager get mfgOrders =>
+      $$MfgOrdersTableTableManager(_db, _db.mfgOrders);
+  $$MfgWorkCentersTableTableManager get mfgWorkCenters =>
+      $$MfgWorkCentersTableTableManager(_db, _db.mfgWorkCenters);
+  $$MfgQualityPlansTableTableManager get mfgQualityPlans =>
+      $$MfgQualityPlansTableTableManager(_db, _db.mfgQualityPlans);
+  $$MfgStagedLotsTableTableManager get mfgStagedLots =>
+      $$MfgStagedLotsTableTableManager(_db, _db.mfgStagedLots);
+  $$MfgOperationTimersTableTableManager get mfgOperationTimers =>
+      $$MfgOperationTimersTableTableManager(_db, _db.mfgOperationTimers);
+  $$MfgOutboxTableTableManager get mfgOutbox =>
+      $$MfgOutboxTableTableManager(_db, _db.mfgOutbox);
 }

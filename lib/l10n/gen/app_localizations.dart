@@ -2119,6 +2119,504 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Level {current}/{total}'**
   String prLevelBadge(int current, int total);
+
+  /// No description provided for @mfgTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop floor'**
+  String get mfgTitle;
+
+  /// No description provided for @mfgOrdersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No released production orders on this device. Refresh when online.'**
+  String get mfgOrdersEmpty;
+
+  /// No description provided for @mfgScanPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan an order, lot or machine'**
+  String get mfgScanPrompt;
+
+  /// No description provided for @mfgScanButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get mfgScanButton;
+
+  /// No description provided for @mfgScanManualHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type or scan a code'**
+  String get mfgScanManualHint;
+
+  /// No description provided for @mfgScanUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Code not recognised: {code}'**
+  String mfgScanUnknown(String code);
+
+  /// No description provided for @mfgScanOrderNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Order {code} is not on this device. Refresh when online.'**
+  String mfgScanOrderNotFound(String code);
+
+  /// No description provided for @mfgScanMachineNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine {code} is unknown.'**
+  String mfgScanMachineNotFound(String code);
+
+  /// No description provided for @mfgScanSelectOrderFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a production order first.'**
+  String get mfgScanSelectOrderFirst;
+
+  /// No description provided for @mfgCameraTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the code'**
+  String get mfgCameraTitle;
+
+  /// No description provided for @mfgCameraUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera not available. Type the code instead.'**
+  String get mfgCameraUnavailable;
+
+  /// No description provided for @mfgOperations.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get mfgOperations;
+
+  /// No description provided for @mfgMaterials.
+  ///
+  /// In en, this message translates to:
+  /// **'Materials'**
+  String get mfgMaterials;
+
+  /// No description provided for @mfgQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality'**
+  String get mfgQuality;
+
+  /// No description provided for @mfgReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive output'**
+  String get mfgReceipt;
+
+  /// No description provided for @mfgGenealogy.
+  ///
+  /// In en, this message translates to:
+  /// **'Genealogy'**
+  String get mfgGenealogy;
+
+  /// No description provided for @mfgGenealogyOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Genealogy needs a connection.'**
+  String get mfgGenealogyOffline;
+
+  /// No description provided for @mfgProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {target} {uom}'**
+  String mfgProgress(String done, String target, String uom);
+
+  /// No description provided for @mfgOpenQty.
+  ///
+  /// In en, this message translates to:
+  /// **'Open: {qty} {uom}'**
+  String mfgOpenQty(String qty, String uom);
+
+  /// No description provided for @mfgStagedLots.
+  ///
+  /// In en, this message translates to:
+  /// **'Staged lots'**
+  String get mfgStagedLots;
+
+  /// No description provided for @mfgNoStaged.
+  ///
+  /// In en, this message translates to:
+  /// **'No lots staged. Scan a raw-material label.'**
+  String get mfgNoStaged;
+
+  /// No description provided for @mfgSelectLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Which material does lot {lot} belong to?'**
+  String mfgSelectLine(String lot);
+
+  /// No description provided for @mfgLotStaged.
+  ///
+  /// In en, this message translates to:
+  /// **'Lot {lot} staged'**
+  String mfgLotStaged(String lot);
+
+  /// No description provided for @mfgQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get mfgQuantity;
+
+  /// No description provided for @mfgBackflush.
+  ///
+  /// In en, this message translates to:
+  /// **'Backflush'**
+  String get mfgBackflush;
+
+  /// No description provided for @mfgBackflushQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} issues queued'**
+  String mfgBackflushQueued(int count);
+
+  /// No description provided for @mfgPosted.
+  ///
+  /// In en, this message translates to:
+  /// **'posted'**
+  String get mfgPosted;
+
+  /// No description provided for @mfgCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in to machine'**
+  String get mfgCheckIn;
+
+  /// No description provided for @mfgCheckedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked in: {machine}'**
+  String mfgCheckedIn(String machine);
+
+  /// No description provided for @mfgSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup'**
+  String get mfgSetup;
+
+  /// No description provided for @mfgRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Run'**
+  String get mfgRun;
+
+  /// No description provided for @mfgStartSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Start setup'**
+  String get mfgStartSetup;
+
+  /// No description provided for @mfgStartRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Start run'**
+  String get mfgStartRun;
+
+  /// No description provided for @mfgPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get mfgPause;
+
+  /// No description provided for @mfgResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get mfgResume;
+
+  /// No description provided for @mfgPhaseIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Idle'**
+  String get mfgPhaseIdle;
+
+  /// No description provided for @mfgPhaseSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup in progress'**
+  String get mfgPhaseSetup;
+
+  /// No description provided for @mfgPhaseRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Running'**
+  String get mfgPhaseRun;
+
+  /// No description provided for @mfgPhasePaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get mfgPhasePaused;
+
+  /// No description provided for @mfgDowntime.
+  ///
+  /// In en, this message translates to:
+  /// **'Downtime'**
+  String get mfgDowntime;
+
+  /// No description provided for @mfgGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get mfgGood;
+
+  /// No description provided for @mfgScrap.
+  ///
+  /// In en, this message translates to:
+  /// **'Scrap'**
+  String get mfgScrap;
+
+  /// No description provided for @mfgScrapReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Scrap reason'**
+  String get mfgScrapReason;
+
+  /// No description provided for @mfgFinalOperation.
+  ///
+  /// In en, this message translates to:
+  /// **'Last confirmation of this operation'**
+  String get mfgFinalOperation;
+
+  /// No description provided for @mfgConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm operation'**
+  String get mfgConfirm;
+
+  /// No description provided for @mfgConfirmQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved. It will be sent as soon as you are online.'**
+  String get mfgConfirmQueued;
+
+  /// No description provided for @mfgErrNothingToPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to confirm yet.'**
+  String get mfgErrNothingToPost;
+
+  /// No description provided for @mfgErrScrapReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a reason for the scrap.'**
+  String get mfgErrScrapReason;
+
+  /// No description provided for @mfgErrQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a quantity greater than zero.'**
+  String get mfgErrQuantity;
+
+  /// No description provided for @mfgErrNotExecutable.
+  ///
+  /// In en, this message translates to:
+  /// **'This order is not released for production.'**
+  String get mfgErrNotExecutable;
+
+  /// No description provided for @mfgQcTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QC checklist'**
+  String get mfgQcTitle;
+
+  /// No description provided for @mfgQcPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspection plan'**
+  String get mfgQcPlan;
+
+  /// No description provided for @mfgQcNoPlans.
+  ///
+  /// In en, this message translates to:
+  /// **'No inspection plans on this device.'**
+  String get mfgQcNoPlans;
+
+  /// No description provided for @mfgQcMeasured.
+  ///
+  /// In en, this message translates to:
+  /// **'Measured value'**
+  String get mfgQcMeasured;
+
+  /// No description provided for @mfgQcTolerance.
+  ///
+  /// In en, this message translates to:
+  /// **'Tolerance {min} to {max}'**
+  String mfgQcTolerance(String min, String max);
+
+  /// No description provided for @mfgQcInTolerance.
+  ///
+  /// In en, this message translates to:
+  /// **'In tolerance'**
+  String get mfgQcInTolerance;
+
+  /// No description provided for @mfgQcOutOfTolerance.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of tolerance'**
+  String get mfgQcOutOfTolerance;
+
+  /// No description provided for @mfgQcInspected.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity inspected'**
+  String get mfgQcInspected;
+
+  /// No description provided for @mfgQcNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get mfgQcNotes;
+
+  /// No description provided for @mfgQcSignOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign off'**
+  String get mfgQcSignOff;
+
+  /// No description provided for @mfgQcSignOffQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspection signed off and queued.'**
+  String get mfgQcSignOffQueued;
+
+  /// No description provided for @mfgReceiptLot.
+  ///
+  /// In en, this message translates to:
+  /// **'Lot number'**
+  String get mfgReceiptLot;
+
+  /// No description provided for @mfgReceiptQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt queued.'**
+  String get mfgReceiptQueued;
+
+  /// No description provided for @mfgSyncPending.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} waiting to send'**
+  String mfgSyncPending(int count);
+
+  /// No description provided for @mfgSyncAllSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything sent'**
+  String get mfgSyncAllSent;
+
+  /// No description provided for @mfgSyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get mfgSyncNow;
+
+  /// No description provided for @mfgRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get mfgRefresh;
+
+  /// No description provided for @mfgRefreshFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not refresh. Showing saved data.'**
+  String get mfgRefreshFailed;
+
+  /// No description provided for @mfgQueueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send queue'**
+  String get mfgQueueTitle;
+
+  /// No description provided for @mfgQueueEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing waiting to be sent.'**
+  String get mfgQueueEmpty;
+
+  /// No description provided for @mfgQueueRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Refused by the server'**
+  String get mfgQueueRejected;
+
+  /// No description provided for @mfgQueueRetryAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Retrying at {time}'**
+  String mfgQueueRetryAt(String time);
+
+  /// No description provided for @mfgQueueRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get mfgQueueRetry;
+
+  /// No description provided for @mfgQueueDiscard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get mfgQueueDiscard;
+
+  /// No description provided for @mfgKindIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Material issue'**
+  String get mfgKindIssue;
+
+  /// No description provided for @mfgKindConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation confirmation'**
+  String get mfgKindConfirm;
+
+  /// No description provided for @mfgKindReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'Output receipt'**
+  String get mfgKindReceipt;
+
+  /// No description provided for @mfgKindCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine check-in'**
+  String get mfgKindCheckIn;
+
+  /// No description provided for @mfgKindInspection.
+  ///
+  /// In en, this message translates to:
+  /// **'QC inspection'**
+  String get mfgKindInspection;
+
+  /// No description provided for @mfgStatusReleased.
+  ///
+  /// In en, this message translates to:
+  /// **'Released'**
+  String get mfgStatusReleased;
+
+  /// No description provided for @mfgStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get mfgStatusInProgress;
+
+  /// No description provided for @mfgCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get mfgCancel;
+
+  /// No description provided for @mfgAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get mfgAdd;
 }
 
 class _AppLocalizationsDelegate

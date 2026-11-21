@@ -1120,6 +1120,285 @@ class AppLocalizationsFr extends AppLocalizations {
   String prLevelBadge(int current, int total) {
     return 'Niveau $current/$total';
   }
+
+  @override
+  String get mfgTitle => 'Atelier';
+
+  @override
+  String get mfgOrdersEmpty =>
+      'Aucun ordre de fabrication lancé sur cet appareil. Actualisez une fois en ligne.';
+
+  @override
+  String get mfgScanPrompt => 'Scannez un ordre, un lot ou une machine';
+
+  @override
+  String get mfgScanButton => 'Scanner';
+
+  @override
+  String get mfgScanManualHint => 'Saisir ou scanner un code';
+
+  @override
+  String mfgScanUnknown(String code) {
+    return 'Code non reconnu : $code';
+  }
+
+  @override
+  String mfgScanOrderNotFound(String code) {
+    return 'L\'ordre $code n\'est pas sur cet appareil. Actualisez une fois en ligne.';
+  }
+
+  @override
+  String mfgScanMachineNotFound(String code) {
+    return 'Machine $code inconnue.';
+  }
+
+  @override
+  String get mfgScanSelectOrderFirst =>
+      'Sélectionnez d\'abord un ordre de fabrication.';
+
+  @override
+  String get mfgCameraTitle => 'Pointez la caméra vers le code';
+
+  @override
+  String get mfgCameraUnavailable => 'Caméra indisponible. Saisissez le code.';
+
+  @override
+  String get mfgOperations => 'Opérations';
+
+  @override
+  String get mfgMaterials => 'Matériaux';
+
+  @override
+  String get mfgQuality => 'Qualité';
+
+  @override
+  String get mfgReceipt => 'Réceptionner la production';
+
+  @override
+  String get mfgGenealogy => 'Généalogie';
+
+  @override
+  String get mfgGenealogyOffline => 'La généalogie nécessite une connexion.';
+
+  @override
+  String mfgProgress(String done, String target, String uom) {
+    return '$done sur $target $uom';
+  }
+
+  @override
+  String mfgOpenQty(String qty, String uom) {
+    return 'Ouvert : $qty $uom';
+  }
+
+  @override
+  String get mfgStagedLots => 'Lots préparés';
+
+  @override
+  String get mfgNoStaged =>
+      'Aucun lot préparé. Scannez une étiquette de matière première.';
+
+  @override
+  String mfgSelectLine(String lot) {
+    return 'À quel matériau appartient le lot $lot ?';
+  }
+
+  @override
+  String mfgLotStaged(String lot) {
+    return 'Lot $lot préparé';
+  }
+
+  @override
+  String get mfgQuantity => 'Quantité';
+
+  @override
+  String get mfgBackflush => 'Décharger (backflush)';
+
+  @override
+  String mfgBackflushQueued(int count) {
+    return '$count sorties en file';
+  }
+
+  @override
+  String get mfgPosted => 'enregistré';
+
+  @override
+  String get mfgCheckIn => 'S\'enregistrer sur la machine';
+
+  @override
+  String mfgCheckedIn(String machine) {
+    return 'Enregistré : $machine';
+  }
+
+  @override
+  String get mfgSetup => 'Réglage';
+
+  @override
+  String get mfgRun => 'Production';
+
+  @override
+  String get mfgStartSetup => 'Démarrer le réglage';
+
+  @override
+  String get mfgStartRun => 'Démarrer la production';
+
+  @override
+  String get mfgPause => 'Pause';
+
+  @override
+  String get mfgResume => 'Reprendre';
+
+  @override
+  String get mfgPhaseIdle => 'Arrêté';
+
+  @override
+  String get mfgPhaseSetup => 'Réglage en cours';
+
+  @override
+  String get mfgPhaseRun => 'En production';
+
+  @override
+  String get mfgPhasePaused => 'En pause';
+
+  @override
+  String get mfgDowntime => 'Arrêt machine';
+
+  @override
+  String get mfgGood => 'Bons';
+
+  @override
+  String get mfgScrap => 'Rebuts';
+
+  @override
+  String get mfgScrapReason => 'Motif du rebut';
+
+  @override
+  String get mfgFinalOperation => 'Dernière confirmation de cette opération';
+
+  @override
+  String get mfgConfirm => 'Confirmer l\'opération';
+
+  @override
+  String get mfgConfirmQueued =>
+      'Enregistré. Envoi dès que vous êtes en ligne.';
+
+  @override
+  String get mfgErrNothingToPost => 'Rien à confirmer pour l\'instant.';
+
+  @override
+  String get mfgErrScrapReason => 'Indiquez le motif du rebut.';
+
+  @override
+  String get mfgErrQuantity => 'Saisissez une quantité supérieure à zéro.';
+
+  @override
+  String get mfgErrNotExecutable =>
+      'Cet ordre n\'est pas lancé en fabrication.';
+
+  @override
+  String get mfgQcTitle => 'Liste de contrôle qualité';
+
+  @override
+  String get mfgQcPlan => 'Plan de contrôle';
+
+  @override
+  String get mfgQcNoPlans => 'Aucun plan de contrôle sur cet appareil.';
+
+  @override
+  String get mfgQcMeasured => 'Valeur mesurée';
+
+  @override
+  String mfgQcTolerance(String min, String max) {
+    return 'Tolérance de $min à $max';
+  }
+
+  @override
+  String get mfgQcInTolerance => 'Dans la tolérance';
+
+  @override
+  String get mfgQcOutOfTolerance => 'Hors tolérance';
+
+  @override
+  String get mfgQcInspected => 'Quantité contrôlée';
+
+  @override
+  String get mfgQcNotes => 'Remarques';
+
+  @override
+  String get mfgQcSignOff => 'Valider';
+
+  @override
+  String get mfgQcSignOffQueued => 'Contrôle validé et mis en file.';
+
+  @override
+  String get mfgReceiptLot => 'Numéro de lot';
+
+  @override
+  String get mfgReceiptQueued => 'Réception mise en file.';
+
+  @override
+  String mfgSyncPending(int count) {
+    return '$count en attente d\'envoi';
+  }
+
+  @override
+  String get mfgSyncAllSent => 'Tout est envoyé';
+
+  @override
+  String get mfgSyncNow => 'Synchroniser maintenant';
+
+  @override
+  String get mfgRefresh => 'Actualiser';
+
+  @override
+  String get mfgRefreshFailed =>
+      'Actualisation impossible. Données enregistrées affichées.';
+
+  @override
+  String get mfgQueueTitle => 'File d\'envoi';
+
+  @override
+  String get mfgQueueEmpty => 'Rien en attente d\'envoi.';
+
+  @override
+  String get mfgQueueRejected => 'Refusé par le serveur';
+
+  @override
+  String mfgQueueRetryAt(String time) {
+    return 'Nouvelle tentative à $time';
+  }
+
+  @override
+  String get mfgQueueRetry => 'Réessayer';
+
+  @override
+  String get mfgQueueDiscard => 'Abandonner';
+
+  @override
+  String get mfgKindIssue => 'Sortie de matière';
+
+  @override
+  String get mfgKindConfirm => 'Confirmation d\'opération';
+
+  @override
+  String get mfgKindReceipt => 'Réception de production';
+
+  @override
+  String get mfgKindCheckIn => 'Enregistrement machine';
+
+  @override
+  String get mfgKindInspection => 'Contrôle qualité';
+
+  @override
+  String get mfgStatusReleased => 'Lancé';
+
+  @override
+  String get mfgStatusInProgress => 'En cours';
+
+  @override
+  String get mfgCancel => 'Annuler';
+
+  @override
+  String get mfgAdd => 'Ajouter';
 }
 
 /// The translations for French, as used in Switzerland (`fr_CH`).

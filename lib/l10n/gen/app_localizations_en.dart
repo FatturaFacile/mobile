@@ -1114,4 +1114,281 @@ class AppLocalizationsEn extends AppLocalizations {
   String prLevelBadge(int current, int total) {
     return 'Level $current/$total';
   }
+
+  @override
+  String get mfgTitle => 'Shop floor';
+
+  @override
+  String get mfgOrdersEmpty =>
+      'No released production orders on this device. Refresh when online.';
+
+  @override
+  String get mfgScanPrompt => 'Scan an order, lot or machine';
+
+  @override
+  String get mfgScanButton => 'Scan';
+
+  @override
+  String get mfgScanManualHint => 'Type or scan a code';
+
+  @override
+  String mfgScanUnknown(String code) {
+    return 'Code not recognised: $code';
+  }
+
+  @override
+  String mfgScanOrderNotFound(String code) {
+    return 'Order $code is not on this device. Refresh when online.';
+  }
+
+  @override
+  String mfgScanMachineNotFound(String code) {
+    return 'Machine $code is unknown.';
+  }
+
+  @override
+  String get mfgScanSelectOrderFirst => 'Select a production order first.';
+
+  @override
+  String get mfgCameraTitle => 'Point the camera at the code';
+
+  @override
+  String get mfgCameraUnavailable =>
+      'Camera not available. Type the code instead.';
+
+  @override
+  String get mfgOperations => 'Operations';
+
+  @override
+  String get mfgMaterials => 'Materials';
+
+  @override
+  String get mfgQuality => 'Quality';
+
+  @override
+  String get mfgReceipt => 'Receive output';
+
+  @override
+  String get mfgGenealogy => 'Genealogy';
+
+  @override
+  String get mfgGenealogyOffline => 'Genealogy needs a connection.';
+
+  @override
+  String mfgProgress(String done, String target, String uom) {
+    return '$done of $target $uom';
+  }
+
+  @override
+  String mfgOpenQty(String qty, String uom) {
+    return 'Open: $qty $uom';
+  }
+
+  @override
+  String get mfgStagedLots => 'Staged lots';
+
+  @override
+  String get mfgNoStaged => 'No lots staged. Scan a raw-material label.';
+
+  @override
+  String mfgSelectLine(String lot) {
+    return 'Which material does lot $lot belong to?';
+  }
+
+  @override
+  String mfgLotStaged(String lot) {
+    return 'Lot $lot staged';
+  }
+
+  @override
+  String get mfgQuantity => 'Quantity';
+
+  @override
+  String get mfgBackflush => 'Backflush';
+
+  @override
+  String mfgBackflushQueued(int count) {
+    return '$count issues queued';
+  }
+
+  @override
+  String get mfgPosted => 'posted';
+
+  @override
+  String get mfgCheckIn => 'Check in to machine';
+
+  @override
+  String mfgCheckedIn(String machine) {
+    return 'Checked in: $machine';
+  }
+
+  @override
+  String get mfgSetup => 'Setup';
+
+  @override
+  String get mfgRun => 'Run';
+
+  @override
+  String get mfgStartSetup => 'Start setup';
+
+  @override
+  String get mfgStartRun => 'Start run';
+
+  @override
+  String get mfgPause => 'Pause';
+
+  @override
+  String get mfgResume => 'Resume';
+
+  @override
+  String get mfgPhaseIdle => 'Idle';
+
+  @override
+  String get mfgPhaseSetup => 'Setup in progress';
+
+  @override
+  String get mfgPhaseRun => 'Running';
+
+  @override
+  String get mfgPhasePaused => 'Paused';
+
+  @override
+  String get mfgDowntime => 'Downtime';
+
+  @override
+  String get mfgGood => 'Good';
+
+  @override
+  String get mfgScrap => 'Scrap';
+
+  @override
+  String get mfgScrapReason => 'Scrap reason';
+
+  @override
+  String get mfgFinalOperation => 'Last confirmation of this operation';
+
+  @override
+  String get mfgConfirm => 'Confirm operation';
+
+  @override
+  String get mfgConfirmQueued =>
+      'Saved. It will be sent as soon as you are online.';
+
+  @override
+  String get mfgErrNothingToPost => 'Nothing to confirm yet.';
+
+  @override
+  String get mfgErrScrapReason => 'Enter a reason for the scrap.';
+
+  @override
+  String get mfgErrQuantity => 'Enter a quantity greater than zero.';
+
+  @override
+  String get mfgErrNotExecutable =>
+      'This order is not released for production.';
+
+  @override
+  String get mfgQcTitle => 'QC checklist';
+
+  @override
+  String get mfgQcPlan => 'Inspection plan';
+
+  @override
+  String get mfgQcNoPlans => 'No inspection plans on this device.';
+
+  @override
+  String get mfgQcMeasured => 'Measured value';
+
+  @override
+  String mfgQcTolerance(String min, String max) {
+    return 'Tolerance $min to $max';
+  }
+
+  @override
+  String get mfgQcInTolerance => 'In tolerance';
+
+  @override
+  String get mfgQcOutOfTolerance => 'Out of tolerance';
+
+  @override
+  String get mfgQcInspected => 'Quantity inspected';
+
+  @override
+  String get mfgQcNotes => 'Notes';
+
+  @override
+  String get mfgQcSignOff => 'Sign off';
+
+  @override
+  String get mfgQcSignOffQueued => 'Inspection signed off and queued.';
+
+  @override
+  String get mfgReceiptLot => 'Lot number';
+
+  @override
+  String get mfgReceiptQueued => 'Receipt queued.';
+
+  @override
+  String mfgSyncPending(int count) {
+    return '$count waiting to send';
+  }
+
+  @override
+  String get mfgSyncAllSent => 'Everything sent';
+
+  @override
+  String get mfgSyncNow => 'Sync now';
+
+  @override
+  String get mfgRefresh => 'Refresh';
+
+  @override
+  String get mfgRefreshFailed => 'Could not refresh. Showing saved data.';
+
+  @override
+  String get mfgQueueTitle => 'Send queue';
+
+  @override
+  String get mfgQueueEmpty => 'Nothing waiting to be sent.';
+
+  @override
+  String get mfgQueueRejected => 'Refused by the server';
+
+  @override
+  String mfgQueueRetryAt(String time) {
+    return 'Retrying at $time';
+  }
+
+  @override
+  String get mfgQueueRetry => 'Retry';
+
+  @override
+  String get mfgQueueDiscard => 'Discard';
+
+  @override
+  String get mfgKindIssue => 'Material issue';
+
+  @override
+  String get mfgKindConfirm => 'Operation confirmation';
+
+  @override
+  String get mfgKindReceipt => 'Output receipt';
+
+  @override
+  String get mfgKindCheckIn => 'Machine check-in';
+
+  @override
+  String get mfgKindInspection => 'QC inspection';
+
+  @override
+  String get mfgStatusReleased => 'Released';
+
+  @override
+  String get mfgStatusInProgress => 'In progress';
+
+  @override
+  String get mfgCancel => 'Cancel';
+
+  @override
+  String get mfgAdd => 'Add';
 }

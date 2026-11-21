@@ -14,6 +14,7 @@ import '../features/dss/presentation/executive_dss_page.dart';
 import '../features/security/presentation/security_providers.dart';
 import '../features/payslip_vault/presentation/payslip_pages.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
+import '../features/shop_floor/presentation/shop_floor_home_page.dart';
 import '../features/security/presentation/security_screen.dart';
 import '../features/entities/entity_pages.dart';
 import '../features/purchase_requisitions/notifications/pr_notification_handler.dart';
@@ -160,6 +161,10 @@ class HomePage extends ConsumerWidget {
       aiReviewModule => const AiSuggestionsPage(),
       shiftSelfServiceModule => const ShiftHomePage(),
       payslipVaultModule => const PayslipVaultPage(),
+      _ when shopFloorModules.contains(module) => ShopFloorHomePage(
+        tenantId: b.tenantId,
+        userId: b.userId,
+      ),
       'purchase_requisitions' || 'procurement_requisitions' => PrHubScreen(
         tenantId: b.tenantId,
         userId: b.userId,
@@ -201,6 +206,9 @@ class HomePage extends ConsumerWidget {
     if (module == 'purchase_requisitions' ||
         module == 'procurement_requisitions') {
       return AppLocalizations.of(context).prModuleTitle;
+    }
+    if (shopFloorModules.contains(module)) {
+      return AppLocalizations.of(context).mfgTitle;
     }
     if (module == aiReviewModule) {
       return copilotStrings(ref.read(requestContextProvider).languageCode)

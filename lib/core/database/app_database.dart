@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../features/purchase_requisitions/data/local/purchase_requisition_dao.dart';
 import '../../features/purchase_requisitions/data/local/purchase_requisition_tables.dart';
+import '../../features/shop_floor/data/local/shop_floor_tables.dart';
 
 part 'app_database.g.dart';
 
@@ -200,6 +201,12 @@ class PermissionSnapshots extends Table {
     LocalPurchaseRequisitionLines,
     LocalPendingApprovals,
     LocalApprovalAuditLogs,
+    MfgOrders,
+    MfgWorkCenters,
+    MfgQualityPlans,
+    MfgStagedLots,
+    MfgOperationTimers,
+    MfgOutbox,
   ],
   daos: <Type>[PurchaseRequisitionDao],
 )
@@ -207,7 +214,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   /// Two release lines used the same version numbers for different tables, so a device may be at version 2–4
   /// with either set. Every step creates its tables only when they are missing.
@@ -235,6 +242,14 @@ class AppDatabase extends _$AppDatabase {
         await _ensureTable(m, localPurchaseRequisitionLines);
         await _ensureTable(m, localPendingApprovals);
         await _ensureTable(m, localApprovalAuditLogs);
+      }
+      if (from < 6) {
+        await _ensureTable(m, mfgOrders);
+        await _ensureTable(m, mfgWorkCenters);
+        await _ensureTable(m, mfgQualityPlans);
+        await _ensureTable(m, mfgStagedLots);
+        await _ensureTable(m, mfgOperationTimers);
+        await _ensureTable(m, mfgOutbox);
       }
     },
     beforeOpen: (OpeningDetails details) async {
