@@ -122,4 +122,497 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get copilotClose => 'Chiudi';
+
+  @override
+  String get securityTitle => 'Sicurezza';
+
+  @override
+  String get securityEncryptionSection => 'Archiviazione cifrata';
+
+  @override
+  String get securityDbEncrypted => 'Il database locale è cifrato';
+
+  @override
+  String get securityDbNotEncrypted =>
+      'Il database locale non è ancora cifrato';
+
+  @override
+  String securityKeyStored(String backend) {
+    return 'La chiave di cifratura è custodita in $backend';
+  }
+
+  @override
+  String get securityKeyMissing =>
+      'Nessuna chiave di cifratura nell\'archivio sicuro';
+
+  @override
+  String get securityBackendKeychain => 'Keychain';
+
+  @override
+  String get securityBackendKeystore => 'Android Keystore';
+
+  @override
+  String get securityBackendSecure => 'archivio sicuro della piattaforma';
+
+  @override
+  String get securityLockSection => 'Blocco sessione';
+
+  @override
+  String get securityLockEnabled => 'Blocca dopo inattività';
+
+  @override
+  String get securityLockTimeout => 'Timeout di blocco';
+
+  @override
+  String get securityTimeout30s => '30 secondi';
+
+  @override
+  String get securityTimeout1m => '1 minuto';
+
+  @override
+  String get securityTimeout5m => '5 minuti';
+
+  @override
+  String get securityTimeout15m => '15 minuti';
+
+  @override
+  String get securitySetPin => 'Imposta PIN';
+
+  @override
+  String get securityPinHint => 'PIN (almeno 4 cifre)';
+
+  @override
+  String get securityPinSaved => 'PIN salvato';
+
+  @override
+  String get securityPinTooShort => 'Il PIN deve avere almeno 4 cifre.';
+
+  @override
+  String get securityNoLockMethod =>
+      'Imposta un PIN o attiva la biometria per usare il blocco sessione.';
+
+  @override
+  String get securityLockNow => 'Blocca ora';
+
+  @override
+  String get securityQueueSection => 'Coda di audit';
+
+  @override
+  String securityQueuePending(int count) {
+    return '$count voci in attesa di sincronizzazione';
+  }
+
+  @override
+  String get securityQueueAllSynced =>
+      'Tutte le voci di audit sono sincronizzate';
+
+  @override
+  String securityQueueLastSync(String time) {
+    return 'Ultima sincronizzazione: $time';
+  }
+
+  @override
+  String securityQueueError(String error) {
+    return 'Ultimo errore: $error';
+  }
+
+  @override
+  String get securitySyncNow => 'Sincronizza ora';
+
+  @override
+  String get securityVerifyChain => 'Verifica catena';
+
+  @override
+  String securityChainValid(int count) {
+    return 'Catena di audit verificata ($count voci)';
+  }
+
+  @override
+  String securityChainBroken(int sequence) {
+    return 'Catena di audit interrotta alla voce $sequence';
+  }
+
+  @override
+  String get securityLockedTitle => 'Sessione bloccata';
+
+  @override
+  String get securityUnlockBiometric => 'Sblocca con la biometria';
+
+  @override
+  String get securityUnlockReason => 'Autenticati per sbloccare Fattura Facile';
+
+  @override
+  String get securityPinLabel => 'PIN';
+
+  @override
+  String get securityUnlock => 'Sblocca';
+
+  @override
+  String get securityWrongPin => 'PIN errato';
+
+  @override
+  String get securityTooManyAttempts => 'Troppi tentativi. Riprova tra poco.';
+
+  @override
+  String get piiUnmaskTitle => 'Mostra dati protetti';
+
+  @override
+  String piiUnmaskBody(String field) {
+    return 'La visualizzazione di $field viene registrata nel registro di audit. Inserisci una motivazione.';
+  }
+
+  @override
+  String get piiJustificationLabel => 'Motivazione (almeno 10 caratteri)';
+
+  @override
+  String get piiJustificationTooShort =>
+      'La motivazione deve avere almeno 10 caratteri.';
+
+  @override
+  String get piiUnmaskConfirm => 'Mostra';
+
+  @override
+  String get piiUnmaskCancel => 'Annulla';
+
+  @override
+  String get piiUnmaskFailed => 'Impossibile mostrare il valore.';
+
+  @override
+  String get piiUnmaskForbidden =>
+      'Non sei autorizzato a mostrare questo campo.';
+
+  @override
+  String get piiUnmaskDemo => 'Mostra campo protetto';
+}
+
+/// The translations for Italian, as used in Switzerland (`it_CH`).
+class AppLocalizationsItCh extends AppLocalizationsIt {
+  AppLocalizationsItCh() : super('it_CH');
+
+  @override
+  String get securityTitle => 'Sicurezza';
+
+  @override
+  String get securityEncryptionSection => 'Archiviazione cifrata';
+
+  @override
+  String get securityDbEncrypted => 'Il database locale è cifrato';
+
+  @override
+  String get securityDbNotEncrypted =>
+      'Il database locale non è ancora cifrato';
+
+  @override
+  String securityKeyStored(String backend) {
+    return 'La chiave di cifratura è custodita in $backend';
+  }
+
+  @override
+  String get securityKeyMissing =>
+      'Nessuna chiave di cifratura nell\'archivio sicuro';
+
+  @override
+  String get securityBackendKeychain => 'Keychain';
+
+  @override
+  String get securityBackendKeystore => 'Android Keystore';
+
+  @override
+  String get securityBackendSecure => 'archivio sicuro della piattaforma';
+
+  @override
+  String get securityLockSection => 'Blocco sessione';
+
+  @override
+  String get securityLockEnabled => 'Blocca dopo inattività';
+
+  @override
+  String get securityLockTimeout => 'Timeout di blocco';
+
+  @override
+  String get securityTimeout30s => '30 secondi';
+
+  @override
+  String get securityTimeout1m => '1 minuto';
+
+  @override
+  String get securityTimeout5m => '5 minuti';
+
+  @override
+  String get securityTimeout15m => '15 minuti';
+
+  @override
+  String get securitySetPin => 'Imposta PIN';
+
+  @override
+  String get securityPinHint => 'PIN (almeno 4 cifre)';
+
+  @override
+  String get securityPinSaved => 'PIN salvato';
+
+  @override
+  String get securityPinTooShort => 'Il PIN deve avere almeno 4 cifre.';
+
+  @override
+  String get securityNoLockMethod =>
+      'Imposta un PIN o attiva la biometria per usare il blocco sessione.';
+
+  @override
+  String get securityLockNow => 'Blocca ora';
+
+  @override
+  String get securityQueueSection => 'Coda di audit';
+
+  @override
+  String securityQueuePending(int count) {
+    return '$count voci in attesa di sincronizzazione';
+  }
+
+  @override
+  String get securityQueueAllSynced =>
+      'Tutte le voci di audit sono sincronizzate';
+
+  @override
+  String securityQueueLastSync(String time) {
+    return 'Ultima sincronizzazione: $time';
+  }
+
+  @override
+  String securityQueueError(String error) {
+    return 'Ultimo errore: $error';
+  }
+
+  @override
+  String get securitySyncNow => 'Sincronizza ora';
+
+  @override
+  String get securityVerifyChain => 'Verifica catena';
+
+  @override
+  String securityChainValid(int count) {
+    return 'Catena di audit verificata ($count voci)';
+  }
+
+  @override
+  String securityChainBroken(int sequence) {
+    return 'Catena di audit interrotta alla voce $sequence';
+  }
+
+  @override
+  String get securityLockedTitle => 'Sessione bloccata';
+
+  @override
+  String get securityUnlockBiometric => 'Sblocca con la biometria';
+
+  @override
+  String get securityUnlockReason => 'Autenticati per sbloccare Fattura Facile';
+
+  @override
+  String get securityPinLabel => 'PIN';
+
+  @override
+  String get securityUnlock => 'Sblocca';
+
+  @override
+  String get securityWrongPin => 'PIN errato';
+
+  @override
+  String get securityTooManyAttempts => 'Troppi tentativi. Riprova tra poco.';
+
+  @override
+  String get piiUnmaskTitle => 'Mostra dati protetti';
+
+  @override
+  String piiUnmaskBody(String field) {
+    return 'La visualizzazione di $field viene registrata nel registro di audit. Inserisci una motivazione.';
+  }
+
+  @override
+  String get piiJustificationLabel => 'Motivazione (almeno 10 caratteri)';
+
+  @override
+  String get piiJustificationTooShort =>
+      'La motivazione deve avere almeno 10 caratteri.';
+
+  @override
+  String get piiUnmaskConfirm => 'Mostra';
+
+  @override
+  String get piiUnmaskCancel => 'Annulla';
+
+  @override
+  String get piiUnmaskFailed => 'Impossibile mostrare il valore.';
+
+  @override
+  String get piiUnmaskForbidden =>
+      'Non sei autorizzato a mostrare questo campo.';
+
+  @override
+  String get piiUnmaskDemo => 'Mostra campo protetto';
+}
+
+/// The translations for Italian, as used in Italy (`it_IT`).
+class AppLocalizationsItIt extends AppLocalizationsIt {
+  AppLocalizationsItIt() : super('it_IT');
+
+  @override
+  String get securityTitle => 'Sicurezza';
+
+  @override
+  String get securityEncryptionSection => 'Archiviazione cifrata';
+
+  @override
+  String get securityDbEncrypted => 'Il database locale è cifrato';
+
+  @override
+  String get securityDbNotEncrypted =>
+      'Il database locale non è ancora cifrato';
+
+  @override
+  String securityKeyStored(String backend) {
+    return 'La chiave di cifratura è custodita in $backend';
+  }
+
+  @override
+  String get securityKeyMissing =>
+      'Nessuna chiave di cifratura nell\'archivio sicuro';
+
+  @override
+  String get securityBackendKeychain => 'Keychain';
+
+  @override
+  String get securityBackendKeystore => 'Android Keystore';
+
+  @override
+  String get securityBackendSecure => 'archivio sicuro della piattaforma';
+
+  @override
+  String get securityLockSection => 'Blocco sessione';
+
+  @override
+  String get securityLockEnabled => 'Blocca dopo inattività';
+
+  @override
+  String get securityLockTimeout => 'Timeout di blocco';
+
+  @override
+  String get securityTimeout30s => '30 secondi';
+
+  @override
+  String get securityTimeout1m => '1 minuto';
+
+  @override
+  String get securityTimeout5m => '5 minuti';
+
+  @override
+  String get securityTimeout15m => '15 minuti';
+
+  @override
+  String get securitySetPin => 'Imposta PIN';
+
+  @override
+  String get securityPinHint => 'PIN (almeno 4 cifre)';
+
+  @override
+  String get securityPinSaved => 'PIN salvato';
+
+  @override
+  String get securityPinTooShort => 'Il PIN deve avere almeno 4 cifre.';
+
+  @override
+  String get securityNoLockMethod =>
+      'Imposta un PIN o attiva la biometria per usare il blocco sessione.';
+
+  @override
+  String get securityLockNow => 'Blocca ora';
+
+  @override
+  String get securityQueueSection => 'Coda di audit';
+
+  @override
+  String securityQueuePending(int count) {
+    return '$count voci in attesa di sincronizzazione';
+  }
+
+  @override
+  String get securityQueueAllSynced =>
+      'Tutte le voci di audit sono sincronizzate';
+
+  @override
+  String securityQueueLastSync(String time) {
+    return 'Ultima sincronizzazione: $time';
+  }
+
+  @override
+  String securityQueueError(String error) {
+    return 'Ultimo errore: $error';
+  }
+
+  @override
+  String get securitySyncNow => 'Sincronizza ora';
+
+  @override
+  String get securityVerifyChain => 'Verifica catena';
+
+  @override
+  String securityChainValid(int count) {
+    return 'Catena di audit verificata ($count voci)';
+  }
+
+  @override
+  String securityChainBroken(int sequence) {
+    return 'Catena di audit interrotta alla voce $sequence';
+  }
+
+  @override
+  String get securityLockedTitle => 'Sessione bloccata';
+
+  @override
+  String get securityUnlockBiometric => 'Sblocca con la biometria';
+
+  @override
+  String get securityUnlockReason => 'Autenticati per sbloccare Fattura Facile';
+
+  @override
+  String get securityPinLabel => 'PIN';
+
+  @override
+  String get securityUnlock => 'Sblocca';
+
+  @override
+  String get securityWrongPin => 'PIN errato';
+
+  @override
+  String get securityTooManyAttempts => 'Troppi tentativi. Riprova tra poco.';
+
+  @override
+  String get piiUnmaskTitle => 'Mostra dati protetti';
+
+  @override
+  String piiUnmaskBody(String field) {
+    return 'La visualizzazione di $field viene registrata nel registro di audit. Inserisci una motivazione.';
+  }
+
+  @override
+  String get piiJustificationLabel => 'Motivazione (almeno 10 caratteri)';
+
+  @override
+  String get piiJustificationTooShort =>
+      'La motivazione deve avere almeno 10 caratteri.';
+
+  @override
+  String get piiUnmaskConfirm => 'Mostra';
+
+  @override
+  String get piiUnmaskCancel => 'Annulla';
+
+  @override
+  String get piiUnmaskFailed => 'Impossibile mostrare il valore.';
+
+  @override
+  String get piiUnmaskForbidden =>
+      'Non sei autorizzato a mostrare questo campo.';
+
+  @override
+  String get piiUnmaskDemo => 'Mostra campo protetto';
 }

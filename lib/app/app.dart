@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import '../design/ff_tokens.dart';
 import '../features/copilot/presentation/copilot_controller.dart';
 import '../features/copilot/presentation/copilot_sheet.dart';
+import '../features/security/presentation/session_lock_gate.dart';
 import 'pages.dart';
 import 'providers.dart';
 import 'session_controller.dart';
@@ -32,21 +33,25 @@ class _FatturaFacileAppState extends ConsumerState<FatturaFacileApp> {
       theme: ffThemeData(),
       darkTheme: ffThemeData(brightness: Brightness.dark),
       home: const RootPage(),
-      builder: (BuildContext context, Widget? child) => Stack(
-        children: <Widget>[
-          child ?? const SizedBox.shrink(),
-          if (ref.watch(sessionProvider).value is SignedIn)
-            Positioned(
-              right: FfSpace.space4,
-              bottom: FfSpace.space6 * 2.5,
-              child: _CopilotTrigger(
-                onPressed: () {
-                  final BuildContext? navContext = _navigatorKey.currentContext;
-                  if (navContext != null) showCopilotSheet(navContext);
-                },
+      builder: (BuildContext context, Widget? child) => SessionLockGate(
+        enforce: ref.watch(sessionProvider).value is SignedIn,
+        child: Stack(
+          children: <Widget>[
+            child ?? const SizedBox.shrink(),
+            if (ref.watch(sessionProvider).value is SignedIn)
+              Positioned(
+                right: FfSpace.space4,
+                bottom: FfSpace.space6 * 2.5,
+                child: _CopilotTrigger(
+                  onPressed: () {
+                    final BuildContext? navContext =
+                        _navigatorKey.currentContext;
+                    if (navContext != null) showCopilotSheet(navContext);
+                  },
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
