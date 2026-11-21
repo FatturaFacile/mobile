@@ -4,6 +4,8 @@
 /// Verbale di Consegna and archives it, so none of that is computed here.
 library;
 
+import 'dart:convert';
+
 /// Statutory regime of the tenant; it decides which legal notice the worker reads before signing.
 enum HseJurisdiction {
   italy('IT'),
@@ -68,28 +70,23 @@ class PpeHandOver {
   final DateTime? handedOverAt;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'employee_id': employeeId,
-        'product_id': productId,
-        'warehouse_id': warehouseId,
-        'lot_or_serial_id': lotOrSerial,
-        'quantity': quantity,
-        'signature_payload': signaturePayload,
-        'signature_image': signatureImage,
-        'locale': locale,
-        if (ceMarkingStandard != null) 'ce_marking_standard': ceMarkingStandard,
-        if (replacementDueAt != null) 'replacement_due_at': _date(replacementDueAt!),
-        'handed_over_at': (handedOverAt ?? DateTime.now()).toUtc().toIso8601String(),
-      };
+    'employee_id': employeeId,
+    'product_id': productId,
+    'warehouse_id': warehouseId,
+    'lot_or_serial_id': lotOrSerial,
+    'quantity': quantity,
+    'signature_payload': signaturePayload,
+    'signature_image': signatureImage,
+    'locale': locale,
+    if (ceMarkingStandard != null) 'ce_marking_standard': ceMarkingStandard,
+    if (replacementDueAt != null) 'replacement_due_at': _date(replacementDueAt!),
+    'handed_over_at': (handedOverAt ?? DateTime.now()).toUtc().toIso8601String(),
+  };
 }
 
 /// A worker who signed a tool-box talk.
 class ToolBoxAttendance {
-  const ToolBoxAttendance({
-    required this.employeeId,
-    required this.signaturePayload,
-    required this.signedAt,
-    this.signatureImage,
-  });
+  const ToolBoxAttendance({required this.employeeId, required this.signaturePayload, required this.signedAt, this.signatureImage});
 
   final String employeeId;
   final String signaturePayload;
@@ -97,11 +94,11 @@ class ToolBoxAttendance {
   final DateTime signedAt;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'employee_id': employeeId,
-        'signature_payload': signaturePayload,
-        'signature_image': signatureImage,
-        'signed_at': signedAt.toUtc().toIso8601String(),
-      };
+    'employee_id': employeeId,
+    'signature_payload': signaturePayload,
+    'signature_image': signatureImage,
+    'signed_at': signedAt.toUtc().toIso8601String(),
+  };
 }
 
 /// A safety briefing with the signatures collected while the device went from hand to hand.
@@ -123,13 +120,13 @@ class ToolBoxTalk {
   final List<ToolBoxAttendance> attendances;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'topic': topic,
-        if (siteOrWorkCenter != null && siteOrWorkCenter!.isNotEmpty) 'site_or_work_center': siteOrWorkCenter,
-        'checklist_points': checklistPoints,
-        if (supervisorEmployeeId != null) 'supervisor_employee_id': supervisorEmployeeId,
-        'conducted_at': conductedAt.toUtc().toIso8601String(),
-        'attendances': attendances.map((a) => a.toJson()).toList(),
-      };
+    'topic': topic,
+    if (siteOrWorkCenter != null && siteOrWorkCenter!.isNotEmpty) 'site_or_work_center': siteOrWorkCenter,
+    'checklist_points': checklistPoints,
+    if (supervisorEmployeeId != null) 'supervisor_employee_id': supervisorEmployeeId,
+    'conducted_at': conductedAt.toUtc().toIso8601String(),
+    'attendances': attendances.map((a) => a.toJson()).toList(),
+  };
 }
 
 /// The 30-second hazard report: what was seen and where.
@@ -141,6 +138,7 @@ class NearMissReport {
     this.latitude,
     this.longitude,
     this.workCenterId,
+    this.photos = const <String>[],
   });
 
   final String description;
@@ -152,6 +150,9 @@ class NearMissReport {
   final double? longitude;
   final String? workCenterId;
 
+  /// Base64 JPEG photos of the scene, at most [hseMaxPhotos].
+  final List<String> photos;
+
   /// Where it happened: the site tag, with the coordinates of the phone when they are known.
   String? get location {
     final tag = siteTag?.trim();
@@ -162,12 +163,43 @@ class NearMissReport {
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'incident_type': 'near_miss',
-        'incident_date': reportedAt.toUtc().toIso8601String(),
-        'description': description.trim(),
-        if (location != null) 'location_or_site_id': location,
-        if (workCenterId != null) 'work_center_id': workCenterId,
-      };
+    'incident_type': 'near_miss',
+    'incident_date': reportedAt.toUtc().toIso8601String(),
+    'description': description.trim(),
+    if (location != null) 'location_or_site_id': location,
+    if (workCenterId != null) 'work_center_id': workCenterId,
+    if (photos.isNotEmpty) 'photos': photos,
+  };
 }
 
-String _date(DateTime value) => '${value.year.toString().padLeft(4, '0')}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}';
+String _date(DateTime value) =>
+    '${value.year.toString().padLeft(4, '0')}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}';
+
+/// The content of a worker badge: `EMP:<employee uuid>` (printed as a QR code or stored on the NFC tag).
+class HseBadge {
+  const HseBadge(this.employeeId);
+
+  final String employeeId;
+
+  /// Null when the code is not a worker badge (a PPE box label or any other tag).
+  static HseBadge? parse(String code) {
+    final parts = code.trim().split(':');
+    if (parts.length != 2 || parts.first.toUpperCase() != 'EMP' || !PpeScan._uuid.hasMatch(parts[1].trim())) return null;
+    return HseBadge(parts[1].trim().toLowerCase());
+  }
+}
+
+/// The text of an NFC Forum "Text" record payload: a status byte (bit 7 = UTF-16, low 6 bits = length of the language code),
+/// the language code, then the text. Null for an empty or UTF-16 payload, which a badge never uses.
+String? ndefTextFromPayload(List<int> payload) {
+  if (payload.isEmpty) return null;
+  final status = payload.first;
+  if (status & 0x80 != 0) return null;
+  final start = 1 + (status & 0x3F);
+  if (start > payload.length) return null;
+  final text = utf8.decode(payload.sublist(start), allowMalformed: true).trim();
+  return text.isEmpty ? null : text;
+}
+
+/// Photos of a report are sent inline (the offline queue carries JSON only): at most this many, each a base64 JPEG.
+const int hseMaxPhotos = 3;
