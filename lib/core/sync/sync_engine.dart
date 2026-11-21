@@ -35,7 +35,7 @@ class SyncEngine {
 
   /// Entities whose queued command is parked as [QueueState.rejected] on a 422/403 instead of being resent on
   /// every cycle (AI captures: the same text can never become valid on retry).
-  static const Set<String> defaultTerminalEntities = <String>{'ai_captures'};
+  static const Set<String> defaultTerminalEntities = <String>{'ai_captures', 'shift_claims'};
 
   final Set<String> terminalEntities;
 

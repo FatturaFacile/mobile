@@ -12,6 +12,7 @@ import '../features/auth/domain/auth_models.dart';
 import '../features/copilot/presentation/copilot_controller.dart' show copilotStrings;
 import '../features/entities/entity_definition.dart';
 import '../features/security/presentation/security_providers.dart';
+import '../features/shift_planning/presentation/shift_pages.dart';
 import '../features/security/presentation/security_screen.dart';
 import '../features/entities/entity_pages.dart';
 import '../features/workflow/workflow_pages.dart';
@@ -149,6 +150,7 @@ class HomePage extends ConsumerWidget {
       'clock' => ClockPage(tenantId: b.tenantId),
       'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
       aiReviewModule => const AiSuggestionsPage(),
+      shiftSelfServiceModule => const ShiftHomePage(),
       _ when moduleEntity.containsKey(module) => EntityListPage(
         def: entityDefinitions[moduleEntity[module]]!,
         tenantId: b.tenantId,
