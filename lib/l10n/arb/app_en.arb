@@ -215,5 +215,156 @@
   "cogAlertReview": "Review",
   "cogPriorityHigh": "High priority",
   "cogRetry": "Retry",
-  "cogOfflineCached": "Showing saved suggestions (offline)"
+  "cogOfflineCached": "Showing saved suggestions (offline)",
+  "dssTitle": "Executive DSS",
+  "dssSyncedAt": "Synced {time}",
+  "@dssSyncedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dssOfflineSince": "Offline · synced {time}",
+  "@dssOfflineSince": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dssNeverSynced": "Not synced yet",
+  "dssSyncing": "Syncing…",
+  "dssAllEntities": "All entities",
+  "dssLegalEntity": "Legal entity",
+  "dssCurrency": "Currency",
+  "dssPeriodMtd": "MTD",
+  "dssPeriodQtd": "QTD",
+  "dssPeriodYtd": "YTD",
+  "dssPeriodL12m": "L12M",
+  "dssKpiRevenue": "Revenue",
+  "dssKpiGrossMargin": "Gross margin %",
+  "dssKpiEbitda": "EBITDA",
+  "dssKpiNetCash": "Net cash flow",
+  "dssKpiCcc": "Cash conversion cycle",
+  "dssKpiDso": "DSO",
+  "dssDays": "{value} d",
+  "@dssDays": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "dssKpiUnavailable": "No data source",
+  "dssNoData": "No data yet",
+  "dssNoDataBody": "Connect to the internet and pull down to load the executive figures.",
+  "dssVsBaseline": "vs baseline",
+  "dssAlertsTitle": "Strategic alerts",
+  "dssNoAlerts": "No active alerts.",
+  "dssSeverityCritical": "Critical",
+  "dssSeverityWarning": "Warning",
+  "dssSeverityInfo": "Info",
+  "dssAlertMarginErosion": "Gross margin erosion",
+  "dssAlertDsoSpike": "DSO spike",
+  "dssAlertCustomerConcentration": "Single-customer concentration",
+  "dssAlertBudgetOverrun": "Budget overrun",
+  "dssAlertOutlier": "Outlier against history",
+  "dssAlertSummaryMarginErosion": "Gross margin fell {value} pts (limit {threshold} pts).",
+  "@dssAlertSummaryMarginErosion": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "threshold": {
+        "type": "String"
+      }
+    }
+  },
+  "dssAlertSummaryDsoSpike": "DSO rose by {value} days (limit {threshold}).",
+  "@dssAlertSummaryDsoSpike": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "threshold": {
+        "type": "String"
+      }
+    }
+  },
+  "dssAlertSummaryCustomerConcentration": "{label} is {value}% of revenue (limit {threshold}%).",
+  "@dssAlertSummaryCustomerConcentration": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "threshold": {
+        "type": "String"
+      }
+    }
+  },
+  "dssAlertSummaryBudgetOverrun": "Over budget by {value}% (limit {threshold}%).",
+  "@dssAlertSummaryBudgetOverrun": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "threshold": {
+        "type": "String"
+      }
+    }
+  },
+  "dssAlertSummaryOutlier": "Deviation of {value} σ (threshold {threshold} σ).",
+  "@dssAlertSummaryOutlier": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "threshold": {
+        "type": "String"
+      }
+    }
+  },
+  "dssRootCause": "Root cause",
+  "dssRecommendedAction": "Recommended action",
+  "dssCauseMarginErosion": "Cost of goods is growing faster than prices, or the mix is shifting to low-margin products.",
+  "dssActionMarginErosion": "Review price lists and supplier costs; open the what-if check to size a price increase.",
+  "dssCauseDsoSpike": "Customers are paying later, or large invoices are overdue.",
+  "dssActionDsoSpike": "Start dunning on the oldest invoices and agree payment plans with the largest debtors.",
+  "dssCauseCustomerConcentration": "One customer generates a disproportionate share of revenue.",
+  "dssActionCustomerConcentration": "Diversify the customer base and secure a long-term contract with this customer.",
+  "dssCauseBudgetOverrun": "Actual spending on this budget line exceeds the approved amount.",
+  "dssActionBudgetOverrun": "Freeze discretionary spend on the line and ask the cost-centre owner for a recovery plan.",
+  "dssCauseOutlier": "The latest value is far from its historical average.",
+  "dssActionOutlier": "Check the source data for errors, then confirm whether the change is a real trend.",
+  "dssTopCustomers": "Top 5 customers",
+  "dssBottomCustomers": "Bottom 5 customers",
+  "dssTopProducts": "Top 5 products",
+  "dssBottomProducts": "Bottom 5 products",
+  "dssNetMargin": "Net margin",
+  "dssParetoCore": "Core",
+  "dssValueDestroying": "Eroding value",
+  "dssVarianceTitle": "EBITDA bridge",
+  "dssVarBaseline": "Baseline",
+  "dssVarVolume": "Volume",
+  "dssVarPrice": "Price",
+  "dssVarCogs": "COGS",
+  "dssVarOpex": "OPEX",
+  "dssVarFx": "FX",
+  "dssVarActual": "Actual",
+  "dssWhatIfTitle": "What-if quick check",
+  "dssWhatIfPrice": "Price change",
+  "dssWhatIfCogs": "COGS change",
+  "dssWhatIfCurrent": "Current",
+  "dssWhatIfSimulated": "Simulated EBITDA",
+  "dssWhatIfChange": "Change",
+  "dssWhatIfReset": "Reset",
+  "dssWhatIfOnDevice": "Computed on this device from the last synced figures.",
+  "dssErrUnauthorized": "Your session has expired. Sign in again.",
+  "dssErrForbidden": "You do not have access to the Executive DSS.",
+  "dssErrFailed": "The server could not provide the figures. Showing the last synced data.",
+  "dssClose": "Close"
 }
