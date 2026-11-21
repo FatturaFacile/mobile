@@ -2,13 +2,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/providers.dart';
+import '../../features/purchase_requisitions/presentation/providers/pr_providers.dart';
 import 'sync_engine.dart';
 
-/// Runs one full cycle: flush the outbox, then delta-pull every allowed entity. Never throws.
+/// Feature-level background sync callback invoked by [SyncOrchestrator] after core entity sync.
+typedef SyncHook = Future<void> Function(String tenantId);
+
+/// Runs one full cycle: flush the outbox, delta-pull every allowed entity, and execute feature sync hooks. Never throws.
 class SyncOrchestrator {
-  SyncOrchestrator(this._engine);
+  SyncOrchestrator(this._engine, {this.hooks = const <SyncHook>[]});
 
   final SyncEngine _engine;
+  final List<SyncHook> hooks;
   bool _running = false;
 
   Future<void> run(String tenantId, List<String> entities) async {
@@ -29,6 +34,13 @@ class SyncOrchestrator {
         }
       }
       await _engine.flush(tenantId);
+      for (final SyncHook hook in hooks) {
+        try {
+          await hook(tenantId);
+        } catch (_) {
+          // One feature sync hook failing must not stop core sync or other hooks.
+        }
+      }
     } catch (_) {
       // Sync is best effort: the UI shows the outcome through the indicator.
     } finally {
@@ -38,11 +50,24 @@ class SyncOrchestrator {
 }
 
 final Provider<SyncOrchestrator> syncOrchestratorProvider =
-    Provider<SyncOrchestrator>((Ref ref) => SyncOrchestrator(ref.watch(syncEngineProvider)));
+    Provider<SyncOrchestrator>(
+      (Ref ref) => SyncOrchestrator(
+        ref.watch(syncEngineProvider),
+        hooks: <SyncHook>[
+          (String tenantId) =>
+              ref.read(syncPurchaseRequisitionsUseCaseProvider).call(tenantId),
+        ],
+      ),
+    );
 
 /// Triggers a sync on start, when connectivity returns and when the app comes back to the foreground.
 class SyncLifecycle extends ConsumerStatefulWidget {
-  const SyncLifecycle({required this.tenantId, required this.entities, required this.child, super.key});
+  const SyncLifecycle({
+    required this.tenantId,
+    required this.entities,
+    required this.child,
+    super.key,
+  });
 
   final String tenantId;
   final List<String> entities;
@@ -52,8 +77,10 @@ class SyncLifecycle extends ConsumerStatefulWidget {
   ConsumerState<SyncLifecycle> createState() => _SyncLifecycleState();
 }
 
-class _SyncLifecycleState extends ConsumerState<SyncLifecycle> with WidgetsBindingObserver {
-  void _sync() => ref.read(syncOrchestratorProvider).run(widget.tenantId, widget.entities);
+class _SyncLifecycleState extends ConsumerState<SyncLifecycle>
+    with WidgetsBindingObserver {
+  void _sync() =>
+      ref.read(syncOrchestratorProvider).run(widget.tenantId, widget.entities);
 
   @override
   void initState() {
@@ -85,7 +112,10 @@ class _SyncLifecycleState extends ConsumerState<SyncLifecycle> with WidgetsBindi
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<bool>>(connectivityProvider, (AsyncValue<bool>? prev, AsyncValue<bool> next) {
+    ref.listen<AsyncValue<bool>>(connectivityProvider, (
+      AsyncValue<bool>? prev,
+      AsyncValue<bool> next,
+    ) {
       if (next.value == true && prev?.value != true) {
         _sync();
       }

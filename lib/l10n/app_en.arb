@@ -1,0 +1,555 @@
+{
+  "@@locale": "en",
+  "prModuleTitle": "Purchase Requisitions",
+  "@prModuleTitle": {
+    "description": "Launcher card title for the Purchase Requisitions module"
+  },
+  "prHubTitle": "Purchase Requisitions",
+  "@prHubTitle": {
+    "description": "AppBar title on the Purchase Requisitions Hub screen"
+  },
+  "prTabMyRequests": "My Requests",
+  "@prTabMyRequests": {
+    "description": "Segmented tab label for the user's purchase requisitions"
+  },
+  "prTabToApprove": "To Approve",
+  "@prTabToApprove": {
+    "description": "Segmented tab label for manager approval inbox"
+  },
+  "prEmptyMyRequests": "No purchase requisitions yet",
+  "@prEmptyMyRequests": {
+    "description": "Empty state text on My Requests tab"
+  },
+  "prEmptyToApprove": "No requisitions waiting for your approval",
+  "@prEmptyToApprove": {
+    "description": "Empty state text on To Approve tab"
+  },
+  "prCreateAction": "New Requisition",
+  "@prCreateAction": {
+    "description": "Tooltip and button label to create a new purchase requisition"
+  },
+  "prRefreshTooltip": "Refresh",
+  "@prRefreshTooltip": {
+    "description": "Refresh icon button tooltip"
+  },
+  "prDraftLocalNumber": "Local Draft",
+  "@prDraftLocalNumber": {
+    "description": "Fallback title for a local PR that does not yet have a server number"
+  },
+  "prOfflineBanner": "Offline mode: drafts and approvals will sync automatically when online",
+  "@prOfflineBanner": {
+    "description": "Banner shown when device is offline"
+  },
+  "prStatusDraft": "Draft",
+  "@prStatusDraft": {
+    "description": "PR status: draft"
+  },
+  "prStatusPendingApproval": "Pending Approval",
+  "@prStatusPendingApproval": {
+    "description": "PR status: pending approval"
+  },
+  "prStatusApproved": "Approved",
+  "@prStatusApproved": {
+    "description": "PR status: approved"
+  },
+  "prStatusRejected": "Rejected",
+  "@prStatusRejected": {
+    "description": "PR status: rejected"
+  },
+  "prStatusBudgetExceeded": "Budget Exceeded",
+  "@prStatusBudgetExceeded": {
+    "description": "PR status: budget exceeded"
+  },
+  "prStatusConvertedToRdo": "Converted to RDO",
+  "@prStatusConvertedToRdo": {
+    "description": "PR status: converted to request for quotation (RDO)"
+  },
+  "prStatusConvertedToPo": "Converted to PO",
+  "@prStatusConvertedToPo": {
+    "description": "PR status: converted to purchase order (PO)"
+  },
+  "prStatusCancelled": "Cancelled",
+  "@prStatusCancelled": {
+    "description": "PR status: cancelled"
+  },
+  "prSyncSynced": "Synced",
+  "@prSyncSynced": {
+    "description": "Sync badge: synced"
+  },
+  "prSyncPendingUpload": "Pending sync",
+  "@prSyncPendingUpload": {
+    "description": "Sync badge: waiting to upload"
+  },
+  "prSyncError": "Sync error",
+  "@prSyncError": {
+    "description": "Sync badge: sync error"
+  },
+  "prSyncRetry": "Retry sync",
+  "@prSyncRetry": {
+    "description": "Action button to retry synchronization"
+  },
+  "prQueuedForSync": "Queued for automatic sync when online",
+  "@prQueuedForSync": {
+    "description": "Feedback shown when a submission or decision is queued offline"
+  },
+  "prDraftSavedOffline": "Draft saved locally",
+  "@prDraftSavedOffline": {
+    "description": "Snackbar when a draft is saved offline"
+  },
+  "prSubmittedSuccess": "Purchase requisition submitted for approval",
+  "@prSubmittedSuccess": {
+    "description": "Snackbar when a PR is submitted online"
+  },
+  "prSyncCompletedSubmitted": "Requisition {number} synced and submitted",
+  "@prSyncCompletedSubmitted": {
+    "description": "Notification banner when an offline-queued PR submission completes upon reconnection",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "prSyncCompletedBudgetBlocked": "Requisition {number} blocked by budget check after sync",
+  "@prSyncCompletedBudgetBlocked": {
+    "description": "Notification banner when an offline-queued PR fails budget hard-block upon sync",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "prSyncCompletedApproval": "Approval decision synced",
+  "@prSyncCompletedApproval": {
+    "description": "Notification banner when an offline approval or rejection finishes syncing"
+  },
+  "prUrgencyLow": "Low",
+  "@prUrgencyLow": {
+    "description": "Urgency level: low"
+  },
+  "prUrgencyNormal": "Normal",
+  "@prUrgencyNormal": {
+    "description": "Urgency level: normal"
+  },
+  "prUrgencyHigh": "High",
+  "@prUrgencyHigh": {
+    "description": "Urgency level: high"
+  },
+  "prUrgencyCritical": "Critical",
+  "@prUrgencyCritical": {
+    "description": "Urgency level: critical"
+  },
+  "prLinkedRdoLabel": "RDO {number}",
+  "@prLinkedRdoLabel": {
+    "description": "Badge showing linked RDO reference",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "prLinkedPoLabel": "PO {number}",
+  "@prLinkedPoLabel": {
+    "description": "Badge showing linked PO reference",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "prLinkedDocumentsTitle": "Linked Procurement Documents",
+  "@prLinkedDocumentsTitle": {
+    "description": "Section title for linked RDO and PO documents"
+  },
+  "prCreateTitle": "New Purchase Requisition",
+  "@prCreateTitle": {
+    "description": "AppBar title on the create PR screen"
+  },
+  "prEditTitle": "Edit Requisition",
+  "@prEditTitle": {
+    "description": "AppBar title when editing an existing PR draft"
+  },
+  "prCostCenterLabel": "Cost Center",
+  "@prCostCenterLabel": {
+    "description": "Cost Center field label"
+  },
+  "prCostCenterRequired": "Select a Cost Center",
+  "@prCostCenterRequired": {
+    "description": "Validation error when Cost Center is not selected"
+  },
+  "prProjectLabel": "Project (Optional)",
+  "@prProjectLabel": {
+    "description": "Project picker label"
+  },
+  "prProjectNone": "No project",
+  "@prProjectNone": {
+    "description": "Option representing no linked project"
+  },
+  "prUrgencyLabel": "Urgency",
+  "@prUrgencyLabel": {
+    "description": "Urgency selector label"
+  },
+  "prCurrencyLabel": "Currency",
+  "@prCurrencyLabel": {
+    "description": "Currency selector label"
+  },
+  "prDeliveryDateLabel": "Requested Delivery Date",
+  "@prDeliveryDateLabel": {
+    "description": "Requested delivery date field label"
+  },
+  "prDeliveryDateHint": "Select date",
+  "@prDeliveryDateHint": {
+    "description": "Hint text for requested delivery date"
+  },
+  "prJustificationLabel": "Economic Justification",
+  "@prJustificationLabel": {
+    "description": "Economic justification text field label"
+  },
+  "prJustificationHint": "Explain business need or operational impact",
+  "@prJustificationHint": {
+    "description": "Hint for economic justification field"
+  },
+  "prJustificationRequired": "Economic justification is required to submit",
+  "@prJustificationRequired": {
+    "description": "Validation error when justification is empty on submit"
+  },
+  "prLinesSectionTitle": "Line Items",
+  "@prLinesSectionTitle": {
+    "description": "Section title for PR line items"
+  },
+  "prLinesEmpty": "No line items added yet",
+  "@prLinesEmpty": {
+    "description": "Placeholder text when PR has no lines"
+  },
+  "prLinesRequired": "Add at least one line item before submitting",
+  "@prLinesRequired": {
+    "description": "Validation error when submitting with no lines"
+  },
+  "prAddLineAction": "Add Item",
+  "@prAddLineAction": {
+    "description": "Button label to open the add line item sheet"
+  },
+  "prScanBarcodeAction": "Scan Barcode",
+  "@prScanBarcodeAction": {
+    "description": "Button label to add a line via barcode scan"
+  },
+  "prSaveDraftOffline": "Save Draft (Offline)",
+  "@prSaveDraftOffline": {
+    "description": "Button label to save draft locally offline"
+  },
+  "prSubmitForApproval": "Submit for Approval",
+  "@prSubmitForApproval": {
+    "description": "Button label to submit PR for approval"
+  },
+  "prTotalAmountLabel": "Total Amount",
+  "@prTotalAmountLabel": {
+    "description": "Total amount label"
+  },
+  "prLineTypeCatalog": "Catalog Search",
+  "@prLineTypeCatalog": {
+    "description": "Segment label for catalog item lookup"
+  },
+  "prLineTypeFreeText": "Free-Text Entry",
+  "@prLineTypeFreeText": {
+    "description": "Segment label for free-text item entry"
+  },
+  "prCatalogSearchHint": "Search catalog by SKU, barcode, or name",
+  "@prCatalogSearchHint": {
+    "description": "Search field hint in catalog item picker"
+  },
+  "prCatalogEmpty": "No matching catalog items found",
+  "@prCatalogEmpty": {
+    "description": "Empty search state in catalog picker"
+  },
+  "prBarcodeMatched": "Added catalog item: {item}",
+  "@prBarcodeMatched": {
+    "description": "Feedback when barcode scan matches a catalog product",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "prBarcodeNotFound": "No catalog item found for code \"{code}\"",
+  "@prBarcodeNotFound": {
+    "description": "Feedback when barcode scan does not match any catalog item",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "prLineDescriptionLabel": "Description",
+  "@prLineDescriptionLabel": {
+    "description": "Line item description field label"
+  },
+  "prLineQuantityLabel": "Quantity",
+  "@prLineQuantityLabel": {
+    "description": "Line item quantity field label"
+  },
+  "prLineUnitPriceLabel": "Unit Price",
+  "@prLineUnitPriceLabel": {
+    "description": "Line item unit price field label"
+  },
+  "prLineUomLabel": "Unit of Measure",
+  "@prLineUomLabel": {
+    "description": "Line item unit of measure field label"
+  },
+  "prLineNotesLabel": "Notes (Optional)",
+  "@prLineNotesLabel": {
+    "description": "Line item optional notes label"
+  },
+  "prLineAddConfirm": "Add to Requisition",
+  "@prLineAddConfirm": {
+    "description": "Confirm button in add line item bottom sheet"
+  },
+  "prFieldRequired": "This field is required",
+  "@prFieldRequired": {
+    "description": "Generic required field validation message"
+  },
+  "prInvalidNumber": "Enter a valid number",
+  "@prInvalidNumber": {
+    "description": "Numeric format validation error"
+  },
+  "prMustBePositive": "Value must be greater than zero",
+  "@prMustBePositive": {
+    "description": "Positive numeric validation error"
+  },
+  "prBudgetTitle": "Cost Center Budget",
+  "@prBudgetTitle": {
+    "description": "Title of Cost Center budget check card"
+  },
+  "prBudgetOfflineInfo": "Offline: real-time budget check will run automatically upon sync.",
+  "@prBudgetOfflineInfo": {
+    "description": "Message when budget check cannot run because device is offline"
+  },
+  "prBudgetChecking": "Checking Cost Center budget...",
+  "@prBudgetChecking": {
+    "description": "Loading label while calling budget-preview"
+  },
+  "prBudgetStatusOk": "Within Budget",
+  "@prBudgetStatusOk": {
+    "description": "Budget status badge: within budget"
+  },
+  "prBudgetStatusWarning": "Budget Warning",
+  "@prBudgetStatusWarning": {
+    "description": "Budget status badge: threshold warning"
+  },
+  "prBudgetStatusHardBlock": "Budget Exceeded (Blocked)",
+  "@prBudgetStatusHardBlock": {
+    "description": "Budget status badge: hard block"
+  },
+  "prBudgetAllocated": "Allocated",
+  "@prBudgetAllocated": {
+    "description": "Allocated budget figure label"
+  },
+  "prBudgetCommitted": "Committed",
+  "@prBudgetCommitted": {
+    "description": "Committed budget figure label"
+  },
+  "prBudgetAvailable": "Available",
+  "@prBudgetAvailable": {
+    "description": "Available budget figure label"
+  },
+  "prBudgetRequested": "Requested",
+  "@prBudgetRequested": {
+    "description": "Requested PR amount label"
+  },
+  "prBudgetRemaining": "Remaining",
+  "@prBudgetRemaining": {
+    "description": "Remaining budget after request label"
+  },
+  "prBudgetUtilization": "{percent}% utilized",
+  "@prBudgetUtilization": {
+    "description": "Budget utilization percentage label",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "prBudgetWarningDialogTitle": "Budget Threshold Warning",
+  "@prBudgetWarningDialogTitle": {
+    "description": "Title of dialog asking user to confirm submission despite budget warning"
+  },
+  "prBudgetWarningDialogBody": "This requisition exceeds the Cost Center warning threshold. Do you want to submit it anyway?",
+  "@prBudgetWarningDialogBody": {
+    "description": "Body of budget warning confirmation dialog"
+  },
+  "prBudgetWarningProceed": "Submit Anyway",
+  "@prBudgetWarningProceed": {
+    "description": "Confirm button on budget warning dialog"
+  },
+  "prBudgetHardBlockSubmitBlocked": "Submission blocked: Cost Center budget exceeded.",
+  "@prBudgetHardBlockSubmitBlocked": {
+    "description": "Error banner when submission is prevented by budget hard-block"
+  },
+  "prDetailTitle": "Requisition Detail",
+  "@prDetailTitle": {
+    "description": "AppBar title on the PR detail screen"
+  },
+  "prRequesterLabel": "Requester",
+  "@prRequesterLabel": {
+    "description": "Requester name label"
+  },
+  "prRequestedDateLabel": "Requested on",
+  "@prRequestedDateLabel": {
+    "description": "Creation/request date label"
+  },
+  "prApprovalProgressTitle": "Approval Workflow",
+  "@prApprovalProgressTitle": {
+    "description": "Title of the multi-level approval progress section"
+  },
+  "prApprovalLevelLabel": "Level {level}",
+  "@prApprovalLevelLabel": {
+    "description": "Label for an approval workflow level",
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "prApprovalStepApproved": "Approved",
+  "@prApprovalStepApproved": {
+    "description": "Approval step status: approved"
+  },
+  "prApprovalStepPending": "Pending",
+  "@prApprovalStepPending": {
+    "description": "Approval step status: pending"
+  },
+  "prApprovalStepRejected": "Rejected",
+  "@prApprovalStepRejected": {
+    "description": "Approval step status: rejected"
+  },
+  "prApprovalStepWaiting": "Waiting",
+  "@prApprovalStepWaiting": {
+    "description": "Approval step status: waiting for previous levels"
+  },
+  "prAuditTrailTitle": "Approval Audit Trail",
+  "@prAuditTrailTitle": {
+    "description": "Section title for immutable approval audit history"
+  },
+  "prAuditTrailEmpty": "No approval events recorded yet",
+  "@prAuditTrailEmpty": {
+    "description": "Empty state for audit log section"
+  },
+  "prAuditActionSubmitted": "Submitted",
+  "@prAuditActionSubmitted": {
+    "description": "Audit log action: submitted"
+  },
+  "prAuditActionApproved": "Approved",
+  "@prAuditActionApproved": {
+    "description": "Audit log action: approved"
+  },
+  "prAuditActionRejected": "Rejected",
+  "@prAuditActionRejected": {
+    "description": "Audit log action: rejected"
+  },
+  "prAuditActionBudgetWarning": "Budget Warning",
+  "@prAuditActionBudgetWarning": {
+    "description": "Audit log action: budget warning"
+  },
+  "prAuditActionBudgetBlocked": "Budget Blocked",
+  "@prAuditActionBudgetBlocked": {
+    "description": "Audit log action: budget blocked"
+  },
+  "prAuditActionEscalated": "Escalated",
+  "@prAuditActionEscalated": {
+    "description": "Audit log action: escalated"
+  },
+  "prAuditActionConverted": "Converted",
+  "@prAuditActionConverted": {
+    "description": "Audit log action: converted to RDO or PO"
+  },
+  "prChannelWeb": "Web",
+  "@prChannelWeb": {
+    "description": "Approval channel: web"
+  },
+  "prChannelMobileApp": "Mobile App",
+  "@prChannelMobileApp": {
+    "description": "Approval channel: mobile app"
+  },
+  "prChannelMobilePush": "Push 1-Tap",
+  "@prChannelMobilePush": {
+    "description": "Approval channel: mobile push notification 1-tap action"
+  },
+  "prChannelEmailOneClick": "Email 1-Click",
+  "@prChannelEmailOneClick": {
+    "description": "Approval channel: email one-click"
+  },
+  "prChannelSystem": "System",
+  "@prChannelSystem": {
+    "description": "Approval channel: system"
+  },
+  "prPendingSyncTag": "Pending sync",
+  "@prPendingSyncTag": {
+    "description": "Tag shown on local optimistic audit log entries awaiting server sync"
+  },
+  "prApproveOneTap": "1-Tap Approve",
+  "@prApproveOneTap": {
+    "description": "Primary manager action button to approve a PR in 1 tap"
+  },
+  "prRejectAction": "Reject",
+  "@prRejectAction": {
+    "description": "Secondary manager action button to reject a PR"
+  },
+  "prApprovedConfirmation": "Requisition approved",
+  "@prApprovedConfirmation": {
+    "description": "Snackbar shown after approving a PR online"
+  },
+  "prApprovedQueuedOffline": "Approval queued offline and will sync on reconnection",
+  "@prApprovedQueuedOffline": {
+    "description": "Snackbar shown after approving a PR while offline"
+  },
+  "prRejectedConfirmation": "Requisition rejected",
+  "@prRejectedConfirmation": {
+    "description": "Snackbar shown after rejecting a PR online"
+  },
+  "prRejectedQueuedOffline": "Rejection queued offline and will sync on reconnection",
+  "@prRejectedQueuedOffline": {
+    "description": "Snackbar shown after rejecting a PR while offline"
+  },
+  "prRejectSheetTitle": "Reject Requisition",
+  "@prRejectSheetTitle": {
+    "description": "Title of the rejection reason bottom sheet"
+  },
+  "prRejectReasonLabel": "Rejection Reason",
+  "@prRejectReasonLabel": {
+    "description": "Label of the mandatory rejection reason field"
+  },
+  "prRejectReasonHint": "Provide a clear reason for rejecting this requisition",
+  "@prRejectReasonHint": {
+    "description": "Hint text for rejection reason field"
+  },
+  "prRejectReasonRequired": "A rejection reason is mandatory",
+  "@prRejectReasonRequired": {
+    "description": "Validation error when submitting rejection without a reason"
+  },
+  "prRejectConfirmAction": "Confirm Rejection",
+  "@prRejectConfirmAction": {
+    "description": "Confirm button in the rejection bottom sheet"
+  },
+  "prCancelAction": "Cancel",
+  "@prCancelAction": {
+    "description": "Cancel button label"
+  },
+  "prNotFound": "Purchase requisition not found",
+  "@prNotFound": {
+    "description": "Message when a requisition cannot be located locally or remotely"
+  },
+  "prGenericError": "Unable to complete the operation. Please try again.",
+  "@prGenericError": {
+    "description": "Fallback error message"
+  },
+  "prLevelBadge": "Level {current}/{total}",
+  "@prLevelBadge": {
+    "description": "Compact level progress badge",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
+}
