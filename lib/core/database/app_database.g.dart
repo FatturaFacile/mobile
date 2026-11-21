@@ -3861,6 +3861,774 @@ class AuditQueueEntriesCompanion extends UpdateCompanion<AuditQueueRow> {
   }
 }
 
+class $DssExecutiveSnapshotsTable extends DssExecutiveSnapshots
+    with TableInfo<$DssExecutiveSnapshotsTable, DssSnapshotRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DssExecutiveSnapshotsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _legalEntityIdMeta = const VerificationMeta(
+    'legalEntityId',
+  );
+  @override
+  late final GeneratedColumn<String> legalEntityId = GeneratedColumn<String>(
+    'legal_entity_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _currencyMeta = const VerificationMeta(
+    'currency',
+  );
+  @override
+  late final GeneratedColumn<String> currency = GeneratedColumn<String>(
+    'currency',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _periodPresetMeta = const VerificationMeta(
+    'periodPreset',
+  );
+  @override
+  late final GeneratedColumn<String> periodPreset = GeneratedColumn<String>(
+    'period_preset',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _comparisonBaselineMeta =
+      const VerificationMeta('comparisonBaseline');
+  @override
+  late final GeneratedColumn<String> comparisonBaseline =
+      GeneratedColumn<String>(
+        'comparison_baseline',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _overviewJsonMeta = const VerificationMeta(
+    'overviewJson',
+  );
+  @override
+  late final GeneratedColumn<String> overviewJson = GeneratedColumn<String>(
+    'overview_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _customersJsonMeta = const VerificationMeta(
+    'customersJson',
+  );
+  @override
+  late final GeneratedColumn<String> customersJson = GeneratedColumn<String>(
+    'customers_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _productsJsonMeta = const VerificationMeta(
+    'productsJson',
+  );
+  @override
+  late final GeneratedColumn<String> productsJson = GeneratedColumn<String>(
+    'products_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _varianceJsonMeta = const VerificationMeta(
+    'varianceJson',
+  );
+  @override
+  late final GeneratedColumn<String> varianceJson = GeneratedColumn<String>(
+    'variance_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _inputsJsonMeta = const VerificationMeta(
+    'inputsJson',
+  );
+  @override
+  late final GeneratedColumn<String> inputsJson = GeneratedColumn<String>(
+    'inputs_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _legalEntitiesJsonMeta = const VerificationMeta(
+    'legalEntitiesJson',
+  );
+  @override
+  late final GeneratedColumn<String> legalEntitiesJson =
+      GeneratedColumn<String>(
+        'legal_entities_json',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    legalEntityId,
+    currency,
+    periodPreset,
+    comparisonBaseline,
+    overviewJson,
+    customersJson,
+    productsJson,
+    varianceJson,
+    inputsJson,
+    legalEntitiesJson,
+    syncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'dss_executive_snapshots';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DssSnapshotRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('legal_entity_id')) {
+      context.handle(
+        _legalEntityIdMeta,
+        legalEntityId.isAcceptableOrUnknown(
+          data['legal_entity_id']!,
+          _legalEntityIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('currency')) {
+      context.handle(
+        _currencyMeta,
+        currency.isAcceptableOrUnknown(data['currency']!, _currencyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_currencyMeta);
+    }
+    if (data.containsKey('period_preset')) {
+      context.handle(
+        _periodPresetMeta,
+        periodPreset.isAcceptableOrUnknown(
+          data['period_preset']!,
+          _periodPresetMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_periodPresetMeta);
+    }
+    if (data.containsKey('comparison_baseline')) {
+      context.handle(
+        _comparisonBaselineMeta,
+        comparisonBaseline.isAcceptableOrUnknown(
+          data['comparison_baseline']!,
+          _comparisonBaselineMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_comparisonBaselineMeta);
+    }
+    if (data.containsKey('overview_json')) {
+      context.handle(
+        _overviewJsonMeta,
+        overviewJson.isAcceptableOrUnknown(
+          data['overview_json']!,
+          _overviewJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_overviewJsonMeta);
+    }
+    if (data.containsKey('customers_json')) {
+      context.handle(
+        _customersJsonMeta,
+        customersJson.isAcceptableOrUnknown(
+          data['customers_json']!,
+          _customersJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_customersJsonMeta);
+    }
+    if (data.containsKey('products_json')) {
+      context.handle(
+        _productsJsonMeta,
+        productsJson.isAcceptableOrUnknown(
+          data['products_json']!,
+          _productsJsonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('variance_json')) {
+      context.handle(
+        _varianceJsonMeta,
+        varianceJson.isAcceptableOrUnknown(
+          data['variance_json']!,
+          _varianceJsonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('inputs_json')) {
+      context.handle(
+        _inputsJsonMeta,
+        inputsJson.isAcceptableOrUnknown(data['inputs_json']!, _inputsJsonMeta),
+      );
+    }
+    if (data.containsKey('legal_entities_json')) {
+      context.handle(
+        _legalEntitiesJsonMeta,
+        legalEntitiesJson.isAcceptableOrUnknown(
+          data['legal_entities_json']!,
+          _legalEntitiesJsonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_syncedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {
+    tenantId,
+    legalEntityId,
+    currency,
+    periodPreset,
+    comparisonBaseline,
+  };
+  @override
+  DssSnapshotRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DssSnapshotRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      legalEntityId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}legal_entity_id'],
+      )!,
+      currency: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}currency'],
+      )!,
+      periodPreset: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}period_preset'],
+      )!,
+      comparisonBaseline: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}comparison_baseline'],
+      )!,
+      overviewJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}overview_json'],
+      )!,
+      customersJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}customers_json'],
+      )!,
+      productsJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}products_json'],
+      ),
+      varianceJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}variance_json'],
+      ),
+      inputsJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}inputs_json'],
+      ),
+      legalEntitiesJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}legal_entities_json'],
+      ),
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DssExecutiveSnapshotsTable createAlias(String alias) {
+    return $DssExecutiveSnapshotsTable(attachedDatabase, alias);
+  }
+}
+
+class DssSnapshotRow extends DataClass implements Insertable<DssSnapshotRow> {
+  final String tenantId;
+
+  /// Server legal entity id; empty for the snapshot that spans every legal entity.
+  final String legalEntityId;
+  final String currency;
+  final String periodPreset;
+  final String comparisonBaseline;
+  final String overviewJson;
+  final String customersJson;
+  final String? productsJson;
+  final String? varianceJson;
+  final String? inputsJson;
+  final String? legalEntitiesJson;
+  final DateTime syncedAt;
+  const DssSnapshotRow({
+    required this.tenantId,
+    required this.legalEntityId,
+    required this.currency,
+    required this.periodPreset,
+    required this.comparisonBaseline,
+    required this.overviewJson,
+    required this.customersJson,
+    this.productsJson,
+    this.varianceJson,
+    this.inputsJson,
+    this.legalEntitiesJson,
+    required this.syncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['legal_entity_id'] = Variable<String>(legalEntityId);
+    map['currency'] = Variable<String>(currency);
+    map['period_preset'] = Variable<String>(periodPreset);
+    map['comparison_baseline'] = Variable<String>(comparisonBaseline);
+    map['overview_json'] = Variable<String>(overviewJson);
+    map['customers_json'] = Variable<String>(customersJson);
+    if (!nullToAbsent || productsJson != null) {
+      map['products_json'] = Variable<String>(productsJson);
+    }
+    if (!nullToAbsent || varianceJson != null) {
+      map['variance_json'] = Variable<String>(varianceJson);
+    }
+    if (!nullToAbsent || inputsJson != null) {
+      map['inputs_json'] = Variable<String>(inputsJson);
+    }
+    if (!nullToAbsent || legalEntitiesJson != null) {
+      map['legal_entities_json'] = Variable<String>(legalEntitiesJson);
+    }
+    map['synced_at'] = Variable<DateTime>(syncedAt);
+    return map;
+  }
+
+  DssExecutiveSnapshotsCompanion toCompanion(bool nullToAbsent) {
+    return DssExecutiveSnapshotsCompanion(
+      tenantId: Value(tenantId),
+      legalEntityId: Value(legalEntityId),
+      currency: Value(currency),
+      periodPreset: Value(periodPreset),
+      comparisonBaseline: Value(comparisonBaseline),
+      overviewJson: Value(overviewJson),
+      customersJson: Value(customersJson),
+      productsJson: productsJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(productsJson),
+      varianceJson: varianceJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(varianceJson),
+      inputsJson: inputsJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(inputsJson),
+      legalEntitiesJson: legalEntitiesJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(legalEntitiesJson),
+      syncedAt: Value(syncedAt),
+    );
+  }
+
+  factory DssSnapshotRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DssSnapshotRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      legalEntityId: serializer.fromJson<String>(json['legalEntityId']),
+      currency: serializer.fromJson<String>(json['currency']),
+      periodPreset: serializer.fromJson<String>(json['periodPreset']),
+      comparisonBaseline: serializer.fromJson<String>(
+        json['comparisonBaseline'],
+      ),
+      overviewJson: serializer.fromJson<String>(json['overviewJson']),
+      customersJson: serializer.fromJson<String>(json['customersJson']),
+      productsJson: serializer.fromJson<String?>(json['productsJson']),
+      varianceJson: serializer.fromJson<String?>(json['varianceJson']),
+      inputsJson: serializer.fromJson<String?>(json['inputsJson']),
+      legalEntitiesJson: serializer.fromJson<String?>(
+        json['legalEntitiesJson'],
+      ),
+      syncedAt: serializer.fromJson<DateTime>(json['syncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'legalEntityId': serializer.toJson<String>(legalEntityId),
+      'currency': serializer.toJson<String>(currency),
+      'periodPreset': serializer.toJson<String>(periodPreset),
+      'comparisonBaseline': serializer.toJson<String>(comparisonBaseline),
+      'overviewJson': serializer.toJson<String>(overviewJson),
+      'customersJson': serializer.toJson<String>(customersJson),
+      'productsJson': serializer.toJson<String?>(productsJson),
+      'varianceJson': serializer.toJson<String?>(varianceJson),
+      'inputsJson': serializer.toJson<String?>(inputsJson),
+      'legalEntitiesJson': serializer.toJson<String?>(legalEntitiesJson),
+      'syncedAt': serializer.toJson<DateTime>(syncedAt),
+    };
+  }
+
+  DssSnapshotRow copyWith({
+    String? tenantId,
+    String? legalEntityId,
+    String? currency,
+    String? periodPreset,
+    String? comparisonBaseline,
+    String? overviewJson,
+    String? customersJson,
+    Value<String?> productsJson = const Value.absent(),
+    Value<String?> varianceJson = const Value.absent(),
+    Value<String?> inputsJson = const Value.absent(),
+    Value<String?> legalEntitiesJson = const Value.absent(),
+    DateTime? syncedAt,
+  }) => DssSnapshotRow(
+    tenantId: tenantId ?? this.tenantId,
+    legalEntityId: legalEntityId ?? this.legalEntityId,
+    currency: currency ?? this.currency,
+    periodPreset: periodPreset ?? this.periodPreset,
+    comparisonBaseline: comparisonBaseline ?? this.comparisonBaseline,
+    overviewJson: overviewJson ?? this.overviewJson,
+    customersJson: customersJson ?? this.customersJson,
+    productsJson: productsJson.present ? productsJson.value : this.productsJson,
+    varianceJson: varianceJson.present ? varianceJson.value : this.varianceJson,
+    inputsJson: inputsJson.present ? inputsJson.value : this.inputsJson,
+    legalEntitiesJson: legalEntitiesJson.present
+        ? legalEntitiesJson.value
+        : this.legalEntitiesJson,
+    syncedAt: syncedAt ?? this.syncedAt,
+  );
+  DssSnapshotRow copyWithCompanion(DssExecutiveSnapshotsCompanion data) {
+    return DssSnapshotRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      legalEntityId: data.legalEntityId.present
+          ? data.legalEntityId.value
+          : this.legalEntityId,
+      currency: data.currency.present ? data.currency.value : this.currency,
+      periodPreset: data.periodPreset.present
+          ? data.periodPreset.value
+          : this.periodPreset,
+      comparisonBaseline: data.comparisonBaseline.present
+          ? data.comparisonBaseline.value
+          : this.comparisonBaseline,
+      overviewJson: data.overviewJson.present
+          ? data.overviewJson.value
+          : this.overviewJson,
+      customersJson: data.customersJson.present
+          ? data.customersJson.value
+          : this.customersJson,
+      productsJson: data.productsJson.present
+          ? data.productsJson.value
+          : this.productsJson,
+      varianceJson: data.varianceJson.present
+          ? data.varianceJson.value
+          : this.varianceJson,
+      inputsJson: data.inputsJson.present
+          ? data.inputsJson.value
+          : this.inputsJson,
+      legalEntitiesJson: data.legalEntitiesJson.present
+          ? data.legalEntitiesJson.value
+          : this.legalEntitiesJson,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DssSnapshotRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('legalEntityId: $legalEntityId, ')
+          ..write('currency: $currency, ')
+          ..write('periodPreset: $periodPreset, ')
+          ..write('comparisonBaseline: $comparisonBaseline, ')
+          ..write('overviewJson: $overviewJson, ')
+          ..write('customersJson: $customersJson, ')
+          ..write('productsJson: $productsJson, ')
+          ..write('varianceJson: $varianceJson, ')
+          ..write('inputsJson: $inputsJson, ')
+          ..write('legalEntitiesJson: $legalEntitiesJson, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    tenantId,
+    legalEntityId,
+    currency,
+    periodPreset,
+    comparisonBaseline,
+    overviewJson,
+    customersJson,
+    productsJson,
+    varianceJson,
+    inputsJson,
+    legalEntitiesJson,
+    syncedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DssSnapshotRow &&
+          other.tenantId == this.tenantId &&
+          other.legalEntityId == this.legalEntityId &&
+          other.currency == this.currency &&
+          other.periodPreset == this.periodPreset &&
+          other.comparisonBaseline == this.comparisonBaseline &&
+          other.overviewJson == this.overviewJson &&
+          other.customersJson == this.customersJson &&
+          other.productsJson == this.productsJson &&
+          other.varianceJson == this.varianceJson &&
+          other.inputsJson == this.inputsJson &&
+          other.legalEntitiesJson == this.legalEntitiesJson &&
+          other.syncedAt == this.syncedAt);
+}
+
+class DssExecutiveSnapshotsCompanion extends UpdateCompanion<DssSnapshotRow> {
+  final Value<String> tenantId;
+  final Value<String> legalEntityId;
+  final Value<String> currency;
+  final Value<String> periodPreset;
+  final Value<String> comparisonBaseline;
+  final Value<String> overviewJson;
+  final Value<String> customersJson;
+  final Value<String?> productsJson;
+  final Value<String?> varianceJson;
+  final Value<String?> inputsJson;
+  final Value<String?> legalEntitiesJson;
+  final Value<DateTime> syncedAt;
+  final Value<int> rowid;
+  const DssExecutiveSnapshotsCompanion({
+    this.tenantId = const Value.absent(),
+    this.legalEntityId = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.periodPreset = const Value.absent(),
+    this.comparisonBaseline = const Value.absent(),
+    this.overviewJson = const Value.absent(),
+    this.customersJson = const Value.absent(),
+    this.productsJson = const Value.absent(),
+    this.varianceJson = const Value.absent(),
+    this.inputsJson = const Value.absent(),
+    this.legalEntitiesJson = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  DssExecutiveSnapshotsCompanion.insert({
+    required String tenantId,
+    this.legalEntityId = const Value.absent(),
+    required String currency,
+    required String periodPreset,
+    required String comparisonBaseline,
+    required String overviewJson,
+    required String customersJson,
+    this.productsJson = const Value.absent(),
+    this.varianceJson = const Value.absent(),
+    this.inputsJson = const Value.absent(),
+    this.legalEntitiesJson = const Value.absent(),
+    required DateTime syncedAt,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       currency = Value(currency),
+       periodPreset = Value(periodPreset),
+       comparisonBaseline = Value(comparisonBaseline),
+       overviewJson = Value(overviewJson),
+       customersJson = Value(customersJson),
+       syncedAt = Value(syncedAt);
+  static Insertable<DssSnapshotRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? legalEntityId,
+    Expression<String>? currency,
+    Expression<String>? periodPreset,
+    Expression<String>? comparisonBaseline,
+    Expression<String>? overviewJson,
+    Expression<String>? customersJson,
+    Expression<String>? productsJson,
+    Expression<String>? varianceJson,
+    Expression<String>? inputsJson,
+    Expression<String>? legalEntitiesJson,
+    Expression<DateTime>? syncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (legalEntityId != null) 'legal_entity_id': legalEntityId,
+      if (currency != null) 'currency': currency,
+      if (periodPreset != null) 'period_preset': periodPreset,
+      if (comparisonBaseline != null) 'comparison_baseline': comparisonBaseline,
+      if (overviewJson != null) 'overview_json': overviewJson,
+      if (customersJson != null) 'customers_json': customersJson,
+      if (productsJson != null) 'products_json': productsJson,
+      if (varianceJson != null) 'variance_json': varianceJson,
+      if (inputsJson != null) 'inputs_json': inputsJson,
+      if (legalEntitiesJson != null) 'legal_entities_json': legalEntitiesJson,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  DssExecutiveSnapshotsCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? legalEntityId,
+    Value<String>? currency,
+    Value<String>? periodPreset,
+    Value<String>? comparisonBaseline,
+    Value<String>? overviewJson,
+    Value<String>? customersJson,
+    Value<String?>? productsJson,
+    Value<String?>? varianceJson,
+    Value<String?>? inputsJson,
+    Value<String?>? legalEntitiesJson,
+    Value<DateTime>? syncedAt,
+    Value<int>? rowid,
+  }) {
+    return DssExecutiveSnapshotsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      legalEntityId: legalEntityId ?? this.legalEntityId,
+      currency: currency ?? this.currency,
+      periodPreset: periodPreset ?? this.periodPreset,
+      comparisonBaseline: comparisonBaseline ?? this.comparisonBaseline,
+      overviewJson: overviewJson ?? this.overviewJson,
+      customersJson: customersJson ?? this.customersJson,
+      productsJson: productsJson ?? this.productsJson,
+      varianceJson: varianceJson ?? this.varianceJson,
+      inputsJson: inputsJson ?? this.inputsJson,
+      legalEntitiesJson: legalEntitiesJson ?? this.legalEntitiesJson,
+      syncedAt: syncedAt ?? this.syncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (legalEntityId.present) {
+      map['legal_entity_id'] = Variable<String>(legalEntityId.value);
+    }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
+    if (periodPreset.present) {
+      map['period_preset'] = Variable<String>(periodPreset.value);
+    }
+    if (comparisonBaseline.present) {
+      map['comparison_baseline'] = Variable<String>(comparisonBaseline.value);
+    }
+    if (overviewJson.present) {
+      map['overview_json'] = Variable<String>(overviewJson.value);
+    }
+    if (customersJson.present) {
+      map['customers_json'] = Variable<String>(customersJson.value);
+    }
+    if (productsJson.present) {
+      map['products_json'] = Variable<String>(productsJson.value);
+    }
+    if (varianceJson.present) {
+      map['variance_json'] = Variable<String>(varianceJson.value);
+    }
+    if (inputsJson.present) {
+      map['inputs_json'] = Variable<String>(inputsJson.value);
+    }
+    if (legalEntitiesJson.present) {
+      map['legal_entities_json'] = Variable<String>(legalEntitiesJson.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DssExecutiveSnapshotsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('legalEntityId: $legalEntityId, ')
+          ..write('currency: $currency, ')
+          ..write('periodPreset: $periodPreset, ')
+          ..write('comparisonBaseline: $comparisonBaseline, ')
+          ..write('overviewJson: $overviewJson, ')
+          ..write('customersJson: $customersJson, ')
+          ..write('productsJson: $productsJson, ')
+          ..write('varianceJson: $varianceJson, ')
+          ..write('inputsJson: $inputsJson, ')
+          ..write('legalEntitiesJson: $legalEntitiesJson, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3875,6 +4643,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $AuditQueueEntriesTable auditQueueEntries =
       $AuditQueueEntriesTable(this);
+  late final $DssExecutiveSnapshotsTable dssExecutiveSnapshots =
+      $DssExecutiveSnapshotsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3887,6 +4657,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     copilotConversations,
     copilotMessages,
     auditQueueEntries,
+    dssExecutiveSnapshots,
   ];
 }
 
@@ -5902,6 +6673,387 @@ typedef $$AuditQueueEntriesTableProcessedTableManager =
       AuditQueueRow,
       PrefetchHooks Function()
     >;
+typedef $$DssExecutiveSnapshotsTableCreateCompanionBuilder =
+    DssExecutiveSnapshotsCompanion Function({
+      required String tenantId,
+      Value<String> legalEntityId,
+      required String currency,
+      required String periodPreset,
+      required String comparisonBaseline,
+      required String overviewJson,
+      required String customersJson,
+      Value<String?> productsJson,
+      Value<String?> varianceJson,
+      Value<String?> inputsJson,
+      Value<String?> legalEntitiesJson,
+      required DateTime syncedAt,
+      Value<int> rowid,
+    });
+typedef $$DssExecutiveSnapshotsTableUpdateCompanionBuilder =
+    DssExecutiveSnapshotsCompanion Function({
+      Value<String> tenantId,
+      Value<String> legalEntityId,
+      Value<String> currency,
+      Value<String> periodPreset,
+      Value<String> comparisonBaseline,
+      Value<String> overviewJson,
+      Value<String> customersJson,
+      Value<String?> productsJson,
+      Value<String?> varianceJson,
+      Value<String?> inputsJson,
+      Value<String?> legalEntitiesJson,
+      Value<DateTime> syncedAt,
+      Value<int> rowid,
+    });
+
+class $$DssExecutiveSnapshotsTableFilterComposer
+    extends Composer<_$AppDatabase, $DssExecutiveSnapshotsTable> {
+  $$DssExecutiveSnapshotsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get legalEntityId => $composableBuilder(
+    column: $table.legalEntityId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get currency => $composableBuilder(
+    column: $table.currency,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get periodPreset => $composableBuilder(
+    column: $table.periodPreset,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get comparisonBaseline => $composableBuilder(
+    column: $table.comparisonBaseline,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get overviewJson => $composableBuilder(
+    column: $table.overviewJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customersJson => $composableBuilder(
+    column: $table.customersJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get productsJson => $composableBuilder(
+    column: $table.productsJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get varianceJson => $composableBuilder(
+    column: $table.varianceJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get inputsJson => $composableBuilder(
+    column: $table.inputsJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get legalEntitiesJson => $composableBuilder(
+    column: $table.legalEntitiesJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DssExecutiveSnapshotsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DssExecutiveSnapshotsTable> {
+  $$DssExecutiveSnapshotsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get legalEntityId => $composableBuilder(
+    column: $table.legalEntityId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get currency => $composableBuilder(
+    column: $table.currency,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get periodPreset => $composableBuilder(
+    column: $table.periodPreset,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get comparisonBaseline => $composableBuilder(
+    column: $table.comparisonBaseline,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get overviewJson => $composableBuilder(
+    column: $table.overviewJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customersJson => $composableBuilder(
+    column: $table.customersJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get productsJson => $composableBuilder(
+    column: $table.productsJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get varianceJson => $composableBuilder(
+    column: $table.varianceJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get inputsJson => $composableBuilder(
+    column: $table.inputsJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get legalEntitiesJson => $composableBuilder(
+    column: $table.legalEntitiesJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DssExecutiveSnapshotsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DssExecutiveSnapshotsTable> {
+  $$DssExecutiveSnapshotsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get legalEntityId => $composableBuilder(
+    column: $table.legalEntityId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get currency =>
+      $composableBuilder(column: $table.currency, builder: (column) => column);
+
+  GeneratedColumn<String> get periodPreset => $composableBuilder(
+    column: $table.periodPreset,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get comparisonBaseline => $composableBuilder(
+    column: $table.comparisonBaseline,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get overviewJson => $composableBuilder(
+    column: $table.overviewJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get customersJson => $composableBuilder(
+    column: $table.customersJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get productsJson => $composableBuilder(
+    column: $table.productsJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get varianceJson => $composableBuilder(
+    column: $table.varianceJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get inputsJson => $composableBuilder(
+    column: $table.inputsJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get legalEntitiesJson => $composableBuilder(
+    column: $table.legalEntitiesJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+}
+
+class $$DssExecutiveSnapshotsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DssExecutiveSnapshotsTable,
+          DssSnapshotRow,
+          $$DssExecutiveSnapshotsTableFilterComposer,
+          $$DssExecutiveSnapshotsTableOrderingComposer,
+          $$DssExecutiveSnapshotsTableAnnotationComposer,
+          $$DssExecutiveSnapshotsTableCreateCompanionBuilder,
+          $$DssExecutiveSnapshotsTableUpdateCompanionBuilder,
+          (
+            DssSnapshotRow,
+            BaseReferences<
+              _$AppDatabase,
+              $DssExecutiveSnapshotsTable,
+              DssSnapshotRow
+            >,
+          ),
+          DssSnapshotRow,
+          PrefetchHooks Function()
+        > {
+  $$DssExecutiveSnapshotsTableTableManager(
+    _$AppDatabase db,
+    $DssExecutiveSnapshotsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DssExecutiveSnapshotsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$DssExecutiveSnapshotsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$DssExecutiveSnapshotsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> legalEntityId = const Value.absent(),
+                Value<String> currency = const Value.absent(),
+                Value<String> periodPreset = const Value.absent(),
+                Value<String> comparisonBaseline = const Value.absent(),
+                Value<String> overviewJson = const Value.absent(),
+                Value<String> customersJson = const Value.absent(),
+                Value<String?> productsJson = const Value.absent(),
+                Value<String?> varianceJson = const Value.absent(),
+                Value<String?> inputsJson = const Value.absent(),
+                Value<String?> legalEntitiesJson = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DssExecutiveSnapshotsCompanion(
+                tenantId: tenantId,
+                legalEntityId: legalEntityId,
+                currency: currency,
+                periodPreset: periodPreset,
+                comparisonBaseline: comparisonBaseline,
+                overviewJson: overviewJson,
+                customersJson: customersJson,
+                productsJson: productsJson,
+                varianceJson: varianceJson,
+                inputsJson: inputsJson,
+                legalEntitiesJson: legalEntitiesJson,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                Value<String> legalEntityId = const Value.absent(),
+                required String currency,
+                required String periodPreset,
+                required String comparisonBaseline,
+                required String overviewJson,
+                required String customersJson,
+                Value<String?> productsJson = const Value.absent(),
+                Value<String?> varianceJson = const Value.absent(),
+                Value<String?> inputsJson = const Value.absent(),
+                Value<String?> legalEntitiesJson = const Value.absent(),
+                required DateTime syncedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => DssExecutiveSnapshotsCompanion.insert(
+                tenantId: tenantId,
+                legalEntityId: legalEntityId,
+                currency: currency,
+                periodPreset: periodPreset,
+                comparisonBaseline: comparisonBaseline,
+                overviewJson: overviewJson,
+                customersJson: customersJson,
+                productsJson: productsJson,
+                varianceJson: varianceJson,
+                inputsJson: inputsJson,
+                legalEntitiesJson: legalEntitiesJson,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DssExecutiveSnapshotsTable, DssSnapshotRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $DssExecutiveSnapshotsTable,
+                    DssSnapshotRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DssExecutiveSnapshotsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DssExecutiveSnapshotsTable,
+      DssSnapshotRow,
+      $$DssExecutiveSnapshotsTableFilterComposer,
+      $$DssExecutiveSnapshotsTableOrderingComposer,
+      $$DssExecutiveSnapshotsTableAnnotationComposer,
+      $$DssExecutiveSnapshotsTableCreateCompanionBuilder,
+      $$DssExecutiveSnapshotsTableUpdateCompanionBuilder,
+      (
+        DssSnapshotRow,
+        BaseReferences<
+          _$AppDatabase,
+          $DssExecutiveSnapshotsTable,
+          DssSnapshotRow
+        >,
+      ),
+      DssSnapshotRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5920,4 +7072,6 @@ class $AppDatabaseManager {
       $$CopilotMessagesTableTableManager(_db, _db.copilotMessages);
   $$AuditQueueEntriesTableTableManager get auditQueueEntries =>
       $$AuditQueueEntriesTableTableManager(_db, _db.auditQueueEntries);
+  $$DssExecutiveSnapshotsTableTableManager get dssExecutiveSnapshots =>
+      $$DssExecutiveSnapshotsTableTableManager(_db, _db.dssExecutiveSnapshots);
 }
