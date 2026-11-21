@@ -8,6 +8,7 @@ import '../core/sync/sync_orchestrator.dart';
 import '../features/auth/domain/auth_models.dart';
 import '../features/entities/entity_definition.dart';
 import '../features/entities/entity_pages.dart';
+import '../features/manufacturing/presentation/screens/manufacturing_hub_screen.dart';
 import '../features/purchase_requisitions/notifications/pr_notification_handler.dart';
 import '../features/purchase_requisitions/presentation/providers/pr_providers.dart';
 import '../features/purchase_requisitions/presentation/screens/pr_hub_screen.dart';
@@ -151,6 +152,9 @@ class HomePage extends ConsumerWidget {
         userName: b.userName,
         defaultCurrency: b.currency,
       ),
+      'manufacturing' ||
+      'production_engineering' ||
+      'manufacturing_routing' => ManufacturingHubScreen(tenantId: b.tenantId),
       _ when moduleEntity.containsKey(module) => EntityListPage(
         def: entityDefinitions[moduleEntity[module]]!,
         tenantId: b.tenantId,
@@ -178,6 +182,11 @@ class HomePage extends ConsumerWidget {
     if (module == 'purchase_requisitions' ||
         module == 'procurement_requisitions') {
       return AppLocalizations.of(context).prModuleTitle;
+    }
+    if (module == 'manufacturing' ||
+        module == 'production_engineering' ||
+        module == 'manufacturing_routing') {
+      return AppLocalizations.of(context).mfgModuleTitle;
     }
     return '';
   }

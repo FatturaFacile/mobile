@@ -1,5 +1,7 @@
 import 'package:drift/drift.dart';
 
+import '../../features/manufacturing/data/local/manufacturing_dao.dart';
+import '../../features/manufacturing/data/local/manufacturing_tables.dart';
 import '../../features/purchase_requisitions/data/local/purchase_requisition_dao.dart';
 import '../../features/purchase_requisitions/data/local/purchase_requisition_tables.dart';
 
@@ -110,14 +112,19 @@ class PermissionSnapshots extends Table {
     LocalPurchaseRequisitionLines,
     LocalPendingApprovals,
     LocalApprovalAuditLogs,
+    MfgLocalWorkCenters,
+    MfgLocalMachines,
+    MfgLocalRoutings,
+    MfgLocalRoutingSteps,
+    MfgLocalOeeSummaries,
   ],
-  daos: <Type>[PurchaseRequisitionDao],
+  daos: <Type>[PurchaseRequisitionDao, ManufacturingDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -131,6 +138,13 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(localPurchaseRequisitionLines);
         await m.createTable(localPendingApprovals);
         await m.createTable(localApprovalAuditLogs);
+      }
+      if (from < 4) {
+        await m.createTable(mfgLocalWorkCenters);
+        await m.createTable(mfgLocalMachines);
+        await m.createTable(mfgLocalRoutings);
+        await m.createTable(mfgLocalRoutingSteps);
+        await m.createTable(mfgLocalOeeSummaries);
       }
     },
     beforeOpen: (OpeningDetails details) async {

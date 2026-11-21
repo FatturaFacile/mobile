@@ -858,6 +858,384 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Level {current}/{total}'**
   String prLevelBadge(int current, int total);
+
+  /// Mod 061 production engineering: mfgModuleTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Production Engineering'**
+  String get mfgModuleTitle;
+
+  /// Mod 061 production engineering: mfgHubTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Production Engineering'**
+  String get mfgHubTitle;
+
+  /// Mod 061 production engineering: mfgTabRoutings
+  ///
+  /// In en, this message translates to:
+  /// **'Routings'**
+  String get mfgTabRoutings;
+
+  /// Mod 061 production engineering: mfgTabMachines
+  ///
+  /// In en, this message translates to:
+  /// **'Machines'**
+  String get mfgTabMachines;
+
+  /// Mod 061 production engineering: mfgTabOee
+  ///
+  /// In en, this message translates to:
+  /// **'OEE'**
+  String get mfgTabOee;
+
+  /// Mod 061 production engineering: mfgSyncAction
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get mfgSyncAction;
+
+  /// Mod 061 production engineering: mfgSyncFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Sync failed, showing offline data'**
+  String get mfgSyncFailed;
+
+  /// Mod 061 production engineering: mfgEmptyRoutings
+  ///
+  /// In en, this message translates to:
+  /// **'No routings available offline'**
+  String get mfgEmptyRoutings;
+
+  /// Mod 061 production engineering: mfgEmptyMachines
+  ///
+  /// In en, this message translates to:
+  /// **'No machines available offline'**
+  String get mfgEmptyMachines;
+
+  /// Mod 061 production engineering: mfgEmptyOee
+  ///
+  /// In en, this message translates to:
+  /// **'No OEE data available offline'**
+  String get mfgEmptyOee;
+
+  /// Mod 061 production engineering: mfgRevisionLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Rev. {revision}'**
+  String mfgRevisionLabel(String revision);
+
+  /// Mod 061 production engineering: mfgStepsCount
+  ///
+  /// In en, this message translates to:
+  /// **'{count} steps'**
+  String mfgStepsCount(int count);
+
+  /// Mod 061 production engineering: mfgStepTitle
+  ///
+  /// In en, this message translates to:
+  /// **'{sequence} · {code}'**
+  String mfgStepTitle(int sequence, String code);
+
+  /// Mod 061 production engineering: mfgWorkCenterLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Work centre {code}'**
+  String mfgWorkCenterLabel(String code);
+
+  /// Mod 061 production engineering: mfgMinutesValue
+  ///
+  /// In en, this message translates to:
+  /// **'{value} min'**
+  String mfgMinutesValue(String value);
+
+  /// Mod 061 production engineering: mfgSetupTime
+  ///
+  /// In en, this message translates to:
+  /// **'Setup'**
+  String get mfgSetupTime;
+
+  /// Mod 061 production engineering: mfgRunTime
+  ///
+  /// In en, this message translates to:
+  /// **'Run / unit'**
+  String get mfgRunTime;
+
+  /// Mod 061 production engineering: mfgQueueTime
+  ///
+  /// In en, this message translates to:
+  /// **'Queue'**
+  String get mfgQueueTime;
+
+  /// Mod 061 production engineering: mfgMoveTime
+  ///
+  /// In en, this message translates to:
+  /// **'Move'**
+  String get mfgMoveTime;
+
+  /// Mod 061 production engineering: mfgSubcontracted
+  ///
+  /// In en, this message translates to:
+  /// **'Subcontracted'**
+  String get mfgSubcontracted;
+
+  /// Mod 061 production engineering: mfgCalculatorTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Lead time and cost'**
+  String get mfgCalculatorTitle;
+
+  /// Mod 061 production engineering: mfgLotQuantity
+  ///
+  /// In en, this message translates to:
+  /// **'Lot quantity'**
+  String get mfgLotQuantity;
+
+  /// Mod 061 production engineering: mfgIncludeOverlap
+  ///
+  /// In en, this message translates to:
+  /// **'Overlap transfer batches'**
+  String get mfgIncludeOverlap;
+
+  /// Mod 061 production engineering: mfgCalculate
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate'**
+  String get mfgCalculate;
+
+  /// Mod 061 production engineering: mfgCalcInvalid
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a quantity greater than zero'**
+  String get mfgCalcInvalid;
+
+  /// Mod 061 production engineering: mfgCalcMissingWorkCenter
+  ///
+  /// In en, this message translates to:
+  /// **'A work centre of this routing is not available offline'**
+  String get mfgCalcMissingWorkCenter;
+
+  /// Mod 061 production engineering: mfgTotalLeadTime
+  ///
+  /// In en, this message translates to:
+  /// **'Total lead time'**
+  String get mfgTotalLeadTime;
+
+  /// Mod 061 production engineering: mfgSerialLeadTime
+  ///
+  /// In en, this message translates to:
+  /// **'Without overlap'**
+  String get mfgSerialLeadTime;
+
+  /// Mod 061 production engineering: mfgOverlapSaving
+  ///
+  /// In en, this message translates to:
+  /// **'Overlap saving'**
+  String get mfgOverlapSaving;
+
+  /// Mod 061 production engineering: mfgTotalCost
+  ///
+  /// In en, this message translates to:
+  /// **'Total cost'**
+  String get mfgTotalCost;
+
+  /// Mod 061 production engineering: mfgUnitCost
+  ///
+  /// In en, this message translates to:
+  /// **'Cost per unit'**
+  String get mfgUnitCost;
+
+  /// Mod 061 production engineering: mfgCostSetup
+  ///
+  /// In en, this message translates to:
+  /// **'Setup'**
+  String get mfgCostSetup;
+
+  /// Mod 061 production engineering: mfgCostMachine
+  ///
+  /// In en, this message translates to:
+  /// **'Machine run'**
+  String get mfgCostMachine;
+
+  /// Mod 061 production engineering: mfgCostLabor
+  ///
+  /// In en, this message translates to:
+  /// **'Direct labour'**
+  String get mfgCostLabor;
+
+  /// Mod 061 production engineering: mfgCostOverhead
+  ///
+  /// In en, this message translates to:
+  /// **'Overhead'**
+  String get mfgCostOverhead;
+
+  /// Mod 061 production engineering: mfgCostSubcontracting
+  ///
+  /// In en, this message translates to:
+  /// **'Subcontracting'**
+  String get mfgCostSubcontracting;
+
+  /// Mod 061 production engineering: mfgCostMaterialNote
+  ///
+  /// In en, this message translates to:
+  /// **'Material cost is not included offline'**
+  String get mfgCostMaterialNote;
+
+  /// Mod 061 production engineering: mfgMachineStatus
+  ///
+  /// In en, this message translates to:
+  /// **'Status: {status}'**
+  String mfgMachineStatus(String status);
+
+  /// Mod 061 production engineering: mfgIndustria40
+  ///
+  /// In en, this message translates to:
+  /// **'Industria 4.0'**
+  String get mfgIndustria40;
+
+  /// Mod 061 production engineering: mfgTransizione50
+  ///
+  /// In en, this message translates to:
+  /// **'Transizione 5.0'**
+  String get mfgTransizione50;
+
+  /// Mod 061 production engineering: mfgIdealCycle
+  ///
+  /// In en, this message translates to:
+  /// **'Ideal cycle: {seconds} s/unit'**
+  String mfgIdealCycle(String seconds);
+
+  /// Mod 061 production engineering: mfgTelemetryNever
+  ///
+  /// In en, this message translates to:
+  /// **'No telemetry'**
+  String get mfgTelemetryNever;
+
+  /// Mod 061 production engineering: mfgTelemetryStale
+  ///
+  /// In en, this message translates to:
+  /// **'Telemetry stale'**
+  String get mfgTelemetryStale;
+
+  /// Mod 061 production engineering: mfgTelemetryOnline
+  ///
+  /// In en, this message translates to:
+  /// **'Telemetry online'**
+  String get mfgTelemetryOnline;
+
+  /// Mod 061 production engineering: mfgOeeValue
+  ///
+  /// In en, this message translates to:
+  /// **'OEE {percent}%'**
+  String mfgOeeValue(String percent);
+
+  /// Mod 061 production engineering: mfgAvailability
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get mfgAvailability;
+
+  /// Mod 061 production engineering: mfgPerformance
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get mfgPerformance;
+
+  /// Mod 061 production engineering: mfgQuality
+  ///
+  /// In en, this message translates to:
+  /// **'Quality'**
+  String get mfgQuality;
+
+  /// Mod 061 production engineering: mfgOeeTarget
+  ///
+  /// In en, this message translates to:
+  /// **'Target {percent}%'**
+  String mfgOeeTarget(String percent);
+
+  /// Mod 061 production engineering: mfgOeeMeetsTarget
+  ///
+  /// In en, this message translates to:
+  /// **'Target met'**
+  String get mfgOeeMeetsTarget;
+
+  /// Mod 061 production engineering: mfgOeeBelowTarget
+  ///
+  /// In en, this message translates to:
+  /// **'Below target by {gap} pts'**
+  String mfgOeeBelowTarget(String gap);
+
+  /// Mod 061 production engineering: mfgOeePeriod
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String mfgOeePeriod(String from, String to);
+
+  /// Mod 061 production engineering: mfgGoodUnits
+  ///
+  /// In en, this message translates to:
+  /// **'Good units'**
+  String get mfgGoodUnits;
+
+  /// Mod 061 production engineering: mfgScrapUnits
+  ///
+  /// In en, this message translates to:
+  /// **'Scrap'**
+  String get mfgScrapUnits;
+
+  /// Mod 061 production engineering: mfgReworkUnits
+  ///
+  /// In en, this message translates to:
+  /// **'Rework'**
+  String get mfgReworkUnits;
+
+  /// Mod 061 production engineering: mfgOperatingMinutes
+  ///
+  /// In en, this message translates to:
+  /// **'Operating time'**
+  String get mfgOperatingMinutes;
+
+  /// Mod 061 production engineering: mfgLossesTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Six big losses (minutes)'**
+  String get mfgLossesTitle;
+
+  /// Mod 061 production engineering: mfgLossEquipmentFailure
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment failure'**
+  String get mfgLossEquipmentFailure;
+
+  /// Mod 061 production engineering: mfgLossSetupAdjustment
+  ///
+  /// In en, this message translates to:
+  /// **'Setup and adjustment'**
+  String get mfgLossSetupAdjustment;
+
+  /// Mod 061 production engineering: mfgLossMinorStops
+  ///
+  /// In en, this message translates to:
+  /// **'Minor stops'**
+  String get mfgLossMinorStops;
+
+  /// Mod 061 production engineering: mfgLossReducedSpeed
+  ///
+  /// In en, this message translates to:
+  /// **'Reduced speed'**
+  String get mfgLossReducedSpeed;
+
+  /// Mod 061 production engineering: mfgLossProcessDefects
+  ///
+  /// In en, this message translates to:
+  /// **'Process defects'**
+  String get mfgLossProcessDefects;
+
+  /// Mod 061 production engineering: mfgLossStartupRejects
+  ///
+  /// In en, this message translates to:
+  /// **'Start-up rejects'**
+  String get mfgLossStartupRejects;
 }
 
 class _AppLocalizationsDelegate

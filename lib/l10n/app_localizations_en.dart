@@ -417,4 +417,216 @@ class AppLocalizationsEn extends AppLocalizations {
   String prLevelBadge(int current, int total) {
     return 'Level $current/$total';
   }
+
+  @override
+  String get mfgModuleTitle => 'Production Engineering';
+
+  @override
+  String get mfgHubTitle => 'Production Engineering';
+
+  @override
+  String get mfgTabRoutings => 'Routings';
+
+  @override
+  String get mfgTabMachines => 'Machines';
+
+  @override
+  String get mfgTabOee => 'OEE';
+
+  @override
+  String get mfgSyncAction => 'Sync now';
+
+  @override
+  String get mfgSyncFailed => 'Sync failed, showing offline data';
+
+  @override
+  String get mfgEmptyRoutings => 'No routings available offline';
+
+  @override
+  String get mfgEmptyMachines => 'No machines available offline';
+
+  @override
+  String get mfgEmptyOee => 'No OEE data available offline';
+
+  @override
+  String mfgRevisionLabel(String revision) {
+    return 'Rev. $revision';
+  }
+
+  @override
+  String mfgStepsCount(int count) {
+    return '$count steps';
+  }
+
+  @override
+  String mfgStepTitle(int sequence, String code) {
+    return '$sequence · $code';
+  }
+
+  @override
+  String mfgWorkCenterLabel(String code) {
+    return 'Work centre $code';
+  }
+
+  @override
+  String mfgMinutesValue(String value) {
+    return '$value min';
+  }
+
+  @override
+  String get mfgSetupTime => 'Setup';
+
+  @override
+  String get mfgRunTime => 'Run / unit';
+
+  @override
+  String get mfgQueueTime => 'Queue';
+
+  @override
+  String get mfgMoveTime => 'Move';
+
+  @override
+  String get mfgSubcontracted => 'Subcontracted';
+
+  @override
+  String get mfgCalculatorTitle => 'Lead time and cost';
+
+  @override
+  String get mfgLotQuantity => 'Lot quantity';
+
+  @override
+  String get mfgIncludeOverlap => 'Overlap transfer batches';
+
+  @override
+  String get mfgCalculate => 'Calculate';
+
+  @override
+  String get mfgCalcInvalid => 'Enter a quantity greater than zero';
+
+  @override
+  String get mfgCalcMissingWorkCenter =>
+      'A work centre of this routing is not available offline';
+
+  @override
+  String get mfgTotalLeadTime => 'Total lead time';
+
+  @override
+  String get mfgSerialLeadTime => 'Without overlap';
+
+  @override
+  String get mfgOverlapSaving => 'Overlap saving';
+
+  @override
+  String get mfgTotalCost => 'Total cost';
+
+  @override
+  String get mfgUnitCost => 'Cost per unit';
+
+  @override
+  String get mfgCostSetup => 'Setup';
+
+  @override
+  String get mfgCostMachine => 'Machine run';
+
+  @override
+  String get mfgCostLabor => 'Direct labour';
+
+  @override
+  String get mfgCostOverhead => 'Overhead';
+
+  @override
+  String get mfgCostSubcontracting => 'Subcontracting';
+
+  @override
+  String get mfgCostMaterialNote => 'Material cost is not included offline';
+
+  @override
+  String mfgMachineStatus(String status) {
+    return 'Status: $status';
+  }
+
+  @override
+  String get mfgIndustria40 => 'Industria 4.0';
+
+  @override
+  String get mfgTransizione50 => 'Transizione 5.0';
+
+  @override
+  String mfgIdealCycle(String seconds) {
+    return 'Ideal cycle: $seconds s/unit';
+  }
+
+  @override
+  String get mfgTelemetryNever => 'No telemetry';
+
+  @override
+  String get mfgTelemetryStale => 'Telemetry stale';
+
+  @override
+  String get mfgTelemetryOnline => 'Telemetry online';
+
+  @override
+  String mfgOeeValue(String percent) {
+    return 'OEE $percent%';
+  }
+
+  @override
+  String get mfgAvailability => 'Availability';
+
+  @override
+  String get mfgPerformance => 'Performance';
+
+  @override
+  String get mfgQuality => 'Quality';
+
+  @override
+  String mfgOeeTarget(String percent) {
+    return 'Target $percent%';
+  }
+
+  @override
+  String get mfgOeeMeetsTarget => 'Target met';
+
+  @override
+  String mfgOeeBelowTarget(String gap) {
+    return 'Below target by $gap pts';
+  }
+
+  @override
+  String mfgOeePeriod(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get mfgGoodUnits => 'Good units';
+
+  @override
+  String get mfgScrapUnits => 'Scrap';
+
+  @override
+  String get mfgReworkUnits => 'Rework';
+
+  @override
+  String get mfgOperatingMinutes => 'Operating time';
+
+  @override
+  String get mfgLossesTitle => 'Six big losses (minutes)';
+
+  @override
+  String get mfgLossEquipmentFailure => 'Equipment failure';
+
+  @override
+  String get mfgLossSetupAdjustment => 'Setup and adjustment';
+
+  @override
+  String get mfgLossMinorStops => 'Minor stops';
+
+  @override
+  String get mfgLossReducedSpeed => 'Reduced speed';
+
+  @override
+  String get mfgLossProcessDefects => 'Process defects';
+
+  @override
+  String get mfgLossStartupRejects => 'Start-up rejects';
 }
