@@ -1,35 +1,41 @@
-# Universal / VCS
-.git/
-*.log
-*.sqlite
-*.sqlite3
-.env
-.env.*
-!.env.example
-coverage/
+# Build & Dependencies
+bin/
+obj/
+vendor/
+node_modules/
+dist/
 build/
-.idea/
-.vs/
-.vscode/
-
-# Flutter / Dart
 .dart_tool/
-.pub-cache/
-.pub/
-.flutter-plugins
-.flutter-plugins-dependencies
-.widget_preview/
-.claude-build/
-**/doc/api/
-**/ios/Flutter/.last_build_id
-/android/app/debug
-/android/app/profile
-/android/app/release
+.astro/
+.angular/
+coverage/
 
-# Generated / heavy artifacts (token hygiene)
-android/.gradle/
-ios/Pods/
-macos/Pods/
+# Lockfiles & Generated Code
+package-lock.json
+pnpm-lock.yaml
+composer.lock
+pubspec.lock
+*.Designer.cs
+*.g.cs
 *.g.dart
 *.freezed.dart
-.vscode/
+*.min.js
+*.min.css
+*.map
+
+# Databases, Logs & Temp Artifacts
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.log
+*.tmp
+_r.php
+run*.json
+dbg.done
+
+# Git & Worktrees
+.git/
+.worktrees/
+*-wt*/
