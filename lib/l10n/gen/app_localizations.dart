@@ -97,9 +97,13 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('de'),
+    Locale('de', 'CH'),
     Locale('en'),
     Locale('fr'),
+    Locale('fr', 'CH'),
     Locale('it'),
+    Locale('it', 'CH'),
+    Locale('it', 'IT'),
   ];
 
   /// No description provided for @copilotTitle.
@@ -311,6 +315,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get copilotClose;
+
+  /// No description provided for @securityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get securityTitle;
+
+  /// No description provided for @securityEncryptionSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted storage'**
+  String get securityEncryptionSection;
+
+  /// No description provided for @securityDbEncrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'Local database is encrypted'**
+  String get securityDbEncrypted;
+
+  /// No description provided for @securityDbNotEncrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'Local database is not encrypted yet'**
+  String get securityDbNotEncrypted;
+
+  /// No description provided for @securityKeyStored.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption key is stored in {backend}'**
+  String securityKeyStored(String backend);
+
+  /// No description provided for @securityKeyMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'No encryption key found in secure storage'**
+  String get securityKeyMissing;
+
+  /// No description provided for @securityBackendKeychain.
+  ///
+  /// In en, this message translates to:
+  /// **'Keychain'**
+  String get securityBackendKeychain;
+
+  /// No description provided for @securityBackendKeystore.
+  ///
+  /// In en, this message translates to:
+  /// **'Android Keystore'**
+  String get securityBackendKeystore;
+
+  /// No description provided for @securityBackendSecure.
+  ///
+  /// In en, this message translates to:
+  /// **'platform secure storage'**
+  String get securityBackendSecure;
+
+  /// No description provided for @securityLockSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Session lock'**
+  String get securityLockSection;
+
+  /// No description provided for @securityLockEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock after inactivity'**
+  String get securityLockEnabled;
+
+  /// No description provided for @securityLockTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock timeout'**
+  String get securityLockTimeout;
+
+  /// No description provided for @securityTimeout30s.
+  ///
+  /// In en, this message translates to:
+  /// **'30 seconds'**
+  String get securityTimeout30s;
+
+  /// No description provided for @securityTimeout1m.
+  ///
+  /// In en, this message translates to:
+  /// **'1 minute'**
+  String get securityTimeout1m;
+
+  /// No description provided for @securityTimeout5m.
+  ///
+  /// In en, this message translates to:
+  /// **'5 minutes'**
+  String get securityTimeout5m;
+
+  /// No description provided for @securityTimeout15m.
+  ///
+  /// In en, this message translates to:
+  /// **'15 minutes'**
+  String get securityTimeout15m;
+
+  /// No description provided for @securitySetPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Set PIN'**
+  String get securitySetPin;
+
+  /// No description provided for @securityPinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN (at least 4 digits)'**
+  String get securityPinHint;
+
+  /// No description provided for @securityPinSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN saved'**
+  String get securityPinSaved;
+
+  /// No description provided for @securityPinTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'The PIN must have at least 4 digits.'**
+  String get securityPinTooShort;
+
+  /// No description provided for @securityNoLockMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a PIN or enable biometrics to use the session lock.'**
+  String get securityNoLockMethod;
+
+  /// No description provided for @securityLockNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock now'**
+  String get securityLockNow;
+
+  /// No description provided for @securityQueueSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit queue'**
+  String get securityQueueSection;
+
+  /// No description provided for @securityQueuePending.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries waiting to sync'**
+  String securityQueuePending(int count);
+
+  /// No description provided for @securityQueueAllSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'All audit entries are synced'**
+  String get securityQueueAllSynced;
+
+  /// No description provided for @securityQueueLastSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Last sync: {time}'**
+  String securityQueueLastSync(String time);
+
+  /// No description provided for @securityQueueError.
+  ///
+  /// In en, this message translates to:
+  /// **'Last error: {error}'**
+  String securityQueueError(String error);
+
+  /// No description provided for @securitySyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get securitySyncNow;
+
+  /// No description provided for @securityVerifyChain.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify chain'**
+  String get securityVerifyChain;
+
+  /// No description provided for @securityChainValid.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit chain verified ({count} entries)'**
+  String securityChainValid(int count);
+
+  /// No description provided for @securityChainBroken.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit chain broken at entry {sequence}'**
+  String securityChainBroken(int sequence);
+
+  /// No description provided for @securityLockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Session locked'**
+  String get securityLockedTitle;
+
+  /// No description provided for @securityUnlockBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with biometrics'**
+  String get securityUnlockBiometric;
+
+  /// No description provided for @securityUnlockReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Authenticate to unlock Fattura Facile'**
+  String get securityUnlockReason;
+
+  /// No description provided for @securityPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN'**
+  String get securityPinLabel;
+
+  /// No description provided for @securityUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get securityUnlock;
+
+  /// No description provided for @securityWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN'**
+  String get securityWrongPin;
+
+  /// No description provided for @securityTooManyAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again in a moment.'**
+  String get securityTooManyAttempts;
+
+  /// No description provided for @piiUnmaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reveal protected data'**
+  String get piiUnmaskTitle;
+
+  /// No description provided for @piiUnmaskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Revealing {field} is recorded in the audit trail. Enter a justification.'**
+  String piiUnmaskBody(String field);
+
+  /// No description provided for @piiJustificationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Justification (at least 10 characters)'**
+  String get piiJustificationLabel;
+
+  /// No description provided for @piiJustificationTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'The justification must have at least 10 characters.'**
+  String get piiJustificationTooShort;
+
+  /// No description provided for @piiUnmaskConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reveal'**
+  String get piiUnmaskConfirm;
+
+  /// No description provided for @piiUnmaskCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get piiUnmaskCancel;
+
+  /// No description provided for @piiUnmaskFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The value could not be revealed.'**
+  String get piiUnmaskFailed;
+
+  /// No description provided for @piiUnmaskForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not allowed to reveal this field.'**
+  String get piiUnmaskForbidden;
+
+  /// No description provided for @piiUnmaskDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Reveal protected field'**
+  String get piiUnmaskDemo;
 }
 
 class _AppLocalizationsDelegate
@@ -331,6 +617,36 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'de':
+      {
+        switch (locale.countryCode) {
+          case 'CH':
+            return AppLocalizationsDeCh();
+        }
+        break;
+      }
+    case 'fr':
+      {
+        switch (locale.countryCode) {
+          case 'CH':
+            return AppLocalizationsFrCh();
+        }
+        break;
+      }
+    case 'it':
+      {
+        switch (locale.countryCode) {
+          case 'CH':
+            return AppLocalizationsItCh();
+          case 'IT':
+            return AppLocalizationsItIt();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'de':

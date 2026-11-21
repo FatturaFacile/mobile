@@ -1,5 +1,6 @@
 package com.fatturafacile.fattura_facile
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+// local_auth (biometric prompt) requires a FragmentActivity.
+class MainActivity : FlutterFragmentActivity()
