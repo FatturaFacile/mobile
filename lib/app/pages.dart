@@ -7,9 +7,14 @@ import '../features/wms/data/wms_repository.dart';
 import '../features/wms/ui/wms_app.dart' show WmsHome;
 import '../core/sync/sync_indicator.dart';
 import '../core/sync/sync_orchestrator.dart';
+import '../features/ai_cognitive/presentation/ai_suggestions_page.dart';
 import '../features/auth/domain/auth_models.dart';
+import '../features/copilot/presentation/copilot_controller.dart'
+    show copilotStrings;
 import '../features/entities/entity_definition.dart';
 import '../features/dss/presentation/executive_dss_page.dart';
+import '../features/security/presentation/security_providers.dart';
+import '../features/security/presentation/security_screen.dart';
 import '../features/entities/entity_pages.dart';
 import '../features/workflow/workflow_pages.dart';
 import 'providers.dart';
@@ -115,6 +120,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 }
 
+/// RBAC module key that unlocks the AI suggestion queue and the cognitive capture.
+const String aiReviewModule = 'ai_review';
+
 /// Module launcher gated by the RBAC modules in the bootstrap payload.
 class HomePage extends ConsumerWidget {
   const HomePage({required this.session, super.key});
@@ -143,6 +151,7 @@ class HomePage extends ConsumerWidget {
       'clock' => ClockPage(tenantId: b.tenantId),
       'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
       'executive_dss' => const ExecutiveDssPage(),
+      aiReviewModule => const AiSuggestionsPage(),
       _ when moduleEntity.containsKey(module) => EntityListPage(
         def: entityDefinitions[moduleEntity[module]]!,
         tenantId: b.tenantId,
@@ -213,6 +222,16 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           IconButton(
+            key: const Key('open-security'),
+            tooltip: ref.watch(securityStringsProvider).securityTitle,
+            icon: const Icon(Icons.shield_outlined),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => SecurityScreen(tenantId: tenantId),
+              ),
+            ),
+          ),
+          IconButton(
             key: const Key('switch-tenant'),
             tooltip: t.t('mobile.tenant.switch'),
             icon: const Icon(Icons.swap_horiz),
@@ -229,31 +248,58 @@ class HomePage extends ConsumerWidget {
           ),
         ],
       ),
-      body: modules.isEmpty
-          ? Center(child: Text(t.t('mobile.home.noModules')))
-          : GridView.count(
-              padding: const EdgeInsets.all(16),
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              children: <Widget>[
-                for (final String m in modules)
-                  Card(
-                    key: Key('module-$m'),
-                    clipBehavior: Clip.antiAlias,
-                    child: InkWell(
-                      onTap: () => _openModule(context, ref, m),
-                      child: Center(
-                        child: Text(
-                          t.t('mobile.module.$m'),
-                          textAlign: TextAlign.center,
-                        ),
+      body: Column(
+        children: <Widget>[
+          if (modules.contains(aiReviewModule))
+            AiAlertBanner(
+              onOpen: () => _openModule(context, ref, aiReviewModule),
+            ),
+          Expanded(child: _modules(context, ref, t, modules)),
+        ],
+      ),
+    );
+  }
+
+  /// Label from the API dictionary; the AI module falls back to the bundled string until the backend ships it.
+  String _moduleLabel(WidgetRef ref, TranslationService t, String module) {
+    final String label = t.t('mobile.module.$module');
+    if (label.isNotEmpty || module != aiReviewModule) {
+      return label;
+    }
+    return copilotStrings(ref.read(requestContextProvider).languageCode)
+        .cogModule;
+  }
+
+  Widget _modules(
+    BuildContext context,
+    WidgetRef ref,
+    TranslationService t,
+    List<String> modules,
+  ) {
+    return modules.isEmpty
+        ? Center(child: Text(t.t('mobile.home.noModules')))
+        : GridView.count(
+            padding: const EdgeInsets.all(16),
+            crossAxisCount: 2,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            children: <Widget>[
+              for (final String m in modules)
+                Card(
+                  key: Key('module-$m'),
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: () => _openModule(context, ref, m),
+                    child: Center(
+                      child: Text(
+                        _moduleLabel(ref, t, m),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
-              ],
-            ),
-    );
+                ),
+            ],
+          );
   }
 }
 
