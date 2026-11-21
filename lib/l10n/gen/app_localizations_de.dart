@@ -125,6 +125,168 @@ class AppLocalizationsDe extends AppLocalizations {
   String get copilotClose => 'Schließen';
 
   @override
+  String get securityTitle => 'Sicherheit';
+
+  @override
+  String get securityEncryptionSection => 'Verschlüsselter Speicher';
+
+  @override
+  String get securityDbEncrypted => 'Die lokale Datenbank ist verschlüsselt';
+
+  @override
+  String get securityDbNotEncrypted =>
+      'Die lokale Datenbank ist noch nicht verschlüsselt';
+
+  @override
+  String securityKeyStored(String backend) {
+    return 'Der Schlüssel liegt im $backend';
+  }
+
+  @override
+  String get securityKeyMissing =>
+      'Kein Schlüssel im sicheren Speicher gefunden';
+
+  @override
+  String get securityBackendKeychain => 'Keychain';
+
+  @override
+  String get securityBackendKeystore => 'Android Keystore';
+
+  @override
+  String get securityBackendSecure => 'sicheren Speicher der Plattform';
+
+  @override
+  String get securityLockSection => 'Sitzungssperre';
+
+  @override
+  String get securityLockEnabled => 'Nach Inaktivität sperren';
+
+  @override
+  String get securityLockTimeout => 'Sperr-Timeout';
+
+  @override
+  String get securityTimeout30s => '30 Sekunden';
+
+  @override
+  String get securityTimeout1m => '1 Minute';
+
+  @override
+  String get securityTimeout5m => '5 Minuten';
+
+  @override
+  String get securityTimeout15m => '15 Minuten';
+
+  @override
+  String get securitySetPin => 'PIN festlegen';
+
+  @override
+  String get securityPinHint => 'PIN (mindestens 4 Ziffern)';
+
+  @override
+  String get securityPinSaved => 'PIN gespeichert';
+
+  @override
+  String get securityPinTooShort => 'Die PIN muss mindestens 4 Ziffern haben.';
+
+  @override
+  String get securityNoLockMethod =>
+      'Lege eine PIN fest oder aktiviere Biometrie, um die Sitzungssperre zu nutzen.';
+
+  @override
+  String get securityLockNow => 'Jetzt sperren';
+
+  @override
+  String get securityQueueSection => 'Audit-Warteschlange';
+
+  @override
+  String securityQueuePending(int count) {
+    return '$count Einträge warten auf die Synchronisierung';
+  }
+
+  @override
+  String get securityQueueAllSynced =>
+      'Alle Audit-Einträge sind synchronisiert';
+
+  @override
+  String securityQueueLastSync(String time) {
+    return 'Letzte Synchronisierung: $time';
+  }
+
+  @override
+  String securityQueueError(String error) {
+    return 'Letzter Fehler: $error';
+  }
+
+  @override
+  String get securitySyncNow => 'Jetzt synchronisieren';
+
+  @override
+  String get securityVerifyChain => 'Kette prüfen';
+
+  @override
+  String securityChainValid(int count) {
+    return 'Audit-Kette geprüft ($count Einträge)';
+  }
+
+  @override
+  String securityChainBroken(int sequence) {
+    return 'Audit-Kette bei Eintrag $sequence unterbrochen';
+  }
+
+  @override
+  String get securityLockedTitle => 'Sitzung gesperrt';
+
+  @override
+  String get securityUnlockBiometric => 'Mit Biometrie entsperren';
+
+  @override
+  String get securityUnlockReason =>
+      'Authentifiziere dich, um Fattura Facile zu entsperren';
+
+  @override
+  String get securityPinLabel => 'PIN';
+
+  @override
+  String get securityUnlock => 'Entsperren';
+
+  @override
+  String get securityWrongPin => 'Falsche PIN';
+
+  @override
+  String get securityTooManyAttempts =>
+      'Zu viele Versuche. Versuche es gleich erneut.';
+
+  @override
+  String get piiUnmaskTitle => 'Geschützte Daten anzeigen';
+
+  @override
+  String piiUnmaskBody(String field) {
+    return 'Das Anzeigen von $field wird im Audit-Protokoll festgehalten. Gib eine Begründung an.';
+  }
+
+  @override
+  String get piiJustificationLabel => 'Begründung (mindestens 10 Zeichen)';
+
+  @override
+  String get piiJustificationTooShort =>
+      'Die Begründung muss mindestens 10 Zeichen haben.';
+
+  @override
+  String get piiUnmaskConfirm => 'Anzeigen';
+
+  @override
+  String get piiUnmaskCancel => 'Abbrechen';
+
+  @override
+  String get piiUnmaskFailed => 'Der Wert konnte nicht angezeigt werden.';
+
+  @override
+  String get piiUnmaskForbidden => 'Du darfst dieses Feld nicht anzeigen.';
+
+  @override
+  String get piiUnmaskDemo => 'Geschütztes Feld anzeigen';
+
+  @override
   String get cogTitle => 'KI-Vorschläge';
 
   @override
@@ -285,4 +447,171 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get cogOfflineCached => 'Gespeicherte Vorschläge (offline)';
+}
+
+/// The translations for German, as used in Switzerland (`de_CH`).
+class AppLocalizationsDeCh extends AppLocalizationsDe {
+  AppLocalizationsDeCh() : super('de_CH');
+
+  @override
+  String get securityTitle => 'Sicherheit';
+
+  @override
+  String get securityEncryptionSection => 'Verschlüsselter Speicher';
+
+  @override
+  String get securityDbEncrypted => 'Die lokale Datenbank ist verschlüsselt';
+
+  @override
+  String get securityDbNotEncrypted =>
+      'Die lokale Datenbank ist noch nicht verschlüsselt';
+
+  @override
+  String securityKeyStored(String backend) {
+    return 'Der Schlüssel liegt im $backend';
+  }
+
+  @override
+  String get securityKeyMissing =>
+      'Kein Schlüssel im sicheren Speicher gefunden';
+
+  @override
+  String get securityBackendKeychain => 'Keychain';
+
+  @override
+  String get securityBackendKeystore => 'Android Keystore';
+
+  @override
+  String get securityBackendSecure => 'sicheren Speicher der Plattform';
+
+  @override
+  String get securityLockSection => 'Sitzungssperre';
+
+  @override
+  String get securityLockEnabled => 'Nach Inaktivität sperren';
+
+  @override
+  String get securityLockTimeout => 'Sperr-Timeout';
+
+  @override
+  String get securityTimeout30s => '30 Sekunden';
+
+  @override
+  String get securityTimeout1m => '1 Minute';
+
+  @override
+  String get securityTimeout5m => '5 Minuten';
+
+  @override
+  String get securityTimeout15m => '15 Minuten';
+
+  @override
+  String get securitySetPin => 'PIN festlegen';
+
+  @override
+  String get securityPinHint => 'PIN (mindestens 4 Ziffern)';
+
+  @override
+  String get securityPinSaved => 'PIN gespeichert';
+
+  @override
+  String get securityPinTooShort => 'Die PIN muss mindestens 4 Ziffern haben.';
+
+  @override
+  String get securityNoLockMethod =>
+      'Lege eine PIN fest oder aktiviere Biometrie, um die Sitzungssperre zu nutzen.';
+
+  @override
+  String get securityLockNow => 'Jetzt sperren';
+
+  @override
+  String get securityQueueSection => 'Audit-Warteschlange';
+
+  @override
+  String securityQueuePending(int count) {
+    return '$count Einträge warten auf die Synchronisierung';
+  }
+
+  @override
+  String get securityQueueAllSynced =>
+      'Alle Audit-Einträge sind synchronisiert';
+
+  @override
+  String securityQueueLastSync(String time) {
+    return 'Letzte Synchronisierung: $time';
+  }
+
+  @override
+  String securityQueueError(String error) {
+    return 'Letzter Fehler: $error';
+  }
+
+  @override
+  String get securitySyncNow => 'Jetzt synchronisieren';
+
+  @override
+  String get securityVerifyChain => 'Kette prüfen';
+
+  @override
+  String securityChainValid(int count) {
+    return 'Audit-Kette geprüft ($count Einträge)';
+  }
+
+  @override
+  String securityChainBroken(int sequence) {
+    return 'Audit-Kette bei Eintrag $sequence unterbrochen';
+  }
+
+  @override
+  String get securityLockedTitle => 'Sitzung gesperrt';
+
+  @override
+  String get securityUnlockBiometric => 'Mit Biometrie entsperren';
+
+  @override
+  String get securityUnlockReason =>
+      'Authentifiziere dich, um Fattura Facile zu entsperren';
+
+  @override
+  String get securityPinLabel => 'PIN';
+
+  @override
+  String get securityUnlock => 'Entsperren';
+
+  @override
+  String get securityWrongPin => 'Falsche PIN';
+
+  @override
+  String get securityTooManyAttempts =>
+      'Zu viele Versuche. Versuche es gleich erneut.';
+
+  @override
+  String get piiUnmaskTitle => 'Geschützte Daten anzeigen';
+
+  @override
+  String piiUnmaskBody(String field) {
+    return 'Das Anzeigen von $field wird im Audit-Protokoll festgehalten. Gib eine Begründung an.';
+  }
+
+  @override
+  String get piiJustificationLabel => 'Begründung (mindestens 10 Zeichen)';
+
+  @override
+  String get piiJustificationTooShort =>
+      'Die Begründung muss mindestens 10 Zeichen haben.';
+
+  @override
+  String get piiUnmaskConfirm => 'Anzeigen';
+
+  @override
+  String get piiUnmaskCancel => 'Abbrechen';
+
+  @override
+  String get piiUnmaskFailed => 'Der Wert konnte nicht angezeigt werden.';
+
+  @override
+  String get piiUnmaskForbidden => 'Du darfst dieses Feld nicht anzeigen.';
+
+  @override
+  String get piiUnmaskDemo => 'Geschütztes Feld anzeigen';
 }

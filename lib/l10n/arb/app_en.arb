@@ -42,6 +42,102 @@
   "copilotErrOffline": "You are offline. Try again when you are back online.",
   "copilotErrUnknown": "Something went wrong.",
   "copilotClose": "Close",
+  "securityTitle": "Security",
+  "securityEncryptionSection": "Encrypted storage",
+  "securityDbEncrypted": "Local database is encrypted",
+  "securityDbNotEncrypted": "Local database is not encrypted yet",
+  "securityKeyStored": "Encryption key is stored in {backend}",
+  "@securityKeyStored": {
+    "placeholders": {
+      "backend": {
+        "type": "String"
+      }
+    }
+  },
+  "securityKeyMissing": "No encryption key found in secure storage",
+  "securityBackendKeychain": "Keychain",
+  "securityBackendKeystore": "Android Keystore",
+  "securityBackendSecure": "platform secure storage",
+  "securityLockSection": "Session lock",
+  "securityLockEnabled": "Lock after inactivity",
+  "securityLockTimeout": "Lock timeout",
+  "securityTimeout30s": "30 seconds",
+  "securityTimeout1m": "1 minute",
+  "securityTimeout5m": "5 minutes",
+  "securityTimeout15m": "15 minutes",
+  "securitySetPin": "Set PIN",
+  "securityPinHint": "PIN (at least 4 digits)",
+  "securityPinSaved": "PIN saved",
+  "securityPinTooShort": "The PIN must have at least 4 digits.",
+  "securityNoLockMethod": "Set a PIN or enable biometrics to use the session lock.",
+  "securityLockNow": "Lock now",
+  "securityQueueSection": "Audit queue",
+  "securityQueuePending": "{count} entries waiting to sync",
+  "@securityQueuePending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "securityQueueAllSynced": "All audit entries are synced",
+  "securityQueueLastSync": "Last sync: {time}",
+  "@securityQueueLastSync": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "securityQueueError": "Last error: {error}",
+  "@securityQueueError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "securitySyncNow": "Sync now",
+  "securityVerifyChain": "Verify chain",
+  "securityChainValid": "Audit chain verified ({count} entries)",
+  "@securityChainValid": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "securityChainBroken": "Audit chain broken at entry {sequence}",
+  "@securityChainBroken": {
+    "placeholders": {
+      "sequence": {
+        "type": "int"
+      }
+    }
+  },
+  "securityLockedTitle": "Session locked",
+  "securityUnlockBiometric": "Unlock with biometrics",
+  "securityUnlockReason": "Authenticate to unlock Fattura Facile",
+  "securityPinLabel": "PIN",
+  "securityUnlock": "Unlock",
+  "securityWrongPin": "Wrong PIN",
+  "securityTooManyAttempts": "Too many attempts. Try again in a moment.",
+  "piiUnmaskTitle": "Reveal protected data",
+  "piiUnmaskBody": "Revealing {field} is recorded in the audit trail. Enter a justification.",
+  "@piiUnmaskBody": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "piiJustificationLabel": "Justification (at least 10 characters)",
+  "piiJustificationTooShort": "The justification must have at least 10 characters.",
+  "piiUnmaskConfirm": "Reveal",
+  "piiUnmaskCancel": "Cancel",
+  "piiUnmaskFailed": "The value could not be revealed.",
+  "piiUnmaskForbidden": "You are not allowed to reveal this field.",
+  "piiUnmaskDemo": "Reveal protected field",
   "cogTitle": "AI suggestions",
   "cogModule": "AI review",
   "cogCaptureHint": "Dictate or type a request, e.g. \"quote 2 chairs for Muster AG\"",

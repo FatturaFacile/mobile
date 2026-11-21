@@ -11,6 +11,8 @@ import '../features/ai_cognitive/presentation/ai_suggestions_page.dart';
 import '../features/auth/domain/auth_models.dart';
 import '../features/copilot/presentation/copilot_controller.dart' show copilotStrings;
 import '../features/entities/entity_definition.dart';
+import '../features/security/presentation/security_providers.dart';
+import '../features/security/presentation/security_screen.dart';
 import '../features/entities/entity_pages.dart';
 import '../features/workflow/workflow_pages.dart';
 import 'providers.dart';
@@ -213,6 +215,16 @@ class HomePage extends ConsumerWidget {
                   tenantId: tenantId,
                   syncEntities: session.bootstrap.syncEntities,
                 ),
+              ),
+            ),
+          ),
+          IconButton(
+            key: const Key('open-security'),
+            tooltip: ref.watch(securityStringsProvider).securityTitle,
+            icon: const Icon(Icons.shield_outlined),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => SecurityScreen(tenantId: tenantId),
               ),
             ),
           ),

@@ -97,12 +97,39 @@ class CopilotMessages extends Table {
   Set<Column<Object>> get primaryKey => <Column<Object>>{tenantId, id};
 }
 
-@DriftDatabase(tables: <Type>[EntityRecords, SyncQueue, SyncCursors, Translations, CopilotConversations, CopilotMessages])
+/// Offline, hash-chained security audit queue (one chain per tenant).
+///
+/// The signed fields (sequence, hashes, payload, metadata) are immutable once written; only the
+/// sync bookkeeping columns (`syncedAt`, `syncAttempts`, `lastError`, `serverReceipt`) ever change.
+@DataClassName('AuditQueueRow')
+class AuditQueueEntries extends Table {
+  TextColumn get tenantId => text()();
+  IntColumn get sequenceNumber => integer()();
+  TextColumn get uuid => text().unique()();
+  TextColumn get entityType => text()();
+  TextColumn get entityId => text()();
+  TextColumn get action => text()();
+  TextColumn get payloadJson => text()();
+  TextColumn get metadataJson => text()();
+  TextColumn get previousHash => text()();
+  TextColumn get payloadHash => text()();
+  TextColumn get recordHash => text()();
+  DateTimeColumn get occurredAt => dateTime()();
+  DateTimeColumn get syncedAt => dateTime().nullable()();
+  IntColumn get syncAttempts => integer().withDefault(const Constant(0))();
+  TextColumn get lastError => text().nullable()();
+  TextColumn get serverReceipt => text().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{tenantId, sequenceNumber};
+}
+
+@DriftDatabase(tables: <Type>[EntityRecords, SyncQueue, SyncCursors, Translations, CopilotConversations, CopilotMessages, AuditQueueEntries])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -111,6 +138,9 @@ class AppDatabase extends _$AppDatabase {
           if (from < 2) {
             await m.createTable(copilotConversations);
             await m.createTable(copilotMessages);
+          }
+          if (from < 3) {
+            await m.createTable(auditQueueEntries);
           }
         },
         beforeOpen: (OpeningDetails details) async {
