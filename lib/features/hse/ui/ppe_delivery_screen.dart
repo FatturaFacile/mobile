@@ -17,6 +17,7 @@ class PpeDeliveryScreen extends StatefulWidget {
     required this.warehouseId,
     this.jurisdiction = HseJurisdiction.italy,
     this.cameraScanner,
+    this.readBadge,
     this.onDone,
   });
 
@@ -26,6 +27,9 @@ class PpeDeliveryScreen extends StatefulWidget {
   final String warehouseId;
   final HseJurisdiction jurisdiction;
   final CameraScanner? cameraScanner;
+
+  /// NFC badge hook: returns the text stored on the worker badge (`EMP:<uuid>`), or null when NFC is unavailable or nothing was read.
+  final Future<String?> Function()? readBadge;
   final VoidCallback? onDone;
 
   @override
@@ -51,11 +55,33 @@ class _PpeDeliveryScreenState extends State<PpeDeliveryScreen> {
   Future<void> _onScan(String code) async {
     final s = HseStrings.of(context);
     final ppe = PpeScan.parse(code);
+    final badge = ppe == null ? HseBadge.parse(code) : null;
     setState(() {
-      if (ppe == null) {
+      if (badge != null) {
+        // A worker badge scanned in the box field (QR badge): it names the worker instead of the item.
+        _worker.text = badge.employeeId;
+        _message = null;
+      } else if (ppe == null) {
         _message = s.t(H.notAPpeLabel);
       } else {
         _scan = ppe;
+        _message = null;
+      }
+    });
+  }
+
+  Future<void> _readBadge() async {
+    final s = HseStrings.of(context);
+    final code = await widget.readBadge!();
+    if (!mounted) return;
+    final badge = code == null ? null : HseBadge.parse(code);
+    setState(() {
+      if (code == null) {
+        _message = s.t(H.nfcUnavailable);
+      } else if (badge == null) {
+        _message = s.t(H.badgeNotRecognised);
+      } else {
+        _worker.text = badge.employeeId;
         _message = null;
       }
     });
@@ -71,16 +97,18 @@ class _PpeDeliveryScreenState extends State<PpeDeliveryScreen> {
     if (_signature.isEmpty || quantity <= 0) return setState(() => _message = s.t(H.signatureRequired));
 
     setState(() => _saving = true);
-    await widget.repository.queuePpeHandOver(PpeHandOver(
-      employeeId: worker,
-      productId: _scan!.productId,
-      warehouseId: widget.warehouseId,
-      lotOrSerial: _scan!.lotOrSerial,
-      quantity: quantity,
-      signaturePayload: _signature.toPayload(),
-      signatureImage: await _signature.toPngBase64(),
-      locale: locale.toLanguageTag(),
-    ));
+    await widget.repository.queuePpeHandOver(
+      PpeHandOver(
+        employeeId: worker,
+        productId: _scan!.productId,
+        warehouseId: widget.warehouseId,
+        lotOrSerial: _scan!.lotOrSerial,
+        quantity: quantity,
+        signaturePayload: _signature.toPayload(),
+        signatureImage: await _signature.toPngBase64(),
+        locale: locale.toLanguageTag(),
+      ),
+    );
     if (!mounted) return;
     setState(() {
       _saving = false;
@@ -105,6 +133,7 @@ class _PpeDeliveryScreenState extends State<PpeDeliveryScreen> {
             controller: _worker,
             decoration: InputDecoration(labelText: s.t(H.workerLabel), helperText: s.t(H.workerHint)),
           ),
+          if (widget.readBadge != null) OutlinedButton(key: const Key('ppe-nfc'), onPressed: _readBadge, child: Text(s.t(H.readBadge))),
           const SizedBox(height: FfSpace.space3),
           Text(s.t(H.scanPpe), style: const TextStyle(fontWeight: FontWeight.w600)),
           ScanField(onScan: _onScan, cameraScanner: widget.cameraScanner),

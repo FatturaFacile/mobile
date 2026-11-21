@@ -4,6 +4,12 @@
 <dict>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Unlock Fattura Facile with Face ID.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take photos of near-misses and scan PPE labels and worker badges.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Tag the position of a near-miss report on the site.</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>Read the worker badge when handing over protective equipment.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
