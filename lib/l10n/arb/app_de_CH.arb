@@ -46,5 +46,7 @@
   "piiUnmaskCancel": "Abbrechen",
   "piiUnmaskFailed": "Der Wert konnte nicht angezeigt werden.",
   "piiUnmaskForbidden": "Du darfst dieses Feld nicht anzeigen.",
-  "piiUnmaskDemo": "Geschütztes Feld anzeigen"
+  "piiUnmaskDemo": "Geschütztes Feld anzeigen",
+  "mfgErrQuantity": "Menge grösser als null eingeben.",
+  "mfgQcOutOfTolerance": "Ausser Toleranz"
 }

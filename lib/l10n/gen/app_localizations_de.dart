@@ -1335,6 +1335,283 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get mfgLossStartupRejects => 'Anlaufausschuss';
+
+  @override
+  String get mfgTitle => 'Fertigung';
+
+  @override
+  String get mfgOrdersEmpty =>
+      'Keine freigegebenen Fertigungsaufträge auf diesem Gerät. Bei Verbindung aktualisieren.';
+
+  @override
+  String get mfgScanPrompt => 'Auftrag, Charge oder Maschine scannen';
+
+  @override
+  String get mfgScanButton => 'Scannen';
+
+  @override
+  String get mfgScanManualHint => 'Code eingeben oder scannen';
+
+  @override
+  String mfgScanUnknown(String code) {
+    return 'Code nicht erkannt: $code';
+  }
+
+  @override
+  String mfgScanOrderNotFound(String code) {
+    return 'Auftrag $code ist nicht auf diesem Gerät. Bei Verbindung aktualisieren.';
+  }
+
+  @override
+  String mfgScanMachineNotFound(String code) {
+    return 'Maschine $code ist unbekannt.';
+  }
+
+  @override
+  String get mfgScanSelectOrderFirst =>
+      'Zuerst einen Fertigungsauftrag wählen.';
+
+  @override
+  String get mfgCameraTitle => 'Kamera auf den Code richten';
+
+  @override
+  String get mfgCameraUnavailable => 'Kamera nicht verfügbar. Code eintippen.';
+
+  @override
+  String get mfgOperations => 'Arbeitsgänge';
+
+  @override
+  String get mfgMaterials => 'Material';
+
+  @override
+  String get mfgReceipt => 'Fertigware einbuchen';
+
+  @override
+  String get mfgGenealogy => 'Genealogie';
+
+  @override
+  String get mfgGenealogyOffline =>
+      'Für die Genealogie ist eine Verbindung nötig.';
+
+  @override
+  String mfgProgress(String done, String target, String uom) {
+    return '$done von $target $uom';
+  }
+
+  @override
+  String mfgOpenQty(String qty, String uom) {
+    return 'Offen: $qty $uom';
+  }
+
+  @override
+  String get mfgStagedLots => 'Bereitgestellte Chargen';
+
+  @override
+  String get mfgNoStaged =>
+      'Keine Chargen bereitgestellt. Rohmaterial-Etikett scannen.';
+
+  @override
+  String mfgSelectLine(String lot) {
+    return 'Zu welchem Material gehört Charge $lot?';
+  }
+
+  @override
+  String mfgLotStaged(String lot) {
+    return 'Charge $lot bereitgestellt';
+  }
+
+  @override
+  String get mfgQuantity => 'Menge';
+
+  @override
+  String get mfgBackflush => 'Rückmeldung buchen';
+
+  @override
+  String mfgBackflushQueued(int count) {
+    return '$count Entnahmen in Warteschlange';
+  }
+
+  @override
+  String get mfgPosted => 'gebucht';
+
+  @override
+  String get mfgCheckIn => 'An Maschine anmelden';
+
+  @override
+  String mfgCheckedIn(String machine) {
+    return 'Angemeldet: $machine';
+  }
+
+  @override
+  String get mfgSetup => 'Rüsten';
+
+  @override
+  String get mfgRun => 'Produktion';
+
+  @override
+  String get mfgStartSetup => 'Rüsten starten';
+
+  @override
+  String get mfgStartRun => 'Produktion starten';
+
+  @override
+  String get mfgPause => 'Pause';
+
+  @override
+  String get mfgResume => 'Fortsetzen';
+
+  @override
+  String get mfgPhaseIdle => 'Bereit';
+
+  @override
+  String get mfgPhaseSetup => 'Rüsten läuft';
+
+  @override
+  String get mfgPhaseRun => 'In Produktion';
+
+  @override
+  String get mfgPhasePaused => 'Pausiert';
+
+  @override
+  String get mfgDowntime => 'Stillstand';
+
+  @override
+  String get mfgGood => 'Gutteile';
+
+  @override
+  String get mfgScrap => 'Ausschuss';
+
+  @override
+  String get mfgScrapReason => 'Ausschussgrund';
+
+  @override
+  String get mfgFinalOperation => 'Letzte Rückmeldung dieses Arbeitsgangs';
+
+  @override
+  String get mfgConfirm => 'Arbeitsgang rückmelden';
+
+  @override
+  String get mfgConfirmQueued =>
+      'Gespeichert. Wird gesendet, sobald Verbindung besteht.';
+
+  @override
+  String get mfgErrNothingToPost => 'Noch nichts zurückzumelden.';
+
+  @override
+  String get mfgErrScrapReason => 'Ausschussgrund angeben.';
+
+  @override
+  String get mfgErrQuantity => 'Menge größer als null eingeben.';
+
+  @override
+  String get mfgErrNotExecutable =>
+      'Dieser Auftrag ist nicht zur Fertigung freigegeben.';
+
+  @override
+  String get mfgQcTitle => 'Qualitäts-Checkliste';
+
+  @override
+  String get mfgQcPlan => 'Prüfplan';
+
+  @override
+  String get mfgQcNoPlans => 'Keine Prüfpläne auf diesem Gerät.';
+
+  @override
+  String get mfgQcMeasured => 'Messwert';
+
+  @override
+  String mfgQcTolerance(String min, String max) {
+    return 'Toleranz $min bis $max';
+  }
+
+  @override
+  String get mfgQcInTolerance => 'In Toleranz';
+
+  @override
+  String get mfgQcOutOfTolerance => 'Außer Toleranz';
+
+  @override
+  String get mfgQcInspected => 'Geprüfte Menge';
+
+  @override
+  String get mfgQcNotes => 'Notizen';
+
+  @override
+  String get mfgQcSignOff => 'Freigeben';
+
+  @override
+  String get mfgQcSignOffQueued => 'Prüfung freigegeben und eingereiht.';
+
+  @override
+  String get mfgReceiptLot => 'Chargennummer';
+
+  @override
+  String get mfgReceiptQueued => 'Wareneingang eingereiht.';
+
+  @override
+  String mfgSyncPending(int count) {
+    return '$count warten auf Versand';
+  }
+
+  @override
+  String get mfgSyncAllSent => 'Alles gesendet';
+
+  @override
+  String get mfgSyncNow => 'Jetzt synchronisieren';
+
+  @override
+  String get mfgRefresh => 'Aktualisieren';
+
+  @override
+  String get mfgRefreshFailed =>
+      'Aktualisierung fehlgeschlagen. Gespeicherte Daten werden angezeigt.';
+
+  @override
+  String get mfgQueueTitle => 'Sendewarteschlange';
+
+  @override
+  String get mfgQueueEmpty => 'Nichts zu senden.';
+
+  @override
+  String get mfgQueueRejected => 'Vom Server abgelehnt';
+
+  @override
+  String mfgQueueRetryAt(String time) {
+    return 'Neuer Versuch um $time';
+  }
+
+  @override
+  String get mfgQueueRetry => 'Wiederholen';
+
+  @override
+  String get mfgQueueDiscard => 'Verwerfen';
+
+  @override
+  String get mfgKindIssue => 'Materialentnahme';
+
+  @override
+  String get mfgKindConfirm => 'Arbeitsgang-Rückmeldung';
+
+  @override
+  String get mfgKindReceipt => 'Fertigwareneingang';
+
+  @override
+  String get mfgKindCheckIn => 'Maschinenanmeldung';
+
+  @override
+  String get mfgKindInspection => 'Qualitätsprüfung';
+
+  @override
+  String get mfgStatusReleased => 'Freigegeben';
+
+  @override
+  String get mfgStatusInProgress => 'In Arbeit';
+
+  @override
+  String get mfgCancel => 'Abbrechen';
+
+  @override
+  String get mfgAdd => 'Hinzufügen';
 }
 
 /// The translations for German, as used in Switzerland (`de_CH`).
@@ -1502,4 +1779,10 @@ class AppLocalizationsDeCh extends AppLocalizationsDe {
 
   @override
   String get piiUnmaskDemo => 'Geschütztes Feld anzeigen';
+
+  @override
+  String get mfgErrQuantity => 'Menge grösser als null eingeben.';
+
+  @override
+  String get mfgQcOutOfTolerance => 'Ausser Toleranz';
 }

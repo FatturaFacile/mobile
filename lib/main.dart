@@ -12,20 +12,32 @@ import 'app/app.dart';
 import 'app/providers.dart';
 import 'core/database/app_database.dart';
 import 'core/localization/translation_service.dart';
+import 'features/shop_floor/presentation/shop_floor_providers.dart';
 
 /// `flutter run --dart-define=API_BASE_URL=https://host` (defaults to production).
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final Directory dir = await getApplicationSupportDirectory();
-  final AppDatabase db = AppDatabase(NativeDatabase.createInBackground(File(p.join(dir.path, 'fattura_facile.sqlite'))));
+  final String dbPath = p.join(dir.path, 'fattura_facile.sqlite');
+  final AppDatabase db = AppDatabase(
+    NativeDatabase.createInBackground(File(dbPath)),
+  );
 
   final ProviderContainer container = ProviderContainer(
-    overrides: <Override>[databaseProvider.overrideWithValue(db)],
+    overrides: <Override>[
+      databaseProvider.overrideWithValue(db),
+      shopFloorDatabasePathProvider.overrideWithValue(dbPath),
+    ],
   );
   final String device = PlatformDispatcher.instance.locale.languageCode;
   final String language = supportedLanguages.contains(device) ? device : 'en';
   container.read(requestContextProvider).languageCode = language;
   await container.read(translationProvider).load(language);
 
-  runApp(UncontrolledProviderScope(container: container, child: const FatturaFacileApp()));
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: const FatturaFacileApp(),
+    ),
+  );
 }
