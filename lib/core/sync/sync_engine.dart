@@ -13,6 +13,10 @@ abstract final class QueueState {
   static const int pending = 0;
   static const int failed = 1;
   static const int conflict = 2;
+
+  /// Terminal: the server refused the write for good (422/403) so resending the same body is pointless.
+  /// Only entities listed in [SyncEngine.terminalEntities] end up here; the user can retry or discard.
+  static const int rejected = 3;
 }
 
 /// Result of one [SyncEngine.flush] run.
@@ -27,7 +31,13 @@ class FlushReport {
 
 /// Offline-first outbox + delta pull for one device. All data is tenant-scoped.
 class SyncEngine {
-  SyncEngine(this._db, this._dio, {Uuid? uuid}) : _uuid = uuid ?? const Uuid();
+  SyncEngine(this._db, this._dio, {Uuid? uuid, this.terminalEntities = defaultTerminalEntities}) : _uuid = uuid ?? const Uuid();
+
+  /// Entities whose queued command is parked as [QueueState.rejected] on a 422/403 instead of being resent on
+  /// every cycle (AI captures: the same text can never become valid on retry).
+  static const Set<String> defaultTerminalEntities = <String>{'ai_captures'};
+
+  final Set<String> terminalEntities;
 
   final AppDatabase _db;
   final Dio _dio;
@@ -153,10 +163,21 @@ class SyncEngine {
     return id;
   }
 
+  /// Live queue rows of one [entity] (any state), oldest first.
+  Stream<List<QueueItem>> watchQueue(String tenantId, String entity) {
+    return (_db.select(_db.syncQueue)
+          ..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.entity.equals(entity))
+          ..orderBy(<OrderingTerm Function(SyncQueue)>[(SyncQueue q) => OrderingTerm.asc(q.sequence)]))
+        .watch();
+  }
+
+  /// One-shot read of the queue rows of [entity].
+  Future<List<QueueItem>> queued(String tenantId, String entity) => watchQueue(tenantId, entity).first;
+
   /// Queue rows that need attention (failed or conflicting), oldest first.
   Stream<List<QueueItem>> watchIssues(String tenantId) {
     return (_db.select(_db.syncQueue)
-          ..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.state.isIn(<int>[QueueState.failed, QueueState.conflict]))
+          ..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.state.isIn(<int>[QueueState.failed, QueueState.conflict, QueueState.rejected]))
           ..orderBy(<OrderingTerm Function(SyncQueue)>[(SyncQueue q) => OrderingTerm.asc(q.sequence)]))
         .watch();
   }
@@ -218,7 +239,8 @@ class SyncEngine {
           return FlushReport(sent: sent, failed: failed, conflicts: conflicts);
         }
         final bool isConflict = f is ConflictFailure;
-        await _markFailed(item, f.message, isConflict);
+        final bool terminal = terminalEntities.contains(item.entity) && (f is ValidationFailure || f is ForbiddenFailure);
+        await _markFailed(item, f.message, isConflict, rejected: terminal);
         isConflict ? conflicts++ : failed++;
       }
     }
@@ -330,12 +352,12 @@ class SyncEngine {
     });
   }
 
-  Future<void> _markFailed(QueueItem item, String message, bool conflict) async {
+  Future<void> _markFailed(QueueItem item, String message, bool conflict, {bool rejected = false}) async {
     await (_db.update(_db.syncQueue)..where((SyncQueue q) => q.uuid.equals(item.uuid))).write(
       SyncQueueCompanion(
         attempts: Value<int>(item.attempts + 1),
         lastError: Value<String?>(message),
-        state: Value<int>(conflict ? QueueState.conflict : QueueState.failed),
+        state: Value<int>(conflict ? QueueState.conflict : (rejected ? QueueState.rejected : QueueState.failed)),
       ),
     );
     if (conflict) {

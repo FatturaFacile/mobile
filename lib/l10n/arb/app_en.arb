@@ -137,5 +137,83 @@
   "piiUnmaskCancel": "Cancel",
   "piiUnmaskFailed": "The value could not be revealed.",
   "piiUnmaskForbidden": "You are not allowed to reveal this field.",
-  "piiUnmaskDemo": "Reveal protected field"
+  "piiUnmaskDemo": "Reveal protected field",
+  "cogTitle": "AI suggestions",
+  "cogModule": "AI review",
+  "cogCaptureHint": "Dictate or type a request, e.g. \"quote 2 chairs for Muster AG\"",
+  "cogKindLabel": "Create",
+  "cogKindSalesQuote": "Sales quote",
+  "cogKindPurchaseOrder": "Purchase order",
+  "cogKindSupportTicket": "Support ticket",
+  "cogKindContact": "Contact",
+  "cogKindAccountingCoding": "Accounting coding",
+  "cogKindReconciliationMatch": "Reconciliation match",
+  "cogKindAnomaly": "Anomaly",
+  "cogKindLatePaymentRisk": "Late payment risk",
+  "cogKindChurnRisk": "Churn risk",
+  "cogKindReorder": "Reorder",
+  "cogKindCashFlowAlert": "Cash flow alert",
+  "cogKindOther": "Suggestion",
+  "cogSend": "Send",
+  "cogDictate": "Dictate",
+  "cogTextTooShort": "Write at least 10 characters.",
+  "cogCaptureSent": "Sent. The draft is waiting for your review.",
+  "cogCaptureQueued": "Saved offline. It will be sent when the connection returns.",
+  "cogCaptureRejected": "The request was not accepted: {detail}",
+  "@cogCaptureRejected": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "cogQueuedCount": "{count} captures waiting to be sent",
+  "@cogQueuedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cogDismiss": "Dismiss",
+  "cogConfidenceHigh": "High",
+  "cogConfidenceMedium": "Medium",
+  "cogConfidenceLow": "Low",
+  "cogConfidence": "Confidence {percent}%",
+  "@cogConfidence": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "cogEmpty": "No suggestions waiting for review",
+  "cogApprove": "Approve",
+  "cogReject": "Reject",
+  "cogRejectTitle": "Reject suggestion",
+  "cogRejectReason": "Reason (at least 3 characters)",
+  "cogReasonTooShort": "Enter at least 3 characters.",
+  "cogCancel": "Cancel",
+  "cogApproved": "Suggestion approved.",
+  "cogRejected": "Suggestion rejected.",
+  "cogErrForbidden": "Your role is not allowed to use AI suggestions.",
+  "cogErrAlreadyDecided": "Already decided by someone else. The list was refreshed.",
+  "cogErrInvalid": "The proposal is incomplete: {detail}",
+  "@cogErrInvalid": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "cogErrOffline": "You are offline. Try again when you are back online.",
+  "cogErrRateLimited": "Too many requests. Try again later.",
+  "cogErrProvider": "The AI service is unavailable right now.",
+  "cogErrNotFound": "This suggestion no longer exists.",
+  "cogErrUnknown": "Something went wrong.",
+  "cogAlertTitle": "High-priority alert",
+  "cogAlertReview": "Review",
+  "cogPriorityHigh": "High priority",
+  "cogRetry": "Retry",
+  "cogOfflineCached": "Showing saved suggestions (offline)"
 }

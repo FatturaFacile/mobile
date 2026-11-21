@@ -7,7 +7,9 @@ import '../features/wms/data/wms_repository.dart';
 import '../features/wms/ui/wms_app.dart' show WmsHome;
 import '../core/sync/sync_indicator.dart';
 import '../core/sync/sync_orchestrator.dart';
+import '../features/ai_cognitive/presentation/ai_suggestions_page.dart';
 import '../features/auth/domain/auth_models.dart';
+import '../features/copilot/presentation/copilot_controller.dart' show copilotStrings;
 import '../features/entities/entity_definition.dart';
 import '../features/security/presentation/security_providers.dart';
 import '../features/security/presentation/security_screen.dart';
@@ -116,6 +118,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 }
 
+/// RBAC module key that unlocks the AI suggestion queue and the cognitive capture.
+const String aiReviewModule = 'ai_review';
+
 /// Module launcher gated by the RBAC modules in the bootstrap payload.
 class HomePage extends ConsumerWidget {
   const HomePage({required this.session, super.key});
@@ -143,6 +148,7 @@ class HomePage extends ConsumerWidget {
       'barcode_scanner' || 'pick_lists' => null,
       'clock' => ClockPage(tenantId: b.tenantId),
       'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
+      aiReviewModule => const AiSuggestionsPage(),
       _ when moduleEntity.containsKey(module) => EntityListPage(
         def: entityDefinitions[moduleEntity[module]]!,
         tenantId: b.tenantId,
@@ -239,7 +245,27 @@ class HomePage extends ConsumerWidget {
           ),
         ],
       ),
-      body: modules.isEmpty
+      body: Column(
+        children: <Widget>[
+          if (modules.contains(aiReviewModule))
+            AiAlertBanner(onOpen: () => _openModule(context, ref, aiReviewModule)),
+          Expanded(child: _modules(context, ref, t, modules)),
+        ],
+      ),
+    );
+  }
+
+  /// Label from the API dictionary; the AI module falls back to the bundled string until the backend ships it.
+  String _moduleLabel(WidgetRef ref, TranslationService t, String module) {
+    final String label = t.t('mobile.module.$module');
+    if (label.isNotEmpty || module != aiReviewModule) {
+      return label;
+    }
+    return copilotStrings(ref.read(requestContextProvider).languageCode).cogModule;
+  }
+
+  Widget _modules(BuildContext context, WidgetRef ref, TranslationService t, List<String> modules) {
+    return modules.isEmpty
           ? Center(child: Text(t.t('mobile.home.noModules')))
           : GridView.count(
               padding: const EdgeInsets.all(16),
@@ -255,15 +281,14 @@ class HomePage extends ConsumerWidget {
                       onTap: () => _openModule(context, ref, m),
                       child: Center(
                         child: Text(
-                          t.t('mobile.module.$m'),
+                          _moduleLabel(ref, t, m),
                           textAlign: TextAlign.center,
                         ),
                       ),
                     ),
                   ),
               ],
-            ),
-    );
+            );
   }
 }
 

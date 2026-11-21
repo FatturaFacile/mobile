@@ -283,6 +283,167 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get piiUnmaskDemo => 'Mostra campo protetto';
+
+  @override
+  String get cogTitle => 'Suggerimenti AI';
+
+  @override
+  String get cogModule => 'Revisione AI';
+
+  @override
+  String get cogCaptureHint =>
+      'Detta o scrivi una richiesta, es. \"preventivo 2 sedie per Muster AG\"';
+
+  @override
+  String get cogKindLabel => 'Crea';
+
+  @override
+  String get cogKindSalesQuote => 'Preventivo';
+
+  @override
+  String get cogKindPurchaseOrder => 'Ordine di acquisto';
+
+  @override
+  String get cogKindSupportTicket => 'Ticket di supporto';
+
+  @override
+  String get cogKindContact => 'Contatto';
+
+  @override
+  String get cogKindAccountingCoding => 'Codifica contabile';
+
+  @override
+  String get cogKindReconciliationMatch => 'Riconciliazione';
+
+  @override
+  String get cogKindAnomaly => 'Anomalia';
+
+  @override
+  String get cogKindLatePaymentRisk => 'Rischio di ritardo pagamento';
+
+  @override
+  String get cogKindChurnRisk => 'Rischio di abbandono';
+
+  @override
+  String get cogKindReorder => 'Riordino';
+
+  @override
+  String get cogKindCashFlowAlert => 'Allerta di cassa';
+
+  @override
+  String get cogKindOther => 'Suggerimento';
+
+  @override
+  String get cogSend => 'Invia';
+
+  @override
+  String get cogDictate => 'Detta';
+
+  @override
+  String get cogTextTooShort => 'Scrivi almeno 10 caratteri.';
+
+  @override
+  String get cogCaptureSent => 'Inviato. La bozza attende la tua revisione.';
+
+  @override
+  String get cogCaptureQueued =>
+      'Salvato offline. Sarà inviato al ritorno della connessione.';
+
+  @override
+  String cogCaptureRejected(String detail) {
+    return 'La richiesta non è stata accettata: $detail';
+  }
+
+  @override
+  String cogQueuedCount(int count) {
+    return '$count richieste in attesa di invio';
+  }
+
+  @override
+  String get cogDismiss => 'Ignora';
+
+  @override
+  String get cogConfidenceHigh => 'Alta';
+
+  @override
+  String get cogConfidenceMedium => 'Media';
+
+  @override
+  String get cogConfidenceLow => 'Bassa';
+
+  @override
+  String cogConfidence(int percent) {
+    return 'Affidabilità $percent%';
+  }
+
+  @override
+  String get cogEmpty => 'Nessun suggerimento da rivedere';
+
+  @override
+  String get cogApprove => 'Approva';
+
+  @override
+  String get cogReject => 'Rifiuta';
+
+  @override
+  String get cogRejectTitle => 'Rifiuta suggerimento';
+
+  @override
+  String get cogRejectReason => 'Motivo (almeno 3 caratteri)';
+
+  @override
+  String get cogReasonTooShort => 'Inserisci almeno 3 caratteri.';
+
+  @override
+  String get cogCancel => 'Annulla';
+
+  @override
+  String get cogApproved => 'Suggerimento approvato.';
+
+  @override
+  String get cogRejected => 'Suggerimento rifiutato.';
+
+  @override
+  String get cogErrForbidden => 'Il tuo ruolo non può usare i suggerimenti AI.';
+
+  @override
+  String get cogErrAlreadyDecided =>
+      'Già deciso da un altro utente. Elenco aggiornato.';
+
+  @override
+  String cogErrInvalid(String detail) {
+    return 'La proposta è incompleta: $detail';
+  }
+
+  @override
+  String get cogErrOffline => 'Sei offline. Riprova quando torni online.';
+
+  @override
+  String get cogErrRateLimited => 'Troppe richieste. Riprova più tardi.';
+
+  @override
+  String get cogErrProvider => 'Il servizio AI non è al momento disponibile.';
+
+  @override
+  String get cogErrNotFound => 'Questo suggerimento non esiste più.';
+
+  @override
+  String get cogErrUnknown => 'Qualcosa è andato storto.';
+
+  @override
+  String get cogAlertTitle => 'Allerta ad alta priorità';
+
+  @override
+  String get cogAlertReview => 'Rivedi';
+
+  @override
+  String get cogPriorityHigh => 'Alta priorità';
+
+  @override
+  String get cogRetry => 'Riprova';
+
+  @override
+  String get cogOfflineCached => 'Suggerimenti salvati (offline)';
 }
 
 /// The translations for Italian, as used in Switzerland (`it_CH`).

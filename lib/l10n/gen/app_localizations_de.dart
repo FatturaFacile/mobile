@@ -285,6 +285,168 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get piiUnmaskDemo => 'Geschütztes Feld anzeigen';
+
+  @override
+  String get cogTitle => 'KI-Vorschläge';
+
+  @override
+  String get cogModule => 'KI-Prüfung';
+
+  @override
+  String get cogCaptureHint =>
+      'Anfrage diktieren oder tippen, z. B. \"Offerte 2 Stühle für Muster AG\"';
+
+  @override
+  String get cogKindLabel => 'Erstellen';
+
+  @override
+  String get cogKindSalesQuote => 'Verkaufsofferte';
+
+  @override
+  String get cogKindPurchaseOrder => 'Bestellung';
+
+  @override
+  String get cogKindSupportTicket => 'Support-Ticket';
+
+  @override
+  String get cogKindContact => 'Kontakt';
+
+  @override
+  String get cogKindAccountingCoding => 'Kontierung';
+
+  @override
+  String get cogKindReconciliationMatch => 'Abstimmung';
+
+  @override
+  String get cogKindAnomaly => 'Anomalie';
+
+  @override
+  String get cogKindLatePaymentRisk => 'Zahlungsverzugsrisiko';
+
+  @override
+  String get cogKindChurnRisk => 'Abwanderungsrisiko';
+
+  @override
+  String get cogKindReorder => 'Nachbestellung';
+
+  @override
+  String get cogKindCashFlowAlert => 'Liquiditätswarnung';
+
+  @override
+  String get cogKindOther => 'Vorschlag';
+
+  @override
+  String get cogSend => 'Senden';
+
+  @override
+  String get cogDictate => 'Diktieren';
+
+  @override
+  String get cogTextTooShort => 'Mindestens 10 Zeichen eingeben.';
+
+  @override
+  String get cogCaptureSent => 'Gesendet. Der Entwurf wartet auf Ihre Prüfung.';
+
+  @override
+  String get cogCaptureQueued =>
+      'Offline gespeichert. Wird bei Verbindung gesendet.';
+
+  @override
+  String cogCaptureRejected(String detail) {
+    return 'Die Anfrage wurde nicht akzeptiert: $detail';
+  }
+
+  @override
+  String cogQueuedCount(int count) {
+    return '$count Anfragen warten auf den Versand';
+  }
+
+  @override
+  String get cogDismiss => 'Verwerfen';
+
+  @override
+  String get cogConfidenceHigh => 'Hoch';
+
+  @override
+  String get cogConfidenceMedium => 'Mittel';
+
+  @override
+  String get cogConfidenceLow => 'Niedrig';
+
+  @override
+  String cogConfidence(int percent) {
+    return 'Vertrauen $percent %';
+  }
+
+  @override
+  String get cogEmpty => 'Keine Vorschläge zur Prüfung';
+
+  @override
+  String get cogApprove => 'Genehmigen';
+
+  @override
+  String get cogReject => 'Ablehnen';
+
+  @override
+  String get cogRejectTitle => 'Vorschlag ablehnen';
+
+  @override
+  String get cogRejectReason => 'Grund (mindestens 3 Zeichen)';
+
+  @override
+  String get cogReasonTooShort => 'Mindestens 3 Zeichen eingeben.';
+
+  @override
+  String get cogCancel => 'Abbrechen';
+
+  @override
+  String get cogApproved => 'Vorschlag genehmigt.';
+
+  @override
+  String get cogRejected => 'Vorschlag abgelehnt.';
+
+  @override
+  String get cogErrForbidden => 'Ihre Rolle darf KI-Vorschläge nicht nutzen.';
+
+  @override
+  String get cogErrAlreadyDecided =>
+      'Bereits von jemand anderem entschieden. Liste aktualisiert.';
+
+  @override
+  String cogErrInvalid(String detail) {
+    return 'Der Vorschlag ist unvollständig: $detail';
+  }
+
+  @override
+  String get cogErrOffline =>
+      'Sie sind offline. Versuchen Sie es später erneut.';
+
+  @override
+  String get cogErrRateLimited => 'Zu viele Anfragen. Später erneut versuchen.';
+
+  @override
+  String get cogErrProvider => 'Der KI-Dienst ist derzeit nicht verfügbar.';
+
+  @override
+  String get cogErrNotFound => 'Dieser Vorschlag existiert nicht mehr.';
+
+  @override
+  String get cogErrUnknown => 'Etwas ist schiefgelaufen.';
+
+  @override
+  String get cogAlertTitle => 'Warnung mit hoher Priorität';
+
+  @override
+  String get cogAlertReview => 'Prüfen';
+
+  @override
+  String get cogPriorityHigh => 'Hohe Priorität';
+
+  @override
+  String get cogRetry => 'Erneut versuchen';
+
+  @override
+  String get cogOfflineCached => 'Gespeicherte Vorschläge (offline)';
 }
 
 /// The translations for German, as used in Switzerland (`de_CH`).
