@@ -65,6 +65,19 @@ class RetryInterceptor extends Interceptor {
   }
 }
 
+/// Reads the human message of a Laravel envelope (`message`) or an RFC 7807 problem (`detail`, then `title`).
+String _errorMessage(dynamic body) {
+  if (body is Map) {
+    for (final String k in <String>['message', 'detail', 'title']) {
+      final dynamic v = body[k];
+      if (v is String && v.isNotEmpty) {
+        return v;
+      }
+    }
+  }
+  return '';
+}
+
 /// Maps transport errors to domain [Failure]s.
 Failure mapDioError(DioException e) {
   final Response<dynamic>? r = e.response;
@@ -72,7 +85,7 @@ Failure mapDioError(DioException e) {
     return NetworkFailure(e.message ?? '');
   }
   final dynamic body = r.data;
-  final String message = body is Map && body['message'] is String ? body['message'] as String : '';
+  final String message = _errorMessage(body);
   switch (r.statusCode) {
     case 401:
       return UnauthorizedFailure(message);

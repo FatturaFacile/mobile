@@ -122,4 +122,167 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copilotClose => 'Close';
+
+  @override
+  String get cogTitle => 'AI suggestions';
+
+  @override
+  String get cogModule => 'AI review';
+
+  @override
+  String get cogCaptureHint =>
+      'Dictate or type a request, e.g. \"quote 2 chairs for Muster AG\"';
+
+  @override
+  String get cogKindLabel => 'Create';
+
+  @override
+  String get cogKindSalesQuote => 'Sales quote';
+
+  @override
+  String get cogKindPurchaseOrder => 'Purchase order';
+
+  @override
+  String get cogKindSupportTicket => 'Support ticket';
+
+  @override
+  String get cogKindContact => 'Contact';
+
+  @override
+  String get cogKindAccountingCoding => 'Accounting coding';
+
+  @override
+  String get cogKindReconciliationMatch => 'Reconciliation match';
+
+  @override
+  String get cogKindAnomaly => 'Anomaly';
+
+  @override
+  String get cogKindLatePaymentRisk => 'Late payment risk';
+
+  @override
+  String get cogKindChurnRisk => 'Churn risk';
+
+  @override
+  String get cogKindReorder => 'Reorder';
+
+  @override
+  String get cogKindCashFlowAlert => 'Cash flow alert';
+
+  @override
+  String get cogKindOther => 'Suggestion';
+
+  @override
+  String get cogSend => 'Send';
+
+  @override
+  String get cogDictate => 'Dictate';
+
+  @override
+  String get cogTextTooShort => 'Write at least 10 characters.';
+
+  @override
+  String get cogCaptureSent => 'Sent. The draft is waiting for your review.';
+
+  @override
+  String get cogCaptureQueued =>
+      'Saved offline. It will be sent when the connection returns.';
+
+  @override
+  String cogCaptureRejected(String detail) {
+    return 'The request was not accepted: $detail';
+  }
+
+  @override
+  String cogQueuedCount(int count) {
+    return '$count captures waiting to be sent';
+  }
+
+  @override
+  String get cogDismiss => 'Dismiss';
+
+  @override
+  String get cogConfidenceHigh => 'High';
+
+  @override
+  String get cogConfidenceMedium => 'Medium';
+
+  @override
+  String get cogConfidenceLow => 'Low';
+
+  @override
+  String cogConfidence(int percent) {
+    return 'Confidence $percent%';
+  }
+
+  @override
+  String get cogEmpty => 'No suggestions waiting for review';
+
+  @override
+  String get cogApprove => 'Approve';
+
+  @override
+  String get cogReject => 'Reject';
+
+  @override
+  String get cogRejectTitle => 'Reject suggestion';
+
+  @override
+  String get cogRejectReason => 'Reason (at least 3 characters)';
+
+  @override
+  String get cogReasonTooShort => 'Enter at least 3 characters.';
+
+  @override
+  String get cogCancel => 'Cancel';
+
+  @override
+  String get cogApproved => 'Suggestion approved.';
+
+  @override
+  String get cogRejected => 'Suggestion rejected.';
+
+  @override
+  String get cogErrForbidden =>
+      'Your role is not allowed to use AI suggestions.';
+
+  @override
+  String get cogErrAlreadyDecided =>
+      'Already decided by someone else. The list was refreshed.';
+
+  @override
+  String cogErrInvalid(String detail) {
+    return 'The proposal is incomplete: $detail';
+  }
+
+  @override
+  String get cogErrOffline =>
+      'You are offline. Try again when you are back online.';
+
+  @override
+  String get cogErrRateLimited => 'Too many requests. Try again later.';
+
+  @override
+  String get cogErrProvider => 'The AI service is unavailable right now.';
+
+  @override
+  String get cogErrNotFound => 'This suggestion no longer exists.';
+
+  @override
+  String get cogErrUnknown => 'Something went wrong.';
+
+  @override
+  String get cogAlertTitle => 'High-priority alert';
+
+  @override
+  String get cogAlertReview => 'Review';
+
+  @override
+  String get cogPriorityHigh => 'High priority';
+
+  @override
+  String get cogRetry => 'Retry';
+
+  @override
+  String get cogOfflineCached => 'Showing saved suggestions (offline)';
 }

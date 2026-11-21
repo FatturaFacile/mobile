@@ -311,6 +311,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get copilotClose;
+
+  /// No description provided for @cogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI suggestions'**
+  String get cogTitle;
+
+  /// No description provided for @cogModule.
+  ///
+  /// In en, this message translates to:
+  /// **'AI review'**
+  String get cogModule;
+
+  /// No description provided for @cogCaptureHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate or type a request, e.g. \"quote 2 chairs for Muster AG\"'**
+  String get cogCaptureHint;
+
+  /// No description provided for @cogKindLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get cogKindLabel;
+
+  /// No description provided for @cogKindSalesQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales quote'**
+  String get cogKindSalesQuote;
+
+  /// No description provided for @cogKindPurchaseOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase order'**
+  String get cogKindPurchaseOrder;
+
+  /// No description provided for @cogKindSupportTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Support ticket'**
+  String get cogKindSupportTicket;
+
+  /// No description provided for @cogKindContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get cogKindContact;
+
+  /// No description provided for @cogKindAccountingCoding.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounting coding'**
+  String get cogKindAccountingCoding;
+
+  /// No description provided for @cogKindReconciliationMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconciliation match'**
+  String get cogKindReconciliationMatch;
+
+  /// No description provided for @cogKindAnomaly.
+  ///
+  /// In en, this message translates to:
+  /// **'Anomaly'**
+  String get cogKindAnomaly;
+
+  /// No description provided for @cogKindLatePaymentRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Late payment risk'**
+  String get cogKindLatePaymentRisk;
+
+  /// No description provided for @cogKindChurnRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Churn risk'**
+  String get cogKindChurnRisk;
+
+  /// No description provided for @cogKindReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get cogKindReorder;
+
+  /// No description provided for @cogKindCashFlowAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash flow alert'**
+  String get cogKindCashFlowAlert;
+
+  /// No description provided for @cogKindOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion'**
+  String get cogKindOther;
+
+  /// No description provided for @cogSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get cogSend;
+
+  /// No description provided for @cogDictate.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate'**
+  String get cogDictate;
+
+  /// No description provided for @cogTextTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Write at least 10 characters.'**
+  String get cogTextTooShort;
+
+  /// No description provided for @cogCaptureSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent. The draft is waiting for your review.'**
+  String get cogCaptureSent;
+
+  /// No description provided for @cogCaptureQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved offline. It will be sent when the connection returns.'**
+  String get cogCaptureQueued;
+
+  /// No description provided for @cogCaptureRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'The request was not accepted: {detail}'**
+  String cogCaptureRejected(String detail);
+
+  /// No description provided for @cogQueuedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} captures waiting to be sent'**
+  String cogQueuedCount(int count);
+
+  /// No description provided for @cogDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get cogDismiss;
+
+  /// No description provided for @cogConfidenceHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get cogConfidenceHigh;
+
+  /// No description provided for @cogConfidenceMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get cogConfidenceMedium;
+
+  /// No description provided for @cogConfidenceLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get cogConfidenceLow;
+
+  /// No description provided for @cogConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence {percent}%'**
+  String cogConfidence(int percent);
+
+  /// No description provided for @cogEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No suggestions waiting for review'**
+  String get cogEmpty;
+
+  /// No description provided for @cogApprove.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get cogApprove;
+
+  /// No description provided for @cogReject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get cogReject;
+
+  /// No description provided for @cogRejectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject suggestion'**
+  String get cogRejectTitle;
+
+  /// No description provided for @cogRejectReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason (at least 3 characters)'**
+  String get cogRejectReason;
+
+  /// No description provided for @cogReasonTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter at least 3 characters.'**
+  String get cogReasonTooShort;
+
+  /// No description provided for @cogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cogCancel;
+
+  /// No description provided for @cogApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion approved.'**
+  String get cogApproved;
+
+  /// No description provided for @cogRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion rejected.'**
+  String get cogRejected;
+
+  /// No description provided for @cogErrForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Your role is not allowed to use AI suggestions.'**
+  String get cogErrForbidden;
+
+  /// No description provided for @cogErrAlreadyDecided.
+  ///
+  /// In en, this message translates to:
+  /// **'Already decided by someone else. The list was refreshed.'**
+  String get cogErrAlreadyDecided;
+
+  /// No description provided for @cogErrInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'The proposal is incomplete: {detail}'**
+  String cogErrInvalid(String detail);
+
+  /// No description provided for @cogErrOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'You are offline. Try again when you are back online.'**
+  String get cogErrOffline;
+
+  /// No description provided for @cogErrRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests. Try again later.'**
+  String get cogErrRateLimited;
+
+  /// No description provided for @cogErrProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI service is unavailable right now.'**
+  String get cogErrProvider;
+
+  /// No description provided for @cogErrNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This suggestion no longer exists.'**
+  String get cogErrNotFound;
+
+  /// No description provided for @cogErrUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong.'**
+  String get cogErrUnknown;
+
+  /// No description provided for @cogAlertTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'High-priority alert'**
+  String get cogAlertTitle;
+
+  /// No description provided for @cogAlertReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get cogAlertReview;
+
+  /// No description provided for @cogPriorityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High priority'**
+  String get cogPriorityHigh;
+
+  /// No description provided for @cogRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get cogRetry;
+
+  /// No description provided for @cogOfflineCached.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing saved suggestions (offline)'**
+  String get cogOfflineCached;
 }
 
 class _AppLocalizationsDelegate
