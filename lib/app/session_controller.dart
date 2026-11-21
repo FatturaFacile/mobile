@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/error/failure.dart';
+import '../core/network/auth_problem_interceptor.dart';
 import '../features/auth/domain/auth_models.dart';
 import 'providers.dart';
 
@@ -26,13 +27,27 @@ final class SignedIn extends SessionState {
 class SessionController extends AsyncNotifier<SessionState> {
   @override
   Future<SessionState> build() async {
-    final AuthSession? stored = await ref.read(authRepositoryProvider).restore();
+    final AuthSession? stored = await ref
+        .read(authRepositoryProvider)
+        .restore();
     return stored == null ? const SignedOut() : _hydrate();
   }
 
-  Future<void> signIn({required String email, required String password, required String deviceId, required String platform}) async {
+  Future<void> signIn({
+    required String email,
+    required String password,
+    required String deviceId,
+    required String platform,
+  }) async {
     state = const AsyncLoading<SessionState>();
-    final result = await ref.read(authRepositoryProvider).signIn(email: email, password: password, deviceId: deviceId, platform: platform);
+    final result = await ref
+        .read(authRepositoryProvider)
+        .signIn(
+          email: email,
+          password: password,
+          deviceId: deviceId,
+          platform: platform,
+        );
     state = AsyncData<SessionState>(
       await result.match(
         (Failure f) async => SignedOut(error: f),
@@ -52,17 +67,72 @@ class SessionController extends AsyncNotifier<SessionState> {
 
   Future<void> signOut() async {
     await ref.read(authRepositoryProvider).signOut();
+    await ref.read(permissionRepositoryProvider).purge();
     state = const AsyncData<SessionState>(SignedOut());
+  }
+
+  /// Reacts to what the server withdrew: a remote revocation (401) or the loss of the company ends the session at once and
+  /// wipes every local credential and cached right; stale permissions are reloaded; a missing second factor asks for it.
+  Future<void> onApiProblem(ApiProblem problem) async {
+    switch (problem) {
+      case ApiProblem.sessionRevoked:
+        await _endLocally(
+          const SignedOut(error: UnauthorizedFailure('session_revoked')),
+        );
+      case ApiProblem.companyAccessRevoked:
+        await _endLocally(
+          const SignedOut(error: ForbiddenFailure('company_access_revoked')),
+        );
+      case ApiProblem.mfaRequired:
+        await _endLocally(
+          const SignedOut(
+            error: ForbiddenFailure('mfa_required'),
+            twoFactorRequired: true,
+          ),
+        );
+      case ApiProblem.permissionDenied:
+        await refreshPermissions();
+    }
+  }
+
+  /// Reloads the permissions of the signed-in user (the server answered permission_denied).
+  Future<void> refreshPermissions() async {
+    final SessionState? current = state.value;
+    if (current is SignedIn) {
+      await ref
+          .read(permissionRepositoryProvider)
+          .sync(
+            tenantId: current.bootstrap.tenantId,
+            userId: current.bootstrap.userId,
+          );
+    }
+  }
+
+  Future<void> _endLocally(SessionState next) async {
+    await ref.read(authRepositoryProvider).signOut();
+    await ref.read(permissionRepositoryProvider).purge();
+    state = AsyncData<SessionState>(next);
   }
 
   Future<SessionState> _hydrate() async {
     final result = await ref.read(authRepositoryProvider).bootstrap();
-    return result.match<SessionState>(
+    final SessionState next = result.match<SessionState>(
       (Failure f) => SignedOut(error: f),
       (Bootstrap b) => SignedIn(b),
     );
+    if (next is SignedIn) {
+      await ref
+          .read(permissionRepositoryProvider)
+          .sync(
+            tenantId: next.bootstrap.tenantId,
+            userId: next.bootstrap.userId,
+          );
+    }
+    return next;
   }
 }
 
 final AsyncNotifierProvider<SessionController, SessionState> sessionProvider =
-    AsyncNotifierProvider<SessionController, SessionState>(SessionController.new);
+    AsyncNotifierProvider<SessionController, SessionState>(
+      SessionController.new,
+    );

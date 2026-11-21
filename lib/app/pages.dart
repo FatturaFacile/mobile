@@ -3,8 +3,6 @@ import 'package:material_ui/material_ui.dart';
 
 import '../core/localization/translation_service.dart';
 import '../core/network/api_client.dart';
-import '../features/wms/data/wms_repository.dart';
-import '../features/wms/ui/wms_app.dart' show WmsHome;
 import '../core/sync/sync_indicator.dart';
 import '../core/sync/sync_orchestrator.dart';
 import '../features/ai_cognitive/presentation/ai_suggestions_page.dart';
@@ -17,7 +15,13 @@ import '../features/security/presentation/security_providers.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
 import '../features/security/presentation/security_screen.dart';
 import '../features/entities/entity_pages.dart';
+import '../features/purchase_requisitions/notifications/pr_notification_handler.dart';
+import '../features/purchase_requisitions/presentation/providers/pr_providers.dart';
+import '../features/purchase_requisitions/presentation/screens/pr_hub_screen.dart';
+import '../features/wms/data/wms_repository.dart';
+import '../features/wms/ui/wms_app.dart' show WmsHome;
 import '../features/workflow/workflow_pages.dart';
+import '../l10n/gen/app_localizations.dart';
 import 'providers.dart';
 import 'session_controller.dart';
 
@@ -154,6 +158,12 @@ class HomePage extends ConsumerWidget {
       'executive_dss' => const ExecutiveDssPage(),
       aiReviewModule => const AiSuggestionsPage(),
       shiftSelfServiceModule => const ShiftHomePage(),
+      'purchase_requisitions' || 'procurement_requisitions' => PrHubScreen(
+        tenantId: b.tenantId,
+        userId: b.userId,
+        userName: b.userName,
+        defaultCurrency: b.currency,
+      ),
       _ when moduleEntity.containsKey(module) => EntityListPage(
         def: entityDefinitions[moduleEntity[module]]!,
         tenantId: b.tenantId,
@@ -174,6 +184,69 @@ class HomePage extends ConsumerWidget {
     );
   }
 
+  /// Label from the API dictionary; the AI and purchase requisition modules fall back to bundled strings
+  /// until the backend ships them.
+  String _moduleLabel(
+    BuildContext context,
+    WidgetRef ref,
+    TranslationService t,
+    String module,
+  ) {
+    final String translated = t.t('mobile.module.$module');
+    if (translated.isNotEmpty) {
+      return translated;
+    }
+    if (module == 'purchase_requisitions' ||
+        module == 'procurement_requisitions') {
+      return AppLocalizations.of(context).prModuleTitle;
+    }
+    if (module == aiReviewModule) {
+      return copilotStrings(ref.read(requestContextProvider).languageCode)
+          .cogModule;
+    }
+    return '';
+  }
+
+  Future<void> _onPushPayload(
+    BuildContext context,
+    WidgetRef ref,
+    Map<String, dynamic> payload,
+  ) async {
+    final Bootstrap b = session.bootstrap;
+    final PrNotificationResult result = await ref
+        .read(prNotificationHandlerProvider)
+        .handlePayload(
+          payload,
+          activeTenantId: b.tenantId,
+          actorId: b.userId,
+          actorName: b.userName,
+          navigatorKey: ref.read(navigatorKeyProvider),
+        );
+    if (!context.mounted) {
+      return;
+    }
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    final String? snack = switch (result.outcome) {
+      PrNotificationOutcome.approvedOnline => l10n.prApprovedConfirmation,
+      PrNotificationOutcome.approvedQueuedOffline =>
+        l10n.prApprovedQueuedOffline,
+      PrNotificationOutcome.rejectedOnline => l10n.prRejectedConfirmation,
+      PrNotificationOutcome.rejectedQueuedOffline =>
+        l10n.prRejectedQueuedOffline,
+      PrNotificationOutcome.failed =>
+        result.message?.isNotEmpty == true
+            ? result.message!
+            : l10n.prGenericError,
+      PrNotificationOutcome.navigatedToDetail ||
+      PrNotificationOutcome.needsRejectionReason ||
+      PrNotificationOutcome.ignored => null,
+    };
+    if (snack != null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(snack)));
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TranslationService t = ref.watch(translationProvider);
@@ -182,6 +255,15 @@ class HomePage extends ConsumerWidget {
         ref.watch(syncUiProvider(tenantId)).value ??
         const SyncUiState(SyncUiKind.synced);
     final List<String> modules = session.bootstrap.modules;
+    ref.listen<AsyncValue<Map<String, dynamic>>>(prPushEventsStreamProvider, (
+      AsyncValue<Map<String, dynamic>>? _,
+      AsyncValue<Map<String, dynamic>> next,
+    ) {
+      final Map<String, dynamic>? payload = next.value;
+      if (payload != null) {
+        _onPushPayload(context, ref, payload);
+      }
+    });
     return SyncLifecycle(
       tenantId: tenantId,
       entities: session.bootstrap.syncEntities,
@@ -262,16 +344,6 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  /// Label from the API dictionary; the AI module falls back to the bundled string until the backend ships it.
-  String _moduleLabel(WidgetRef ref, TranslationService t, String module) {
-    final String label = t.t('mobile.module.$module');
-    if (label.isNotEmpty || module != aiReviewModule) {
-      return label;
-    }
-    return copilotStrings(ref.read(requestContextProvider).languageCode)
-        .cogModule;
-  }
-
   Widget _modules(
     BuildContext context,
     WidgetRef ref,
@@ -294,7 +366,7 @@ class HomePage extends ConsumerWidget {
                     onTap: () => _openModule(context, ref, m),
                     child: Center(
                       child: Text(
-                        _moduleLabel(ref, t, m),
+                        _moduleLabel(context, ref, t, m),
                         textAlign: TextAlign.center,
                       ),
                     ),

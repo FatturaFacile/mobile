@@ -1,5 +1,8 @@
 import 'package:drift/drift.dart';
 
+import '../../features/purchase_requisitions/data/local/purchase_requisition_dao.dart';
+import '../../features/purchase_requisitions/data/local/purchase_requisition_tables.dart';
+
 part 'app_database.g.dart';
 
 /// Lifecycle of a locally stored record.
@@ -163,6 +166,25 @@ class AuditQueueEntries extends Table {
   };
 }
 
+/// Cached permission snapshots, one per tenant, user and company (empty company id = whole tenant). The payload holds the
+/// permissions and field policies only; a revoked row is never read back.
+@DataClassName('PermissionSnapshotRow')
+class PermissionSnapshots extends Table {
+  TextColumn get tenantId => text()();
+  TextColumn get userId => text()();
+  TextColumn get companyId => text().withDefault(const Constant(''))();
+  TextColumn get payload => text()();
+  DateTimeColumn get fetchedAt => dateTime()();
+  DateTimeColumn get revokedAt => dateTime().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{
+    tenantId,
+    userId,
+    companyId,
+  };
+}
+
 @DriftDatabase(
   tables: <Type>[
     EntityRecords,
@@ -173,27 +195,46 @@ class AuditQueueEntries extends Table {
     CopilotMessages,
     AuditQueueEntries,
     DssExecutiveSnapshots,
+    PermissionSnapshots,
+    LocalPurchaseRequisitions,
+    LocalPurchaseRequisitionLines,
+    LocalPendingApprovals,
+    LocalApprovalAuditLogs,
   ],
+  daos: <Type>[PurchaseRequisitionDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
+
+  /// Two release lines used the same version numbers for different tables, so a device may be at version 2–4
+  /// with either set. Every step creates its tables only when they are missing.
+  Future<void> _ensureTable(Migrator m, TableInfo<Table, dynamic> table) async {
+    final List<QueryRow> found = await customSelect(
+      "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?",
+      variables: <Variable<Object>>[Variable<String>(table.actualTableName)],
+    ).get();
+    if (found.isEmpty) {
+      await m.createTable(table);
+    }
+  }
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) => m.createAll(),
     onUpgrade: (Migrator m, int from, int to) async {
-      if (from < 2) {
-        await m.createTable(copilotConversations);
-        await m.createTable(copilotMessages);
-      }
-      if (from < 3) {
-        await m.createTable(auditQueueEntries);
-      }
-      if (from < 4) {
-        await m.createTable(dssExecutiveSnapshots);
+      if (from < 5) {
+        await _ensureTable(m, copilotConversations);
+        await _ensureTable(m, copilotMessages);
+        await _ensureTable(m, auditQueueEntries);
+        await _ensureTable(m, dssExecutiveSnapshots);
+        await _ensureTable(m, permissionSnapshots);
+        await _ensureTable(m, localPurchaseRequisitions);
+        await _ensureTable(m, localPurchaseRequisitionLines);
+        await _ensureTable(m, localPendingApprovals);
+        await _ensureTable(m, localApprovalAuditLogs);
       }
     },
     beforeOpen: (OpeningDetails details) async {

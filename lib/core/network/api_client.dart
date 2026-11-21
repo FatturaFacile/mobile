@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../config/app_config.dart';
 import '../error/failure.dart';
+import 'auth_problem_interceptor.dart';
 
 /// Mutable request context (token, tenant, locale) read by the interceptor.
 class RequestContext {
@@ -36,27 +37,37 @@ class ContextInterceptor extends Interceptor {
 
 /// Retries transient failures with exponential backoff (idempotent requests only).
 class RetryInterceptor extends Interceptor {
-  RetryInterceptor(this._dio, {this.maxRetries = 3, this.baseDelay = const Duration(milliseconds: 400)});
+  RetryInterceptor(
+    this._dio, {
+    this.maxRetries = 3,
+    this.baseDelay = const Duration(milliseconds: 400),
+  });
 
   final Dio _dio;
   final int maxRetries;
   final Duration baseDelay;
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     final int attempt = (err.requestOptions.extra['retry'] as int?) ?? 0;
     final int status = err.response?.statusCode ?? 0;
-    final bool transient = err.type == DioExceptionType.connectionTimeout ||
+    final bool transient =
+        err.type == DioExceptionType.connectionTimeout ||
         err.type == DioExceptionType.receiveTimeout ||
         err.type == DioExceptionType.connectionError ||
         (status >= 502 && status <= 504);
-    final bool safe = err.requestOptions.method == 'GET' ||
+    final bool safe =
+        err.requestOptions.method == 'GET' ||
         err.requestOptions.headers.containsKey('Idempotency-Key');
     if (!transient || !safe || attempt >= maxRetries) {
       return handler.next(err);
     }
     await Future<void>.delayed(baseDelay * (1 << attempt));
-    final RequestOptions opts = err.requestOptions..extra['retry'] = attempt + 1;
+    final RequestOptions opts = err.requestOptions
+      ..extra['retry'] = attempt + 1;
     try {
       handler.resolve(await _dio.fetch<dynamic>(opts));
     } on DioException catch (e) {
@@ -109,7 +120,11 @@ Failure mapDioError(DioException e) {
 }
 
 /// Builds the configured [Dio] instance.
-Dio buildDio(AppConfig config, RequestContext context) {
+Dio buildDio(
+  AppConfig config,
+  RequestContext context, {
+  AuthProblemInterceptor? problems,
+}) {
   final Dio dio = Dio(
     BaseOptions(
       baseUrl: config.apiRoot,
@@ -120,5 +135,8 @@ Dio buildDio(AppConfig config, RequestContext context) {
   dio.interceptors
     ..add(ContextInterceptor(context))
     ..add(RetryInterceptor(dio));
+  if (problems != null) {
+    dio.interceptors.add(problems);
+  }
   return dio;
 }
