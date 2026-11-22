@@ -15482,6 +15482,2668 @@ class MfgOutboxCompanion extends UpdateCompanion<MfgOutboxRow> {
   }
 }
 
+class $GlJournalEntriesTable extends GlJournalEntries
+    with TableInfo<$GlJournalEntriesTable, GlJournalEntryRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GlJournalEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _postingDateMeta = const VerificationMeta(
+    'postingDate',
+  );
+  @override
+  late final GeneratedColumn<String> postingDate = GeneratedColumn<String>(
+    'posting_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _ledgerTypeMeta = const VerificationMeta(
+    'ledgerType',
+  );
+  @override
+  late final GeneratedColumn<String> ledgerType = GeneratedColumn<String>(
+    'ledger_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('statutory'),
+  );
+  static const VerificationMeta _alsoPostToMeta = const VerificationMeta(
+    'alsoPostTo',
+  );
+  @override
+  late final GeneratedColumn<String> alsoPostTo = GeneratedColumn<String>(
+    'also_post_to',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('draft'),
+  );
+  static const VerificationMeta _syncStateMeta = const VerificationMeta(
+    'syncState',
+  );
+  @override
+  late final GeneratedColumn<int> syncState = GeneratedColumn<int>(
+    'sync_state',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _postOnSyncMeta = const VerificationMeta(
+    'postOnSync',
+  );
+  @override
+  late final GeneratedColumn<bool> postOnSync = GeneratedColumn<bool>(
+    'post_on_sync',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("post_on_sync" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _entryNumberMeta = const VerificationMeta(
+    'entryNumber',
+  );
+  @override
+  late final GeneratedColumn<String> entryNumber = GeneratedColumn<String>(
+    'entry_number',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _reversesJournalIdMeta = const VerificationMeta(
+    'reversesJournalId',
+  );
+  @override
+  late final GeneratedColumn<String> reversesJournalId =
+      GeneratedColumn<String>(
+        'reverses_journal_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _reversalReasonMeta = const VerificationMeta(
+    'reversalReason',
+  );
+  @override
+  late final GeneratedColumn<String> reversalReason = GeneratedColumn<String>(
+    'reversal_reason',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastErrorMeta = const VerificationMeta(
+    'lastError',
+  );
+  @override
+  late final GeneratedColumn<String> lastError = GeneratedColumn<String>(
+    'last_error',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    tenantId,
+    serverId,
+    postingDate,
+    description,
+    ledgerType,
+    alsoPostTo,
+    status,
+    syncState,
+    postOnSync,
+    entryNumber,
+    reversesJournalId,
+    reversalReason,
+    lastError,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'gl_journal_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<GlJournalEntryRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    }
+    if (data.containsKey('posting_date')) {
+      context.handle(
+        _postingDateMeta,
+        postingDate.isAcceptableOrUnknown(
+          data['posting_date']!,
+          _postingDateMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_postingDateMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('ledger_type')) {
+      context.handle(
+        _ledgerTypeMeta,
+        ledgerType.isAcceptableOrUnknown(data['ledger_type']!, _ledgerTypeMeta),
+      );
+    }
+    if (data.containsKey('also_post_to')) {
+      context.handle(
+        _alsoPostToMeta,
+        alsoPostTo.isAcceptableOrUnknown(
+          data['also_post_to']!,
+          _alsoPostToMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('sync_state')) {
+      context.handle(
+        _syncStateMeta,
+        syncState.isAcceptableOrUnknown(data['sync_state']!, _syncStateMeta),
+      );
+    }
+    if (data.containsKey('post_on_sync')) {
+      context.handle(
+        _postOnSyncMeta,
+        postOnSync.isAcceptableOrUnknown(
+          data['post_on_sync']!,
+          _postOnSyncMeta,
+        ),
+      );
+    }
+    if (data.containsKey('entry_number')) {
+      context.handle(
+        _entryNumberMeta,
+        entryNumber.isAcceptableOrUnknown(
+          data['entry_number']!,
+          _entryNumberMeta,
+        ),
+      );
+    }
+    if (data.containsKey('reverses_journal_id')) {
+      context.handle(
+        _reversesJournalIdMeta,
+        reversesJournalId.isAcceptableOrUnknown(
+          data['reverses_journal_id']!,
+          _reversesJournalIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('reversal_reason')) {
+      context.handle(
+        _reversalReasonMeta,
+        reversalReason.isAcceptableOrUnknown(
+          data['reversal_reason']!,
+          _reversalReasonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_error')) {
+      context.handle(
+        _lastErrorMeta,
+        lastError.isAcceptableOrUnknown(data['last_error']!, _lastErrorMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  GlJournalEntryRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return GlJournalEntryRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      ),
+      postingDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}posting_date'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+      ledgerType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ledger_type'],
+      )!,
+      alsoPostTo: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}also_post_to'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      syncState: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sync_state'],
+      )!,
+      postOnSync: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}post_on_sync'],
+      )!,
+      entryNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entry_number'],
+      ),
+      reversesJournalId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reverses_journal_id'],
+      ),
+      reversalReason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reversal_reason'],
+      ),
+      lastError: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_error'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $GlJournalEntriesTable createAlias(String alias) {
+    return $GlJournalEntriesTable(attachedDatabase, alias);
+  }
+}
+
+class GlJournalEntryRow extends DataClass
+    implements Insertable<GlJournalEntryRow> {
+  final String id;
+  final String tenantId;
+  final String? serverId;
+  final String postingDate;
+  final String description;
+  final String ledgerType;
+
+  /// Comma separated codes of the other books (`02,03`).
+  final String alsoPostTo;
+  final String status;
+
+  /// Index of `JournalSyncState`.
+  final int syncState;
+  final bool postOnSync;
+  final String? entryNumber;
+  final String? reversesJournalId;
+  final String? reversalReason;
+  final String? lastError;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const GlJournalEntryRow({
+    required this.id,
+    required this.tenantId,
+    this.serverId,
+    required this.postingDate,
+    required this.description,
+    required this.ledgerType,
+    required this.alsoPostTo,
+    required this.status,
+    required this.syncState,
+    required this.postOnSync,
+    this.entryNumber,
+    this.reversesJournalId,
+    this.reversalReason,
+    this.lastError,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['tenant_id'] = Variable<String>(tenantId);
+    if (!nullToAbsent || serverId != null) {
+      map['server_id'] = Variable<String>(serverId);
+    }
+    map['posting_date'] = Variable<String>(postingDate);
+    map['description'] = Variable<String>(description);
+    map['ledger_type'] = Variable<String>(ledgerType);
+    map['also_post_to'] = Variable<String>(alsoPostTo);
+    map['status'] = Variable<String>(status);
+    map['sync_state'] = Variable<int>(syncState);
+    map['post_on_sync'] = Variable<bool>(postOnSync);
+    if (!nullToAbsent || entryNumber != null) {
+      map['entry_number'] = Variable<String>(entryNumber);
+    }
+    if (!nullToAbsent || reversesJournalId != null) {
+      map['reverses_journal_id'] = Variable<String>(reversesJournalId);
+    }
+    if (!nullToAbsent || reversalReason != null) {
+      map['reversal_reason'] = Variable<String>(reversalReason);
+    }
+    if (!nullToAbsent || lastError != null) {
+      map['last_error'] = Variable<String>(lastError);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  GlJournalEntriesCompanion toCompanion(bool nullToAbsent) {
+    return GlJournalEntriesCompanion(
+      id: Value(id),
+      tenantId: Value(tenantId),
+      serverId: serverId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(serverId),
+      postingDate: Value(postingDate),
+      description: Value(description),
+      ledgerType: Value(ledgerType),
+      alsoPostTo: Value(alsoPostTo),
+      status: Value(status),
+      syncState: Value(syncState),
+      postOnSync: Value(postOnSync),
+      entryNumber: entryNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(entryNumber),
+      reversesJournalId: reversesJournalId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reversesJournalId),
+      reversalReason: reversalReason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reversalReason),
+      lastError: lastError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastError),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory GlJournalEntryRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return GlJournalEntryRow(
+      id: serializer.fromJson<String>(json['id']),
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      serverId: serializer.fromJson<String?>(json['serverId']),
+      postingDate: serializer.fromJson<String>(json['postingDate']),
+      description: serializer.fromJson<String>(json['description']),
+      ledgerType: serializer.fromJson<String>(json['ledgerType']),
+      alsoPostTo: serializer.fromJson<String>(json['alsoPostTo']),
+      status: serializer.fromJson<String>(json['status']),
+      syncState: serializer.fromJson<int>(json['syncState']),
+      postOnSync: serializer.fromJson<bool>(json['postOnSync']),
+      entryNumber: serializer.fromJson<String?>(json['entryNumber']),
+      reversesJournalId: serializer.fromJson<String?>(
+        json['reversesJournalId'],
+      ),
+      reversalReason: serializer.fromJson<String?>(json['reversalReason']),
+      lastError: serializer.fromJson<String?>(json['lastError']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'tenantId': serializer.toJson<String>(tenantId),
+      'serverId': serializer.toJson<String?>(serverId),
+      'postingDate': serializer.toJson<String>(postingDate),
+      'description': serializer.toJson<String>(description),
+      'ledgerType': serializer.toJson<String>(ledgerType),
+      'alsoPostTo': serializer.toJson<String>(alsoPostTo),
+      'status': serializer.toJson<String>(status),
+      'syncState': serializer.toJson<int>(syncState),
+      'postOnSync': serializer.toJson<bool>(postOnSync),
+      'entryNumber': serializer.toJson<String?>(entryNumber),
+      'reversesJournalId': serializer.toJson<String?>(reversesJournalId),
+      'reversalReason': serializer.toJson<String?>(reversalReason),
+      'lastError': serializer.toJson<String?>(lastError),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  GlJournalEntryRow copyWith({
+    String? id,
+    String? tenantId,
+    Value<String?> serverId = const Value.absent(),
+    String? postingDate,
+    String? description,
+    String? ledgerType,
+    String? alsoPostTo,
+    String? status,
+    int? syncState,
+    bool? postOnSync,
+    Value<String?> entryNumber = const Value.absent(),
+    Value<String?> reversesJournalId = const Value.absent(),
+    Value<String?> reversalReason = const Value.absent(),
+    Value<String?> lastError = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => GlJournalEntryRow(
+    id: id ?? this.id,
+    tenantId: tenantId ?? this.tenantId,
+    serverId: serverId.present ? serverId.value : this.serverId,
+    postingDate: postingDate ?? this.postingDate,
+    description: description ?? this.description,
+    ledgerType: ledgerType ?? this.ledgerType,
+    alsoPostTo: alsoPostTo ?? this.alsoPostTo,
+    status: status ?? this.status,
+    syncState: syncState ?? this.syncState,
+    postOnSync: postOnSync ?? this.postOnSync,
+    entryNumber: entryNumber.present ? entryNumber.value : this.entryNumber,
+    reversesJournalId: reversesJournalId.present
+        ? reversesJournalId.value
+        : this.reversesJournalId,
+    reversalReason: reversalReason.present
+        ? reversalReason.value
+        : this.reversalReason,
+    lastError: lastError.present ? lastError.value : this.lastError,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  GlJournalEntryRow copyWithCompanion(GlJournalEntriesCompanion data) {
+    return GlJournalEntryRow(
+      id: data.id.present ? data.id.value : this.id,
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      postingDate: data.postingDate.present
+          ? data.postingDate.value
+          : this.postingDate,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      ledgerType: data.ledgerType.present
+          ? data.ledgerType.value
+          : this.ledgerType,
+      alsoPostTo: data.alsoPostTo.present
+          ? data.alsoPostTo.value
+          : this.alsoPostTo,
+      status: data.status.present ? data.status.value : this.status,
+      syncState: data.syncState.present ? data.syncState.value : this.syncState,
+      postOnSync: data.postOnSync.present
+          ? data.postOnSync.value
+          : this.postOnSync,
+      entryNumber: data.entryNumber.present
+          ? data.entryNumber.value
+          : this.entryNumber,
+      reversesJournalId: data.reversesJournalId.present
+          ? data.reversesJournalId.value
+          : this.reversesJournalId,
+      reversalReason: data.reversalReason.present
+          ? data.reversalReason.value
+          : this.reversalReason,
+      lastError: data.lastError.present ? data.lastError.value : this.lastError,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlJournalEntryRow(')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('serverId: $serverId, ')
+          ..write('postingDate: $postingDate, ')
+          ..write('description: $description, ')
+          ..write('ledgerType: $ledgerType, ')
+          ..write('alsoPostTo: $alsoPostTo, ')
+          ..write('status: $status, ')
+          ..write('syncState: $syncState, ')
+          ..write('postOnSync: $postOnSync, ')
+          ..write('entryNumber: $entryNumber, ')
+          ..write('reversesJournalId: $reversesJournalId, ')
+          ..write('reversalReason: $reversalReason, ')
+          ..write('lastError: $lastError, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    tenantId,
+    serverId,
+    postingDate,
+    description,
+    ledgerType,
+    alsoPostTo,
+    status,
+    syncState,
+    postOnSync,
+    entryNumber,
+    reversesJournalId,
+    reversalReason,
+    lastError,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is GlJournalEntryRow &&
+          other.id == this.id &&
+          other.tenantId == this.tenantId &&
+          other.serverId == this.serverId &&
+          other.postingDate == this.postingDate &&
+          other.description == this.description &&
+          other.ledgerType == this.ledgerType &&
+          other.alsoPostTo == this.alsoPostTo &&
+          other.status == this.status &&
+          other.syncState == this.syncState &&
+          other.postOnSync == this.postOnSync &&
+          other.entryNumber == this.entryNumber &&
+          other.reversesJournalId == this.reversesJournalId &&
+          other.reversalReason == this.reversalReason &&
+          other.lastError == this.lastError &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class GlJournalEntriesCompanion extends UpdateCompanion<GlJournalEntryRow> {
+  final Value<String> id;
+  final Value<String> tenantId;
+  final Value<String?> serverId;
+  final Value<String> postingDate;
+  final Value<String> description;
+  final Value<String> ledgerType;
+  final Value<String> alsoPostTo;
+  final Value<String> status;
+  final Value<int> syncState;
+  final Value<bool> postOnSync;
+  final Value<String?> entryNumber;
+  final Value<String?> reversesJournalId;
+  final Value<String?> reversalReason;
+  final Value<String?> lastError;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const GlJournalEntriesCompanion({
+    this.id = const Value.absent(),
+    this.tenantId = const Value.absent(),
+    this.serverId = const Value.absent(),
+    this.postingDate = const Value.absent(),
+    this.description = const Value.absent(),
+    this.ledgerType = const Value.absent(),
+    this.alsoPostTo = const Value.absent(),
+    this.status = const Value.absent(),
+    this.syncState = const Value.absent(),
+    this.postOnSync = const Value.absent(),
+    this.entryNumber = const Value.absent(),
+    this.reversesJournalId = const Value.absent(),
+    this.reversalReason = const Value.absent(),
+    this.lastError = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  GlJournalEntriesCompanion.insert({
+    required String id,
+    required String tenantId,
+    this.serverId = const Value.absent(),
+    required String postingDate,
+    required String description,
+    this.ledgerType = const Value.absent(),
+    this.alsoPostTo = const Value.absent(),
+    this.status = const Value.absent(),
+    this.syncState = const Value.absent(),
+    this.postOnSync = const Value.absent(),
+    this.entryNumber = const Value.absent(),
+    this.reversesJournalId = const Value.absent(),
+    this.reversalReason = const Value.absent(),
+    this.lastError = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       tenantId = Value(tenantId),
+       postingDate = Value(postingDate),
+       description = Value(description),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<GlJournalEntryRow> custom({
+    Expression<String>? id,
+    Expression<String>? tenantId,
+    Expression<String>? serverId,
+    Expression<String>? postingDate,
+    Expression<String>? description,
+    Expression<String>? ledgerType,
+    Expression<String>? alsoPostTo,
+    Expression<String>? status,
+    Expression<int>? syncState,
+    Expression<bool>? postOnSync,
+    Expression<String>? entryNumber,
+    Expression<String>? reversesJournalId,
+    Expression<String>? reversalReason,
+    Expression<String>? lastError,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (serverId != null) 'server_id': serverId,
+      if (postingDate != null) 'posting_date': postingDate,
+      if (description != null) 'description': description,
+      if (ledgerType != null) 'ledger_type': ledgerType,
+      if (alsoPostTo != null) 'also_post_to': alsoPostTo,
+      if (status != null) 'status': status,
+      if (syncState != null) 'sync_state': syncState,
+      if (postOnSync != null) 'post_on_sync': postOnSync,
+      if (entryNumber != null) 'entry_number': entryNumber,
+      if (reversesJournalId != null) 'reverses_journal_id': reversesJournalId,
+      if (reversalReason != null) 'reversal_reason': reversalReason,
+      if (lastError != null) 'last_error': lastError,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  GlJournalEntriesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? tenantId,
+    Value<String?>? serverId,
+    Value<String>? postingDate,
+    Value<String>? description,
+    Value<String>? ledgerType,
+    Value<String>? alsoPostTo,
+    Value<String>? status,
+    Value<int>? syncState,
+    Value<bool>? postOnSync,
+    Value<String?>? entryNumber,
+    Value<String?>? reversesJournalId,
+    Value<String?>? reversalReason,
+    Value<String?>? lastError,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return GlJournalEntriesCompanion(
+      id: id ?? this.id,
+      tenantId: tenantId ?? this.tenantId,
+      serverId: serverId ?? this.serverId,
+      postingDate: postingDate ?? this.postingDate,
+      description: description ?? this.description,
+      ledgerType: ledgerType ?? this.ledgerType,
+      alsoPostTo: alsoPostTo ?? this.alsoPostTo,
+      status: status ?? this.status,
+      syncState: syncState ?? this.syncState,
+      postOnSync: postOnSync ?? this.postOnSync,
+      entryNumber: entryNumber ?? this.entryNumber,
+      reversesJournalId: reversesJournalId ?? this.reversesJournalId,
+      reversalReason: reversalReason ?? this.reversalReason,
+      lastError: lastError ?? this.lastError,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (postingDate.present) {
+      map['posting_date'] = Variable<String>(postingDate.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (ledgerType.present) {
+      map['ledger_type'] = Variable<String>(ledgerType.value);
+    }
+    if (alsoPostTo.present) {
+      map['also_post_to'] = Variable<String>(alsoPostTo.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (syncState.present) {
+      map['sync_state'] = Variable<int>(syncState.value);
+    }
+    if (postOnSync.present) {
+      map['post_on_sync'] = Variable<bool>(postOnSync.value);
+    }
+    if (entryNumber.present) {
+      map['entry_number'] = Variable<String>(entryNumber.value);
+    }
+    if (reversesJournalId.present) {
+      map['reverses_journal_id'] = Variable<String>(reversesJournalId.value);
+    }
+    if (reversalReason.present) {
+      map['reversal_reason'] = Variable<String>(reversalReason.value);
+    }
+    if (lastError.present) {
+      map['last_error'] = Variable<String>(lastError.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlJournalEntriesCompanion(')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('serverId: $serverId, ')
+          ..write('postingDate: $postingDate, ')
+          ..write('description: $description, ')
+          ..write('ledgerType: $ledgerType, ')
+          ..write('alsoPostTo: $alsoPostTo, ')
+          ..write('status: $status, ')
+          ..write('syncState: $syncState, ')
+          ..write('postOnSync: $postOnSync, ')
+          ..write('entryNumber: $entryNumber, ')
+          ..write('reversesJournalId: $reversesJournalId, ')
+          ..write('reversalReason: $reversalReason, ')
+          ..write('lastError: $lastError, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $GlJournalLinesTable extends GlJournalLines
+    with TableInfo<$GlJournalLinesTable, GlJournalLineRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GlJournalLinesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _entryIdMeta = const VerificationMeta(
+    'entryId',
+  );
+  @override
+  late final GeneratedColumn<String> entryId = GeneratedColumn<String>(
+    'entry_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES gl_journal_entries (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _lineNumberMeta = const VerificationMeta(
+    'lineNumber',
+  );
+  @override
+  late final GeneratedColumn<int> lineNumber = GeneratedColumn<int>(
+    'line_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _accountIdMeta = const VerificationMeta(
+    'accountId',
+  );
+  @override
+  late final GeneratedColumn<String> accountId = GeneratedColumn<String>(
+    'account_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _accountCodeMeta = const VerificationMeta(
+    'accountCode',
+  );
+  @override
+  late final GeneratedColumn<String> accountCode = GeneratedColumn<String>(
+    'account_code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _accountNameMeta = const VerificationMeta(
+    'accountName',
+  );
+  @override
+  late final GeneratedColumn<String> accountName = GeneratedColumn<String>(
+    'account_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _debitMeta = const VerificationMeta('debit');
+  @override
+  late final GeneratedColumn<int> debit = GeneratedColumn<int>(
+    'debit',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _creditMeta = const VerificationMeta('credit');
+  @override
+  late final GeneratedColumn<int> credit = GeneratedColumn<int>(
+    'credit',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    entryId,
+    lineNumber,
+    accountId,
+    accountCode,
+    accountName,
+    debit,
+    credit,
+    description,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'gl_journal_lines';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<GlJournalLineRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('entry_id')) {
+      context.handle(
+        _entryIdMeta,
+        entryId.isAcceptableOrUnknown(data['entry_id']!, _entryIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_entryIdMeta);
+    }
+    if (data.containsKey('line_number')) {
+      context.handle(
+        _lineNumberMeta,
+        lineNumber.isAcceptableOrUnknown(data['line_number']!, _lineNumberMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lineNumberMeta);
+    }
+    if (data.containsKey('account_id')) {
+      context.handle(
+        _accountIdMeta,
+        accountId.isAcceptableOrUnknown(data['account_id']!, _accountIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_accountIdMeta);
+    }
+    if (data.containsKey('account_code')) {
+      context.handle(
+        _accountCodeMeta,
+        accountCode.isAcceptableOrUnknown(
+          data['account_code']!,
+          _accountCodeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('account_name')) {
+      context.handle(
+        _accountNameMeta,
+        accountName.isAcceptableOrUnknown(
+          data['account_name']!,
+          _accountNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('debit')) {
+      context.handle(
+        _debitMeta,
+        debit.isAcceptableOrUnknown(data['debit']!, _debitMeta),
+      );
+    }
+    if (data.containsKey('credit')) {
+      context.handle(
+        _creditMeta,
+        credit.isAcceptableOrUnknown(data['credit']!, _creditMeta),
+      );
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {entryId, lineNumber};
+  @override
+  GlJournalLineRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return GlJournalLineRow(
+      entryId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entry_id'],
+      )!,
+      lineNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}line_number'],
+      )!,
+      accountId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}account_id'],
+      )!,
+      accountCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}account_code'],
+      )!,
+      accountName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}account_name'],
+      )!,
+      debit: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}debit'],
+      )!,
+      credit: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}credit'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+    );
+  }
+
+  @override
+  $GlJournalLinesTable createAlias(String alias) {
+    return $GlJournalLinesTable(attachedDatabase, alias);
+  }
+}
+
+class GlJournalLineRow extends DataClass
+    implements Insertable<GlJournalLineRow> {
+  final String entryId;
+  final int lineNumber;
+  final String accountId;
+  final String accountCode;
+  final String accountName;
+  final int debit;
+  final int credit;
+  final String description;
+  const GlJournalLineRow({
+    required this.entryId,
+    required this.lineNumber,
+    required this.accountId,
+    required this.accountCode,
+    required this.accountName,
+    required this.debit,
+    required this.credit,
+    required this.description,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['entry_id'] = Variable<String>(entryId);
+    map['line_number'] = Variable<int>(lineNumber);
+    map['account_id'] = Variable<String>(accountId);
+    map['account_code'] = Variable<String>(accountCode);
+    map['account_name'] = Variable<String>(accountName);
+    map['debit'] = Variable<int>(debit);
+    map['credit'] = Variable<int>(credit);
+    map['description'] = Variable<String>(description);
+    return map;
+  }
+
+  GlJournalLinesCompanion toCompanion(bool nullToAbsent) {
+    return GlJournalLinesCompanion(
+      entryId: Value(entryId),
+      lineNumber: Value(lineNumber),
+      accountId: Value(accountId),
+      accountCode: Value(accountCode),
+      accountName: Value(accountName),
+      debit: Value(debit),
+      credit: Value(credit),
+      description: Value(description),
+    );
+  }
+
+  factory GlJournalLineRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return GlJournalLineRow(
+      entryId: serializer.fromJson<String>(json['entryId']),
+      lineNumber: serializer.fromJson<int>(json['lineNumber']),
+      accountId: serializer.fromJson<String>(json['accountId']),
+      accountCode: serializer.fromJson<String>(json['accountCode']),
+      accountName: serializer.fromJson<String>(json['accountName']),
+      debit: serializer.fromJson<int>(json['debit']),
+      credit: serializer.fromJson<int>(json['credit']),
+      description: serializer.fromJson<String>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'entryId': serializer.toJson<String>(entryId),
+      'lineNumber': serializer.toJson<int>(lineNumber),
+      'accountId': serializer.toJson<String>(accountId),
+      'accountCode': serializer.toJson<String>(accountCode),
+      'accountName': serializer.toJson<String>(accountName),
+      'debit': serializer.toJson<int>(debit),
+      'credit': serializer.toJson<int>(credit),
+      'description': serializer.toJson<String>(description),
+    };
+  }
+
+  GlJournalLineRow copyWith({
+    String? entryId,
+    int? lineNumber,
+    String? accountId,
+    String? accountCode,
+    String? accountName,
+    int? debit,
+    int? credit,
+    String? description,
+  }) => GlJournalLineRow(
+    entryId: entryId ?? this.entryId,
+    lineNumber: lineNumber ?? this.lineNumber,
+    accountId: accountId ?? this.accountId,
+    accountCode: accountCode ?? this.accountCode,
+    accountName: accountName ?? this.accountName,
+    debit: debit ?? this.debit,
+    credit: credit ?? this.credit,
+    description: description ?? this.description,
+  );
+  GlJournalLineRow copyWithCompanion(GlJournalLinesCompanion data) {
+    return GlJournalLineRow(
+      entryId: data.entryId.present ? data.entryId.value : this.entryId,
+      lineNumber: data.lineNumber.present
+          ? data.lineNumber.value
+          : this.lineNumber,
+      accountId: data.accountId.present ? data.accountId.value : this.accountId,
+      accountCode: data.accountCode.present
+          ? data.accountCode.value
+          : this.accountCode,
+      accountName: data.accountName.present
+          ? data.accountName.value
+          : this.accountName,
+      debit: data.debit.present ? data.debit.value : this.debit,
+      credit: data.credit.present ? data.credit.value : this.credit,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlJournalLineRow(')
+          ..write('entryId: $entryId, ')
+          ..write('lineNumber: $lineNumber, ')
+          ..write('accountId: $accountId, ')
+          ..write('accountCode: $accountCode, ')
+          ..write('accountName: $accountName, ')
+          ..write('debit: $debit, ')
+          ..write('credit: $credit, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    entryId,
+    lineNumber,
+    accountId,
+    accountCode,
+    accountName,
+    debit,
+    credit,
+    description,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is GlJournalLineRow &&
+          other.entryId == this.entryId &&
+          other.lineNumber == this.lineNumber &&
+          other.accountId == this.accountId &&
+          other.accountCode == this.accountCode &&
+          other.accountName == this.accountName &&
+          other.debit == this.debit &&
+          other.credit == this.credit &&
+          other.description == this.description);
+}
+
+class GlJournalLinesCompanion extends UpdateCompanion<GlJournalLineRow> {
+  final Value<String> entryId;
+  final Value<int> lineNumber;
+  final Value<String> accountId;
+  final Value<String> accountCode;
+  final Value<String> accountName;
+  final Value<int> debit;
+  final Value<int> credit;
+  final Value<String> description;
+  final Value<int> rowid;
+  const GlJournalLinesCompanion({
+    this.entryId = const Value.absent(),
+    this.lineNumber = const Value.absent(),
+    this.accountId = const Value.absent(),
+    this.accountCode = const Value.absent(),
+    this.accountName = const Value.absent(),
+    this.debit = const Value.absent(),
+    this.credit = const Value.absent(),
+    this.description = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  GlJournalLinesCompanion.insert({
+    required String entryId,
+    required int lineNumber,
+    required String accountId,
+    this.accountCode = const Value.absent(),
+    this.accountName = const Value.absent(),
+    this.debit = const Value.absent(),
+    this.credit = const Value.absent(),
+    this.description = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : entryId = Value(entryId),
+       lineNumber = Value(lineNumber),
+       accountId = Value(accountId);
+  static Insertable<GlJournalLineRow> custom({
+    Expression<String>? entryId,
+    Expression<int>? lineNumber,
+    Expression<String>? accountId,
+    Expression<String>? accountCode,
+    Expression<String>? accountName,
+    Expression<int>? debit,
+    Expression<int>? credit,
+    Expression<String>? description,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (entryId != null) 'entry_id': entryId,
+      if (lineNumber != null) 'line_number': lineNumber,
+      if (accountId != null) 'account_id': accountId,
+      if (accountCode != null) 'account_code': accountCode,
+      if (accountName != null) 'account_name': accountName,
+      if (debit != null) 'debit': debit,
+      if (credit != null) 'credit': credit,
+      if (description != null) 'description': description,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  GlJournalLinesCompanion copyWith({
+    Value<String>? entryId,
+    Value<int>? lineNumber,
+    Value<String>? accountId,
+    Value<String>? accountCode,
+    Value<String>? accountName,
+    Value<int>? debit,
+    Value<int>? credit,
+    Value<String>? description,
+    Value<int>? rowid,
+  }) {
+    return GlJournalLinesCompanion(
+      entryId: entryId ?? this.entryId,
+      lineNumber: lineNumber ?? this.lineNumber,
+      accountId: accountId ?? this.accountId,
+      accountCode: accountCode ?? this.accountCode,
+      accountName: accountName ?? this.accountName,
+      debit: debit ?? this.debit,
+      credit: credit ?? this.credit,
+      description: description ?? this.description,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (entryId.present) {
+      map['entry_id'] = Variable<String>(entryId.value);
+    }
+    if (lineNumber.present) {
+      map['line_number'] = Variable<int>(lineNumber.value);
+    }
+    if (accountId.present) {
+      map['account_id'] = Variable<String>(accountId.value);
+    }
+    if (accountCode.present) {
+      map['account_code'] = Variable<String>(accountCode.value);
+    }
+    if (accountName.present) {
+      map['account_name'] = Variable<String>(accountName.value);
+    }
+    if (debit.present) {
+      map['debit'] = Variable<int>(debit.value);
+    }
+    if (credit.present) {
+      map['credit'] = Variable<int>(credit.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlJournalLinesCompanion(')
+          ..write('entryId: $entryId, ')
+          ..write('lineNumber: $lineNumber, ')
+          ..write('accountId: $accountId, ')
+          ..write('accountCode: $accountCode, ')
+          ..write('accountName: $accountName, ')
+          ..write('debit: $debit, ')
+          ..write('credit: $credit, ')
+          ..write('description: $description, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $GlAccountsTable extends GlAccounts
+    with TableInfo<$GlAccountsTable, GlAccountRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GlAccountsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _accountTypeMeta = const VerificationMeta(
+    'accountType',
+  );
+  @override
+  late final GeneratedColumn<String> accountType = GeneratedColumn<String>(
+    'account_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _normalBalanceMeta = const VerificationMeta(
+    'normalBalance',
+  );
+  @override
+  late final GeneratedColumn<String> normalBalance = GeneratedColumn<String>(
+    'normal_balance',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('debit'),
+  );
+  static const VerificationMeta _allowsManualPostingMeta =
+      const VerificationMeta('allowsManualPosting');
+  @override
+  late final GeneratedColumn<bool> allowsManualPosting = GeneratedColumn<bool>(
+    'allows_manual_posting',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("allows_manual_posting" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    id,
+    code,
+    name,
+    accountType,
+    normalBalance,
+    allowsManualPosting,
+    isActive,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'gl_accounts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<GlAccountRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('account_type')) {
+      context.handle(
+        _accountTypeMeta,
+        accountType.isAcceptableOrUnknown(
+          data['account_type']!,
+          _accountTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('normal_balance')) {
+      context.handle(
+        _normalBalanceMeta,
+        normalBalance.isAcceptableOrUnknown(
+          data['normal_balance']!,
+          _normalBalanceMeta,
+        ),
+      );
+    }
+    if (data.containsKey('allows_manual_posting')) {
+      context.handle(
+        _allowsManualPostingMeta,
+        allowsManualPosting.isAcceptableOrUnknown(
+          data['allows_manual_posting']!,
+          _allowsManualPostingMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  GlAccountRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return GlAccountRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      accountType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}account_type'],
+      )!,
+      normalBalance: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}normal_balance'],
+      )!,
+      allowsManualPosting: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}allows_manual_posting'],
+      )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+    );
+  }
+
+  @override
+  $GlAccountsTable createAlias(String alias) {
+    return $GlAccountsTable(attachedDatabase, alias);
+  }
+}
+
+class GlAccountRow extends DataClass implements Insertable<GlAccountRow> {
+  final String tenantId;
+  final String id;
+  final String code;
+  final String name;
+  final String accountType;
+  final String normalBalance;
+  final bool allowsManualPosting;
+  final bool isActive;
+  const GlAccountRow({
+    required this.tenantId,
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.accountType,
+    required this.normalBalance,
+    required this.allowsManualPosting,
+    required this.isActive,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['name'] = Variable<String>(name);
+    map['account_type'] = Variable<String>(accountType);
+    map['normal_balance'] = Variable<String>(normalBalance);
+    map['allows_manual_posting'] = Variable<bool>(allowsManualPosting);
+    map['is_active'] = Variable<bool>(isActive);
+    return map;
+  }
+
+  GlAccountsCompanion toCompanion(bool nullToAbsent) {
+    return GlAccountsCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      code: Value(code),
+      name: Value(name),
+      accountType: Value(accountType),
+      normalBalance: Value(normalBalance),
+      allowsManualPosting: Value(allowsManualPosting),
+      isActive: Value(isActive),
+    );
+  }
+
+  factory GlAccountRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return GlAccountRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+      accountType: serializer.fromJson<String>(json['accountType']),
+      normalBalance: serializer.fromJson<String>(json['normalBalance']),
+      allowsManualPosting: serializer.fromJson<bool>(
+        json['allowsManualPosting'],
+      ),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'name': serializer.toJson<String>(name),
+      'accountType': serializer.toJson<String>(accountType),
+      'normalBalance': serializer.toJson<String>(normalBalance),
+      'allowsManualPosting': serializer.toJson<bool>(allowsManualPosting),
+      'isActive': serializer.toJson<bool>(isActive),
+    };
+  }
+
+  GlAccountRow copyWith({
+    String? tenantId,
+    String? id,
+    String? code,
+    String? name,
+    String? accountType,
+    String? normalBalance,
+    bool? allowsManualPosting,
+    bool? isActive,
+  }) => GlAccountRow(
+    tenantId: tenantId ?? this.tenantId,
+    id: id ?? this.id,
+    code: code ?? this.code,
+    name: name ?? this.name,
+    accountType: accountType ?? this.accountType,
+    normalBalance: normalBalance ?? this.normalBalance,
+    allowsManualPosting: allowsManualPosting ?? this.allowsManualPosting,
+    isActive: isActive ?? this.isActive,
+  );
+  GlAccountRow copyWithCompanion(GlAccountsCompanion data) {
+    return GlAccountRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+      accountType: data.accountType.present
+          ? data.accountType.value
+          : this.accountType,
+      normalBalance: data.normalBalance.present
+          ? data.normalBalance.value
+          : this.normalBalance,
+      allowsManualPosting: data.allowsManualPosting.present
+          ? data.allowsManualPosting.value
+          : this.allowsManualPosting,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlAccountRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('accountType: $accountType, ')
+          ..write('normalBalance: $normalBalance, ')
+          ..write('allowsManualPosting: $allowsManualPosting, ')
+          ..write('isActive: $isActive')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    tenantId,
+    id,
+    code,
+    name,
+    accountType,
+    normalBalance,
+    allowsManualPosting,
+    isActive,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is GlAccountRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.name == this.name &&
+          other.accountType == this.accountType &&
+          other.normalBalance == this.normalBalance &&
+          other.allowsManualPosting == this.allowsManualPosting &&
+          other.isActive == this.isActive);
+}
+
+class GlAccountsCompanion extends UpdateCompanion<GlAccountRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> name;
+  final Value<String> accountType;
+  final Value<String> normalBalance;
+  final Value<bool> allowsManualPosting;
+  final Value<bool> isActive;
+  final Value<int> rowid;
+  const GlAccountsCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+    this.accountType = const Value.absent(),
+    this.normalBalance = const Value.absent(),
+    this.allowsManualPosting = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  GlAccountsCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String code,
+    required String name,
+    this.accountType = const Value.absent(),
+    this.normalBalance = const Value.absent(),
+    this.allowsManualPosting = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       code = Value(code),
+       name = Value(name);
+  static Insertable<GlAccountRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? name,
+    Expression<String>? accountType,
+    Expression<String>? normalBalance,
+    Expression<bool>? allowsManualPosting,
+    Expression<bool>? isActive,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+      if (accountType != null) 'account_type': accountType,
+      if (normalBalance != null) 'normal_balance': normalBalance,
+      if (allowsManualPosting != null)
+        'allows_manual_posting': allowsManualPosting,
+      if (isActive != null) 'is_active': isActive,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  GlAccountsCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? name,
+    Value<String>? accountType,
+    Value<String>? normalBalance,
+    Value<bool>? allowsManualPosting,
+    Value<bool>? isActive,
+    Value<int>? rowid,
+  }) {
+    return GlAccountsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      code: code ?? this.code,
+      name: name ?? this.name,
+      accountType: accountType ?? this.accountType,
+      normalBalance: normalBalance ?? this.normalBalance,
+      allowsManualPosting: allowsManualPosting ?? this.allowsManualPosting,
+      isActive: isActive ?? this.isActive,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (accountType.present) {
+      map['account_type'] = Variable<String>(accountType.value);
+    }
+    if (normalBalance.present) {
+      map['normal_balance'] = Variable<String>(normalBalance.value);
+    }
+    if (allowsManualPosting.present) {
+      map['allows_manual_posting'] = Variable<bool>(allowsManualPosting.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlAccountsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('accountType: $accountType, ')
+          ..write('normalBalance: $normalBalance, ')
+          ..write('allowsManualPosting: $allowsManualPosting, ')
+          ..write('isActive: $isActive, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $GlTemplatesTable extends GlTemplates
+    with TableInfo<$GlTemplatesTable, GlTemplateRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GlTemplatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [tenantId, id, code, payload];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'gl_templates';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<GlTemplateRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, id};
+  @override
+  GlTemplateRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return GlTemplateRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+    );
+  }
+
+  @override
+  $GlTemplatesTable createAlias(String alias) {
+    return $GlTemplatesTable(attachedDatabase, alias);
+  }
+}
+
+class GlTemplateRow extends DataClass implements Insertable<GlTemplateRow> {
+  final String tenantId;
+  final String id;
+  final String code;
+  final String payload;
+  const GlTemplateRow({
+    required this.tenantId,
+    required this.id,
+    required this.code,
+    required this.payload,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['payload'] = Variable<String>(payload);
+    return map;
+  }
+
+  GlTemplatesCompanion toCompanion(bool nullToAbsent) {
+    return GlTemplatesCompanion(
+      tenantId: Value(tenantId),
+      id: Value(id),
+      code: Value(code),
+      payload: Value(payload),
+    );
+  }
+
+  factory GlTemplateRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return GlTemplateRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      payload: serializer.fromJson<String>(json['payload']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'payload': serializer.toJson<String>(payload),
+    };
+  }
+
+  GlTemplateRow copyWith({
+    String? tenantId,
+    String? id,
+    String? code,
+    String? payload,
+  }) => GlTemplateRow(
+    tenantId: tenantId ?? this.tenantId,
+    id: id ?? this.id,
+    code: code ?? this.code,
+    payload: payload ?? this.payload,
+  );
+  GlTemplateRow copyWithCompanion(GlTemplatesCompanion data) {
+    return GlTemplateRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      payload: data.payload.present ? data.payload.value : this.payload,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlTemplateRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('payload: $payload')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(tenantId, id, code, payload);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is GlTemplateRow &&
+          other.tenantId == this.tenantId &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.payload == this.payload);
+}
+
+class GlTemplatesCompanion extends UpdateCompanion<GlTemplateRow> {
+  final Value<String> tenantId;
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> payload;
+  final Value<int> rowid;
+  const GlTemplatesCompanion({
+    this.tenantId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  GlTemplatesCompanion.insert({
+    required String tenantId,
+    required String id,
+    required String code,
+    required String payload,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       id = Value(id),
+       code = Value(code),
+       payload = Value(payload);
+  static Insertable<GlTemplateRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? payload,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (payload != null) 'payload': payload,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  GlTemplatesCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? payload,
+    Value<int>? rowid,
+  }) {
+    return GlTemplatesCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      id: id ?? this.id,
+      code: code ?? this.code,
+      payload: payload ?? this.payload,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlTemplatesCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('payload: $payload, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $GlReportSnapshotsTable extends GlReportSnapshots
+    with TableInfo<$GlReportSnapshotsTable, GlReportSnapshotRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GlReportSnapshotsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tenantIdMeta = const VerificationMeta(
+    'tenantId',
+  );
+  @override
+  late final GeneratedColumn<String> tenantId = GeneratedColumn<String>(
+    'tenant_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kindMeta = const VerificationMeta('kind');
+  @override
+  late final GeneratedColumn<String> kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _filterKeyMeta = const VerificationMeta(
+    'filterKey',
+  );
+  @override
+  late final GeneratedColumn<String> filterKey = GeneratedColumn<String>(
+    'filter_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    tenantId,
+    kind,
+    filterKey,
+    payload,
+    syncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'gl_report_snapshots';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<GlReportSnapshotRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
+      context.handle(
+        _tenantIdMeta,
+        tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('kind')) {
+      context.handle(
+        _kindMeta,
+        kind.isAcceptableOrUnknown(data['kind']!, _kindMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_kindMeta);
+    }
+    if (data.containsKey('filter_key')) {
+      context.handle(
+        _filterKeyMeta,
+        filterKey.isAcceptableOrUnknown(data['filter_key']!, _filterKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_filterKeyMeta);
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_syncedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId, kind, filterKey};
+  @override
+  GlReportSnapshotRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return GlReportSnapshotRow(
+      tenantId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tenant_id'],
+      )!,
+      kind: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}kind'],
+      )!,
+      filterKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}filter_key'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      )!,
+    );
+  }
+
+  @override
+  $GlReportSnapshotsTable createAlias(String alias) {
+    return $GlReportSnapshotsTable(attachedDatabase, alias);
+  }
+}
+
+class GlReportSnapshotRow extends DataClass
+    implements Insertable<GlReportSnapshotRow> {
+  final String tenantId;
+  final String kind;
+  final String filterKey;
+  final String payload;
+  final DateTime syncedAt;
+  const GlReportSnapshotRow({
+    required this.tenantId,
+    required this.kind,
+    required this.filterKey,
+    required this.payload,
+    required this.syncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['kind'] = Variable<String>(kind);
+    map['filter_key'] = Variable<String>(filterKey);
+    map['payload'] = Variable<String>(payload);
+    map['synced_at'] = Variable<DateTime>(syncedAt);
+    return map;
+  }
+
+  GlReportSnapshotsCompanion toCompanion(bool nullToAbsent) {
+    return GlReportSnapshotsCompanion(
+      tenantId: Value(tenantId),
+      kind: Value(kind),
+      filterKey: Value(filterKey),
+      payload: Value(payload),
+      syncedAt: Value(syncedAt),
+    );
+  }
+
+  factory GlReportSnapshotRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return GlReportSnapshotRow(
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      kind: serializer.fromJson<String>(json['kind']),
+      filterKey: serializer.fromJson<String>(json['filterKey']),
+      payload: serializer.fromJson<String>(json['payload']),
+      syncedAt: serializer.fromJson<DateTime>(json['syncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<String>(tenantId),
+      'kind': serializer.toJson<String>(kind),
+      'filterKey': serializer.toJson<String>(filterKey),
+      'payload': serializer.toJson<String>(payload),
+      'syncedAt': serializer.toJson<DateTime>(syncedAt),
+    };
+  }
+
+  GlReportSnapshotRow copyWith({
+    String? tenantId,
+    String? kind,
+    String? filterKey,
+    String? payload,
+    DateTime? syncedAt,
+  }) => GlReportSnapshotRow(
+    tenantId: tenantId ?? this.tenantId,
+    kind: kind ?? this.kind,
+    filterKey: filterKey ?? this.filterKey,
+    payload: payload ?? this.payload,
+    syncedAt: syncedAt ?? this.syncedAt,
+  );
+  GlReportSnapshotRow copyWithCompanion(GlReportSnapshotsCompanion data) {
+    return GlReportSnapshotRow(
+      tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      filterKey: data.filterKey.present ? data.filterKey.value : this.filterKey,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlReportSnapshotRow(')
+          ..write('tenantId: $tenantId, ')
+          ..write('kind: $kind, ')
+          ..write('filterKey: $filterKey, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(tenantId, kind, filterKey, payload, syncedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is GlReportSnapshotRow &&
+          other.tenantId == this.tenantId &&
+          other.kind == this.kind &&
+          other.filterKey == this.filterKey &&
+          other.payload == this.payload &&
+          other.syncedAt == this.syncedAt);
+}
+
+class GlReportSnapshotsCompanion extends UpdateCompanion<GlReportSnapshotRow> {
+  final Value<String> tenantId;
+  final Value<String> kind;
+  final Value<String> filterKey;
+  final Value<String> payload;
+  final Value<DateTime> syncedAt;
+  final Value<int> rowid;
+  const GlReportSnapshotsCompanion({
+    this.tenantId = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.filterKey = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  GlReportSnapshotsCompanion.insert({
+    required String tenantId,
+    required String kind,
+    required String filterKey,
+    required String payload,
+    required DateTime syncedAt,
+    this.rowid = const Value.absent(),
+  }) : tenantId = Value(tenantId),
+       kind = Value(kind),
+       filterKey = Value(filterKey),
+       payload = Value(payload),
+       syncedAt = Value(syncedAt);
+  static Insertable<GlReportSnapshotRow> custom({
+    Expression<String>? tenantId,
+    Expression<String>? kind,
+    Expression<String>? filterKey,
+    Expression<String>? payload,
+    Expression<DateTime>? syncedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (kind != null) 'kind': kind,
+      if (filterKey != null) 'filter_key': filterKey,
+      if (payload != null) 'payload': payload,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  GlReportSnapshotsCompanion copyWith({
+    Value<String>? tenantId,
+    Value<String>? kind,
+    Value<String>? filterKey,
+    Value<String>? payload,
+    Value<DateTime>? syncedAt,
+    Value<int>? rowid,
+  }) {
+    return GlReportSnapshotsCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      kind: kind ?? this.kind,
+      filterKey: filterKey ?? this.filterKey,
+      payload: payload ?? this.payload,
+      syncedAt: syncedAt ?? this.syncedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(kind.value);
+    }
+    if (filterKey.present) {
+      map['filter_key'] = Variable<String>(filterKey.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GlReportSnapshotsCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('kind: $kind, ')
+          ..write('filterKey: $filterKey, ')
+          ..write('payload: $payload, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -15529,11 +18191,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $MfgOperationTimersTable mfgOperationTimers =
       $MfgOperationTimersTable(this);
   late final $MfgOutboxTable mfgOutbox = $MfgOutboxTable(this);
+  late final $GlJournalEntriesTable glJournalEntries = $GlJournalEntriesTable(
+    this,
+  );
+  late final $GlJournalLinesTable glJournalLines = $GlJournalLinesTable(this);
+  late final $GlAccountsTable glAccounts = $GlAccountsTable(this);
+  late final $GlTemplatesTable glTemplates = $GlTemplatesTable(this);
+  late final $GlReportSnapshotsTable glReportSnapshots =
+      $GlReportSnapshotsTable(this);
   late final PurchaseRequisitionDao purchaseRequisitionDao =
       PurchaseRequisitionDao(this as AppDatabase);
   late final ManufacturingDao manufacturingDao = ManufacturingDao(
     this as AppDatabase,
   );
+  late final GlDao glDao = GlDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -15563,6 +18234,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     mfgStagedLots,
     mfgOperationTimers,
     mfgOutbox,
+    glJournalEntries,
+    glJournalLines,
+    glAccounts,
+    glTemplates,
+    glReportSnapshots,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -15577,6 +18253,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
           kind: UpdateKind.delete,
         ),
       ],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'gl_journal_entries',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('gl_journal_lines', kind: UpdateKind.delete)],
     ),
   ]);
 }
@@ -23705,6 +26388,1618 @@ typedef $$MfgOutboxTableProcessedTableManager =
       MfgOutboxRow,
       PrefetchHooks Function()
     >;
+typedef $$GlJournalEntriesTableCreateCompanionBuilder =
+    GlJournalEntriesCompanion Function({
+      required String id,
+      required String tenantId,
+      Value<String?> serverId,
+      required String postingDate,
+      required String description,
+      Value<String> ledgerType,
+      Value<String> alsoPostTo,
+      Value<String> status,
+      Value<int> syncState,
+      Value<bool> postOnSync,
+      Value<String?> entryNumber,
+      Value<String?> reversesJournalId,
+      Value<String?> reversalReason,
+      Value<String?> lastError,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$GlJournalEntriesTableUpdateCompanionBuilder =
+    GlJournalEntriesCompanion Function({
+      Value<String> id,
+      Value<String> tenantId,
+      Value<String?> serverId,
+      Value<String> postingDate,
+      Value<String> description,
+      Value<String> ledgerType,
+      Value<String> alsoPostTo,
+      Value<String> status,
+      Value<int> syncState,
+      Value<bool> postOnSync,
+      Value<String?> entryNumber,
+      Value<String?> reversesJournalId,
+      Value<String?> reversalReason,
+      Value<String?> lastError,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+final class $$GlJournalEntriesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $GlJournalEntriesTable,
+          GlJournalEntryRow
+        > {
+  $$GlJournalEntriesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$GlJournalLinesTable, List<GlJournalLineRow>>
+  _glJournalLinesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.glJournalLines,
+    aliasName: 'gl_journal_entries__id__gl_journal_lines__entry_id',
+  );
+
+  $$GlJournalLinesTableProcessedTableManager get glJournalLinesRefs {
+    final manager = $$GlJournalLinesTableTableManager(
+      $_db,
+      $_db.glJournalLines,
+    ).filter((f) => f.entryId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_glJournalLinesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$GlJournalEntriesTableFilterComposer
+    extends Composer<_$AppDatabase, $GlJournalEntriesTable> {
+  $$GlJournalEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get serverId => $composableBuilder(
+    column: $table.serverId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get postingDate => $composableBuilder(
+    column: $table.postingDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get ledgerType => $composableBuilder(
+    column: $table.ledgerType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get alsoPostTo => $composableBuilder(
+    column: $table.alsoPostTo,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get syncState => $composableBuilder(
+    column: $table.syncState,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get postOnSync => $composableBuilder(
+    column: $table.postOnSync,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get entryNumber => $composableBuilder(
+    column: $table.entryNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reversesJournalId => $composableBuilder(
+    column: $table.reversesJournalId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reversalReason => $composableBuilder(
+    column: $table.reversalReason,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastError => $composableBuilder(
+    column: $table.lastError,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> glJournalLinesRefs(
+    Expression<bool> Function($$GlJournalLinesTableFilterComposer f) f,
+  ) {
+    final $$GlJournalLinesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.glJournalLines,
+      getReferencedColumn: (t) => t.entryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GlJournalLinesTableFilterComposer(
+            $db: $db,
+            $table: $db.glJournalLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$GlJournalEntriesTableOrderingComposer
+    extends Composer<_$AppDatabase, $GlJournalEntriesTable> {
+  $$GlJournalEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get serverId => $composableBuilder(
+    column: $table.serverId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get postingDate => $composableBuilder(
+    column: $table.postingDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get ledgerType => $composableBuilder(
+    column: $table.ledgerType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get alsoPostTo => $composableBuilder(
+    column: $table.alsoPostTo,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get syncState => $composableBuilder(
+    column: $table.syncState,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get postOnSync => $composableBuilder(
+    column: $table.postOnSync,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get entryNumber => $composableBuilder(
+    column: $table.entryNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reversesJournalId => $composableBuilder(
+    column: $table.reversesJournalId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reversalReason => $composableBuilder(
+    column: $table.reversalReason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastError => $composableBuilder(
+    column: $table.lastError,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$GlJournalEntriesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $GlJournalEntriesTable> {
+  $$GlJournalEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get serverId =>
+      $composableBuilder(column: $table.serverId, builder: (column) => column);
+
+  GeneratedColumn<String> get postingDate => $composableBuilder(
+    column: $table.postingDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get ledgerType => $composableBuilder(
+    column: $table.ledgerType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get alsoPostTo => $composableBuilder(
+    column: $table.alsoPostTo,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get syncState =>
+      $composableBuilder(column: $table.syncState, builder: (column) => column);
+
+  GeneratedColumn<bool> get postOnSync => $composableBuilder(
+    column: $table.postOnSync,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get entryNumber => $composableBuilder(
+    column: $table.entryNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get reversesJournalId => $composableBuilder(
+    column: $table.reversesJournalId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get reversalReason => $composableBuilder(
+    column: $table.reversalReason,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get lastError =>
+      $composableBuilder(column: $table.lastError, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  Expression<T> glJournalLinesRefs<T extends Object>(
+    Expression<T> Function($$GlJournalLinesTableAnnotationComposer a) f,
+  ) {
+    final $$GlJournalLinesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.glJournalLines,
+      getReferencedColumn: (t) => t.entryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GlJournalLinesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.glJournalLines,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$GlJournalEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $GlJournalEntriesTable,
+          GlJournalEntryRow,
+          $$GlJournalEntriesTableFilterComposer,
+          $$GlJournalEntriesTableOrderingComposer,
+          $$GlJournalEntriesTableAnnotationComposer,
+          $$GlJournalEntriesTableCreateCompanionBuilder,
+          $$GlJournalEntriesTableUpdateCompanionBuilder,
+          (GlJournalEntryRow, $$GlJournalEntriesTableReferences),
+          GlJournalEntryRow,
+          PrefetchHooks Function({bool glJournalLinesRefs})
+        > {
+  $$GlJournalEntriesTableTableManager(
+    _$AppDatabase db,
+    $GlJournalEntriesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$GlJournalEntriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$GlJournalEntriesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$GlJournalEntriesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> tenantId = const Value.absent(),
+                Value<String?> serverId = const Value.absent(),
+                Value<String> postingDate = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<String> ledgerType = const Value.absent(),
+                Value<String> alsoPostTo = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<int> syncState = const Value.absent(),
+                Value<bool> postOnSync = const Value.absent(),
+                Value<String?> entryNumber = const Value.absent(),
+                Value<String?> reversesJournalId = const Value.absent(),
+                Value<String?> reversalReason = const Value.absent(),
+                Value<String?> lastError = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GlJournalEntriesCompanion(
+                id: id,
+                tenantId: tenantId,
+                serverId: serverId,
+                postingDate: postingDate,
+                description: description,
+                ledgerType: ledgerType,
+                alsoPostTo: alsoPostTo,
+                status: status,
+                syncState: syncState,
+                postOnSync: postOnSync,
+                entryNumber: entryNumber,
+                reversesJournalId: reversesJournalId,
+                reversalReason: reversalReason,
+                lastError: lastError,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String tenantId,
+                Value<String?> serverId = const Value.absent(),
+                required String postingDate,
+                required String description,
+                Value<String> ledgerType = const Value.absent(),
+                Value<String> alsoPostTo = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<int> syncState = const Value.absent(),
+                Value<bool> postOnSync = const Value.absent(),
+                Value<String?> entryNumber = const Value.absent(),
+                Value<String?> reversesJournalId = const Value.absent(),
+                Value<String?> reversalReason = const Value.absent(),
+                Value<String?> lastError = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => GlJournalEntriesCompanion.insert(
+                id: id,
+                tenantId: tenantId,
+                serverId: serverId,
+                postingDate: postingDate,
+                description: description,
+                ledgerType: ledgerType,
+                alsoPostTo: alsoPostTo,
+                status: status,
+                syncState: syncState,
+                postOnSync: postOnSync,
+                entryNumber: entryNumber,
+                reversesJournalId: reversesJournalId,
+                reversalReason: reversalReason,
+                lastError: lastError,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$GlJournalEntriesTable, GlJournalEntryRow>(table),
+                  $$GlJournalEntriesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({glJournalLinesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (glJournalLinesRefs) db.glJournalLines,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (glJournalLinesRefs)
+                    await $_getPrefetchedDataByColumns<
+                      GlJournalEntryRow,
+                      $GlJournalEntriesTable,
+                      GlJournalLineRow,
+                      $GlJournalLinesTable
+                    >(
+                      currentTable: table,
+                      referencedTable: $$GlJournalEntriesTableReferences
+                          ._glJournalLinesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$GlJournalEntriesTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).glJournalLinesRefs,
+                      currentColumn: 'id',
+                      referencedColumn: 'entry_id',
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$GlJournalEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $GlJournalEntriesTable,
+      GlJournalEntryRow,
+      $$GlJournalEntriesTableFilterComposer,
+      $$GlJournalEntriesTableOrderingComposer,
+      $$GlJournalEntriesTableAnnotationComposer,
+      $$GlJournalEntriesTableCreateCompanionBuilder,
+      $$GlJournalEntriesTableUpdateCompanionBuilder,
+      (GlJournalEntryRow, $$GlJournalEntriesTableReferences),
+      GlJournalEntryRow,
+      PrefetchHooks Function({bool glJournalLinesRefs})
+    >;
+typedef $$GlJournalLinesTableCreateCompanionBuilder =
+    GlJournalLinesCompanion Function({
+      required String entryId,
+      required int lineNumber,
+      required String accountId,
+      Value<String> accountCode,
+      Value<String> accountName,
+      Value<int> debit,
+      Value<int> credit,
+      Value<String> description,
+      Value<int> rowid,
+    });
+typedef $$GlJournalLinesTableUpdateCompanionBuilder =
+    GlJournalLinesCompanion Function({
+      Value<String> entryId,
+      Value<int> lineNumber,
+      Value<String> accountId,
+      Value<String> accountCode,
+      Value<String> accountName,
+      Value<int> debit,
+      Value<int> credit,
+      Value<String> description,
+      Value<int> rowid,
+    });
+
+final class $$GlJournalLinesTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $GlJournalLinesTable, GlJournalLineRow> {
+  $$GlJournalLinesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $GlJournalEntriesTable _entryIdTable(_$AppDatabase db) => db
+      .glJournalEntries
+      .createAlias('gl_journal_lines__entry_id__gl_journal_entries__id');
+
+  $$GlJournalEntriesTableProcessedTableManager get entryId {
+    final $_column = $_itemColumn<String>('entry_id')!;
+
+    final manager = $$GlJournalEntriesTableTableManager(
+      $_db,
+      $_db.glJournalEntries,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_entryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$GlJournalLinesTableFilterComposer
+    extends Composer<_$AppDatabase, $GlJournalLinesTable> {
+  $$GlJournalLinesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get lineNumber => $composableBuilder(
+    column: $table.lineNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get accountId => $composableBuilder(
+    column: $table.accountId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get accountCode => $composableBuilder(
+    column: $table.accountCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get accountName => $composableBuilder(
+    column: $table.accountName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get debit => $composableBuilder(
+    column: $table.debit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get credit => $composableBuilder(
+    column: $table.credit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$GlJournalEntriesTableFilterComposer get entryId {
+    final $$GlJournalEntriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.entryId,
+      referencedTable: $db.glJournalEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GlJournalEntriesTableFilterComposer(
+            $db: $db,
+            $table: $db.glJournalEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$GlJournalLinesTableOrderingComposer
+    extends Composer<_$AppDatabase, $GlJournalLinesTable> {
+  $$GlJournalLinesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get lineNumber => $composableBuilder(
+    column: $table.lineNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get accountId => $composableBuilder(
+    column: $table.accountId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get accountCode => $composableBuilder(
+    column: $table.accountCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get accountName => $composableBuilder(
+    column: $table.accountName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get debit => $composableBuilder(
+    column: $table.debit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get credit => $composableBuilder(
+    column: $table.credit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$GlJournalEntriesTableOrderingComposer get entryId {
+    final $$GlJournalEntriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.entryId,
+      referencedTable: $db.glJournalEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GlJournalEntriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.glJournalEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$GlJournalLinesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $GlJournalLinesTable> {
+  $$GlJournalLinesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get lineNumber => $composableBuilder(
+    column: $table.lineNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get accountId =>
+      $composableBuilder(column: $table.accountId, builder: (column) => column);
+
+  GeneratedColumn<String> get accountCode => $composableBuilder(
+    column: $table.accountCode,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get accountName => $composableBuilder(
+    column: $table.accountName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get debit =>
+      $composableBuilder(column: $table.debit, builder: (column) => column);
+
+  GeneratedColumn<int> get credit =>
+      $composableBuilder(column: $table.credit, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  $$GlJournalEntriesTableAnnotationComposer get entryId {
+    final $$GlJournalEntriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.entryId,
+      referencedTable: $db.glJournalEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$GlJournalEntriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.glJournalEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$GlJournalLinesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $GlJournalLinesTable,
+          GlJournalLineRow,
+          $$GlJournalLinesTableFilterComposer,
+          $$GlJournalLinesTableOrderingComposer,
+          $$GlJournalLinesTableAnnotationComposer,
+          $$GlJournalLinesTableCreateCompanionBuilder,
+          $$GlJournalLinesTableUpdateCompanionBuilder,
+          (GlJournalLineRow, $$GlJournalLinesTableReferences),
+          GlJournalLineRow,
+          PrefetchHooks Function({bool entryId})
+        > {
+  $$GlJournalLinesTableTableManager(
+    _$AppDatabase db,
+    $GlJournalLinesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$GlJournalLinesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$GlJournalLinesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$GlJournalLinesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> entryId = const Value.absent(),
+                Value<int> lineNumber = const Value.absent(),
+                Value<String> accountId = const Value.absent(),
+                Value<String> accountCode = const Value.absent(),
+                Value<String> accountName = const Value.absent(),
+                Value<int> debit = const Value.absent(),
+                Value<int> credit = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GlJournalLinesCompanion(
+                entryId: entryId,
+                lineNumber: lineNumber,
+                accountId: accountId,
+                accountCode: accountCode,
+                accountName: accountName,
+                debit: debit,
+                credit: credit,
+                description: description,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String entryId,
+                required int lineNumber,
+                required String accountId,
+                Value<String> accountCode = const Value.absent(),
+                Value<String> accountName = const Value.absent(),
+                Value<int> debit = const Value.absent(),
+                Value<int> credit = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GlJournalLinesCompanion.insert(
+                entryId: entryId,
+                lineNumber: lineNumber,
+                accountId: accountId,
+                accountCode: accountCode,
+                accountName: accountName,
+                debit: debit,
+                credit: credit,
+                description: description,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$GlJournalLinesTable, GlJournalLineRow>(table),
+                  $$GlJournalLinesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({entryId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (entryId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.entryId,
+                        referencedTable: $$GlJournalLinesTableReferences
+                            ._entryIdTable(db),
+                        referencedColumn: $$GlJournalLinesTableReferences
+                            ._entryIdTable(db)
+                            .id,
+                      ) as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$GlJournalLinesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $GlJournalLinesTable,
+      GlJournalLineRow,
+      $$GlJournalLinesTableFilterComposer,
+      $$GlJournalLinesTableOrderingComposer,
+      $$GlJournalLinesTableAnnotationComposer,
+      $$GlJournalLinesTableCreateCompanionBuilder,
+      $$GlJournalLinesTableUpdateCompanionBuilder,
+      (GlJournalLineRow, $$GlJournalLinesTableReferences),
+      GlJournalLineRow,
+      PrefetchHooks Function({bool entryId})
+    >;
+typedef $$GlAccountsTableCreateCompanionBuilder = GlAccountsCompanion Function({
+  required String tenantId,
+  required String id,
+  required String code,
+  required String name,
+  Value<String> accountType,
+  Value<String> normalBalance,
+  Value<bool> allowsManualPosting,
+  Value<bool> isActive,
+  Value<int> rowid,
+});
+typedef $$GlAccountsTableUpdateCompanionBuilder = GlAccountsCompanion Function({
+  Value<String> tenantId,
+  Value<String> id,
+  Value<String> code,
+  Value<String> name,
+  Value<String> accountType,
+  Value<String> normalBalance,
+  Value<bool> allowsManualPosting,
+  Value<bool> isActive,
+  Value<int> rowid,
+});
+
+class $$GlAccountsTableFilterComposer
+    extends Composer<_$AppDatabase, $GlAccountsTable> {
+  $$GlAccountsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get accountType => $composableBuilder(
+    column: $table.accountType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get normalBalance => $composableBuilder(
+    column: $table.normalBalance,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get allowsManualPosting => $composableBuilder(
+    column: $table.allowsManualPosting,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$GlAccountsTableOrderingComposer
+    extends Composer<_$AppDatabase, $GlAccountsTable> {
+  $$GlAccountsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get accountType => $composableBuilder(
+    column: $table.accountType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get normalBalance => $composableBuilder(
+    column: $table.normalBalance,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get allowsManualPosting => $composableBuilder(
+    column: $table.allowsManualPosting,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$GlAccountsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $GlAccountsTable> {
+  $$GlAccountsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get accountType => $composableBuilder(
+    column: $table.accountType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get normalBalance => $composableBuilder(
+    column: $table.normalBalance,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get allowsManualPosting => $composableBuilder(
+    column: $table.allowsManualPosting,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+}
+
+class $$GlAccountsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $GlAccountsTable,
+          GlAccountRow,
+          $$GlAccountsTableFilterComposer,
+          $$GlAccountsTableOrderingComposer,
+          $$GlAccountsTableAnnotationComposer,
+          $$GlAccountsTableCreateCompanionBuilder,
+          $$GlAccountsTableUpdateCompanionBuilder,
+          (
+            GlAccountRow,
+            BaseReferences<_$AppDatabase, $GlAccountsTable, GlAccountRow>,
+          ),
+          GlAccountRow,
+          PrefetchHooks Function()
+        > {
+  $$GlAccountsTableTableManager(_$AppDatabase db, $GlAccountsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$GlAccountsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$GlAccountsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$GlAccountsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> accountType = const Value.absent(),
+                Value<String> normalBalance = const Value.absent(),
+                Value<bool> allowsManualPosting = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GlAccountsCompanion(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                name: name,
+                accountType: accountType,
+                normalBalance: normalBalance,
+                allowsManualPosting: allowsManualPosting,
+                isActive: isActive,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String code,
+                required String name,
+                Value<String> accountType = const Value.absent(),
+                Value<String> normalBalance = const Value.absent(),
+                Value<bool> allowsManualPosting = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GlAccountsCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                name: name,
+                accountType: accountType,
+                normalBalance: normalBalance,
+                allowsManualPosting: allowsManualPosting,
+                isActive: isActive,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$GlAccountsTable, GlAccountRow>(table),
+                  BaseReferences<_$AppDatabase, $GlAccountsTable, GlAccountRow>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$GlAccountsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $GlAccountsTable,
+      GlAccountRow,
+      $$GlAccountsTableFilterComposer,
+      $$GlAccountsTableOrderingComposer,
+      $$GlAccountsTableAnnotationComposer,
+      $$GlAccountsTableCreateCompanionBuilder,
+      $$GlAccountsTableUpdateCompanionBuilder,
+      (
+        GlAccountRow,
+        BaseReferences<_$AppDatabase, $GlAccountsTable, GlAccountRow>,
+      ),
+      GlAccountRow,
+      PrefetchHooks Function()
+    >;
+typedef $$GlTemplatesTableCreateCompanionBuilder =
+    GlTemplatesCompanion Function({
+      required String tenantId,
+      required String id,
+      required String code,
+      required String payload,
+      Value<int> rowid,
+    });
+typedef $$GlTemplatesTableUpdateCompanionBuilder =
+    GlTemplatesCompanion Function({
+      Value<String> tenantId,
+      Value<String> id,
+      Value<String> code,
+      Value<String> payload,
+      Value<int> rowid,
+    });
+
+class $$GlTemplatesTableFilterComposer
+    extends Composer<_$AppDatabase, $GlTemplatesTable> {
+  $$GlTemplatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$GlTemplatesTableOrderingComposer
+    extends Composer<_$AppDatabase, $GlTemplatesTable> {
+  $$GlTemplatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$GlTemplatesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $GlTemplatesTable> {
+  $$GlTemplatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+}
+
+class $$GlTemplatesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $GlTemplatesTable,
+          GlTemplateRow,
+          $$GlTemplatesTableFilterComposer,
+          $$GlTemplatesTableOrderingComposer,
+          $$GlTemplatesTableAnnotationComposer,
+          $$GlTemplatesTableCreateCompanionBuilder,
+          $$GlTemplatesTableUpdateCompanionBuilder,
+          (
+            GlTemplateRow,
+            BaseReferences<_$AppDatabase, $GlTemplatesTable, GlTemplateRow>,
+          ),
+          GlTemplateRow,
+          PrefetchHooks Function()
+        > {
+  $$GlTemplatesTableTableManager(_$AppDatabase db, $GlTemplatesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$GlTemplatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$GlTemplatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$GlTemplatesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GlTemplatesCompanion(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                payload: payload,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String id,
+                required String code,
+                required String payload,
+                Value<int> rowid = const Value.absent(),
+              }) => GlTemplatesCompanion.insert(
+                tenantId: tenantId,
+                id: id,
+                code: code,
+                payload: payload,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$GlTemplatesTable, GlTemplateRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $GlTemplatesTable,
+                    GlTemplateRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$GlTemplatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $GlTemplatesTable,
+      GlTemplateRow,
+      $$GlTemplatesTableFilterComposer,
+      $$GlTemplatesTableOrderingComposer,
+      $$GlTemplatesTableAnnotationComposer,
+      $$GlTemplatesTableCreateCompanionBuilder,
+      $$GlTemplatesTableUpdateCompanionBuilder,
+      (
+        GlTemplateRow,
+        BaseReferences<_$AppDatabase, $GlTemplatesTable, GlTemplateRow>,
+      ),
+      GlTemplateRow,
+      PrefetchHooks Function()
+    >;
+typedef $$GlReportSnapshotsTableCreateCompanionBuilder =
+    GlReportSnapshotsCompanion Function({
+      required String tenantId,
+      required String kind,
+      required String filterKey,
+      required String payload,
+      required DateTime syncedAt,
+      Value<int> rowid,
+    });
+typedef $$GlReportSnapshotsTableUpdateCompanionBuilder =
+    GlReportSnapshotsCompanion Function({
+      Value<String> tenantId,
+      Value<String> kind,
+      Value<String> filterKey,
+      Value<String> payload,
+      Value<DateTime> syncedAt,
+      Value<int> rowid,
+    });
+
+class $$GlReportSnapshotsTableFilterComposer
+    extends Composer<_$AppDatabase, $GlReportSnapshotsTable> {
+  $$GlReportSnapshotsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get filterKey => $composableBuilder(
+    column: $table.filterKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$GlReportSnapshotsTableOrderingComposer
+    extends Composer<_$AppDatabase, $GlReportSnapshotsTable> {
+  $$GlReportSnapshotsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tenantId => $composableBuilder(
+    column: $table.tenantId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get filterKey => $composableBuilder(
+    column: $table.filterKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$GlReportSnapshotsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $GlReportSnapshotsTable> {
+  $$GlReportSnapshotsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tenantId =>
+      $composableBuilder(column: $table.tenantId, builder: (column) => column);
+
+  GeneratedColumn<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<String> get filterKey =>
+      $composableBuilder(column: $table.filterKey, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+}
+
+class $$GlReportSnapshotsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $GlReportSnapshotsTable,
+          GlReportSnapshotRow,
+          $$GlReportSnapshotsTableFilterComposer,
+          $$GlReportSnapshotsTableOrderingComposer,
+          $$GlReportSnapshotsTableAnnotationComposer,
+          $$GlReportSnapshotsTableCreateCompanionBuilder,
+          $$GlReportSnapshotsTableUpdateCompanionBuilder,
+          (
+            GlReportSnapshotRow,
+            BaseReferences<
+              _$AppDatabase,
+              $GlReportSnapshotsTable,
+              GlReportSnapshotRow
+            >,
+          ),
+          GlReportSnapshotRow,
+          PrefetchHooks Function()
+        > {
+  $$GlReportSnapshotsTableTableManager(
+    _$AppDatabase db,
+    $GlReportSnapshotsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$GlReportSnapshotsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$GlReportSnapshotsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$GlReportSnapshotsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> tenantId = const Value.absent(),
+                Value<String> kind = const Value.absent(),
+                Value<String> filterKey = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => GlReportSnapshotsCompanion(
+                tenantId: tenantId,
+                kind: kind,
+                filterKey: filterKey,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String tenantId,
+                required String kind,
+                required String filterKey,
+                required String payload,
+                required DateTime syncedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => GlReportSnapshotsCompanion.insert(
+                tenantId: tenantId,
+                kind: kind,
+                filterKey: filterKey,
+                payload: payload,
+                syncedAt: syncedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$GlReportSnapshotsTable, GlReportSnapshotRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $GlReportSnapshotsTable,
+                    GlReportSnapshotRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$GlReportSnapshotsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $GlReportSnapshotsTable,
+      GlReportSnapshotRow,
+      $$GlReportSnapshotsTableFilterComposer,
+      $$GlReportSnapshotsTableOrderingComposer,
+      $$GlReportSnapshotsTableAnnotationComposer,
+      $$GlReportSnapshotsTableCreateCompanionBuilder,
+      $$GlReportSnapshotsTableUpdateCompanionBuilder,
+      (
+        GlReportSnapshotRow,
+        BaseReferences<
+          _$AppDatabase,
+          $GlReportSnapshotsTable,
+          GlReportSnapshotRow
+        >,
+      ),
+      GlReportSnapshotRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -23767,4 +28062,14 @@ class $AppDatabaseManager {
       $$MfgOperationTimersTableTableManager(_db, _db.mfgOperationTimers);
   $$MfgOutboxTableTableManager get mfgOutbox =>
       $$MfgOutboxTableTableManager(_db, _db.mfgOutbox);
+  $$GlJournalEntriesTableTableManager get glJournalEntries =>
+      $$GlJournalEntriesTableTableManager(_db, _db.glJournalEntries);
+  $$GlJournalLinesTableTableManager get glJournalLines =>
+      $$GlJournalLinesTableTableManager(_db, _db.glJournalLines);
+  $$GlAccountsTableTableManager get glAccounts =>
+      $$GlAccountsTableTableManager(_db, _db.glAccounts);
+  $$GlTemplatesTableTableManager get glTemplates =>
+      $$GlTemplatesTableTableManager(_db, _db.glTemplates);
+  $$GlReportSnapshotsTableTableManager get glReportSnapshots =>
+      $$GlReportSnapshotsTableTableManager(_db, _db.glReportSnapshots);
 }
