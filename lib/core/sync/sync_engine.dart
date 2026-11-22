@@ -48,6 +48,8 @@ class SyncEngine {
   static const Set<String> defaultTerminalEntities = <String>{
     'ai_captures',
     'shift_claims',
+    'helpdesk_time_entries',
+    'helpdesk_escalations',
   };
 
   final Set<String> terminalEntities;
