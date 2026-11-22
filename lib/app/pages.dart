@@ -15,6 +15,7 @@ import '../features/field_service/presentation/field_service_home_page.dart';
 import '../features/dss/presentation/executive_dss_page.dart';
 import '../features/analytical_accounting/presentation/analytical_page.dart';
 import '../features/customer_lifecycle/presentation/customer_lifecycle_page.dart';
+import '../features/project_billing/presentation/project_billing_page.dart';
 import '../features/project_evm/presentation/project_evm_page.dart';
 import '../features/general_ledger/presentation/gl_pages.dart';
 import '../features/general_ledger/presentation/gl_strings.dart';
@@ -176,6 +177,7 @@ class HomePage extends ConsumerWidget {
       'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
       'executive_dss' => const ExecutiveDssPage(),
       'project_profitability' => const ProjectEvmPage(),
+      'project_billing' => const ProjectBillingPage(),
       'analytical_accounting' => const AnalyticalAccountingPage(),
       'customer_360' => const CustomerLifecyclePage(),
       aiReviewModule => const AiSuggestionsPage(),
