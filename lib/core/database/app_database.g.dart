@@ -12271,7 +12271,7 @@ class $MfgOrdersTable extends MfgOrders
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'mfg_orders';
+  static const String $name = 'shop_floor_orders';
   @override
   VerificationContext validateIntegrity(
     Insertable<MfgOrderRow> instance, {
@@ -12604,7 +12604,7 @@ class MfgOrdersCompanion extends UpdateCompanion<MfgOrderRow> {
 }
 
 class $MfgWorkCentersTable extends MfgWorkCenters
-    with TableInfo<$MfgWorkCentersTable, MfgWorkCenterRow> {
+    with TableInfo<$MfgWorkCentersTable, ShopFloorWorkCenterRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -12655,10 +12655,10 @@ class $MfgWorkCentersTable extends MfgWorkCenters
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'mfg_work_centers';
+  static const String $name = 'shop_floor_work_centers';
   @override
   VerificationContext validateIntegrity(
-    Insertable<MfgWorkCenterRow> instance, {
+    Insertable<ShopFloorWorkCenterRow> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -12698,9 +12698,9 @@ class $MfgWorkCentersTable extends MfgWorkCenters
   @override
   Set<GeneratedColumn> get $primaryKey => {tenantId, id};
   @override
-  MfgWorkCenterRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ShopFloorWorkCenterRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return MfgWorkCenterRow(
+    return ShopFloorWorkCenterRow(
       tenantId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}tenant_id'],
@@ -12726,13 +12726,13 @@ class $MfgWorkCentersTable extends MfgWorkCenters
   }
 }
 
-class MfgWorkCenterRow extends DataClass
-    implements Insertable<MfgWorkCenterRow> {
+class ShopFloorWorkCenterRow extends DataClass
+    implements Insertable<ShopFloorWorkCenterRow> {
   final String tenantId;
   final String id;
   final String code;
   final String payload;
-  const MfgWorkCenterRow({
+  const ShopFloorWorkCenterRow({
     required this.tenantId,
     required this.id,
     required this.code,
@@ -12757,12 +12757,12 @@ class MfgWorkCenterRow extends DataClass
     );
   }
 
-  factory MfgWorkCenterRow.fromJson(
+  factory ShopFloorWorkCenterRow.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return MfgWorkCenterRow(
+    return ShopFloorWorkCenterRow(
       tenantId: serializer.fromJson<String>(json['tenantId']),
       id: serializer.fromJson<String>(json['id']),
       code: serializer.fromJson<String>(json['code']),
@@ -12780,19 +12780,19 @@ class MfgWorkCenterRow extends DataClass
     };
   }
 
-  MfgWorkCenterRow copyWith({
+  ShopFloorWorkCenterRow copyWith({
     String? tenantId,
     String? id,
     String? code,
     String? payload,
-  }) => MfgWorkCenterRow(
+  }) => ShopFloorWorkCenterRow(
     tenantId: tenantId ?? this.tenantId,
     id: id ?? this.id,
     code: code ?? this.code,
     payload: payload ?? this.payload,
   );
-  MfgWorkCenterRow copyWithCompanion(MfgWorkCentersCompanion data) {
-    return MfgWorkCenterRow(
+  ShopFloorWorkCenterRow copyWithCompanion(MfgWorkCentersCompanion data) {
+    return ShopFloorWorkCenterRow(
       tenantId: data.tenantId.present ? data.tenantId.value : this.tenantId,
       id: data.id.present ? data.id.value : this.id,
       code: data.code.present ? data.code.value : this.code,
@@ -12802,7 +12802,7 @@ class MfgWorkCenterRow extends DataClass
 
   @override
   String toString() {
-    return (StringBuffer('MfgWorkCenterRow(')
+    return (StringBuffer('ShopFloorWorkCenterRow(')
           ..write('tenantId: $tenantId, ')
           ..write('id: $id, ')
           ..write('code: $code, ')
@@ -12816,14 +12816,14 @@ class MfgWorkCenterRow extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is MfgWorkCenterRow &&
+      (other is ShopFloorWorkCenterRow &&
           other.tenantId == this.tenantId &&
           other.id == this.id &&
           other.code == this.code &&
           other.payload == this.payload);
 }
 
-class MfgWorkCentersCompanion extends UpdateCompanion<MfgWorkCenterRow> {
+class MfgWorkCentersCompanion extends UpdateCompanion<ShopFloorWorkCenterRow> {
   final Value<String> tenantId;
   final Value<String> id;
   final Value<String> code;
@@ -12846,7 +12846,7 @@ class MfgWorkCentersCompanion extends UpdateCompanion<MfgWorkCenterRow> {
        id = Value(id),
        code = Value(code),
        payload = Value(payload);
-  static Insertable<MfgWorkCenterRow> custom({
+  static Insertable<ShopFloorWorkCenterRow> custom({
     Expression<String>? tenantId,
     Expression<String>? id,
     Expression<String>? code,
@@ -12955,7 +12955,7 @@ class $MfgQualityPlansTable extends MfgQualityPlans
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'mfg_quality_plans';
+  static const String $name = 'shop_floor_quality_plans';
   @override
   VerificationContext validateIntegrity(
     Insertable<MfgQualityPlanRow> instance, {
@@ -13299,7 +13299,7 @@ class $MfgStagedLotsTable extends MfgStagedLots
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'mfg_staged_lots';
+  static const String $name = 'shop_floor_staged_lots';
   @override
   VerificationContext validateIntegrity(
     Insertable<MfgStagedLotRow> instance, {
@@ -13956,7 +13956,7 @@ class $MfgOperationTimersTable extends MfgOperationTimers
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'mfg_operation_timers';
+  static const String $name = 'shop_floor_operation_timers';
   @override
   VerificationContext validateIntegrity(
     Insertable<MfgOperationTimerRow> instance, {
@@ -14792,7 +14792,7 @@ class $MfgOutboxTable extends MfgOutbox
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'mfg_outbox';
+  static const String $name = 'shop_floor_outbox';
   @override
   VerificationContext validateIntegrity(
     Insertable<MfgOutboxRow> instance, {
@@ -22314,21 +22314,21 @@ class $$MfgWorkCentersTableTableManager
         RootTableManager<
           _$AppDatabase,
           $MfgWorkCentersTable,
-          MfgWorkCenterRow,
+          ShopFloorWorkCenterRow,
           $$MfgWorkCentersTableFilterComposer,
           $$MfgWorkCentersTableOrderingComposer,
           $$MfgWorkCentersTableAnnotationComposer,
           $$MfgWorkCentersTableCreateCompanionBuilder,
           $$MfgWorkCentersTableUpdateCompanionBuilder,
           (
-            MfgWorkCenterRow,
+            ShopFloorWorkCenterRow,
             BaseReferences<
               _$AppDatabase,
               $MfgWorkCentersTable,
-              MfgWorkCenterRow
+              ShopFloorWorkCenterRow
             >,
           ),
-          MfgWorkCenterRow,
+          ShopFloorWorkCenterRow,
           PrefetchHooks Function()
         > {
   $$MfgWorkCentersTableTableManager(
@@ -22375,11 +22375,13 @@ class $$MfgWorkCentersTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable<$MfgWorkCentersTable, MfgWorkCenterRow>(table),
+                  e.readTable<$MfgWorkCentersTable, ShopFloorWorkCenterRow>(
+                    table,
+                  ),
                   BaseReferences<
                     _$AppDatabase,
                     $MfgWorkCentersTable,
-                    MfgWorkCenterRow
+                    ShopFloorWorkCenterRow
                   >(db, table, e),
                 ),
               )
@@ -22393,17 +22395,21 @@ typedef $$MfgWorkCentersTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
       $MfgWorkCentersTable,
-      MfgWorkCenterRow,
+      ShopFloorWorkCenterRow,
       $$MfgWorkCentersTableFilterComposer,
       $$MfgWorkCentersTableOrderingComposer,
       $$MfgWorkCentersTableAnnotationComposer,
       $$MfgWorkCentersTableCreateCompanionBuilder,
       $$MfgWorkCentersTableUpdateCompanionBuilder,
       (
-        MfgWorkCenterRow,
-        BaseReferences<_$AppDatabase, $MfgWorkCentersTable, MfgWorkCenterRow>,
+        ShopFloorWorkCenterRow,
+        BaseReferences<
+          _$AppDatabase,
+          $MfgWorkCentersTable,
+          ShopFloorWorkCenterRow
+        >,
       ),
-      MfgWorkCenterRow,
+      ShopFloorWorkCenterRow,
       PrefetchHooks Function()
     >;
 typedef $$MfgQualityPlansTableCreateCompanionBuilder =

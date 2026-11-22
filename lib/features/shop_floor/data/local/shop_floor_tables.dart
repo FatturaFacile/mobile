@@ -27,6 +27,9 @@ abstract final class OutboxKind {
 /// Cached production orders (header columns for lookups, the API resource as JSON).
 @DataClassName('MfgOrderRow')
 class MfgOrders extends Table {
+  @override
+  String get tableName => 'shop_floor_orders';
+
   TextColumn get tenantId => text()();
   TextColumn get id => text()();
   TextColumn get orderNumber => text()();
@@ -38,8 +41,11 @@ class MfgOrders extends Table {
   Set<Column<Object>> get primaryKey => <Column<Object>>{tenantId, id};
 }
 
-@DataClassName('MfgWorkCenterRow')
+@DataClassName('ShopFloorWorkCenterRow')
 class MfgWorkCenters extends Table {
+  @override
+  String get tableName => 'shop_floor_work_centers';
+
   TextColumn get tenantId => text()();
   TextColumn get id => text()();
   TextColumn get code => text()();
@@ -51,6 +57,9 @@ class MfgWorkCenters extends Table {
 
 @DataClassName('MfgQualityPlanRow')
 class MfgQualityPlans extends Table {
+  @override
+  String get tableName => 'shop_floor_quality_plans';
+
   TextColumn get tenantId => text()();
   TextColumn get id => text()();
   TextColumn get payload => text()();
@@ -62,6 +71,9 @@ class MfgQualityPlans extends Table {
 /// Raw-material lots scanned and held until the operator backflushes them.
 @DataClassName('MfgStagedLotRow')
 class MfgStagedLots extends Table {
+  @override
+  String get tableName => 'shop_floor_staged_lots';
+
   TextColumn get id => text()();
   TextColumn get tenantId => text()();
   TextColumn get orderId => text()();
@@ -82,6 +94,9 @@ class MfgStagedLots extends Table {
 /// Operator stopwatch and counters of one operation, persisted across app restarts.
 @DataClassName('MfgOperationTimerRow')
 class MfgOperationTimers extends Table {
+  @override
+  String get tableName => 'shop_floor_operation_timers';
+
   TextColumn get tenantId => text()();
   TextColumn get operationId => text()();
   TextColumn get orderId => text()();
@@ -104,6 +119,9 @@ class MfgOperationTimers extends Table {
 /// idempotency key (and the `operation_posting_uuid` of a confirmation) and never changes across retries.
 @DataClassName('MfgOutboxRow')
 class MfgOutbox extends Table {
+  @override
+  String get tableName => 'shop_floor_outbox';
+
   IntColumn get sequence => integer().autoIncrement()();
   TextColumn get uuid => text().unique()();
   TextColumn get tenantId => text()();
