@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/providers.dart';
+import '../../features/inventory_count/presentation/inventory_count_controller.dart';
 import '../../features/purchase_requisitions/presentation/providers/pr_providers.dart';
 import 'sync_engine.dart';
 
@@ -56,6 +57,7 @@ final Provider<SyncOrchestrator> syncOrchestratorProvider =
         hooks: <SyncHook>[
           (String tenantId) =>
               ref.read(syncPurchaseRequisitionsUseCaseProvider).call(tenantId),
+          (String tenantId) => syncInventoryCounts(ref, tenantId),
         ],
       ),
     );

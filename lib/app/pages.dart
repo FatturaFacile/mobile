@@ -12,9 +12,16 @@ import '../features/copilot/presentation/copilot_controller.dart'
 import '../features/entities/entity_definition.dart';
 import '../features/dss/presentation/executive_dss_page.dart';
 import '../features/analytical_accounting/presentation/analytical_page.dart';
+import '../features/customer_lifecycle/presentation/customer_lifecycle_page.dart';
 import '../features/project_evm/presentation/project_evm_page.dart';
+import '../features/general_ledger/presentation/gl_pages.dart';
+import '../features/general_ledger/presentation/gl_strings.dart';
 import '../features/security/presentation/security_providers.dart';
 import '../features/payslip_vault/presentation/payslip_pages.dart';
+import '../features/gelato/presentation/gelato_page.dart';
+import '../features/inventory_count/domain/inventory_count_models.dart'
+    show inventoryCountModule;
+import '../features/inventory_count/presentation/inventory_count_pages.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
 import '../features/shop_floor/presentation/shop_floor_home_page.dart';
 import '../features/security/presentation/security_screen.dart';
@@ -163,9 +170,13 @@ class HomePage extends ConsumerWidget {
       'executive_dss' => const ExecutiveDssPage(),
       'project_profitability' => const ProjectEvmPage(),
       'analytical_accounting' => const AnalyticalAccountingPage(),
+      'customer_360' => const CustomerLifecyclePage(),
       aiReviewModule => const AiSuggestionsPage(),
       shiftSelfServiceModule => const ShiftHomePage(),
+      gelatoModule => const GelatoHomePage(),
+      generalLedgerModule => const GlHomePage(),
       payslipVaultModule => const PayslipVaultPage(),
+      inventoryCountModule => const InventoryCountListPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
         tenantId: b.tenantId,
         userId: b.userId,
@@ -217,6 +228,9 @@ class HomePage extends ConsumerWidget {
     }
     if (shopFloorModules.contains(module)) {
       return AppLocalizations.of(context).mfgTitle;
+    }
+    if (module == generalLedgerModule) {
+      return GlStrings(ref.read(requestContextProvider).languageCode)(GL.title);
     }
     if (module == aiReviewModule) {
       return copilotStrings(ref.read(requestContextProvider).languageCode)

@@ -1,5 +1,7 @@
 import 'package:drift/drift.dart';
 
+import '../../features/general_ledger/data/local/gl_dao.dart';
+import '../../features/general_ledger/data/local/gl_tables.dart';
 import '../../features/manufacturing/data/local/manufacturing_dao.dart';
 import '../../features/manufacturing/data/local/manufacturing_tables.dart';
 import '../../features/purchase_requisitions/data/local/purchase_requisition_dao.dart';
@@ -214,14 +216,19 @@ class PermissionSnapshots extends Table {
     MfgStagedLots,
     MfgOperationTimers,
     MfgOutbox,
+    GlJournalEntries,
+    GlJournalLines,
+    GlAccounts,
+    GlTemplates,
+    GlReportSnapshots,
   ],
-  daos: <Type>[PurchaseRequisitionDao, ManufacturingDao],
+  daos: <Type>[PurchaseRequisitionDao, ManufacturingDao, GlDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   /// Two release lines used the same version numbers for different tables, so a device may be at version 2–4
   /// with either set. Every step creates its tables only when they are missing.
@@ -262,6 +269,13 @@ class AppDatabase extends _$AppDatabase {
         await _ensureTable(m, mfgStagedLots);
         await _ensureTable(m, mfgOperationTimers);
         await _ensureTable(m, mfgOutbox);
+      }
+      if (from < 7) {
+        await _ensureTable(m, glJournalEntries);
+        await _ensureTable(m, glJournalLines);
+        await _ensureTable(m, glAccounts);
+        await _ensureTable(m, glTemplates);
+        await _ensureTable(m, glReportSnapshots);
       }
     },
     beforeOpen: (OpeningDetails details) async {
