@@ -106,3 +106,33 @@ photos of a work order are stored before its `service_report`, whose payload the
 uploaded so far). Missing file, 413, 422, 403, 404 -> conflict (retry or discard, discard drops the photo); offline and 401
 stop the flush; 5xx/429 back off and hold back later operations. A photo already on the server cannot be removed from the
 phone. Per photo the screen shows queued / uploaded / failed.
+
+## 8. Project portfolio and WBS (`lib/features/project_portfolio`, Mod 078, #187)
+
+Offline-first on the generic entity store (no Drift table, no schema bump). Sync entities, pulled with the usual delta
+`GET /mobile/sync/{entity}` (`projects`, `wbs_nodes`, `task_dependencies`, `project_baselines`); JSON keys are snake_case
+and decimals travel as strings. Enum values are read tolerantly (`on_hold` = `onHold`).
+
+| Entity | Writes from the device (outbox, client UUID v7 as `id`, `Idempotency-Key` per row) |
+| --- | --- |
+| `projects` | `PUT /projects/{id}` with the changed fields among `name`, `status`, `cup_code`, `cig_code` |
+| `wbs_nodes` | `POST /projects/{projectId}/wbs-nodes`, `PUT /projects/wbs-nodes/{id}`, `DELETE /projects/wbs-nodes/{id}` |
+| `task_dependencies` | `POST /projects/{projectId}/dependencies`, `DELETE /projects/task-dependencies/{id}` |
+| `project_baselines` | `POST /projects/{projectId}/baselines` `{baseline_number, name, captured_at, snapshot_json}` |
+
+Shapes: `Project` (`project_code`, `project_type` client_billable|internal_r_and_d|capex_investment, `billing_model`
+time_and_materials|fixed_price|sal_progress|retainer, `status` planning|active|on_hold|completed|cancelled, `cup_code`,
+`cig_code`, rolled-up `planned_hours`, `actual_hours`, `planned_cost`, `actual_cost`, `planned_revenue`,
+`percent_complete`), `WbsNode` (`parent_node_id`, `wbs_code`, `node_type` phase|deliverable|work_package|milestone, figures,
+`start_date`, `end_date`, `percent_complete`, `sort_order`, `early_*`, `late_*`, `total_float_days`, `free_float_days`,
+`is_critical`), `TaskDependency` (`predecessor_node_id`, `successor_node_id`, `dependency_type` fs|ss|ff|sf, `lag_days`),
+`ProjectBaseline` (`baseline_number`, `name`, `captured_at`, `snapshot_json` = `{"nodes":[{id, wbs_code, title,
+start_date, end_date, planned_hours, planned_cost, planned_revenue}]}`).
+
+The device recomputes what it shows from the local records, so edits made offline are consistent at once and the server
+values win again on the next pull: summary nodes show the sum of their children (progress weighted by planned hours, dates
+spanning the children), and the schedule runs CPM on the leaf nodes (FS/SS/FF/SF with lag or lead in days, planned start
+as "start no earlier than", milestones with no duration). A dependency that would close a loop, or duplicate a link, is
+refused before it is queued. CUP (15) and CIG (10) are checked as upper-case alphanumeric before saving; the server remains
+the authority. Kanban columns derive from progress (0 / 1-99 / 100). The module key in the bootstrap payload is
+`project_portfolio`.
