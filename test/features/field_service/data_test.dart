@@ -871,6 +871,331 @@ void main() {
       expect(await h.store.workOrder(tenant, woCorrective), isNull);
     });
   });
+
+  group('photo upload', () {
+    Future<ReportPhoto> shoot(
+      String name, {
+      FsmPhotoStage? stage,
+      String? caption,
+      bool onPhone = true,
+    }) {
+      if (onPhone) h.files['/data/$name'] = <int>[1, 2, 3, 4];
+      return h.repo.addPhoto(
+        woCorrective,
+        localPath: '/data/$name',
+        name: name,
+        stage: stage,
+        caption: caption,
+      );
+    }
+
+    List<String> paths() =>
+        h.api.calls.map((RequestOptions c) => c.path).toList();
+
+    test(
+      'a photo is queued as an upload operation keyed by its own id',
+      () async {
+        final ReportPhoto photo = await shoot(
+          'a.jpg',
+          stage: FsmPhotoStage.before,
+          caption: '  worn belt ',
+        );
+
+        final FsmOperation op = (await h.store.operations(tenant)).single;
+        expect(op.type, FsmOperationType.photoUpload);
+        expect(op.clientUuid, photo.id);
+        expect(op.payload['local_path'], '/data/a.jpg');
+        expect(op.payload['stage'], 'before');
+        expect(op.payload['caption'], 'worn belt');
+        final ReportPhoto stored = (await detail()).photos.single;
+        expect(stored.upload, FsmPhotoUpload.queued);
+        expect(stored.stage, FsmPhotoStage.before);
+        expect(stored.caption, 'worn belt');
+        expect(
+          h.api.photoUploads,
+          isEmpty,
+          reason: 'nothing is sent before a sync',
+        );
+        await expectLater(
+          shoot('b.jpg', caption: 'x' * 256),
+          throwsA(
+            isA<FsmException>().having(
+              (FsmException e) => e.errors['caption'],
+              'caption',
+              'max',
+            ),
+          ),
+        );
+      },
+    );
+
+    test(
+      'photos upload before the report and their server ids go into photo_ids',
+      () async {
+        await h.repo.advanceStatus(woCorrective, FsmStatus.enRoute);
+        await h.repo.advanceStatus(woCorrective, FsmStatus.onSite);
+        final ReportPhoto first = await shoot(
+          'a.jpg',
+          stage: FsmPhotoStage.after,
+        );
+        await shoot('b.jpg');
+        await h.repo.signAndClose(woCorrective, await h.validDraft());
+        h.api.calls.clear();
+
+        final FsmFlushReport report = await h.outbox.flush(tenant);
+
+        expect(report.applied, 5);
+        expect(paths(), <String>[
+          '/fsm/mobile-sync',
+          '/fsm/work-orders/$woCorrective/photos',
+          '/fsm/work-orders/$woCorrective/photos',
+          '/fsm/mobile-sync',
+        ], reason: 'the statuses, then each photo alone, then the report');
+        final Map<String, dynamic> upload = h.api.photoUploads.first;
+        expect(upload['client_uuid'], first.id);
+        expect(upload['idempotency_key'], first.id);
+        expect(upload['file_field'], 'photo');
+        expect(upload['filename'], 'a.jpg');
+        expect(upload['size'], 4);
+        expect(upload['stage'], 'after');
+        expect(upload['captured_at'], isNotNull);
+        expect(h.api.photoUploads.last.containsKey('stage'), isFalse);
+
+        final List<Map<String, dynamic>> reportOps = h.api.opsOf(1);
+        expect(reportOps.single['type'], 'service_report');
+        expect(reportOps.single['payload']['photo_ids'], <String>[
+          'srv-1',
+          'srv-2',
+        ]);
+        final List<ReportPhoto> photos = (await detail()).photos;
+        expect(
+          photos.map((ReportPhoto p) => p.upload),
+          everyElement(FsmPhotoUpload.uploaded),
+        );
+        expect(photos.map((ReportPhoto p) => p.serverId), <String?>[
+          'srv-1',
+          'srv-2',
+        ]);
+      },
+    );
+
+    test('a report without photos carries no photo_ids', () async {
+      await h.repo.advanceStatus(woCorrective, FsmStatus.onSite);
+      await h.repo.signAndClose(woCorrective, await h.validDraft());
+
+      await h.outbox.flush(tenant);
+
+      final Map<String, dynamic> payload =
+          h.api.opsOf(0).last['payload'] as Map<String, dynamic>;
+      expect(payload.containsKey('photo_ids'), isFalse);
+    });
+
+    test(
+      'a lost answer is retried with the same client_uuid and not duplicated',
+      () async {
+        final ReportPhoto photo = await shoot('a.jpg');
+        h.api.dropNextPhotoAnswer = true;
+
+        final FsmFlushReport lost = await h.outbox.flush(tenant);
+        expect(lost.offline, isTrue);
+        final FsmOperation waiting = (await h.store.operations(tenant)).single;
+        expect(waiting.state, FsmOutboxState.pending);
+        expect(waiting.attempts, 0, reason: 'offline is not an attempt');
+
+        final FsmFlushReport retry = await h.outbox.flush(tenant);
+
+        expect(
+          retry.duplicates,
+          1,
+          reason: 'the server answered 200: already stored',
+        );
+        expect(h.api.photoUploads, hasLength(2));
+        expect(
+          h.api.photoUploads.map((Map<String, dynamic> u) => u['client_uuid']),
+          <String>[photo.id, photo.id],
+        );
+        expect(h.api.photoIds, hasLength(1));
+        final ReportPhoto stored = (await detail()).photos.single;
+        expect(stored.upload, FsmPhotoUpload.uploaded);
+        expect(stored.serverId, 'srv-1');
+        expect((await h.store.operation(photo.id))!.replayed, isTrue);
+      },
+    );
+
+    test('a file gone from the phone is a conflict: the rest goes on and the report omits it', () async {
+      await h.repo.advanceStatus(woCorrective, FsmStatus.onSite);
+      final ReportPhoto gone = await shoot('gone.jpg', onPhone: false);
+      await shoot('ok.jpg');
+      await h.repo.signAndClose(woCorrective, await h.validDraft());
+
+      final FsmFlushReport report = await h.outbox.flush(tenant);
+
+      expect(report.rejected, 1);
+      expect(
+        h.api.photoUploads,
+        hasLength(1),
+        reason: 'the missing file never reached the server',
+      );
+      expect(h.api.opsOf(1).single['type'], 'service_report');
+      expect(h.api.opsOf(1).single['payload']['photo_ids'], <String>['srv-1']);
+      final FsmOperation op = (await h.store.conflicts(tenant)).single;
+      expect(op.clientUuid, gone.id);
+      expect(op.errors['photo'], <String>['file_missing']);
+      expect(
+        (await detail()).photos
+            .firstWhere((ReportPhoto p) => p.id == gone.id)
+            .upload,
+        FsmPhotoUpload.failed,
+      );
+
+      await h.repo.discardOperation(gone.id);
+      expect(
+        (await detail()).photos.map((ReportPhoto p) => p.id),
+        isNot(contains(gone.id)),
+      );
+      expect(await h.store.conflicts(tenant), isEmpty);
+    });
+
+    test('a retried conflict uploads once the file is back, with its original client_uuid', () async {
+      final ReportPhoto photo = await shoot('late.jpg', onPhone: false);
+      await h.outbox.flush(tenant);
+      expect((await detail()).photos.single.upload, FsmPhotoUpload.failed);
+
+      h.files['/data/late.jpg'] = <int>[9];
+      await h.repo.retryOperation(photo.id);
+      final FsmFlushReport report = await h.outbox.flush(tenant);
+
+      expect(report.applied, 1);
+      expect(h.api.photoUploads.single['client_uuid'], photo.id);
+      expect((await detail()).photos.single.upload, FsmPhotoUpload.uploaded);
+    });
+
+    for (final ({int status, String error}) c in <({int status, String error})>[
+      (status: 413, error: 'too_large'),
+      (status: 422, error: 'HTTP 0'),
+    ]) {
+      test(
+        '${c.status} from the photo endpoint is a conflict, the next operation still goes',
+        () async {
+          await h.repo.advanceStatus(woCorrective, FsmStatus.enRoute);
+          final ReportPhoto photo = await shoot('big.jpg');
+          await h.repo.advanceStatus(woCorrective, FsmStatus.onSite);
+          h.api.photoFailStatus = c.status;
+
+          final FsmFlushReport report = await h.outbox.flush(tenant);
+
+          expect(report.rejected, 1);
+          expect(report.applied, 2, reason: 'both status steps');
+          final FsmOperation op = (await h.store.conflicts(tenant)).single;
+          expect(op.clientUuid, photo.id);
+          expect(op.errors.keys, <String>['photo']);
+          if (c.status == 413) expect(op.errors['photo'], <String>[c.error]);
+          expect((await detail()).photos.single.upload, FsmPhotoUpload.failed);
+        },
+      );
+    }
+
+    test(
+      'offline and 401 stop the flush without touching what follows',
+      () async {
+        await shoot('a.jpg');
+        await h.repo.advanceStatus(woCorrective, FsmStatus.enRoute);
+
+        h.api.offline = true;
+        expect((await h.outbox.flush(tenant)).offline, isTrue);
+        h.api.offline = false;
+        h.api.photoFailStatus = 401;
+        final FsmFlushReport unauthorized = await h.outbox.flush(tenant);
+
+        expect(unauthorized.unauthorized, isTrue);
+        expect(
+          h.api.syncs,
+          isEmpty,
+          reason: 'the status step waited behind the photo',
+        );
+        expect(
+          (await h.store.operations(tenant))
+              .every((FsmOperation o) => o.state == FsmOutboxState.pending),
+          isTrue,
+        );
+      },
+    );
+
+    test(
+      'a server error backs the photo off and holds back the report',
+      () async {
+        await h.repo.advanceStatus(woCorrective, FsmStatus.onSite);
+        await shoot('a.jpg');
+        await h.repo.signAndClose(woCorrective, await h.validDraft());
+        h.api.photoFailStatus = 503;
+        h.api.calls.clear();
+
+        final FsmFlushReport first = await h.outbox.flush(tenant);
+
+        expect(first.failed, 1);
+        expect(
+          first.deferred,
+          1,
+          reason: 'the report must not overtake the photo',
+        );
+        expect(h.api.syncs, hasLength(1), reason: 'only the status step');
+        final FsmOperation photoOp = (await h.store.operations(tenant))
+            .firstWhere(
+              (FsmOperation o) => o.type == FsmOperationType.photoUpload,
+            );
+        expect(photoOp.state, FsmOutboxState.failed);
+
+        h.api.photoFailStatus = null;
+        h.clock.advance(const Duration(minutes: 1));
+        final FsmFlushReport second = await h.outbox.flush(tenant);
+
+        expect(second.applied, 2);
+        expect(h.api.opsOf(1).single['payload']['photo_ids'], <String>[
+          'srv-1',
+        ]);
+      },
+    );
+
+    test('a photo can be removed until the server has it', () async {
+      final ReportPhoto queued = await shoot('a.jpg');
+      await h.repo.removePhoto(woCorrective, queued.id);
+      expect((await detail()).photos, isEmpty);
+      expect(await h.store.operations(tenant), isEmpty);
+
+      final ReportPhoto sent = await shoot('b.jpg');
+      await h.outbox.flush(tenant);
+      await expectLater(
+        h.repo.removePhoto(woCorrective, sent.id),
+        throwsA(
+          isA<FsmException>().having(
+            (FsmException e) => e.errors['photo'],
+            'photo',
+            'already_synced',
+          ),
+        ),
+      );
+      expect((await detail()).photos, hasLength(1));
+    });
+
+    test(
+      'a photo kept before the upload existed shows as failed, not as queued',
+      () async {
+        await h.store.insertPhoto(
+          tenant,
+          woCorrective,
+          ReportPhoto(
+            id: 'legacy',
+            path: 'fsm/x/legacy.jpg',
+            name: 'legacy.jpg',
+            takenAt: DateTime.utc(2030),
+            localPath: '/data/legacy.jpg',
+          ),
+        );
+
+        expect((await detail()).photos.single.upload, FsmPhotoUpload.failed);
+      },
+    );
+  });
 }
 
 Dio _dioOf(FsmHarness h) =>

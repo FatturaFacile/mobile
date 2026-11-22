@@ -956,6 +956,85 @@ void main() {
       expect(repo.calls, <String>['remove-photo:ph-9']);
     });
 
+    testWidgets('the chosen stage and caption go with the next photo', (
+      WidgetTester tester,
+    ) async {
+      final FakeFsmRepository repo = onSiteRepo();
+      await open(
+        tester,
+        repo,
+        device: FieldServiceDeviceHooks(
+          takePhoto: () async => (localPath: '/data/a.jpg', name: 'a.jpg'),
+        ),
+      );
+
+      await tester.tap(keyed('fsm-photo-stage-before'));
+      await tester.pump();
+      await tester.enterText(keyed('fsm-photo-caption'), 'worn belt');
+      await tester.tap(keyed('fsm-add-photo'));
+      await tester.pumpAndSettle();
+
+      expect(repo.calls, <String>['photo:a.jpg:/data/a.jpg:before:worn belt']);
+    });
+
+    testWidgets(
+      'each photo shows queued, uploaded or failed; only the failed one can be retried and an uploaded one cannot be removed',
+      (WidgetTester tester) async {
+        final FakeFsmRepository repo = onSiteRepo();
+        ReportPhoto photo(String id, FsmPhotoUpload upload) => ReportPhoto(
+          id: id,
+          path: 'fsm/x/$id.jpg',
+          name: '$id.jpg',
+          takenAt: DateTime.utc(2030),
+          upload: upload,
+          stage: id == 'q' ? FsmPhotoStage.after : null,
+          caption: id == 'q' ? 'cleaned' : null,
+        );
+        repo.detailValue = FsmWorkOrderDetail(
+          workOrder: repo.detailValue!.workOrder,
+          coverage: repo.detailValue!.coverage,
+          site: repo.detailValue!.site,
+          checklist: repo.detailValue!.checklist,
+          photos: <ReportPhoto>[
+            photo('q', FsmPhotoUpload.queued),
+            photo('u', FsmPhotoUpload.uploaded),
+            photo('f', FsmPhotoUpload.failed),
+          ],
+        );
+        await open(tester, repo);
+
+        expect(
+          find.descendant(
+            of: keyed('fsm-photo-q'),
+            matching: find.text('Waiting to upload'),
+          ),
+          findsOneWidget,
+        );
+        expect(find.text('After · cleaned'), findsOneWidget);
+        expect(
+          find.descendant(
+            of: keyed('fsm-photo-u'),
+            matching: find.text('Uploaded'),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: keyed('fsm-photo-f'),
+            matching: find.text('Upload failed'),
+          ),
+          findsOneWidget,
+        );
+        expect(keyed('fsm-photo-remove-u'), findsNothing);
+        expect(keyed('fsm-photo-retry-q'), findsNothing);
+        expect(keyed('fsm-photo-retry-u'), findsNothing);
+
+        await tester.tap(keyed('fsm-photo-retry-f'));
+        await tester.pumpAndSettle();
+        expect(repo.calls, <String>['retry:f']);
+      },
+    );
+
     testWidgets(
       'GPS that is unavailable is reported and the report is still signed',
       (WidgetTester tester) async {

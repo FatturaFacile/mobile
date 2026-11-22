@@ -120,14 +120,22 @@ class FakeFsmRepository implements FieldServiceRepository {
     required String localPath,
     required String name,
     DateTime? takenAt,
+    FsmPhotoStage? stage,
+    String? caption,
   }) async {
-    calls.add('photo:$name:$localPath');
+    calls.add(
+      'photo:$name:$localPath'
+      '${stage == null ? '' : ':${stage.wire}'}'
+      '${(caption ?? '').isEmpty ? '' : ':$caption'}',
+    );
     return ReportPhoto(
       id: 'ph-1',
       path: 'fsm/$workOrderId/$name',
       name: name,
       takenAt: DateTime.utc(2030),
       localPath: localPath,
+      stage: stage,
+      caption: caption,
     );
   }
 

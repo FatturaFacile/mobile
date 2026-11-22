@@ -55,6 +55,8 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
   ({double latitude, double longitude})? _fix;
   String? _gpsMessage;
   String? _photoMessage;
+  FsmPhotoStage? _photoStage;
+  final TextEditingController _photoCaption = TextEditingController();
   Map<String, String> _errors = <String, String>{};
 
   @override
@@ -77,6 +79,7 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
       _meterCycles,
       _signer,
       _role,
+      _photoCaption,
     ]) {
       c.dispose();
     }
@@ -148,8 +151,13 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
         widget.workOrderId,
         localPath: shot.localPath,
         name: shot.name,
+        stage: _photoStage,
+        caption: _photoCaption.text,
       );
-      if (mounted) setState(() => _photoMessage = null);
+      if (mounted) {
+        setState(() => _photoMessage = null);
+        _photoCaption.clear();
+      }
     } on FsmException catch (e) {
       if (mounted) {
         setState(
@@ -230,6 +238,13 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
       });
     }
   }
+
+  String _stageLabel(FieldServiceStrings s, FsmPhotoStage stage) =>
+      s.t(switch (stage) {
+        FsmPhotoStage.before => FsmText.stageBefore,
+        FsmPhotoStage.during => FsmText.stageDuring,
+        FsmPhotoStage.after => FsmText.stageAfter,
+      });
 
   String? _fieldError(FieldServiceStrings s, String field) {
     final String? code = _errors[field];
@@ -385,7 +400,31 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
           s.t(FsmText.photosTitle),
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        if (widget.device.takePhoto != null)
+        if (widget.device.takePhoto != null) ...<Widget>[
+          Wrap(
+            spacing: FfSpace.space2,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              Text(s.t(FsmText.photoStage)),
+              for (final FsmPhotoStage stage in FsmPhotoStage.values)
+                ChoiceChip(
+                  key: Key('fsm-photo-stage-${stage.wire}'),
+                  label: Text(_stageLabel(s, stage)),
+                  selected: _photoStage == stage,
+                  onSelected: (bool on) =>
+                      setState(() => _photoStage = on ? stage : null),
+                ),
+            ],
+          ),
+          TextField(
+            key: const Key('fsm-photo-caption'),
+            controller: _photoCaption,
+            maxLength: 255,
+            decoration: InputDecoration(
+              labelText: s.t(FsmText.photoCaption),
+              counterText: '',
+            ),
+          ),
           Align(
             alignment: Alignment.centerLeft,
             child: OutlinedButton.icon(
@@ -395,6 +434,7 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
               label: Text(s.t(FsmText.addPhoto)),
             ),
           ),
+        ],
         Text(
           fill(s.t(FsmText.photosCount), <String, Object>{
             'count': detail.photos.length,
@@ -411,12 +451,50 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
             contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.image_outlined),
             title: Text(photo.name),
-            trailing: IconButton(
-              key: Key('fsm-photo-remove-${photo.id}'),
-              tooltip: s.t(FsmText.removePhoto),
-              icon: const Icon(Icons.close),
-              onPressed: () =>
-                  widget.repository.removePhoto(widget.workOrderId, photo.id),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                if (photo.stage != null || (photo.caption ?? '').isNotEmpty)
+                  Text(
+                    <String>[
+                      if (photo.stage != null) _stageLabel(s, photo.stage!),
+                      if ((photo.caption ?? '').isNotEmpty) photo.caption!,
+                    ].join(' · '),
+                  ),
+                Text(
+                  s.t(switch (photo.upload) {
+                    FsmPhotoUpload.queued => FsmText.photoQueued,
+                    FsmPhotoUpload.uploaded => FsmText.photoUploaded,
+                    FsmPhotoUpload.failed => FsmText.photoFailed,
+                  }),
+                  key: Key('fsm-photo-state-${photo.id}'),
+                  style: photo.upload == FsmPhotoUpload.failed
+                      ? TextStyle(color: errorColor)
+                      : null,
+                ),
+              ],
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                if (photo.upload == FsmPhotoUpload.failed)
+                  TextButton(
+                    key: Key('fsm-photo-retry-${photo.id}'),
+                    onPressed: () => widget.repository.retryOperation(photo.id),
+                    child: Text(s.t(FsmText.retry)),
+                  ),
+                // A photo the server already stores cannot be taken back from here.
+                if (photo.upload != FsmPhotoUpload.uploaded)
+                  IconButton(
+                    key: Key('fsm-photo-remove-${photo.id}'),
+                    tooltip: s.t(FsmText.removePhoto),
+                    icon: const Icon(Icons.close),
+                    onPressed: () => widget.repository.removePhoto(
+                      widget.workOrderId,
+                      photo.id,
+                    ),
+                  ),
+              ],
             ),
           ),
         if (widget.device.locate != null) ...<Widget>[

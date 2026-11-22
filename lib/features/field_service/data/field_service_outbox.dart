@@ -7,6 +7,9 @@ import '../../../core/network/api_client.dart';
 import '../models/field_service_models.dart';
 import 'field_service_store.dart';
 
+/// Reads the bytes of a photo kept on the phone at send time; null when the file is gone.
+typedef FsmPhotoReader = Future<List<int>?> Function(String path);
+
 /// Result of one [FieldServiceOutbox.flush] run.
 class FsmFlushReport {
   const FsmFlushReport({
@@ -39,33 +42,76 @@ class FsmFlushReport {
   int get sent => applied + duplicates;
 }
 
-/// Sends the queued offline operations to `POST /api/v1/fsm/mobile-sync`.
+/// Running counters of one flush.
+class _Tally {
+  int applied = 0;
+  int duplicates = 0;
+  int rejected = 0;
+  int failed = 0;
+  int deferred = 0;
+  bool offline = false;
+  bool unauthorized = false;
+
+  FsmFlushReport toReport() => FsmFlushReport(
+    applied: applied,
+    duplicates: duplicates,
+    rejected: rejected,
+    failed: failed,
+    deferred: deferred,
+    offline: offline,
+    unauthorized: unauthorized,
+  );
+}
+
+/// What to do after sending a batch or a photo.
+enum _Step {
+  /// Carry on with the next operation.
+  next,
+
+  /// The server is struggling: the rest waits for the next cycle.
+  pause,
+
+  /// Offline or unauthorized: stop now (the flag is set on the tally).
+  stop,
+}
+
+/// Sends the queued offline operations to `POST /api/v1/fsm/mobile-sync` and the photos to
+/// `POST /api/v1/fsm/work-orders/{id}/photos`.
 ///
 /// * Operations go oldest first, in batches of at most [batchSize] (the API takes 200), so a status change never overtakes
-///   the one before it and the report is always applied after the parts it bills.
+///   the one before it and the report is always applied after the parts it bills. A photo upload is sent on its own,
+///   in its place in the queue, so the photos of a work order are always stored before its report; the server ids they
+///   returned travel in the report as `photo_ids`.
 /// * Every operation carries its `client_uuid`, generated when it was queued and resent unchanged on every retry. The
-///   server answers `duplicate` for one it already applied, so a retry after a lost answer changes nothing.
+///   server answers `duplicate` (200 for a photo) for one it already applied, so a retry after a lost answer changes nothing.
 /// * `rejected` results (field errors) are kept as conflicts for the technician and never resent on their own; one rejection
-///   does not stop the rest of the batch.
+///   does not stop the rest of the batch. A photo whose file is gone, or that the server refuses (413, 422), is one too.
 /// * Transient failures (5xx, 429) back off exponentially; being offline neither counts as an attempt nor delays anything.
 class FieldServiceOutbox {
   FieldServiceOutbox(
     this._store,
     this._dio, {
     DateTime Function()? clock,
+    FsmPhotoReader? readPhoto,
     this.batchSize = 200,
     this.baseBackoff = const Duration(seconds: 5),
     this.maxBackoff = const Duration(minutes: 15),
-  }) : _clock = clock ?? DateTime.now;
+  }) : _clock = clock ?? DateTime.now,
+       _readPhoto = readPhoto;
 
   final FieldServiceStore _store;
   final Dio _dio;
   final DateTime Function() _clock;
+  final FsmPhotoReader? _readPhoto;
   final int batchSize;
   final Duration baseBackoff;
   final Duration maxBackoff;
 
   static const String syncPath = '/fsm/mobile-sync';
+
+  /// `POST` path of the photo upload of a work order.
+  static String photosPath(String workOrderId) =>
+      '/fsm/work-orders/$workOrderId/photos';
 
   Future<FsmFlushReport>? _running;
 
@@ -85,22 +131,7 @@ class FieldServiceOutbox {
       _running ??= _flush(tenantId).whenComplete(() => _running = null);
 
   Future<FsmFlushReport> _flush(String tenantId) async {
-    var applied = 0;
-    var duplicates = 0;
-    var rejected = 0;
-    var failed = 0;
-    var deferred = 0;
-
-    FsmFlushReport report({bool offline = false, bool unauthorized = false}) =>
-        FsmFlushReport(
-          applied: applied,
-          duplicates: duplicates,
-          rejected: rejected,
-          failed: failed,
-          deferred: deferred,
-          offline: offline,
-          unauthorized: unauthorized,
-        );
+    final _Tally tally = _Tally();
 
     final DateTime now = _clock().toUtc();
     final List<FsmOperation> all = await _store.activeOperations(tenantId);
@@ -111,88 +142,227 @@ class FieldServiceOutbox {
       // An operation that waits blocks its successors: a later one must not overtake it.
       if (blocked || (next != null && next.isAfter(now))) {
         blocked = true;
-        deferred++;
+        tally.deferred++;
       } else {
         due.add(op);
       }
     }
 
-    for (var i = 0; i < due.length; i += batchSize) {
-      final List<FsmOperation> chunk = due.sublist(
-        i,
-        i + batchSize > due.length ? due.length : i + batchSize,
-      );
-      try {
-        final Response<dynamic> res = await _dio.post<dynamic>(
-          syncPath,
-          data: <String, dynamic>{
-            'operations': chunk.map((FsmOperation o) => o.toWire()).toList(),
-          },
-          options: Options(
-            headers: <String, dynamic>{
-              'Idempotency-Key': chunk.first.clientUuid,
-            },
-          ),
-        );
-        final Map<String, FsmSyncResult> results = _results(res.data);
-        for (final FsmOperation op in chunk) {
-          final FsmSyncResult? result = results[op.clientUuid];
-          if (result == null) {
-            // The server did not account for it: try again later.
-            await _fail(op, 'missing_result');
-            failed++;
-          } else if (result.rejected) {
-            await _store.markRejected(
-              op.clientUuid,
-              errors: result.errors,
-              message: _summary(result.errors),
-            );
-            rejected++;
-          } else {
-            await _acknowledge(op, result);
-            if (result.duplicate) {
-              duplicates++;
-            } else {
-              applied++;
-            }
-          }
+    var i = 0;
+    while (i < due.length) {
+      final _Step step;
+      if (due[i].type == FsmOperationType.photoUpload) {
+        step = await _sendPhoto(due[i], tally);
+        i++;
+      } else {
+        var end = i;
+        while (end < due.length &&
+            end - i < batchSize &&
+            due[end].type != FsmOperationType.photoUpload) {
+          end++;
         }
-      } on DioException catch (e) {
-        final Failure f = mapDioError(e);
-        if (f is NetworkFailure) return report(offline: true);
-        if (f is UnauthorizedFailure) return report(unauthorized: true);
-        final int? status = f is ServerFailure ? f.statusCode : null;
-        final bool permanent =
-            f is ForbiddenFailure ||
-            f is ValidationFailure ||
-            f is ConflictFailure ||
-            status == 404;
-        for (final FsmOperation op in chunk) {
-          if (permanent) {
-            await _store.markRejected(
-              op.clientUuid,
-              errors: f is ValidationFailure
-                  ? f.fieldErrors
-                  : const <String, List<String>>{},
-              message: f.message.isEmpty ? 'HTTP ${status ?? 0}' : f.message,
-            );
-            rejected++;
-          } else {
-            await _fail(
-              op,
-              f.message.isEmpty ? 'HTTP ${status ?? 0}' : f.message,
-            );
-            failed++;
-          }
-        }
-        if (!permanent) {
-          // The server is struggling: the later batches wait for the next cycle.
-          deferred += due.length - (i + chunk.length);
-          return report();
-        }
+        step = await _sendBatch(due.sublist(i, end), tally);
+        i = end;
+      }
+      if (step == _Step.stop) return tally.toReport();
+      if (step == _Step.pause) {
+        tally.deferred += due.length - i;
+        return tally.toReport();
       }
     }
-    return report();
+    return tally.toReport();
+  }
+
+  Future<_Step> _sendBatch(List<FsmOperation> chunk, _Tally tally) async {
+    try {
+      final List<Map<String, dynamic>> wire = <Map<String, dynamic>>[
+        for (final FsmOperation o in chunk) await _wire(o),
+      ];
+      final Response<dynamic> res = await _dio.post<dynamic>(
+        syncPath,
+        data: <String, dynamic>{'operations': wire},
+        options: Options(
+          headers: <String, dynamic>{'Idempotency-Key': chunk.first.clientUuid},
+        ),
+      );
+      final Map<String, FsmSyncResult> results = _results(res.data);
+      for (final FsmOperation op in chunk) {
+        final FsmSyncResult? result = results[op.clientUuid];
+        if (result == null) {
+          // The server did not account for it: try again later.
+          await _fail(op, 'missing_result');
+          tally.failed++;
+        } else if (result.rejected) {
+          await _store.markRejected(
+            op.clientUuid,
+            errors: result.errors,
+            message: _summary(result.errors),
+          );
+          tally.rejected++;
+        } else {
+          await _acknowledge(op, result);
+          if (result.duplicate) {
+            tally.duplicates++;
+          } else {
+            tally.applied++;
+          }
+        }
+      }
+      return _Step.next;
+    } on DioException catch (e) {
+      final Failure f = mapDioError(e);
+      if (f is NetworkFailure) {
+        tally.offline = true;
+        return _Step.stop;
+      }
+      if (f is UnauthorizedFailure) {
+        tally.unauthorized = true;
+        return _Step.stop;
+      }
+      final int? status = f is ServerFailure ? f.statusCode : null;
+      final bool permanent =
+          f is ForbiddenFailure ||
+          f is ValidationFailure ||
+          f is ConflictFailure ||
+          status == 404;
+      for (final FsmOperation op in chunk) {
+        if (permanent) {
+          await _store.markRejected(
+            op.clientUuid,
+            errors: f is ValidationFailure
+                ? f.fieldErrors
+                : const <String, List<String>>{},
+            message: f.message.isEmpty ? 'HTTP ${status ?? 0}' : f.message,
+          );
+          tally.rejected++;
+        } else {
+          await _fail(
+            op,
+            f.message.isEmpty ? 'HTTP ${status ?? 0}' : f.message,
+          );
+          tally.failed++;
+        }
+      }
+      return permanent ? _Step.next : _Step.pause;
+    }
+  }
+
+  /// One entry of the batch. The report also names the photos the server already stored.
+  Future<Map<String, dynamic>> _wire(FsmOperation op) async {
+    if (op.type != FsmOperationType.serviceReport) return op.toWire();
+    final List<String> ids = await _store.photoServerIds(
+      op.tenantId,
+      op.workOrderId,
+    );
+    if (ids.isEmpty) return op.toWire();
+    return <String, dynamic>{
+      ...op.toWire(),
+      'payload': <String, dynamic>{...op.payload, 'photo_ids': ids},
+    };
+  }
+
+  /// Uploads one photo as multipart, reading the file now. The same `client_uuid` goes out on every retry.
+  Future<_Step> _sendPhoto(FsmOperation op, _Tally tally) async {
+    final Object? localPath = op.payload['local_path'];
+    final FsmPhotoReader? reader = _readPhoto;
+    final List<int>? bytes = localPath is String && reader != null
+        ? await reader(localPath)
+        : null;
+    if (bytes == null) {
+      await _store.markRejected(
+        op.clientUuid,
+        errors: const <String, List<String>>{
+          'photo': <String>['file_missing'],
+        },
+        message: 'file_missing',
+      );
+      tally.rejected++;
+      return _Step.next;
+    }
+    final Object? stage = op.payload['stage'];
+    final Object? caption = op.payload['caption'];
+    final Object? capturedAt = op.payload['captured_at'];
+    try {
+      final Response<dynamic> res = await _dio.post<dynamic>(
+        photosPath(op.workOrderId),
+        // A FormData can be sent once: it is rebuilt on every attempt.
+        data: FormData.fromMap(<String, dynamic>{
+          'photo': MultipartFile.fromBytes(
+            bytes,
+            filename: '${op.payload['name'] ?? 'photo.jpg'}',
+          ),
+          'client_uuid': op.clientUuid,
+          'stage': ?stage,
+          'caption': ?caption,
+          'captured_at': ?capturedAt,
+        }),
+        options: Options(
+          headers: <String, dynamic>{'Idempotency-Key': op.clientUuid},
+          // The shared retry interceptor would resend an already consumed FormData: the outbox backoff retries instead.
+          extra: <String, dynamic>{'retry': 99},
+        ),
+      );
+      final dynamic body = res.data;
+      final dynamic data = body is Map ? body['data'] : null;
+      final Object? id = data is Map ? data['id'] : null;
+      if (id == null) {
+        await _fail(op, 'invalid_response');
+        tally.failed++;
+        return _Step.pause;
+      }
+      await _store.setPhotoServerId(op.tenantId, op.clientUuid, '$id');
+      final bool replay = res.statusCode == 200;
+      await _store.markDone(
+        op.clientUuid,
+        replayed: replay,
+        result: <String, dynamic>{
+          'id': '$id',
+          if (data is Map && data['url'] != null) 'url': data['url'],
+        },
+        now: _clock().toUtc(),
+      );
+      if (replay) {
+        tally.duplicates++;
+      } else {
+        tally.applied++;
+      }
+      return _Step.next;
+    } on DioException catch (e) {
+      final Failure f = mapDioError(e);
+      if (f is NetworkFailure) {
+        tally.offline = true;
+        return _Step.stop;
+      }
+      if (f is UnauthorizedFailure) {
+        tally.unauthorized = true;
+        return _Step.stop;
+      }
+      final int? status = f is ServerFailure ? f.statusCode : null;
+      final bool permanent =
+          f is ForbiddenFailure ||
+          f is ValidationFailure ||
+          f is ConflictFailure ||
+          status == 404 ||
+          status == 413;
+      if (permanent) {
+        await _store.markRejected(
+          op.clientUuid,
+          errors: f is ValidationFailure && f.fieldErrors.isNotEmpty
+              ? f.fieldErrors
+              : <String, List<String>>{
+                  'photo': <String>[
+                    status == 413 ? 'too_large' : 'HTTP ${status ?? 0}',
+                  ],
+                },
+          message: f.message.isEmpty ? 'HTTP ${status ?? 0}' : f.message,
+        );
+        tally.rejected++;
+        return _Step.next;
+      }
+      await _fail(op, f.message.isEmpty ? 'HTTP ${status ?? 0}' : f.message);
+      tally.failed++;
+      return _Step.pause;
+    }
   }
 
   Map<String, FsmSyncResult> _results(dynamic body) {

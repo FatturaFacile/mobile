@@ -70,7 +70,8 @@ class FieldServiceStore {
         'payload TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY (tenant_id, client_uuid))',
     'CREATE TABLE IF NOT EXISTS fsm_photos ('
         'tenant_id TEXT NOT NULL, id TEXT NOT NULL, work_order_id TEXT NOT NULL, path TEXT NOT NULL, '
-        'name TEXT NOT NULL, taken_at TEXT NOT NULL, local_path TEXT, PRIMARY KEY (tenant_id, id))',
+        'name TEXT NOT NULL, taken_at TEXT NOT NULL, local_path TEXT, stage TEXT, caption TEXT, server_id TEXT, '
+        'PRIMARY KEY (tenant_id, id))',
     'CREATE TABLE IF NOT EXISTS fsm_reports ('
         'tenant_id TEXT NOT NULL, work_order_id TEXT NOT NULL, client_uuid TEXT NOT NULL, '
         'signature_sha256 TEXT NOT NULL, signed_at TEXT NOT NULL, payload TEXT NOT NULL, '
@@ -87,6 +88,20 @@ class FieldServiceStore {
   Future<void> _create() async {
     for (final String statement in _ddl) {
       await _db.customStatement(statement);
+    }
+    // Photos created before the upload existed lack these columns (no schema bump: the tables live outside Drift).
+    final List<QueryRow> columns = await _db
+        .customSelect('PRAGMA table_info(fsm_photos)')
+        .get();
+    final Set<String> have = <String>{
+      for (final QueryRow c in columns) '${c.data['name']}',
+    };
+    for (final String column in <String>['stage', 'caption', 'server_id']) {
+      if (!have.contains(column)) {
+        await _db.customStatement(
+          'ALTER TABLE fsm_photos ADD COLUMN $column TEXT',
+        );
+      }
     }
   }
 
@@ -577,10 +592,12 @@ class FieldServiceStore {
 
   // ------------------------------------------------------------------ photos
 
+  /// The photos of a work order with their upload state, derived from the upload operation (same id as the photo).
   Future<List<ReportPhoto>> photos(String tenantId, String workOrderId) async {
     final List<Map<String, Object?>> rows = await _rows(
-      'SELECT id, path, name, taken_at, local_path FROM fsm_photos '
-      'WHERE tenant_id = ? AND work_order_id = ? ORDER BY taken_at, id',
+      'SELECT p.id, p.path, p.name, p.taken_at, p.local_path, p.stage, p.caption, p.server_id, '
+      'o.state AS op_state FROM fsm_photos p LEFT JOIN fsm_outbox o ON o.client_uuid = p.id '
+      'WHERE p.tenant_id = ? AND p.work_order_id = ? ORDER BY p.taken_at, p.id',
       <Object?>[tenantId, workOrderId],
     );
     return <ReportPhoto>[
@@ -591,8 +608,26 @@ class FieldServiceStore {
           name: '${r['name']}',
           takenAt: DateTime.parse('${r['taken_at']}'),
           localPath: r['local_path'] as String?,
+          stage: FsmPhotoStage.fromWire(r['stage'] as String?),
+          caption: r['caption'] as String?,
+          serverId: r['server_id'] as String?,
+          upload: _uploadState(
+            r['server_id'] as String?,
+            r['op_state'] as int?,
+          ),
         ),
     ];
+  }
+
+  FsmPhotoUpload _uploadState(String? serverId, int? opState) {
+    if (serverId != null || opState == FsmOutboxState.done) {
+      return FsmPhotoUpload.uploaded;
+    }
+    // No operation at all: a photo taken before the upload existed, nothing will ever send it.
+    if (opState == null || opState == FsmOutboxState.rejected) {
+      return FsmPhotoUpload.failed;
+    }
+    return FsmPhotoUpload.queued;
   }
 
   Future<void> insertPhoto(
@@ -601,8 +636,9 @@ class FieldServiceStore {
     ReportPhoto photo,
   ) async {
     await _exec(
-      'INSERT OR REPLACE INTO fsm_photos (tenant_id, id, work_order_id, path, name, taken_at, local_path) '
-      'VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT OR REPLACE INTO fsm_photos '
+      '(tenant_id, id, work_order_id, path, name, taken_at, local_path, stage, caption, server_id) '
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       <Object?>[
         tenantId,
         photo.id,
@@ -611,9 +647,40 @@ class FieldServiceStore {
         photo.name,
         _iso(photo.takenAt),
         photo.localPath,
+        photo.stage?.wire,
+        photo.caption,
+        photo.serverId,
       ],
     );
     _notify();
+  }
+
+  /// Remembers the id the server gave to an uploaded photo.
+  Future<void> setPhotoServerId(
+    String tenantId,
+    String id,
+    String serverId,
+  ) async {
+    await _exec(
+      'UPDATE fsm_photos SET server_id = ? WHERE tenant_id = ? AND id = ?',
+      <Object?>[serverId, tenantId, id],
+    );
+    _notify();
+  }
+
+  /// Server ids of the photos of a work order already uploaded, oldest first (the report's `photo_ids`).
+  Future<List<String>> photoServerIds(
+    String tenantId,
+    String workOrderId,
+  ) async {
+    final List<Map<String, Object?>> rows = await _rows(
+      'SELECT server_id FROM fsm_photos WHERE tenant_id = ? AND work_order_id = ? AND server_id IS NOT NULL '
+      'ORDER BY taken_at, id',
+      <Object?>[tenantId, workOrderId],
+    );
+    return <String>[
+      for (final Map<String, Object?> r in rows) '${r['server_id']}',
+    ];
   }
 
   Future<void> deletePhoto(String tenantId, String id) async {

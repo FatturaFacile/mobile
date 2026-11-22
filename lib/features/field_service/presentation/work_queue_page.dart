@@ -340,5 +340,6 @@ class _SyncConflictsDialogState extends State<SyncConflictsDialog> {
     FsmOperationType.statusTransition => s.t(FsmText.opStatusChange),
     FsmOperationType.partConsumption => s.t(FsmText.opPartConsumption),
     FsmOperationType.serviceReport => s.t(FsmText.reportTitle),
+    FsmOperationType.photoUpload => s.t(FsmText.opPhotoUpload),
   };
 }

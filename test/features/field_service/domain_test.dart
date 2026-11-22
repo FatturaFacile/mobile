@@ -717,4 +717,48 @@ void main() {
       );
     });
   });
+
+  group('photo upload model', () {
+    test('the upload payload carries the file name, capture time, stage and trimmed caption', () {
+      final ReportPhoto photo = ReportPhoto(
+        id: 'p1',
+        path: 'fsm/x/a.jpg',
+        name: 'a.jpg',
+        takenAt: DateTime.utc(2030, 1, 2, 3),
+        localPath: '/data/a.jpg',
+        stage: FsmPhotoStage.during,
+        caption: ' belt ',
+      );
+
+      expect(photo.toUploadPayload(), <String, dynamic>{
+        'local_path': '/data/a.jpg',
+        'name': 'a.jpg',
+        'captured_at': '2030-01-02T03:00:00.000Z',
+        'stage': 'during',
+        'caption': 'belt',
+      });
+      expect(photo.upload, FsmPhotoUpload.queued);
+      expect(
+        ReportPhoto(
+          id: 'p2',
+          path: 'x',
+          name: 'b.jpg',
+          takenAt: DateTime.utc(2030),
+          localPath: '/b',
+          caption: '  ',
+        ).toUploadPayload().keys,
+        <String>['local_path', 'name', 'captured_at'],
+      );
+    });
+
+    test('stages and the operation type round-trip their wire values', () {
+      expect(FsmPhotoStage.fromWire('after'), FsmPhotoStage.after);
+      expect(FsmPhotoStage.fromWire('later'), isNull);
+      expect(FsmPhotoStage.fromWire(null), isNull);
+      expect(
+        FsmOperationType.fromWire('photo_upload'),
+        FsmOperationType.photoUpload,
+      );
+    });
+  });
 }
