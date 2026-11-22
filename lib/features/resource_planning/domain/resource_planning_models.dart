@@ -849,3 +849,403 @@ class UtilizationReport {
   final List<UtilizationRow> rows;
   final UtilizationRow totals;
 }
+
+// --- Planning setup: lookups, allocation drafts, skills, targets, holidays --------------------------------------
+
+final RegExp _uuidPattern = RegExp(
+  r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+);
+
+/// Whether [value] (trimmed) is a UUID, the identifier format of the API.
+bool isUuid(String value) => _uuidPattern.hasMatch(value.trim());
+
+/// Highest hours per day an allocation may carry.
+const double maxAllocationHoursPerDay = 24;
+
+/// Bookable employee of `GET /resources` (an employee with an active contract).
+@immutable
+class ResourceLookup {
+  const ResourceLookup({
+    required this.employeeId,
+    required this.fullName,
+    this.departmentId,
+    this.departmentName,
+    this.costCenterId,
+    this.costCenterName,
+    this.weeklyContractHours = 0,
+    this.fteRatio = 0,
+    this.hourlyCost = 0,
+    this.country = '',
+    this.region,
+  });
+
+  factory ResourceLookup.fromJson(Map<String, dynamic> json) => ResourceLookup(
+    employeeId: _str(json['employee_id']),
+    fullName: _str(json['full_name']),
+    departmentId: _strOrNull(json['department_id']),
+    departmentName: _strOrNull(json['department_name']),
+    costCenterId: _strOrNull(json['cost_center_id']),
+    costCenterName: _strOrNull(json['cost_center_name']),
+    weeklyContractHours: _num(json['weekly_contract_hours']),
+    fteRatio: _num(json['fte_ratio']),
+    hourlyCost: _num(json['hourly_cost']),
+    country: _str(json['country']),
+    region: _strOrNull(json['region']),
+  );
+
+  final String employeeId;
+  final String fullName;
+  final String? departmentId;
+  final String? departmentName;
+  final String? costCenterId;
+  final String? costCenterName;
+  final double weeklyContractHours;
+  final double fteRatio;
+  final double hourlyCost;
+  final String country;
+  final String? region;
+}
+
+/// Project reference of the picker (`GET /projects`).
+@immutable
+class ProjectRef {
+  const ProjectRef({required this.id, required this.name, this.number = ''});
+
+  factory ProjectRef.fromJson(Map<String, dynamic> json) => ProjectRef(
+    id: _str(json['id']),
+    name: _str(json['name']),
+    number: _str(json['project_number']),
+  );
+
+  final String id;
+  final String name;
+  final String number;
+
+  /// `P-001 - Website relaunch`, or the name alone without a number.
+  String get label => number.isEmpty ? name : '$number - $name';
+}
+
+/// A rule an [AllocationDraft] breaks before it is sent.
+enum AllocationDraftIssue {
+  employeeRequired,
+  invalidPeriod,
+  invalidHours,
+  projectRequired,
+  referenceRequired,
+  invalidOpportunityId,
+}
+
+/// Body of `POST /allocations`.
+@immutable
+class AllocationDraft {
+  const AllocationDraft({
+    required this.employeeId,
+    required this.bookingType,
+    required this.startDate,
+    required this.endDate,
+    required this.allocatedHoursPerDay,
+    this.projectId,
+    this.wbsNodeId,
+    this.opportunityId,
+    this.isBillable = true,
+    this.notes,
+    this.allowOverload = true,
+    this.requiredSkillIds = const <String>[],
+  });
+
+  final String employeeId;
+  final BookingType bookingType;
+
+  /// `Y-m-d`.
+  final String startDate;
+
+  /// `Y-m-d`.
+  final String endDate;
+  final double allocatedHoursPerDay;
+  final String? projectId;
+  final String? wbsNodeId;
+  final String? opportunityId;
+  final bool isBillable;
+  final String? notes;
+  final bool allowOverload;
+  final List<String> requiredSkillIds;
+
+  /// Every rule the draft breaks: a hard booking needs a project, a soft one a project or an opportunity.
+  List<AllocationDraftIssue> validate() {
+    final bool hasProject = projectId != null && projectId!.trim().isNotEmpty;
+    final String opportunity = opportunityId?.trim() ?? '';
+    return <AllocationDraftIssue>[
+      if (employeeId.trim().isEmpty) AllocationDraftIssue.employeeRequired,
+      if (startDate.isEmpty || endDate.isEmpty || endDate.compareTo(startDate) < 0)
+        AllocationDraftIssue.invalidPeriod,
+      if (allocatedHoursPerDay <= 0 || allocatedHoursPerDay > maxAllocationHoursPerDay)
+        AllocationDraftIssue.invalidHours,
+      if (!bookingType.isSoft && !hasProject) AllocationDraftIssue.projectRequired,
+      if (bookingType.isSoft && !hasProject && opportunity.isEmpty)
+        AllocationDraftIssue.referenceRequired,
+      if (opportunity.isNotEmpty && !isUuid(opportunity))
+        AllocationDraftIssue.invalidOpportunityId,
+    ];
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'project_id': ?(projectId == null || projectId!.trim().isEmpty ? null : projectId!.trim()),
+    'wbs_node_id': ?wbsNodeId,
+    'employee_id': employeeId,
+    'booking_type': bookingType.wire,
+    'start_date': startDate,
+    'end_date': endDate,
+    'allocated_hours_per_day': allocatedHoursPerDay,
+    'is_billable': isBillable,
+    'crm_opportunity_id': ?(opportunityId == null || opportunityId!.trim().isEmpty
+        ? null
+        : opportunityId!.trim()),
+    'notes': ?(notes == null || notes!.trim().isEmpty ? null : notes!.trim()),
+    'allow_overload': allowOverload,
+    if (requiredSkillIds.isNotEmpty) 'required_skill_ids': requiredSkillIds,
+  };
+}
+
+/// A rule a [SkillDraft] breaks before it is sent.
+enum SkillDraftIssue { categoryRequired, nameRequired, certificationCodeRequired }
+
+/// Body of `POST /skills` and `PUT /skills/{id}`.
+@immutable
+class SkillDraft {
+  const SkillDraft({
+    required this.category,
+    required this.skillName,
+    this.requiresCertification = false,
+    this.certificationCode,
+  });
+
+  factory SkillDraft.fromSkill(Skill s) => SkillDraft(
+    category: s.category,
+    skillName: s.skillName,
+    requiresCertification: s.requiresCertification,
+    certificationCode: s.certificationCode,
+  );
+
+  final String category;
+  final String skillName;
+  final bool requiresCertification;
+  final String? certificationCode;
+
+  List<SkillDraftIssue> validate() => <SkillDraftIssue>[
+    if (category.trim().isEmpty) SkillDraftIssue.categoryRequired,
+    if (skillName.trim().isEmpty) SkillDraftIssue.nameRequired,
+    if (requiresCertification && (certificationCode ?? '').trim().isEmpty)
+      SkillDraftIssue.certificationCodeRequired,
+  ];
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'category': category.trim(),
+    'skill_name': skillName.trim(),
+    'requires_certification': requiresCertification,
+    'certification_code': ?(requiresCertification && (certificationCode ?? '').trim().isNotEmpty
+        ? certificationCode!.trim()
+        : null),
+  };
+}
+
+/// Lowest proficiency level of a skill profile.
+const int minProficiencyLevel = 1;
+
+/// Highest proficiency level of a skill profile.
+const int maxProficiencyLevel = 5;
+
+/// A rule a [SkillProfileDraft] breaks before it is sent.
+enum SkillProfileDraftIssue { employeeRequired, skillRequired, invalidLevel }
+
+/// Body of `POST /employee-skill-profiles` (upsert on employee and skill).
+@immutable
+class SkillProfileDraft {
+  const SkillProfileDraft({
+    required this.employeeId,
+    required this.skillId,
+    required this.proficiencyLevel,
+    this.validUntilDate,
+  });
+
+  final String employeeId;
+  final String skillId;
+  final int proficiencyLevel;
+
+  /// `Y-m-d`, null when the skill never lapses.
+  final String? validUntilDate;
+
+  List<SkillProfileDraftIssue> validate() => <SkillProfileDraftIssue>[
+    if (employeeId.trim().isEmpty) SkillProfileDraftIssue.employeeRequired,
+    if (skillId.trim().isEmpty) SkillProfileDraftIssue.skillRequired,
+    if (proficiencyLevel < minProficiencyLevel || proficiencyLevel > maxProficiencyLevel)
+      SkillProfileDraftIssue.invalidLevel,
+  ];
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'employee_id': employeeId,
+    'skill_id': skillId,
+    'proficiency_level': proficiencyLevel,
+    'valid_until_date': ?validUntilDate,
+  };
+}
+
+/// Billable utilization target of a department, a cost center or (both null) the whole tenant.
+@immutable
+class UtilizationTarget {
+  const UtilizationTarget({
+    required this.id,
+    required this.targetPercent,
+    this.departmentId,
+    this.costCenterId,
+  });
+
+  factory UtilizationTarget.fromJson(Map<String, dynamic> json) =>
+      UtilizationTarget(
+        id: _str(json['id']),
+        departmentId: _strOrNull(json['department_id']),
+        costCenterId: _strOrNull(json['cost_center_id']),
+        targetPercent: _num(json['target_percent']),
+      );
+
+  final String id;
+  final String? departmentId;
+  final String? costCenterId;
+  final double targetPercent;
+
+  /// The tenant-wide default (no department, no cost center).
+  bool get isDefault => departmentId == null && costCenterId == null;
+}
+
+/// Body of `PUT /utilization-targets`; both ids null updates the tenant default.
+@immutable
+class UtilizationTargetDraft {
+  const UtilizationTargetDraft({
+    required this.targetPercent,
+    this.departmentId,
+    this.costCenterId,
+  });
+
+  final double targetPercent;
+  final String? departmentId;
+  final String? costCenterId;
+
+  /// A target is a percentage between 0 and 100 and is bound to one scope at most.
+  bool get isValid =>
+      targetPercent >= 0 &&
+      targetPercent <= 100 &&
+      !(departmentId != null && costCenterId != null);
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'department_id': ?departmentId,
+    'cost_center_id': ?costCenterId,
+    'target_percent': targetPercent,
+  };
+}
+
+/// Holiday that only applies to the tenant (e.g. a company closing day).
+@immutable
+class LocalHoliday {
+  const LocalHoliday({
+    required this.id,
+    required this.country,
+    required this.month,
+    required this.day,
+    required this.name,
+    this.regionCode,
+    this.municipality,
+    this.year,
+    this.dayFraction = 1,
+  });
+
+  factory LocalHoliday.fromJson(Map<String, dynamic> json) => LocalHoliday(
+    id: _str(json['id']),
+    country: _str(json['country']),
+    regionCode: _strOrNull(json['region_code']),
+    municipality: _strOrNull(json['municipality']),
+    month: _int(json['month']),
+    day: _int(json['day']),
+    year: json['year'] == null ? null : _int(json['year']),
+    name: _str(json['name']),
+    dayFraction: json['day_fraction'] == null ? 1 : _num(json['day_fraction']),
+  );
+
+  final String id;
+  final String country;
+  final String? regionCode;
+  final String? municipality;
+  final int month;
+  final int day;
+
+  /// Null for a holiday that repeats every year.
+  final int? year;
+  final String name;
+
+  /// 1 for a full day, 0.5 for a half day.
+  final double dayFraction;
+
+  /// `MM-DD` for a yearly holiday, `YYYY-MM-DD` for a one-off.
+  String get dateLabel {
+    final String md =
+        '${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+    return year == null ? md : '${year.toString().padLeft(4, '0')}-$md';
+  }
+}
+
+/// A rule a [LocalHolidayDraft] breaks before it is sent.
+enum LocalHolidayDraftIssue { nameRequired, invalidCountry, invalidDate, invalidFraction }
+
+/// Countries the holiday calendars cover.
+const List<String> holidayCountries = <String>['CH', 'IT'];
+
+/// Body of `POST /local-holidays`.
+@immutable
+class LocalHolidayDraft {
+  const LocalHolidayDraft({
+    required this.country,
+    required this.month,
+    required this.day,
+    required this.name,
+    this.regionCode,
+    this.municipality,
+    this.year,
+    this.dayFraction = 1,
+  });
+
+  final String country;
+  final int month;
+  final int day;
+  final String name;
+  final String? regionCode;
+  final String? municipality;
+  final int? year;
+  final double dayFraction;
+
+  List<LocalHolidayDraftIssue> validate() {
+    // A yearly holiday is checked against a leap year so that 29 February stays possible.
+    final int checkYear = year ?? 2024;
+    final bool validDate =
+        month >= 1 &&
+        month <= 12 &&
+        day >= 1 &&
+        day <= DateTime.utc(checkYear, month + 1, 0).day;
+    return <LocalHolidayDraftIssue>[
+      if (name.trim().isEmpty) LocalHolidayDraftIssue.nameRequired,
+      if (!holidayCountries.contains(country)) LocalHolidayDraftIssue.invalidCountry,
+      if (!validDate) LocalHolidayDraftIssue.invalidDate,
+      if (dayFraction <= 0 || dayFraction > 1) LocalHolidayDraftIssue.invalidFraction,
+    ];
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'country': country,
+    'region_code': ?(regionCode == null || regionCode!.trim().isEmpty ? null : regionCode!.trim()),
+    'municipality': ?(municipality == null || municipality!.trim().isEmpty
+        ? null
+        : municipality!.trim()),
+    'month': month,
+    'day': day,
+    'year': ?year,
+    'name': name.trim(),
+    'day_fraction': dayFraction,
+  };
+}

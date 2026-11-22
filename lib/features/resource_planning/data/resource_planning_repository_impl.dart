@@ -5,6 +5,9 @@ import '../domain/resource_planning_repository.dart';
 
 const String _base = '/resource-planning';
 
+/// Rows requested by the project picker.
+const int projectPageSize = 50;
+
 /// Maps a transport error to a [ResourcePlanningException]; the RFC 7807 `detail` and the violations are kept.
 ResourcePlanningException mapResourcePlanningError(DioException e) {
   final Response<dynamic>? r = e.response;
@@ -181,6 +184,111 @@ class ResourcePlanningRepositoryImpl implements ResourcePlanningRepository {
     return UtilizationReport.fromJson(_object(data));
   }
 
+  // --- Lookups -----------------------------------------------------------------------------------------------------
+
+  @override
+  Future<List<ResourceLookup>> resources({String? departmentId}) async {
+    final dynamic data = await _get('$_base/resources', <String, dynamic>{
+      'department_id': ?departmentId,
+    });
+    return <ResourceLookup>[
+      for (final Map<String, dynamic> m in _rows(data))
+        ResourceLookup.fromJson(m),
+    ];
+  }
+
+  @override
+  Future<List<ProjectRef>> projects({String? search}) async {
+    final String term = search?.trim() ?? '';
+    final dynamic data = await _get('/projects', <String, dynamic>{
+      if (term.isNotEmpty) 'search': term,
+      'per_page': projectPageSize,
+    });
+    // The list endpoint is paginated: the rows are the `data` list of the envelope.
+    return <ProjectRef>[
+      for (final Map<String, dynamic> m in _rows(data)) ProjectRef.fromJson(m),
+    ];
+  }
+
+  // --- Allocation writes -------------------------------------------------------------------------------------------
+
+  @override
+  Future<AllocationMutationResult> createAllocation(
+    AllocationDraft draft,
+  ) async {
+    final dynamic data = await _post('$_base/allocations', draft.toJson());
+    return AllocationMutationResult.fromJson(_object(data));
+  }
+
+  @override
+  Future<void> deleteAllocation(String allocationId) =>
+      _delete('$_base/allocations/$allocationId');
+
+  // --- Skills and profiles -----------------------------------------------------------------------------------------
+
+  @override
+  Future<Skill> createSkill(SkillDraft draft) async =>
+      Skill.fromJson(_object(await _post('$_base/skills', draft.toJson())));
+
+  @override
+  Future<Skill> updateSkill(String skillId, SkillDraft draft) async =>
+      Skill.fromJson(
+        _object(await _put('$_base/skills/$skillId', draft.toJson())),
+      );
+
+  @override
+  Future<void> deleteSkill(String skillId) => _delete('$_base/skills/$skillId');
+
+  @override
+  Future<EmployeeSkillProfile> saveSkillProfile(
+    SkillProfileDraft draft,
+  ) async => EmployeeSkillProfile.fromJson(
+    _object(await _post('$_base/employee-skill-profiles', draft.toJson())),
+  );
+
+  @override
+  Future<void> deleteSkillProfile(String profileId) =>
+      _delete('$_base/employee-skill-profiles/$profileId');
+
+  // --- Targets and holidays ----------------------------------------------------------------------------------------
+
+  @override
+  Future<List<UtilizationTarget>> utilizationTargets() async {
+    final dynamic data = await _get(
+      '$_base/utilization-targets',
+      <String, dynamic>{},
+    );
+    return <UtilizationTarget>[
+      for (final Map<String, dynamic> m in _rows(data))
+        UtilizationTarget.fromJson(m),
+    ];
+  }
+
+  @override
+  Future<UtilizationTarget> saveUtilizationTarget(
+    UtilizationTargetDraft draft,
+  ) async => UtilizationTarget.fromJson(
+    _object(await _put('$_base/utilization-targets', draft.toJson())),
+  );
+
+  @override
+  Future<List<LocalHoliday>> localHolidays() async {
+    final dynamic data = await _get('$_base/local-holidays', <String, dynamic>{});
+    return <LocalHoliday>[
+      for (final Map<String, dynamic> m in _rows(data)) LocalHoliday.fromJson(m),
+    ];
+  }
+
+  @override
+  Future<LocalHoliday> addLocalHoliday(LocalHolidayDraft draft) async =>
+      LocalHoliday.fromJson(
+        _object(await _post('$_base/local-holidays', draft.toJson())),
+      );
+
+  @override
+  Future<void> deleteLocalHoliday(String holidayId) =>
+      _delete('$_base/local-holidays/$holidayId');
+
   // --- Transport ---------------------------------------------------------------------------------------------------
 
   Future<dynamic> _get(String path, Map<String, dynamic> query) =>
@@ -188,6 +296,12 @@ class ResourcePlanningRepositoryImpl implements ResourcePlanningRepository {
 
   Future<dynamic> _post(String path, Map<String, dynamic> body) =>
       _send(() => _dio.post<dynamic>(path, data: body));
+
+  Future<dynamic> _put(String path, Map<String, dynamic> body) =>
+      _send(() => _dio.put<dynamic>(path, data: body));
+
+  Future<dynamic> _delete(String path) =>
+      _send(() => _dio.delete<dynamic>(path));
 
   /// Returns the `data` member of the envelope.
   Future<dynamic> _send(Future<Response<dynamic>> Function() run) async {

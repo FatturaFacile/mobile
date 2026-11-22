@@ -159,6 +159,46 @@ class AllocationsController
     () => _repo.rebalance(allocation.id, RebalanceRequest.reassignTo(employeeId)),
   );
 
+  /// Applies any rebalance (resize, shift, reassign, split); a split puts both parts on the agenda.
+  Future<AllocationActionOutcome> rebalance(
+    ResourceAllocation allocation,
+    RebalanceRequest request,
+  ) => _mutate(allocation, () => _repo.rebalance(allocation.id, request));
+
+  /// Creates an allocation and puts every affected row on the agenda.
+  Future<AllocationActionOutcome> create(AllocationDraft draft) async {
+    try {
+      final AllocationMutationResult result = await _repo.createAllocation(
+        draft,
+      );
+      final List<ResourceAllocation> current =
+          state.data ?? const <ResourceAllocation>[];
+      final Set<String> ids = <String>{
+        for (final ResourceAllocation a in result.allocations) a.id,
+      };
+      state = state.loaded(
+        _sorted(<ResourceAllocation>[
+          ...current.where((ResourceAllocation a) => !ids.contains(a.id)),
+          ...result.allocations,
+        ]),
+      );
+      return AllocationActionOutcome.success(result);
+    } on Object catch (e) {
+      return AllocationActionOutcome.failure(_asException(e));
+    }
+  }
+
+  /// Deletes the allocation and takes it off the agenda.
+  Future<PlanningOutcome> delete(ResourceAllocation allocation) =>
+      _guard(() async {
+        await _repo.deleteAllocation(allocation.id);
+        state = state.loaded(
+          (state.data ?? const <ResourceAllocation>[])
+              .where((ResourceAllocation a) => a.id != allocation.id)
+              .toList(),
+        );
+      });
+
   Future<AllocationActionOutcome> _mutate(
     ResourceAllocation allocation,
     Future<AllocationMutationResult> Function() call,
@@ -310,4 +350,308 @@ final NotifierProvider<UtilizationController, PlanningLoad<UtilizationReport>>
 utilizationProvider =
     NotifierProvider<UtilizationController, PlanningLoad<UtilizationReport>>(
       UtilizationController.new,
+    );
+
+// --- Planning setup ----------------------------------------------------------------------------------------------
+
+/// Outcome of a write that returns no data worth keeping: it either worked or failed with [error].
+@immutable
+class PlanningOutcome {
+  const PlanningOutcome.success() : error = null;
+
+  const PlanningOutcome.failure(ResourcePlanningException this.error);
+
+  final ResourcePlanningException? error;
+
+  bool get ok => error == null;
+}
+
+Future<PlanningOutcome> _guard(Future<void> Function() run) async {
+  try {
+    await run();
+    return const PlanningOutcome.success();
+  } on Object catch (e) {
+    return PlanningOutcome.failure(_asException(e));
+  }
+}
+
+/// Bookable employees, shared by the allocation form, the rebalance editor, the skill profiles and the targets.
+class ResourcesController extends Notifier<PlanningLoad<List<ResourceLookup>>> {
+  ResourcePlanningRepository get _repo =>
+      ref.read(resourcePlanningRepositoryProvider);
+
+  @override
+  PlanningLoad<List<ResourceLookup>> build() =>
+      const PlanningLoad<List<ResourceLookup>>();
+
+  Future<void> load() async {
+    state = state.started();
+    try {
+      final List<ResourceLookup> rows = await _repo.resources();
+      state = state.loaded(
+        <ResourceLookup>[...rows]..sort(
+          (ResourceLookup a, ResourceLookup b) =>
+              a.fullName.compareTo(b.fullName),
+        ),
+      );
+    } on Object catch (e) {
+      state = state.failed(_asException(e));
+    }
+  }
+}
+
+final NotifierProvider<ResourcesController, PlanningLoad<List<ResourceLookup>>>
+resourcesProvider =
+    NotifierProvider<ResourcesController, PlanningLoad<List<ResourceLookup>>>(
+      ResourcesController.new,
+    );
+
+/// Search of the project picker; a failed search leaves the picker with the manual id input.
+class ProjectSearchController extends Notifier<PlanningLoad<List<ProjectRef>>> {
+  ResourcePlanningRepository get _repo =>
+      ref.read(resourcePlanningRepositoryProvider);
+
+  @override
+  PlanningLoad<List<ProjectRef>> build() =>
+      const PlanningLoad<List<ProjectRef>>();
+
+  Future<void> search(String term) async {
+    state = state.started();
+    try {
+      state = state.loaded(await _repo.projects(search: term));
+    } on Object catch (e) {
+      state = state.failed(_asException(e));
+    }
+  }
+}
+
+final NotifierProvider<ProjectSearchController, PlanningLoad<List<ProjectRef>>>
+projectSearchProvider =
+    NotifierProvider<ProjectSearchController, PlanningLoad<List<ProjectRef>>>(
+      ProjectSearchController.new,
+    );
+
+/// Skill taxonomy maintenance: list, create, edit, delete.
+class SkillsController extends Notifier<PlanningLoad<List<Skill>>> {
+  ResourcePlanningRepository get _repo =>
+      ref.read(resourcePlanningRepositoryProvider);
+
+  @override
+  PlanningLoad<List<Skill>> build() => const PlanningLoad<List<Skill>>();
+
+  Future<void> load() async {
+    state = state.started();
+    try {
+      state = state.loaded(_sorted(await _repo.skills()));
+    } on Object catch (e) {
+      state = state.failed(_asException(e));
+    }
+  }
+
+  /// Creates the skill, or updates [existing] when given.
+  Future<PlanningOutcome> save(SkillDraft draft, {Skill? existing}) =>
+      _guard(() async {
+        final Skill saved = existing == null
+            ? await _repo.createSkill(draft)
+            : await _repo.updateSkill(existing.id, draft);
+        final List<Skill> current = state.data ?? const <Skill>[];
+        state = state.loaded(
+          _sorted(<Skill>[
+            ...current.where((Skill s) => s.id != saved.id),
+            saved,
+          ]),
+        );
+      });
+
+  Future<PlanningOutcome> delete(Skill skill) => _guard(() async {
+    await _repo.deleteSkill(skill.id);
+    state = state.loaded(
+      (state.data ?? const <Skill>[])
+          .where((Skill s) => s.id != skill.id)
+          .toList(),
+    );
+  });
+
+  List<Skill> _sorted(List<Skill> rows) =>
+      <Skill>[...rows]..sort((Skill a, Skill b) {
+        final int byCategory = a.category.compareTo(b.category);
+        return byCategory != 0 ? byCategory : a.skillName.compareTo(b.skillName);
+      });
+}
+
+final NotifierProvider<SkillsController, PlanningLoad<List<Skill>>>
+skillsProvider = NotifierProvider<SkillsController, PlanningLoad<List<Skill>>>(
+  SkillsController.new,
+);
+
+/// Skill profile of one employee: proficiency per skill, upsert and delete.
+class SkillProfilesController
+    extends Notifier<PlanningLoad<List<EmployeeSkillProfile>>> {
+  ResourcePlanningRepository get _repo =>
+      ref.read(resourcePlanningRepositoryProvider);
+
+  @override
+  PlanningLoad<List<EmployeeSkillProfile>> build() =>
+      const PlanningLoad<List<EmployeeSkillProfile>>();
+
+  Future<void> load(String employeeId) async {
+    state = state.started();
+    try {
+      state = state.loaded(
+        _sorted(await _repo.skillProfiles(employeeId: employeeId)),
+      );
+    } on Object catch (e) {
+      state = state.failed(_asException(e));
+    }
+  }
+
+  /// Creates the profile or raises/lowers the existing one of the same skill.
+  Future<PlanningOutcome> save(SkillProfileDraft draft) => _guard(() async {
+    final EmployeeSkillProfile saved = await _repo.saveSkillProfile(draft);
+    final List<EmployeeSkillProfile> current =
+        state.data ?? const <EmployeeSkillProfile>[];
+    state = state.loaded(
+      _sorted(<EmployeeSkillProfile>[
+        ...current.where(
+          (EmployeeSkillProfile p) =>
+              p.id != saved.id && p.skillId != saved.skillId,
+        ),
+        saved,
+      ]),
+    );
+  });
+
+  Future<PlanningOutcome> delete(EmployeeSkillProfile profile) =>
+      _guard(() async {
+        await _repo.deleteSkillProfile(profile.id);
+        state = state.loaded(
+          (state.data ?? const <EmployeeSkillProfile>[])
+              .where((EmployeeSkillProfile p) => p.id != profile.id)
+              .toList(),
+        );
+      });
+
+  List<EmployeeSkillProfile> _sorted(List<EmployeeSkillProfile> rows) =>
+      <EmployeeSkillProfile>[...rows]..sort(
+        (EmployeeSkillProfile a, EmployeeSkillProfile b) =>
+            a.skillName.compareTo(b.skillName),
+      );
+}
+
+final NotifierProvider<
+  SkillProfilesController,
+  PlanningLoad<List<EmployeeSkillProfile>>
+>
+skillProfilesProvider =
+    NotifierProvider<
+      SkillProfilesController,
+      PlanningLoad<List<EmployeeSkillProfile>>
+    >(SkillProfilesController.new);
+
+/// Billable utilization targets: the tenant default plus one per department or cost center.
+class UtilizationTargetsController
+    extends Notifier<PlanningLoad<List<UtilizationTarget>>> {
+  ResourcePlanningRepository get _repo =>
+      ref.read(resourcePlanningRepositoryProvider);
+
+  @override
+  PlanningLoad<List<UtilizationTarget>> build() =>
+      const PlanningLoad<List<UtilizationTarget>>();
+
+  Future<void> load() async {
+    state = state.started();
+    try {
+      state = state.loaded(_sorted(await _repo.utilizationTargets()));
+    } on Object catch (e) {
+      state = state.failed(_asException(e));
+    }
+  }
+
+  Future<PlanningOutcome> save(UtilizationTargetDraft draft) => _guard(() async {
+    final UtilizationTarget saved = await _repo.saveUtilizationTarget(draft);
+    final List<UtilizationTarget> current =
+        state.data ?? const <UtilizationTarget>[];
+    state = state.loaded(
+      _sorted(<UtilizationTarget>[
+        ...current.where(
+          (UtilizationTarget t) =>
+              t.id != saved.id &&
+              !(t.departmentId == saved.departmentId &&
+                  t.costCenterId == saved.costCenterId),
+        ),
+        saved,
+      ]),
+    );
+  });
+
+  /// Default first, then departments, then cost centers.
+  List<UtilizationTarget> _sorted(List<UtilizationTarget> rows) =>
+      <UtilizationTarget>[...rows]..sort(
+        (UtilizationTarget a, UtilizationTarget b) =>
+            _rank(a).compareTo(_rank(b)),
+      );
+
+  int _rank(UtilizationTarget t) => t.isDefault
+      ? 0
+      : t.departmentId != null
+      ? 1
+      : 2;
+}
+
+final NotifierProvider<
+  UtilizationTargetsController,
+  PlanningLoad<List<UtilizationTarget>>
+>
+utilizationTargetsProvider =
+    NotifierProvider<
+      UtilizationTargetsController,
+      PlanningLoad<List<UtilizationTarget>>
+    >(UtilizationTargetsController.new);
+
+/// Tenant local holidays: list, add, remove.
+class LocalHolidaysController
+    extends Notifier<PlanningLoad<List<LocalHoliday>>> {
+  ResourcePlanningRepository get _repo =>
+      ref.read(resourcePlanningRepositoryProvider);
+
+  @override
+  PlanningLoad<List<LocalHoliday>> build() =>
+      const PlanningLoad<List<LocalHoliday>>();
+
+  Future<void> load() async {
+    state = state.started();
+    try {
+      state = state.loaded(_sorted(await _repo.localHolidays()));
+    } on Object catch (e) {
+      state = state.failed(_asException(e));
+    }
+  }
+
+  Future<PlanningOutcome> add(LocalHolidayDraft draft) => _guard(() async {
+    final LocalHoliday saved = await _repo.addLocalHoliday(draft);
+    state = state.loaded(
+      _sorted(<LocalHoliday>[...state.data ?? const <LocalHoliday>[], saved]),
+    );
+  });
+
+  Future<PlanningOutcome> remove(LocalHoliday holiday) => _guard(() async {
+    await _repo.deleteLocalHoliday(holiday.id);
+    state = state.loaded(
+      (state.data ?? const <LocalHoliday>[])
+          .where((LocalHoliday h) => h.id != holiday.id)
+          .toList(),
+    );
+  });
+
+  List<LocalHoliday> _sorted(List<LocalHoliday> rows) =>
+      <LocalHoliday>[...rows]..sort((LocalHoliday a, LocalHoliday b) {
+        final int byMonth = a.month.compareTo(b.month);
+        return byMonth != 0 ? byMonth : a.day.compareTo(b.day);
+      });
+}
+
+final NotifierProvider<LocalHolidaysController, PlanningLoad<List<LocalHoliday>>>
+localHolidaysProvider =
+    NotifierProvider<LocalHolidaysController, PlanningLoad<List<LocalHoliday>>>(
+      LocalHolidaysController.new,
     );

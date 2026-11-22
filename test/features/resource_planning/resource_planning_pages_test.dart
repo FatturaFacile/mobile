@@ -216,6 +216,9 @@ void main() {
     });
 
     Future<void> openAllocations(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
       await tester.pumpWidget(host(const ResourcePlanningHomePage()));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const Key('rp-tab-allocations')));
@@ -233,7 +236,7 @@ void main() {
       expect(find.byKey(const Key('rp-convert-a2')), findsNothing);
     });
 
-    testWidgets('a soft booking with only an opportunity cannot be committed from the phone', (
+    testWidgets('a soft booking with only an opportunity can be committed and tells that a project is asked', (
       WidgetTester tester,
     ) async {
       await openAllocations(tester);
@@ -243,10 +246,11 @@ void main() {
         find.byKey(const Key('rp-alloc-needs-project-a3')),
         findsOneWidget,
       );
+      expect(find.byKey(const Key('rp-alloc-needs-project-a1')), findsNothing);
       final FilledButton convert = tester.widget<FilledButton>(
         find.byKey(const Key('rp-convert-a3')),
       );
-      expect(convert.onPressed, isNull);
+      expect(convert.onPressed, isNotNull);
     });
 
     testWidgets('committing a soft booking turns its badge hard and reports the overload', (

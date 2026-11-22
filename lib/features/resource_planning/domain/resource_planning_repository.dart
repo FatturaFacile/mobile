@@ -122,4 +122,44 @@ abstract interface class ResourcePlanningRepository {
     required String to,
     UtilizationGroup groupBy = UtilizationGroup.resource,
   });
+
+  // --- Lookups ---------------------------------------------------------------------------------------------------
+
+  /// Employees with an active contract (`GET /resources`).
+  Future<List<ResourceLookup>> resources({String? departmentId});
+
+  /// Projects of the tenant (`GET /projects`), optionally narrowed by a search term on number and name.
+  Future<List<ProjectRef>> projects({String? search});
+
+  // --- Allocation writes -----------------------------------------------------------------------------------------
+
+  Future<AllocationMutationResult> createAllocation(AllocationDraft draft);
+
+  Future<void> deleteAllocation(String allocationId);
+
+  // --- Skill taxonomy and employee skill profiles ----------------------------------------------------------------
+
+  Future<Skill> createSkill(SkillDraft draft);
+
+  Future<Skill> updateSkill(String skillId, SkillDraft draft);
+
+  Future<void> deleteSkill(String skillId);
+
+  /// Creates the profile or updates the existing one of the same employee and skill.
+  Future<EmployeeSkillProfile> saveSkillProfile(SkillProfileDraft draft);
+
+  Future<void> deleteSkillProfile(String profileId);
+
+  // --- Utilization targets and local holidays --------------------------------------------------------------------
+
+  Future<List<UtilizationTarget>> utilizationTargets();
+
+  /// Upsert of the target of the draft's scope.
+  Future<UtilizationTarget> saveUtilizationTarget(UtilizationTargetDraft draft);
+
+  Future<List<LocalHoliday>> localHolidays();
+
+  Future<LocalHoliday> addLocalHoliday(LocalHolidayDraft draft);
+
+  Future<void> deleteLocalHoliday(String holidayId);
 }
