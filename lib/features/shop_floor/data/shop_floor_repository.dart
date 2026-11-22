@@ -128,12 +128,12 @@ class ShopFloorRepository {
   }
 
   Future<List<WorkCenter>> workCenters(String tenantId) async {
-    final List<MfgWorkCenterRow> rows = await (_db.select(
+    final List<ShopFloorWorkCenterRow> rows = await (_db.select(
       _db.mfgWorkCenters,
     )..where((MfgWorkCenters t) => t.tenantId.equals(tenantId))).get();
     return rows
         .map(
-          (MfgWorkCenterRow r) => WorkCenter.fromJson(
+          (ShopFloorWorkCenterRow r) => WorkCenter.fromJson(
             jsonDecode(r.payload) as Map<String, dynamic>,
           ),
         )
