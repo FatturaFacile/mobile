@@ -52,6 +52,9 @@ class SyncEngine {
     'helpdesk_time_entries',
     'helpdesk_escalations',
     'crm_activities',
+    'receivable_allocations',
+    'receivable_reversals',
+    'receivable_disputes',
   };
 
   final Set<String> terminalEntities;

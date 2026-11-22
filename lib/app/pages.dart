@@ -19,6 +19,8 @@ import '../features/project_billing/presentation/project_billing_page.dart';
 import '../features/project_evm/presentation/project_evm_page.dart';
 import '../features/project_portfolio/l10n/project_portfolio_strings.dart';
 import '../features/project_portfolio/presentation/project_portfolio_page.dart';
+import '../features/receivables/presentation/receivables_pages.dart';
+import '../features/receivables/presentation/receivables_strings.dart';
 import '../features/general_ledger/presentation/gl_pages.dart';
 import '../features/general_ledger/presentation/gl_strings.dart';
 import '../features/security/presentation/security_providers.dart';
@@ -194,6 +196,7 @@ class HomePage extends ConsumerWidget {
         technicianId: b.userId,
       ),
       helpdeskModule => const HelpdeskQueuePage(),
+      receivablesModule => const ReceivablesDashboardPage(),
       payslipVaultModule => const PayslipVaultPage(),
       inventoryCountModule => const InventoryCountListPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
@@ -264,6 +267,15 @@ class HomePage extends ConsumerWidget {
       return ProjectPortfolioStrings.forLanguage(
         ref.read(requestContextProvider).languageCode,
       ).t(PP.title);
+    }
+    if (module == receivablesModule) {
+      final List<String> tag = ref
+          .read(requestContextProvider)
+          .languageCode
+          .split(RegExp('[-_]'));
+      return ReceivablesStrings.forLocale(
+        Locale(tag.first, tag.length > 1 ? tag[1] : null),
+      ).t(RC.title);
     }
     if (module == helpdeskModule) {
       return HelpdeskStrings(ref.read(requestContextProvider).languageCode)(

@@ -136,3 +136,26 @@ as "start no earlier than", milestones with no duration). A dependency that woul
 refused before it is queued. CUP (15) and CIG (10) are checked as upper-case alphanumeric before saving; the server remains
 the authority. Kanban columns derive from progress (0 / 1-99 / 100). The module key in the bootstrap payload is
 `project_portfolio`.
+## 8. Accounts Receivable and Credit Management (`lib/features/receivables`, Mod 013)
+
+Base `/invoicing/receivables` (Dio base URL already carries `/api/v1`). Amounts are decimal strings, held as `Money` (integer
+cents); aging buckets always come from the `buckets` array of the answer.
+
+| Purpose | Call |
+| --- | --- |
+| Overview (KPIs, aging, blocked customers) | `GET /dashboard?currency=` |
+| Aging of all customers or one | `GET /aging?customer_id=&currency=` |
+| Open items of a customer (paginated, all pages read) | `GET /items?customer_id=&open_only=1&per_page=100&page=` |
+| One item with its allocations | `GET /items/{id}` |
+| Credit position, risk, unreconciled payments, limit history | `GET /customers/{id}/credit`, `/risk`, `/unreconciled-payments`, `/credit-limits` |
+| DSO and bad debt provision | `GET /dso`, `GET /provision` |
+| Customer statement (JSON, PDF, XLSX) | `GET /customers/{id}/statement`, `/statement/pdf`, `/statement/xlsx` |
+| Book payment, credit note, write-off, discount | `POST /allocations` `{allocations:[{receivable_item_id, type, amount, value_date, source_id?, reference?, notes?}]}` |
+| Reverse an allocation | `POST /allocations/{id}/reverse` |
+| Dispute or lift | `POST /items/{id}/dispute` `{disputed, reason?}` |
+
+Reads are cached as JSON in the shared `entity_records` table (entities `receivables_snapshot`, `receivable_items`), so no
+Drift codegen or schema bump is involved. The three writes go through the outbox (entities `receivable_allocations`,
+`receivable_reversals`, `receivable_disputes`, all terminal: 422/403 parks the row as rejected); the queue row UUID is the
+`Idempotency-Key`, an identical request still waiting is not queued twice, and the cached item is updated at once. Credit
+limits and overrides are read-only on the phone.
