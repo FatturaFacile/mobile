@@ -203,20 +203,17 @@ class PermissionSnapshots extends Table {
     LocalPurchaseRequisitionLines,
     LocalPendingApprovals,
     LocalApprovalAuditLogs,
-<<<<<<< HEAD
     MfgLocalWorkCenters,
     MfgLocalMachines,
     MfgLocalRoutings,
     MfgLocalRoutingSteps,
     MfgLocalOeeSummaries,
-=======
     MfgOrders,
     MfgWorkCenters,
     MfgQualityPlans,
     MfgStagedLots,
     MfgOperationTimers,
     MfgOutbox,
->>>>>>> claude/mfg-operator-app-cdd4cf
   ],
   daos: <Type>[PurchaseRequisitionDao, ManufacturingDao],
 )
@@ -254,20 +251,17 @@ class AppDatabase extends _$AppDatabase {
         await _ensureTable(m, localApprovalAuditLogs);
       }
       if (from < 6) {
-<<<<<<< HEAD
         await _ensureTable(m, mfgLocalWorkCenters);
         await _ensureTable(m, mfgLocalMachines);
         await _ensureTable(m, mfgLocalRoutings);
         await _ensureTable(m, mfgLocalRoutingSteps);
         await _ensureTable(m, mfgLocalOeeSummaries);
-=======
         await _ensureTable(m, mfgOrders);
         await _ensureTable(m, mfgWorkCenters);
         await _ensureTable(m, mfgQualityPlans);
         await _ensureTable(m, mfgStagedLots);
         await _ensureTable(m, mfgOperationTimers);
         await _ensureTable(m, mfgOutbox);
->>>>>>> claude/mfg-operator-app-cdd4cf
       }
     },
     beforeOpen: (OpeningDetails details) async {
