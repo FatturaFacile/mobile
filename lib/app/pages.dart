@@ -24,6 +24,11 @@ import '../features/gelato/presentation/gelato_page.dart';
 import '../features/inventory_count/domain/inventory_count_models.dart'
     show inventoryCountModule;
 import '../features/inventory_count/presentation/inventory_count_pages.dart';
+import '../features/helpdesk/notifications/helpdesk_push_handler.dart';
+import '../features/helpdesk/notifications/helpdesk_push_payload.dart';
+import '../features/helpdesk/presentation/helpdesk_controller.dart';
+import '../features/helpdesk/presentation/helpdesk_pages.dart';
+import '../features/helpdesk/presentation/helpdesk_strings.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
 import '../features/shop_floor/presentation/shop_floor_home_page.dart';
 import '../features/security/presentation/security_screen.dart';
@@ -181,6 +186,7 @@ class HomePage extends ConsumerWidget {
         tenantId: b.tenantId,
         technicianId: b.userId,
       ),
+      helpdeskModule => const HelpdeskQueuePage(),
       payslipVaultModule => const PayslipVaultPage(),
       inventoryCountModule => const InventoryCountListPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
@@ -247,6 +253,11 @@ class HomePage extends ConsumerWidget {
         Locale(tag.first, tag.length > 1 ? tag[1] : null),
       ).t(FsmText.moduleTitle);
     }
+    if (module == helpdeskModule) {
+      return HelpdeskStrings(ref.read(requestContextProvider).languageCode)(
+        HL.title,
+      );
+    }
     if (module == aiReviewModule) {
       return copilotStrings(ref.read(requestContextProvider).languageCode)
           .cogModule;
@@ -265,6 +276,26 @@ class HomePage extends ConsumerWidget {
     Map<String, dynamic> payload,
   ) async {
     final Bootstrap b = session.bootstrap;
+    final HelpdeskPushResult helpdesk = ref
+        .read(helpdeskPushHandlerProvider)
+        .handle(payload, navigatorKey: ref.read(navigatorKeyProvider));
+    if (helpdesk.outcome != HelpdeskPushOutcome.ignored) {
+      final HelpdeskPushPayload? hp = helpdesk.payload;
+      if (helpdesk.alert && hp != null && context.mounted) {
+        final HelpdeskStrings hs = HelpdeskStrings(
+          ref.read(requestContextProvider).languageCode,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '${hs.pushTitle(hp.isSlaEvent, hp.isBreach)} ${hp.ticketNumber ?? ''}'
+                  .trim(),
+            ),
+          ),
+        );
+      }
+      return;
+    }
     final PrNotificationResult result = await ref
         .read(prNotificationHandlerProvider)
         .handlePayload(
