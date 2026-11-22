@@ -9,6 +9,8 @@ import 'package:material_ui/material_ui.dart';
 import '../design/ff_tokens.dart';
 import '../features/copilot/presentation/copilot_controller.dart';
 import '../features/copilot/presentation/copilot_sheet.dart';
+import '../features/helpdesk/notifications/helpdesk_push_payload.dart';
+import '../features/helpdesk/presentation/helpdesk_pages.dart';
 import '../features/purchase_requisitions/notifications/pr_notification_payload.dart';
 import '../features/purchase_requisitions/presentation/providers/pr_providers.dart';
 import '../features/purchase_requisitions/presentation/screens/pr_detail_screen.dart';
@@ -62,6 +64,19 @@ class _FatturaFacileAppState extends ConsumerState<FatturaFacileApp> {
         final Uri? uri = Uri.tryParse(name);
         if (uri == null) {
           return null;
+        }
+        final String? helpdeskTicketId = HelpdeskPushPayload.ticketIdOfUri(uri);
+        if (helpdeskTicketId != null) {
+          return MaterialPageRoute<void>(
+            settings: settings,
+            builder: (_) => HelpdeskTicketPage(ticketId: helpdeskTicketId),
+          );
+        }
+        if (uri.path == helpdeskQueueRoute) {
+          return MaterialPageRoute<void>(
+            settings: settings,
+            builder: (_) => const HelpdeskQueuePage(),
+          );
         }
         final PrNotificationPayload? payload =
             PrNotificationPayload.tryParseUri(uri);
