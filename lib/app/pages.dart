@@ -11,6 +11,7 @@ import '../features/copilot/presentation/copilot_controller.dart'
     show copilotStrings;
 import '../features/entities/entity_definition.dart';
 import '../features/dss/presentation/executive_dss_page.dart';
+import '../features/analytical_accounting/presentation/analytical_page.dart';
 import '../features/project_evm/presentation/project_evm_page.dart';
 import '../features/security/presentation/security_providers.dart';
 import '../features/payslip_vault/presentation/payslip_pages.dart';
@@ -161,6 +162,7 @@ class HomePage extends ConsumerWidget {
       'approvals_inbox' => ApprovalsPage(tenantId: b.tenantId),
       'executive_dss' => const ExecutiveDssPage(),
       'project_profitability' => const ProjectEvmPage(),
+      'analytical_accounting' => const AnalyticalAccountingPage(),
       aiReviewModule => const AiSuggestionsPage(),
       shiftSelfServiceModule => const ShiftHomePage(),
       payslipVaultModule => const PayslipVaultPage(),
