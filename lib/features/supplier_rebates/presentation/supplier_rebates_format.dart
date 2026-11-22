@@ -5,14 +5,18 @@ import '../domain/rebate_decimal.dart';
 /// Number and date formatting of the supplier rebates screens: Swiss separators for the Swiss locales, the agreement
 /// currency (CHF/EUR) printed before the amount.
 abstract final class RebateFormat {
-  /// The `intl` locale of a language code (`de`, `de-CH`, `it_IT`...); Swiss conventions for it/de/fr.
-  static String intlLocale(String languageCode) =>
-      switch (languageCode.split(RegExp('[-_]')).first.toLowerCase()) {
-        'it' => 'it_CH',
-        'de' => 'de_CH',
-        'fr' => 'fr_CH',
-        _ => 'en',
-      };
+  /// The `intl` locale of a language code (`de`, `de-CH`, `it_IT`...): the Swiss conventions for it/de/fr, except
+  /// `it-IT`, which keeps the Italian ones.
+  static String intlLocale(String languageCode) {
+    final List<String> tag = languageCode.split(RegExp('[-_]'));
+    final String region = tag.length > 1 ? tag[1].toUpperCase() : '';
+    return switch (tag.first.toLowerCase()) {
+      'it' => region == 'IT' ? 'it_IT' : 'it_CH',
+      'de' => 'de_CH',
+      'fr' => 'fr_CH',
+      _ => 'en',
+    };
+  }
 
   /// `CHF 1’234.50`, rounded half away from zero to two decimals.
   static String money(Dec value, String currency, String languageCode) {

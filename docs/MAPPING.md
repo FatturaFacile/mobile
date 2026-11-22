@@ -106,3 +106,24 @@ photos of a work order are stored before its `service_report`, whose payload the
 uploaded so far). Missing file, 413, 422, 403, 404 -> conflict (retry or discard, discard drops the photo); offline and 401
 stop the flush; 5xx/429 back off and hold back later operations. A photo already on the server cannot be removed from the
 phone. Per photo the screen shows queued / uploaded / failed.
+
+## 9. Supplier rebates and blanket agreements (Mod 049, `lib/features/supplier_rebates`)
+
+Module keys `supplier_rebates` / `rebates` (web-api `module.access:rebates`). Monitoring and the light workflow only: proposing a
+settlement and executing the open-item set-off stay on web and desktop. Offline copies live in the generic entity store
+(`rebate_agreements`, `rebate_progress`, `rebate_runs`, `rebate_proposals`, `rebate_contracts`, `rebate_balances`), so there is
+no Drift schema of its own; the tier position is always recomputed on the phone by `TierProgressCalculator` (a port of the
+backend `RebateTierCalculator`, exact decimals with the backend scale of 10) from the cached tiers and the last known volume.
+
+| Use | Endpoint |
+| --- | --- |
+| Purchase agreements (tiers, `open_rebate`) | `GET /rebates/agreements?direction=purchase`, `GET /rebates/agreements/{id}` (adds contributions) |
+| Live progress | `GET /rebates/agreements/{id}/progress` |
+| Accrual runs with invoice lines | `GET /rebates/agreements/{id}/accrual-runs` |
+| Settlement proposals | `GET /rebates/settlement-proposals?agreement_id`, `GET /rebates/settlement-proposals/{id}` |
+| Workflow (outbox entity `rebate_proposal_actions`, body `{version}`) | `POST /rebates/settlement-proposals/{id}/submit\|approve\|cancel` |
+| Blanket agreements | `GET /procurement/contracts`, `GET /procurement/contracts/{id}/balance` |
+
+A 403/409/422 on a queued action parks it as rejected (retry or dismiss); a repeated tap on the same queued action adds nothing.
+Strings: `presentation/supplier_rebates_strings.dart` (it, en, de, fr; a region tag such as `de-CH` selects its language), texts
+from the web-api `SupplierRebatesFrontendTranslations` seeder.
