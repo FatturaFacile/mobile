@@ -15,6 +15,7 @@ import '../features/field_service/presentation/field_service_home_page.dart';
 import '../features/dss/presentation/executive_dss_page.dart';
 import '../features/analytical_accounting/presentation/analytical_page.dart';
 import '../features/customer_lifecycle/presentation/customer_lifecycle_page.dart';
+import '../features/project_billing/presentation/project_billing_page.dart';
 import '../features/project_evm/presentation/project_evm_page.dart';
 import '../features/project_portfolio/l10n/project_portfolio_strings.dart';
 import '../features/project_portfolio/presentation/project_portfolio_page.dart';
@@ -180,6 +181,7 @@ class HomePage extends ConsumerWidget {
       'executive_dss' => const ExecutiveDssPage(),
       'project_profitability' => const ProjectEvmPage(),
       projectPortfolioModule => const ProjectPortfolioPage(),
+      'project_billing' => const ProjectBillingPage(),
       'analytical_accounting' => const AnalyticalAccountingPage(),
       'customer_360' => const CustomerLifecyclePage(),
       aiReviewModule => const AiSuggestionsPage(),
