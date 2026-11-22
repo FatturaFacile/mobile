@@ -15,6 +15,9 @@ import '../features/project_evm/presentation/project_evm_page.dart';
 import '../features/security/presentation/security_providers.dart';
 import '../features/payslip_vault/presentation/payslip_pages.dart';
 import '../features/gelato/presentation/gelato_page.dart';
+import '../features/inventory_count/domain/inventory_count_models.dart'
+    show inventoryCountModule;
+import '../features/inventory_count/presentation/inventory_count_pages.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
 import '../features/shop_floor/presentation/shop_floor_home_page.dart';
 import '../features/security/presentation/security_screen.dart';
@@ -166,6 +169,7 @@ class HomePage extends ConsumerWidget {
       shiftSelfServiceModule => const ShiftHomePage(),
       gelatoModule => const GelatoHomePage(),
       payslipVaultModule => const PayslipVaultPage(),
+      inventoryCountModule => const InventoryCountListPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
         tenantId: b.tenantId,
         userId: b.userId,
