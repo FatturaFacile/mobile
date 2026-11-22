@@ -40,6 +40,31 @@ class CustomerLifecycleRemoteDataSource {
     return null;
   }
 
+  /// Customers whose name matches [query] (the contact list of the CRM).
+  Future<List<LifecycleContact>> searchContacts(String query) async {
+    final Response<dynamic> response = await _request(
+      () => _dio.get<dynamic>(
+        '/crm/contacts',
+        queryParameters: <String, dynamic>{'search': query, 'per_page': 20},
+      ),
+    );
+    final dynamic body = response.data;
+    dynamic rows = body is Map ? body['data'] : null;
+    if (rows is Map) {
+      rows = rows['data'];
+    }
+    if (rows is! List) {
+      return <LifecycleContact>[];
+    }
+    return rows
+        .whereType<Map<dynamic, dynamic>>()
+        .map(
+          (Map<dynamic, dynamic> row) =>
+              LifecycleContact.fromJson(Map<String, dynamic>.from(row)),
+        )
+        .toList();
+  }
+
   Future<CustomerLifecycleSummary> summary(String accountId) async {
     final Response<dynamic> response = await _request(
       () => _dio.get<dynamic>('/crm/customers/$accountId/360'),

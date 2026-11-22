@@ -115,3 +115,29 @@ class CustomerTimelineEvent {
   final String? amount;
   final String? reference;
 }
+
+/// A customer found by the picker: the contact (party master) identifier and its display name.
+class LifecycleContact {
+  const LifecycleContact({required this.id, required this.label});
+
+  factory LifecycleContact.fromJson(Map<String, dynamic> json) {
+    final String company = '${json['company_name'] ?? ''}'.trim();
+    final String person = '${json['first_name'] ?? ''} ${json['last_name'] ?? ''}'
+        .trim();
+    return LifecycleContact(
+      id: '${json['id']}',
+      label: company.isNotEmpty ? company : (person.isNotEmpty ? person : '-'),
+    );
+  }
+
+  final String id;
+  final String label;
+}
+
+/// The summary and the timeline of one customer.
+class CustomerLifecycleView {
+  const CustomerLifecycleView({required this.summary, required this.timeline});
+
+  final CustomerLifecycleSummary summary;
+  final List<CustomerTimelineEvent> timeline;
+}
