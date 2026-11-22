@@ -579,7 +579,38 @@ class ChecklistEntry {
   };
 }
 
-/// A photo taken on site. [path] is the reference sent with the report (`photos.*.path`), [localPath] the file on the phone.
+/// Moment of the intervention a photo documents (`stage` of the photo upload).
+enum FsmPhotoStage {
+  before('before'),
+  during('during'),
+  after('after');
+
+  const FsmPhotoStage(this.wire);
+
+  final String wire;
+
+  static FsmPhotoStage? fromWire(String? value) {
+    for (final FsmPhotoStage s in FsmPhotoStage.values) {
+      if (s.wire == value) return s;
+    }
+    return null;
+  }
+}
+
+/// Where the file of a photo stands on its way to the server.
+enum FsmPhotoUpload {
+  /// Waiting in the outbox (first attempt or a transient retry).
+  queued,
+
+  /// The server stored it and answered its id.
+  uploaded,
+
+  /// The server refused it or the file is gone from the phone: a conflict to retry or discard.
+  failed,
+}
+
+/// A photo taken on site. [path] is the legacy reference sent with the report (`photos.*.path`), [localPath] the file on the
+/// phone, [serverId] the id the photo endpoint answered once [upload] is [FsmPhotoUpload.uploaded].
 class ReportPhoto {
   const ReportPhoto({
     required this.id,
@@ -587,18 +618,37 @@ class ReportPhoto {
     required this.name,
     required this.takenAt,
     this.localPath,
+    this.stage,
+    this.caption,
+    this.serverId,
+    this.upload = FsmPhotoUpload.queued,
   });
 
+  /// Also the `client_uuid` of the upload operation, so a retry is idempotent.
   final String id;
   final String path;
   final String name;
   final DateTime takenAt;
   final String? localPath;
+  final FsmPhotoStage? stage;
+  final String? caption;
+  final String? serverId;
+  final FsmPhotoUpload upload;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'path': path,
     'name': name,
     'taken_at': takenAt.toUtc().toIso8601String(),
+  };
+
+  /// The `payload` of the `photo_upload` operation: what the multipart request needs at send time.
+  Map<String, dynamic> toUploadPayload() => <String, dynamic>{
+    'local_path': localPath,
+    'name': name,
+    'captured_at': takenAt.toUtc().toIso8601String(),
+    if (stage != null) 'stage': stage!.wire,
+    if (caption != null && caption!.trim().isNotEmpty)
+      'caption': caption!.trim(),
   };
 }
 
@@ -809,7 +859,10 @@ class ServiceReportDraft {
 enum FsmOperationType {
   statusTransition('status_transition'),
   partConsumption('part_consumption'),
-  serviceReport('service_report');
+  serviceReport('service_report'),
+
+  /// Not part of `POST /fsm/mobile-sync`: sent as multipart to `POST /fsm/work-orders/{id}/photos`.
+  photoUpload('photo_upload');
 
   const FsmOperationType(this.wire);
 

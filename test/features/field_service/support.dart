@@ -267,7 +267,69 @@ class FakeFsmApi implements HttpClientAdapter {
         },
       });
     }
+    final RegExpMatch? photo = RegExp(r'/fsm/work-orders/([^/]+)/photos$')
+        .firstMatch(options.path);
+    if (options.method == 'POST' && photo != null) {
+      return _photo(options, photo.group(1)!);
+    }
     return jsonBody(404, <String, dynamic>{'message': 'nope'});
+  }
+
+  /// `client_uuid` -> server id of the photos stored.
+  final Map<String, String> photoIds = <String, String>{};
+
+  /// Every multipart photo request received, as plain maps (`work_order_id`, fields, `filename`, `size`).
+  final List<Map<String, dynamic>> photoUploads = <Map<String, dynamic>>[];
+
+  /// Answers every photo upload with this HTTP status (413, 422, 500...) when set.
+  int? photoFailStatus;
+
+  /// Stores the photo but loses the answer once.
+  bool dropNextPhotoAnswer = false;
+
+  ResponseBody _photo(RequestOptions options, String workOrderId) {
+    final FormData form = options.data as FormData;
+    final Map<String, dynamic> fields = <String, dynamic>{
+      for (final MapEntry<String, String> f in form.fields) f.key: f.value,
+    };
+    final MapEntry<String, MultipartFile> file = form.files.single;
+    photoUploads.add(<String, dynamic>{
+      'work_order_id': workOrderId,
+      ...fields,
+      'file_field': file.key,
+      'filename': file.value.filename,
+      'size': file.value.length,
+      'idempotency_key': options.headers['Idempotency-Key'],
+    });
+    if (photoFailStatus != null) {
+      return jsonBody(photoFailStatus!, <String, dynamic>{
+        'message': 'photo $photoFailStatus',
+      });
+    }
+    final String uuid = '${fields['client_uuid']}';
+    final bool replay = photoIds.containsKey(uuid);
+    final String id = photoIds.putIfAbsent(
+      uuid,
+      () => 'srv-${photoIds.length + 1}',
+    );
+    if (dropNextPhotoAnswer) {
+      dropNextPhotoAnswer = false;
+      throw DioException.connectionError(
+        requestOptions: options,
+        reason: 'lost answer',
+      );
+    }
+    return jsonBody(replay ? 200 : 201, <String, dynamic>{
+      'data': <String, dynamic>{
+        'id': id,
+        'work_order_id': workOrderId,
+        'path': 'fsm/$workOrderId/$id.jpg',
+        'stage': fields['stage'],
+        'caption': fields['caption'],
+        'captured_at': fields['captured_at'],
+        'url': 'http://x/storage/$id.jpg',
+      },
+    });
   }
 
   @override
@@ -294,6 +356,7 @@ class FsmHarness {
     this.store,
     this.outbox,
     this.repo,
+    this.files,
   );
 
   factory FsmHarness() {
@@ -303,10 +366,13 @@ class FsmHarness {
       ..httpClientAdapter = api;
     final TestClock clock = TestClock(DateTime.utc(2030, 1, 1, 8));
     final FieldServiceStore store = FieldServiceStore(db);
+    // Files "on the phone": local path -> bytes. A path that is not here is a photo gone from the device.
+    final Map<String, List<int>> files = <String, List<int>>{};
     final FieldServiceOutbox outbox = FieldServiceOutbox(
       store,
       dio,
       clock: clock.call,
+      readPhoto: (String path) async => files[path],
     );
     var n = 0;
     final LocalFieldServiceRepository repo = LocalFieldServiceRepository(
@@ -318,8 +384,11 @@ class FsmHarness {
       newUuid: () => 'u-${++n}',
       clock: clock.call,
     );
-    return FsmHarness._(db, api, clock, store, outbox, repo);
+    return FsmHarness._(db, api, clock, store, outbox, repo, files);
   }
+
+  /// The photo files of the phone, by local path.
+  final Map<String, List<int>> files;
 
   final AppDatabase db;
   final FakeFsmApi api;

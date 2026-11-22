@@ -80,8 +80,8 @@ Offline read models and queue in the generic entity store (`analytical_snapshot`
    (`coverage_type`, `status`) of a work order, only `service_contract_id`. The app reads `service_contract: {id,
    coverage_type, status}` (or flat `contract_coverage_type` / `contract_status`) when the API adds it and otherwise assumes
    the server defaults (`parts_and_labor`, active), flagging the covered/chargeable indicator as an estimate.
-5. Field Service photos: `photos.*.path` of the service report is a string reference; no upload endpoint exists yet, so the
-   JPEG stays on the phone (`fsm_photos`) and only the reference travels with the report.
+5. Field Service photos: uploaded through `POST /fsm/work-orders/{id}/photos` (see section 7); the legacy
+   `photos.*.path` string reference still travels in the report payload next to the new `photo_ids`.
 
 ## 7. Field Service (`lib/features/field_service`)
 
@@ -94,4 +94,15 @@ Operation types: `status_transition` (`{status: en_route|on_site, at}`), `part_c
 lot_number?, lot_or_serial_id?}`), `service_report` (the `SignServiceReportRules` payload with `signature_svg`, `signed_at`,
 checklist, `labor_hours`, `travel_hours`, `travel_km`, `apply_callout_fee`, photos, GPS, `locale`). Results per operation:
 `applied`, `duplicate` (same `client_uuid` already applied) or `rejected` (field `errors`, kept as a conflict). Local tables
-(`fsm_*`) are created on first use with plain SQL, so no Drift codegen or schema bump is involved.
+(`fsm_*`) are created on first use with plain SQL, so no Drift codegen or schema bump is involved (new `fsm_photos` columns
+`stage`, `caption`, `server_id` are added with `ALTER TABLE` when missing).
+
+Photos: `POST /fsm/work-orders/{id}/photos` (multipart: `photo` file, `client_uuid` required, optional `stage`
+`before|during|after`, `caption`, `captured_at` ISO) answers `{data:{id, work_order_id, path, stage, caption, captured_at,
+url}}`, 201 the first time and 200 for a replayed `client_uuid`; `GET` on the same path lists them. Each photo taken is an
+outbox operation `photo_upload` whose `client_uuid` is the photo id, resent unchanged on every retry. It is not part of
+`mobile-sync`: the outbox sends it alone, in its queue position, reading the file from the local path at send time, so the
+photos of a work order are stored before its `service_report`, whose payload then gets `photo_ids` (server ids of the photos
+uploaded so far). Missing file, 413, 422, 403, 404 -> conflict (retry or discard, discard drops the photo); offline and 401
+stop the flush; 5xx/429 back off and hold back later operations. A photo already on the server cannot be removed from the
+phone. Per photo the screen shows queued / uploaded / failed.

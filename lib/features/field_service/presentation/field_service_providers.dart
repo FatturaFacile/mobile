@@ -23,6 +23,7 @@ final Provider<FieldServiceOutbox> fieldServiceOutboxProvider =
       (Ref ref) => FieldServiceOutbox(
         ref.watch(fieldServiceStoreProvider),
         ref.watch(dioProvider),
+        readPhoto: FieldServiceDeviceServices.readPhoto,
       ),
     );
 

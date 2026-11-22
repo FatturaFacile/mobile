@@ -132,13 +132,17 @@ abstract class FieldServiceRepository {
   /// Undoes a part line that has not been acknowledged yet.
   Future<void> removePart(String workOrderId, String clientUuid);
 
+  /// Keeps the photo on the phone and queues its multipart upload (`photo_upload`, same id as the photo).
   Future<ReportPhoto> addPhoto(
     String workOrderId, {
     required String localPath,
     required String name,
     DateTime? takenAt,
+    FsmPhotoStage? stage,
+    String? caption,
   });
 
+  /// Drops a photo that is not on the server yet (throws [FsmException] `photo: already_synced` otherwise).
   Future<void> removePhoto(String workOrderId, String photoId);
 
   /// The values typed so far in the report form (kept across screen visits).
@@ -428,10 +432,16 @@ class LocalFieldServiceRepository implements FieldServiceRepository {
     required String localPath,
     required String name,
     DateTime? takenAt,
+    FsmPhotoStage? stage,
+    String? caption,
   }) async {
     await _openWorkOrder(workOrderId);
     if ((await _store.photos(tenantId, workOrderId)).length >= 20) {
       throw const FsmException(<String, String>{'photos': 'max'});
+    }
+    final String text = (caption ?? '').trim();
+    if (text.length > 255) {
+      throw const FsmException(<String, String>{'caption': 'max'});
     }
     final ReportPhoto photo = ReportPhoto(
       id: _newUuid(),
@@ -439,14 +449,34 @@ class LocalFieldServiceRepository implements FieldServiceRepository {
       name: name,
       takenAt: takenAt ?? _clock(),
       localPath: localPath,
+      stage: stage,
+      caption: text.isEmpty ? null : text,
     );
-    await _store.insertPhoto(tenantId, workOrderId, photo);
+    await _store.transaction<void>(() async {
+      await _store.insertPhoto(tenantId, workOrderId, photo);
+      await _store.enqueue(
+        tenantId: tenantId,
+        workOrderId: workOrderId,
+        type: FsmOperationType.photoUpload,
+        payload: photo.toUploadPayload(),
+        clientUuid: photo.id,
+        createdAt: _clock(),
+      );
+    });
     return photo;
   }
 
   @override
-  Future<void> removePhoto(String workOrderId, String photoId) =>
-      _store.deletePhoto(tenantId, photoId);
+  Future<void> removePhoto(String workOrderId, String photoId) async {
+    final FsmOperation? op = await _store.operation(photoId);
+    if (op != null && op.state == FsmOutboxState.done) {
+      throw const FsmException(<String, String>{'photo': 'already_synced'});
+    }
+    await _store.transaction<void>(() async {
+      if (op != null) await _store.deleteOperation(photoId);
+      await _store.deletePhoto(tenantId, photoId);
+    });
+  }
 
   @override
   Future<Map<String, dynamic>> loadDraft(String workOrderId) =>
@@ -526,6 +556,8 @@ class LocalFieldServiceRepository implements FieldServiceRepository {
             op.workOrderId,
             FsmStatus.onSite,
           );
+        case FsmOperationType.photoUpload:
+          await _store.deletePhoto(tenantId, clientUuid);
         case FsmOperationType.statusTransition:
           break; // The next refresh brings the server status back.
       }

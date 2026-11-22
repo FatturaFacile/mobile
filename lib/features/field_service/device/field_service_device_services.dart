@@ -1,4 +1,4 @@
-import 'dart:io' show Directory;
+import 'dart:io' show Directory, File;
 
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform;
@@ -73,6 +73,12 @@ class FieldServiceDeviceServices {
     } on PlatformException {
       return null;
     }
+  }
+
+  /// Bytes of a photo saved by [takePhoto], read when the outbox uploads it; null when the file is gone.
+  static Future<List<int>?> readPhoto(String path) async {
+    final File file = File(path);
+    return await file.exists() ? file.readAsBytes() : null;
   }
 
   /// Opens the site in the navigator: the `geo:` URI first on Android, then the web directions link.
