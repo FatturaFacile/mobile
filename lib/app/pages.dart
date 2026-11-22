@@ -13,6 +13,7 @@ import '../features/entities/entity_definition.dart';
 import '../features/dss/presentation/executive_dss_page.dart';
 import '../features/security/presentation/security_providers.dart';
 import '../features/payslip_vault/presentation/payslip_pages.dart';
+import '../features/gelato/presentation/gelato_page.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
 import '../features/shop_floor/presentation/shop_floor_home_page.dart';
 import '../features/security/presentation/security_screen.dart';
@@ -161,6 +162,7 @@ class HomePage extends ConsumerWidget {
       'executive_dss' => const ExecutiveDssPage(),
       aiReviewModule => const AiSuggestionsPage(),
       shiftSelfServiceModule => const ShiftHomePage(),
+      gelatoModule => const GelatoHomePage(),
       payslipVaultModule => const PayslipVaultPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
         tenantId: b.tenantId,
