@@ -215,6 +215,27 @@ class FakeResourcePlanningRepository implements ResourcePlanningRepository {
   AllocationMutationResult? mutationResult;
   ResourcePlanningException? failure;
 
+  List<ResourceLookup> resourceRows = <ResourceLookup>[
+    ResourceLookup.fromJson(resourceJson('e1', 'Anna Rossi')),
+    ResourceLookup.fromJson(resourceJson('e2', 'Bruno Bianchi', departmentId: 'd2', departmentName: 'Sales')),
+  ];
+  List<ProjectRef> projectRows = <ProjectRef>[];
+  List<EmployeeSkillProfile> profileRows = <EmployeeSkillProfile>[];
+  List<UtilizationTarget> targetRows = <UtilizationTarget>[];
+  List<LocalHoliday> holidayRows = <LocalHoliday>[];
+
+  /// When set, only the project list fails with it (the picker falls back to the manual id).
+  ResourcePlanningException? projectsFailure;
+
+  final List<AllocationDraft> createdDrafts = <AllocationDraft>[];
+  final List<SkillDraft> skillDrafts = <SkillDraft>[];
+  final List<SkillProfileDraft> profileDrafts = <SkillProfileDraft>[];
+  final List<UtilizationTargetDraft> targetDrafts = <UtilizationTargetDraft>[];
+  final List<LocalHolidayDraft> holidayDrafts = <LocalHolidayDraft>[];
+  String? lastConvertProjectId;
+  String? lastProjectSearch;
+  int _seq = 0;
+
   final List<String> calls = <String>[];
   final List<RebalanceRequest> rebalances = <RebalanceRequest>[];
   final List<CandidateQuery> queries = <CandidateQuery>[];
@@ -260,6 +281,7 @@ class FakeResourcePlanningRepository implements ResourcePlanningRepository {
     String? wbsNodeId,
   }) async {
     calls.add('convert:$allocationId');
+    lastConvertProjectId = projectId;
     _maybeFail();
     return mutationResult!;
   }
@@ -286,7 +308,14 @@ class FakeResourcePlanningRepository implements ResourcePlanningRepository {
   Future<List<EmployeeSkillProfile>> skillProfiles({
     String? employeeId,
     String? skillId,
-  }) async => const <EmployeeSkillProfile>[];
+  }) async {
+    calls.add('profiles:${employeeId ?? ''}');
+    _maybeFail();
+    return <EmployeeSkillProfile>[
+      for (final EmployeeSkillProfile p in profileRows)
+        if (employeeId == null || p.employeeId == employeeId) p,
+    ];
+  }
 
   @override
   Future<List<ResourceCapacitySnapshot>> snapshots({
@@ -314,4 +343,209 @@ class FakeResourcePlanningRepository implements ResourcePlanningRepository {
     _maybeFail();
     return utilizationResult;
   }
+
+  @override
+  Future<List<ResourceLookup>> resources({String? departmentId}) async {
+    calls.add('resources');
+    _maybeFail();
+    return resourceRows;
+  }
+
+  @override
+  Future<List<ProjectRef>> projects({String? search}) async {
+    calls.add('projects:${search ?? ''}');
+    lastProjectSearch = search;
+    final ResourcePlanningException? f = projectsFailure;
+    if (f != null) {
+      throw f;
+    }
+    return <ProjectRef>[
+      for (final ProjectRef p in projectRows)
+        if ((search ?? '').isEmpty || p.label.toLowerCase().contains(search!.toLowerCase())) p,
+    ];
+  }
+
+  @override
+  Future<AllocationMutationResult> createAllocation(AllocationDraft draft) async {
+    calls.add('create');
+    createdDrafts.add(draft);
+    _maybeFail();
+    return mutationResult!;
+  }
+
+  @override
+  Future<void> deleteAllocation(String allocationId) async {
+    calls.add('delete:$allocationId');
+    _maybeFail();
+  }
+
+  @override
+  Future<Skill> createSkill(SkillDraft draft) async {
+    calls.add('skill-create');
+    skillDrafts.add(draft);
+    _maybeFail();
+    return _skillOf('sk-new-${++_seq}', draft);
+  }
+
+  @override
+  Future<Skill> updateSkill(String skillId, SkillDraft draft) async {
+    calls.add('skill-update:$skillId');
+    skillDrafts.add(draft);
+    _maybeFail();
+    return _skillOf(skillId, draft);
+  }
+
+  Skill _skillOf(String id, SkillDraft d) => Skill(
+    id: id,
+    category: d.category.trim(),
+    skillName: d.skillName.trim(),
+    requiresCertification: d.requiresCertification,
+    certificationCode: d.requiresCertification ? d.certificationCode?.trim() : null,
+  );
+
+  @override
+  Future<void> deleteSkill(String skillId) async {
+    calls.add('skill-delete:$skillId');
+    _maybeFail();
+  }
+
+  @override
+  Future<EmployeeSkillProfile> saveSkillProfile(SkillProfileDraft draft) async {
+    calls.add('profile-save');
+    profileDrafts.add(draft);
+    _maybeFail();
+    final Skill skill = skillRows.firstWhere(
+      (Skill k) => k.id == draft.skillId,
+      orElse: () => Skill(id: draft.skillId, category: 'x', skillName: draft.skillId),
+    );
+    return EmployeeSkillProfile(
+      id: 'pr-${draft.skillId}',
+      employeeId: draft.employeeId,
+      employeeName: 'Anna Rossi',
+      skillId: skill.id,
+      skillName: skill.skillName,
+      category: skill.category,
+      proficiencyLevel: draft.proficiencyLevel,
+      validUntilDate: draft.validUntilDate,
+    );
+  }
+
+  @override
+  Future<void> deleteSkillProfile(String profileId) async {
+    calls.add('profile-delete:$profileId');
+    _maybeFail();
+  }
+
+  @override
+  Future<List<UtilizationTarget>> utilizationTargets() async {
+    calls.add('targets');
+    _maybeFail();
+    return targetRows;
+  }
+
+  @override
+  Future<UtilizationTarget> saveUtilizationTarget(UtilizationTargetDraft draft) async {
+    calls.add('target-save');
+    targetDrafts.add(draft);
+    _maybeFail();
+    return UtilizationTarget(
+      id: 'ut-${draft.departmentId ?? draft.costCenterId ?? 'default'}',
+      departmentId: draft.departmentId,
+      costCenterId: draft.costCenterId,
+      targetPercent: draft.targetPercent,
+    );
+  }
+
+  @override
+  Future<List<LocalHoliday>> localHolidays() async {
+    calls.add('holidays');
+    _maybeFail();
+    return holidayRows;
+  }
+
+  @override
+  Future<LocalHoliday> addLocalHoliday(LocalHolidayDraft draft) async {
+    calls.add('holiday-add');
+    holidayDrafts.add(draft);
+    _maybeFail();
+    return LocalHoliday(
+      id: 'h-${++_seq}',
+      country: draft.country,
+      regionCode: draft.regionCode,
+      municipality: draft.municipality,
+      month: draft.month,
+      day: draft.day,
+      year: draft.year,
+      name: draft.name.trim(),
+      dayFraction: draft.dayFraction,
+    );
+  }
+
+  @override
+  Future<void> deleteLocalHoliday(String holidayId) async {
+    calls.add('holiday-delete:$holidayId');
+    _maybeFail();
+  }
 }
+
+/// Test uuids: the API ids are UUIDs and the picker / opportunity fields validate that format.
+const String uuidA = '0b9f0c1e-1d2a-4c3b-8a4d-5e6f7a8b9c0d';
+const String uuidB = '1c0a1d2f-2e3b-4d4c-9b5e-6f7a8b9c0d1e';
+
+Map<String, dynamic> resourceJson(
+  String id,
+  String name, {
+  String departmentId = 'd1',
+  String departmentName = 'Engineering',
+}) => <String, dynamic>{
+  'employee_id': id,
+  'full_name': name,
+  'department_id': departmentId,
+  'department_name': departmentName,
+  'cost_center_id': 'c-$departmentId',
+  'cost_center_name': 'CC $departmentName',
+  'weekly_contract_hours': 40,
+  'fte_ratio': 1,
+  'hourly_cost': 55,
+  'country': 'CH',
+  'region': null,
+};
+
+Map<String, dynamic> skillJson(
+  String id,
+  String name, {
+  String category = 'Engineering',
+  bool cert = false,
+  String? code,
+}) => <String, dynamic>{
+  'id': id,
+  'category': category,
+  'skill_name': name,
+  'requires_certification': cert,
+  'certification_code': code,
+};
+
+Map<String, dynamic> profileJson(
+  String id, {
+  String employeeId = 'e1',
+  String skillId = 's1',
+  String skillName = 'Flutter',
+  int level = 4,
+  String? validUntil,
+  String certStatus = 'not_required',
+  bool cert = false,
+}) => <String, dynamic>{
+  'id': id,
+  'employee_id': employeeId,
+  'employee_name': 'Anna Rossi',
+  'skill_id': skillId,
+  'skill_name': skillName,
+  'category': 'Engineering',
+  'proficiency_level': level,
+  'valid_until_date': validUntil,
+  'is_valid': true,
+  'requires_certification': cert,
+  'certification_code': cert ? 'CERT-1' : null,
+  'certification_status': certStatus,
+  'certification_valid_until': null,
+};

@@ -5,35 +5,16 @@ import '../../../app/providers.dart';
 import '../../../design/ff_tokens.dart';
 import '../domain/resource_planning_models.dart';
 import '../domain/resource_planning_repository.dart';
+import 'resource_planning_allocation_forms.dart';
 import 'resource_planning_controller.dart';
+import 'resource_planning_setup_pages.dart';
 import 'resource_planning_strings.dart';
+import 'resource_planning_ui.dart';
+
+export 'resource_planning_ui.dart' show resourcePlanningErrorMessage;
 
 /// RBAC module key of the resource planning screens (capacity, allocations, candidates, utilization).
 const String resourcePlanningModule = 'resource_planning';
-
-/// User-facing message of a failed call. A rule violation names the first violation code, then the server detail.
-String resourcePlanningErrorMessage(
-  ResourcePlanningStrings s,
-  ResourcePlanningException e,
-) {
-  switch (e.kind) {
-    case ResourcePlanningErrorKind.invalid:
-      if (e.violations.isNotEmpty) {
-        return s.violation(e.violations.first.code);
-      }
-      return e.detail.isEmpty ? s(RS.errorInvalid) : e.detail;
-    case ResourcePlanningErrorKind.forbidden:
-      return s(RS.errorForbidden);
-    case ResourcePlanningErrorKind.notFound:
-      return s(RS.errorNotFound);
-    case ResourcePlanningErrorKind.conflict:
-      return s(RS.errorConflict);
-    case ResourcePlanningErrorKind.offline:
-      return s(RS.errorOffline);
-    case ResourcePlanningErrorKind.unknown:
-      return s(RS.errorUnknown);
-  }
-}
 
 /// Background and foreground colors of a saturation band, taken from the theme.
 ({Color background, Color foreground}) bandColors(
@@ -74,7 +55,7 @@ class ResourcePlanningHomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ResourcePlanningStrings s = _strings(ref);
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           title: Text(s(RS.title)),
@@ -94,6 +75,7 @@ class ResourcePlanningHomePage extends ConsumerWidget {
                 key: const Key('rp-tab-utilization'),
                 text: s(RS.tabUtilization),
               ),
+              Tab(key: const Key('rp-tab-setup'), text: s(RS.tabSetup)),
             ],
           ),
         ),
@@ -103,6 +85,7 @@ class ResourcePlanningHomePage extends ConsumerWidget {
             AllocationsTab(),
             CandidatesTab(),
             UtilizationTab(),
+            SetupTab(),
           ],
         ),
       ),
@@ -426,23 +409,38 @@ class _AllocationsTabState extends ConsumerState<AllocationsTab> {
     if (result == null) {
       message = resourcePlanningErrorMessage(s, outcome.error!);
     } else {
-      final List<String> parts = <String>[
-        s(doneLabel),
-        if (result.overload.isOverloaded)
-          s(
-            RS.overloadedBooking,
-            params: <String, Object>{
-              'n': result.overload.peakLoadPercent.round(),
-            },
-          ),
-        for (final ApiCode w in result.warnings) s.violation(w.code),
-      ];
-      message = parts.join(' - ');
+      message = allocationResultMessage(s, doneLabel, result);
     }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message, key: const Key('rp-action-message'))),
     );
   }
+
+  /// Commits a soft booking. One that only has an opportunity first asks for the project to commit it to.
+  Future<void> _convert(
+    ResourceAllocation allocation,
+    ResourcePlanningStrings s,
+  ) async {
+    String? projectId;
+    if (!allocation.canConvertWithoutProject) {
+      final ProjectRef? picked = await pickProject(context);
+      if (picked == null || !mounted) {
+        return;
+      }
+      projectId = picked.id;
+    }
+    await _run(
+      () => ref
+          .read(allocationsProvider.notifier)
+          .convertToHard(allocation, projectId: projectId),
+      s,
+      RS.convertDone,
+    );
+  }
+
+  Future<void> _openForm(Widget page) => Navigator.of(
+    context,
+  ).push<bool>(MaterialPageRoute<bool>(builder: (BuildContext _) => page));
 
   @override
   Widget build(BuildContext context) {
@@ -459,6 +457,16 @@ class _AllocationsTabState extends ConsumerState<AllocationsTab> {
       child: ListView(
         padding: const EdgeInsets.all(FfSpace.space4),
         children: <Widget>[
+          Align(
+            alignment: Alignment.centerRight,
+            child: FilledButton.icon(
+              key: const Key('rp-add-allocation'),
+              onPressed: () => _openForm(const AllocationFormPage()),
+              icon: const Icon(Icons.add),
+              label: Text(s(RS.addAllocation)),
+            ),
+          ),
+          const SizedBox(height: FfSpace.space3),
           if (state.error != null && rows == null)
             _errorBox(
               s,
@@ -483,13 +491,8 @@ class _AllocationsTabState extends ConsumerState<AllocationsTab> {
               AllocationCard(
                 allocation: a,
                 strings: s,
-                onConvert: a.canConvertWithoutProject
-                    ? () => _run(
-                        () => controller.convertToHard(a),
-                        s,
-                        RS.convertDone,
-                      )
-                    : null,
+                onConvert: a.isSoft ? () => _convert(a, s) : null,
+                onEdit: () => _openForm(AllocationEditPage(allocation: a)),
                 onMove: (int days) =>
                     _run(() => controller.move(a, days), s, RS.moveDone),
               ),
@@ -506,14 +509,18 @@ class AllocationCard extends StatelessWidget {
     required this.strings,
     required this.onMove,
     this.onConvert,
+    this.onEdit,
     super.key,
   });
 
   final ResourceAllocation allocation;
   final ResourcePlanningStrings strings;
 
-  /// Null when the booking is hard or cannot be converted without a project.
+  /// Null when the booking is hard. A soft booking without a project asks for one before it is committed.
   final VoidCallback? onConvert;
+
+  /// Opens the editor (resize, shift, reassign, split, delete); the button is hidden when null.
+  final VoidCallback? onEdit;
 
   /// Moves the allocation by a number of days.
   final void Function(int days) onMove;
@@ -580,7 +587,7 @@ class AllocationCard extends StatelessWidget {
                   style: TextStyle(color: c.danger),
                 ),
               ),
-            if (a.isSoft && onConvert == null)
+            if (a.isSoft && !a.canConvertWithoutProject)
               Padding(
                 padding: const EdgeInsets.only(top: FfSpace.space1),
                 child: Text(
@@ -598,6 +605,12 @@ class AllocationCard extends StatelessWidget {
                     key: Key('rp-convert-${a.id}'),
                     onPressed: onConvert,
                     child: Text(strings(RS.convertToHard)),
+                  ),
+                if (onEdit != null)
+                  OutlinedButton(
+                    key: Key('rp-edit-${a.id}'),
+                    onPressed: onEdit,
+                    child: Text(strings(RS.editAction)),
                   ),
                 OutlinedButton(
                   key: Key('rp-move-back-${a.id}'),
