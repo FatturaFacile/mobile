@@ -29,6 +29,7 @@ import '../features/helpdesk/notifications/helpdesk_push_payload.dart';
 import '../features/helpdesk/presentation/helpdesk_controller.dart';
 import '../features/helpdesk/presentation/helpdesk_pages.dart';
 import '../features/helpdesk/presentation/helpdesk_strings.dart';
+import '../features/resource_planning/presentation/resource_planning_pages.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
 import '../features/shop_floor/presentation/shop_floor_home_page.dart';
 import '../features/security/presentation/security_screen.dart';
@@ -180,6 +181,7 @@ class HomePage extends ConsumerWidget {
       'customer_360' => const CustomerLifecyclePage(),
       aiReviewModule => const AiSuggestionsPage(),
       shiftSelfServiceModule => const ShiftHomePage(),
+      resourcePlanningModule => const ResourcePlanningHomePage(),
       gelatoModule => const GelatoHomePage(),
       generalLedgerModule => const GlHomePage(),
       _ when fieldServiceModules.contains(module) => FieldServiceHomePage(
