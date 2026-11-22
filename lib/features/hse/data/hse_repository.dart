@@ -30,7 +30,8 @@ class SyncEngineHseRepository implements HseRepository {
   final String tenantId;
 
   @override
-  Future<String> queuePpeHandOver(PpeHandOver handOver) => _engine.enqueueCommand(
+  Future<String> queuePpeHandOver(PpeHandOver handOver) =>
+      _engine.enqueueCommand(
         tenantId: tenantId,
         entity: hsePpeEntity,
         path: '/hse/ppe-distributions',
@@ -39,19 +40,19 @@ class SyncEngineHseRepository implements HseRepository {
 
   @override
   Future<String> queueToolBoxTalk(ToolBoxTalk talk) => _engine.enqueueCommand(
-        tenantId: tenantId,
-        entity: hseToolBoxEntity,
-        path: '/hse/toolbox-talks',
-        data: talk.toJson(),
-      );
+    tenantId: tenantId,
+    entity: hseToolBoxEntity,
+    path: '/hse/toolbox-talks',
+    data: talk.toJson(),
+  );
 
   @override
   Future<String> queueNearMiss(NearMissReport report) => _engine.enqueueCommand(
-        tenantId: tenantId,
-        entity: hseNearMissEntity,
-        path: '/hse/incidents',
-        data: report.toJson(),
-      );
+    tenantId: tenantId,
+    entity: hseNearMissEntity,
+    path: '/hse/incidents',
+    data: report.toJson(),
+  );
 
   @override
   Stream<int> watchPending() => _engine.watchPending(tenantId);

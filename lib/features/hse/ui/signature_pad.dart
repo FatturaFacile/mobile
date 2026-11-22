@@ -9,7 +9,9 @@ class SignatureController extends ChangeNotifier {
   final List<List<Offset>> _strokes = <List<Offset>>[];
 
   /// Strokes drawn so far (read-only copy).
-  List<List<Offset>> get strokes => <List<Offset>>[for (final s in _strokes) List<Offset>.unmodifiable(s)];
+  List<List<Offset>> get strokes => <List<Offset>>[
+    for (final s in _strokes) List<Offset>.unmodifiable(s),
+  ];
 
   bool get isEmpty => _strokes.isEmpty;
 
@@ -31,18 +33,28 @@ class SignatureController extends ChangeNotifier {
 
   /// The strokes as compact JSON (`[[[x,y],[x,y]], ...]`): the evidence the server hashes with the hand-over data.
   String toPayload() => jsonEncode(<List<List<double>>>[
-        for (final stroke in _strokes)
-          <List<double>>[
-            for (final p in stroke) <double>[double.parse(p.dx.toStringAsFixed(1)), double.parse(p.dy.toStringAsFixed(1))],
+    for (final stroke in _strokes)
+      <List<double>>[
+        for (final p in stroke)
+          <double>[
+            double.parse(p.dx.toStringAsFixed(1)),
+            double.parse(p.dy.toStringAsFixed(1)),
           ],
-      ]);
+      ],
+  ]);
 
   /// The signature as a base64 PNG on a transparent background, or null while nothing is drawn.
-  Future<String?> toPngBase64({Size size = const Size(480, 180), Color ink = const Color(0xFF111111)}) async {
+  Future<String?> toPngBase64({
+    Size size = const Size(480, 180),
+    Color ink = const Color(0xFF111111),
+  }) async {
     if (isEmpty) return null;
     final recorder = ui.PictureRecorder();
     SignaturePainter(strokes: strokes, ink: ink).paint(Canvas(recorder), size);
-    final image = await recorder.endRecording().toImage(size.width.round(), size.height.round());
+    final image = await recorder.endRecording().toImage(
+      size.width.round(),
+      size.height.round(),
+    );
     final data = await image.toByteData(format: ui.ImageByteFormat.png);
     image.dispose();
     return data == null ? null : base64Encode(data.buffer.asUint8List());
@@ -66,7 +78,11 @@ class SignaturePainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
     for (final stroke in strokes) {
       if (stroke.length == 1) {
-        canvas.drawCircle(stroke.first, 1.25, paint..style = PaintingStyle.fill);
+        canvas.drawCircle(
+          stroke.first,
+          1.25,
+          paint..style = PaintingStyle.fill,
+        );
         paint.style = PaintingStyle.stroke;
         continue;
       }
@@ -93,7 +109,11 @@ class SignaturePad extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      decoration: BoxDecoration(color: const Color(0xFFFFFFFF), border: Border.all(color: const Color(0xFF9E9E9E)), borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFFFFF),
+        border: Border.all(color: const Color(0xFF9E9E9E)),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onPanStart: (d) => controller.startStroke(d.localPosition),
@@ -102,7 +122,10 @@ class SignaturePad extends StatelessWidget {
           listenable: controller,
           builder: (context, _) => CustomPaint(
             size: Size.infinite,
-            painter: SignaturePainter(strokes: controller.strokes, ink: const Color(0xFF111111)),
+            painter: SignaturePainter(
+              strokes: controller.strokes,
+              ink: const Color(0xFF111111),
+            ),
           ),
         ),
       ),

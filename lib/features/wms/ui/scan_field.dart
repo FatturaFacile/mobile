@@ -9,7 +9,12 @@ typedef CameraScanner = Future<String?> Function(BuildContext context);
 /// Barcode/SKU input. Hardware scanners (keyboard wedge) type the code and send Enter; the optional
 /// [cameraScanner] adds a camera button. Both feed [onScan].
 class ScanField extends StatefulWidget {
-  const ScanField({super.key, required this.onScan, this.enabled = true, this.cameraScanner});
+  const ScanField({
+    super.key,
+    required this.onScan,
+    this.enabled = true,
+    this.cameraScanner,
+  });
 
   final Future<void> Function(String code) onScan;
   final bool enabled;

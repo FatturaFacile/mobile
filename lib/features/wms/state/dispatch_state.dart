@@ -6,14 +6,18 @@ import '../models/transfer.dart';
 /// Pure state of the step 1 (dispatch) checklist: which lines have been scanned.
 @immutable
 class DispatchChecklist {
-  const DispatchChecklist({required this.lines, this.scannedLineIds = const {}});
+  const DispatchChecklist({
+    required this.lines,
+    this.scannedLineIds = const {},
+  });
 
   final List<TransferLine> lines;
   final Set<String> scannedLineIds;
 
   bool isScanned(String lineId) => scannedLineIds.contains(lineId);
 
-  int get scannedCount => lines.where((l) => scannedLineIds.contains(l.id)).length;
+  int get scannedCount =>
+      lines.where((l) => scannedLineIds.contains(l.id)).length;
 
   /// Dispatch can only be confirmed once every line has been scanned.
   bool get isReady => lines.isNotEmpty && scannedCount == lines.length;
@@ -21,7 +25,10 @@ class DispatchChecklist {
   /// Ticks the line, or returns this checklist unchanged when it is not part of the transfer.
   DispatchChecklist markScanned(String lineId) {
     if (!lines.any((l) => l.id == lineId)) return this;
-    return DispatchChecklist(lines: lines, scannedLineIds: {...scannedLineIds, lineId});
+    return DispatchChecklist(
+      lines: lines,
+      scannedLineIds: {...scannedLineIds, lineId},
+    );
   }
 }
 
@@ -30,8 +37,8 @@ enum DispatchPhase { idle, scanning, shipping, shipped }
 /// Drives the dispatch screen: scans lines through the API and confirms the shipment.
 class DispatchController extends ChangeNotifier {
   DispatchController({required this.repository, required Transfer transfer})
-      : _transfer = transfer,
-        _checklist = DispatchChecklist(lines: transfer.lines);
+    : _transfer = transfer,
+      _checklist = DispatchChecklist(lines: transfer.lines);
 
   final WmsRepository repository;
   Transfer _transfer;
@@ -45,7 +52,10 @@ class DispatchController extends ChangeNotifier {
   DispatchPhase get phase => _phase;
   String? get error => _error;
   TransferLine? get lastScanned => _lastScanned;
-  bool get canConfirm => _checklist.isReady && _phase != DispatchPhase.shipping && _phase != DispatchPhase.shipped;
+  bool get canConfirm =>
+      _checklist.isReady &&
+      _phase != DispatchPhase.shipping &&
+      _phase != DispatchPhase.shipped;
 
   /// Resolves [code] on the server and ticks the matching line. Returns true on a match.
   Future<bool> scan(String code) async {

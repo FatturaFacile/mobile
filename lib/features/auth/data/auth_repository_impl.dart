@@ -89,7 +89,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, Bootstrap>> bootstrap() async {
     try {
-      final Response<dynamic> res = await _dio.get<dynamic>('/mobile/bootstrap');
+      final Response<dynamic> res = await _dio.get<dynamic>(
+        '/mobile/bootstrap',
+      );
       return Right<Failure, Bootstrap>(Bootstrap.fromJson(_data(res)));
     } on DioException catch (e) {
       return Left<Failure, Bootstrap>(mapDioError(e));
@@ -104,5 +106,7 @@ class AuthRepositoryImpl implements AuthRepository {
       ..tenantId = null;
   }
 
-  Map<String, dynamic> _data(Response<dynamic> r) => ((r.data as Map<String, dynamic>)['data'] as Map<String, dynamic>?) ?? <String, dynamic>{};
+  Map<String, dynamic> _data(Response<dynamic> r) =>
+      ((r.data as Map<String, dynamic>)['data'] as Map<String, dynamic>?) ??
+      <String, dynamic>{};
 }

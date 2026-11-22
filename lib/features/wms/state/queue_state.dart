@@ -7,8 +7,10 @@ enum QueuePhase { idle, loading, loaded, failed }
 
 /// Drives the transfer queue: warehouse selection, direction tab and the list to work through.
 class TransferQueueController extends ChangeNotifier {
-  TransferQueueController({required this.repository, String? initialWarehouseId})
-      : _warehouseId = initialWarehouseId;
+  TransferQueueController({
+    required this.repository,
+    String? initialWarehouseId,
+  }) : _warehouseId = initialWarehouseId;
 
   final WmsRepository repository;
 
@@ -38,7 +40,8 @@ class TransferQueueController extends ChangeNotifier {
       _fail(e);
       return;
     }
-    if (_warehouseId == null && _warehouses.isNotEmpty) _warehouseId = _warehouses.first.id;
+    if (_warehouseId == null && _warehouses.isNotEmpty)
+      _warehouseId = _warehouses.first.id;
     await refresh();
   }
 
@@ -67,7 +70,10 @@ class TransferQueueController extends ChangeNotifier {
     _error = null;
     notifyListeners();
     try {
-      final result = await repository.queue(warehouseId: warehouse, direction: _direction);
+      final result = await repository.queue(
+        warehouseId: warehouse,
+        direction: _direction,
+      );
       if (seq != _requestSeq) return; // a newer request superseded this one
       _transfers = result;
       _phase = QueuePhase.loaded;

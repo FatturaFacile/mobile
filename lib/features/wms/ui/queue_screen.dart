@@ -8,7 +8,11 @@ import 'wms_labels.dart';
 
 /// Operator queue: outbound transfers to dispatch and inbound transfers to receive.
 class QueueScreen extends StatefulWidget {
-  const QueueScreen({super.key, required this.controller, required this.onOpen});
+  const QueueScreen({
+    super.key,
+    required this.controller,
+    required this.onOpen,
+  });
 
   final TransferQueueController controller;
 
@@ -54,9 +58,13 @@ class _QueueScreenState extends State<QueueScreen> {
                   DropdownButtonFormField<String>(
                     key: const Key('warehouse-select'),
                     initialValue: c.warehouseId,
-                    decoration: InputDecoration(labelText: s.t(L.warehouse), border: const OutlineInputBorder()),
+                    decoration: InputDecoration(
+                      labelText: s.t(L.warehouse),
+                      border: const OutlineInputBorder(),
+                    ),
                     items: [
-                      for (final w in c.warehouses) DropdownMenuItem(value: w.id, child: Text(w.label)),
+                      for (final w in c.warehouses)
+                        DropdownMenuItem(value: w.id, child: Text(w.label)),
                     ],
                     onChanged: (id) {
                       if (id != null) c.selectWarehouse(id);
@@ -66,8 +74,14 @@ class _QueueScreenState extends State<QueueScreen> {
                 SegmentedButton<TransferDirection>(
                   key: const Key('direction-toggle'),
                   segments: [
-                    ButtonSegment(value: TransferDirection.outbound, label: Text(s.t(L.outbound))),
-                    ButtonSegment(value: TransferDirection.inbound, label: Text(s.t(L.inbound))),
+                    ButtonSegment(
+                      value: TransferDirection.outbound,
+                      label: Text(s.t(L.outbound)),
+                    ),
+                    ButtonSegment(
+                      value: TransferDirection.inbound,
+                      label: Text(s.t(L.inbound)),
+                    ),
                   ],
                   selected: {c.direction},
                   onSelectionChanged: (set) => c.setDirection(set.first),
@@ -83,20 +97,28 @@ class _QueueScreenState extends State<QueueScreen> {
   }
 
   Widget _body(BuildContext context, FfStrings s, TransferQueueController c) {
-    if (c.phase == QueuePhase.loading) return const Center(child: CircularProgressIndicator());
+    if (c.phase == QueuePhase.loading)
+      return const Center(child: CircularProgressIndicator());
     if (c.phase == QueuePhase.failed) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(c.error ?? s.t(L.unexpectedError), key: const Key('queue-error'), textAlign: TextAlign.center),
+            Text(
+              c.error ?? s.t(L.unexpectedError),
+              key: const Key('queue-error'),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: FfSpace.space3),
             OutlinedButton(onPressed: c.refresh, child: Text(s.t(L.retry))),
           ],
         ),
       );
     }
-    if (c.transfers.isEmpty) return Center(child: Text(s.t(L.noTransfers), key: const Key('queue-empty')));
+    if (c.transfers.isEmpty)
+      return Center(
+        child: Text(s.t(L.noTransfers), key: const Key('queue-empty')),
+      );
     return RefreshIndicator(
       onRefresh: c.refresh,
       child: ListView.separated(
@@ -130,7 +152,10 @@ class _TransferTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onTap,
-        title: Text(transfer.transferNumber, style: const TextStyle(fontWeight: FontWeight.w600)),
+        title: Text(
+          transfer.transferNumber,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
         subtitle: Text(
           '${purposeLabel(s, transfer.purpose)} - ${s.t(L.linesCount, {'n': '${transfer.lines.length}'})}',
           style: TextStyle(color: colors.textSecondary, fontSize: FfFont.sm),

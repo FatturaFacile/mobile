@@ -15,7 +15,8 @@ enum HseJurisdiction {
 
   final String wire;
 
-  static HseJurisdiction fromWire(String? value) => value == 'CH' ? switzerland : italy;
+  static HseJurisdiction fromWire(String? value) =>
+      value == 'CH' ? switzerland : italy;
 }
 
 /// The content of a PPE box label: `PPE:<product uuid>:<lot or serial number>`.
@@ -25,12 +26,17 @@ class PpeScan {
   final String productId;
   final String lotOrSerial;
 
-  static final RegExp _uuid = RegExp(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$');
+  static final RegExp _uuid = RegExp(
+    r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+  );
 
   /// Null when the code is not a PPE label (a worker badge or any other barcode).
   static PpeScan? parse(String code) {
     final parts = code.trim().split(':');
-    if (parts.length < 3 || parts.first.toUpperCase() != 'PPE' || !_uuid.hasMatch(parts[1])) return null;
+    if (parts.length < 3 ||
+        parts.first.toUpperCase() != 'PPE' ||
+        !_uuid.hasMatch(parts[1]))
+      return null;
     final lot = parts.sublist(2).join(':').trim();
     if (lot.isEmpty) return null;
     return PpeScan(productId: parts[1], lotOrSerial: lot);
@@ -79,14 +85,22 @@ class PpeHandOver {
     'signature_image': signatureImage,
     'locale': locale,
     if (ceMarkingStandard != null) 'ce_marking_standard': ceMarkingStandard,
-    if (replacementDueAt != null) 'replacement_due_at': _date(replacementDueAt!),
-    'handed_over_at': (handedOverAt ?? DateTime.now()).toUtc().toIso8601String(),
+    if (replacementDueAt != null)
+      'replacement_due_at': _date(replacementDueAt!),
+    'handed_over_at': (handedOverAt ?? DateTime.now())
+        .toUtc()
+        .toIso8601String(),
   };
 }
 
 /// A worker who signed a tool-box talk.
 class ToolBoxAttendance {
-  const ToolBoxAttendance({required this.employeeId, required this.signaturePayload, required this.signedAt, this.signatureImage});
+  const ToolBoxAttendance({
+    required this.employeeId,
+    required this.signaturePayload,
+    required this.signedAt,
+    this.signatureImage,
+  });
 
   final String employeeId;
   final String signaturePayload;
@@ -121,9 +135,11 @@ class ToolBoxTalk {
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'topic': topic,
-    if (siteOrWorkCenter != null && siteOrWorkCenter!.isNotEmpty) 'site_or_work_center': siteOrWorkCenter,
+    if (siteOrWorkCenter != null && siteOrWorkCenter!.isNotEmpty)
+      'site_or_work_center': siteOrWorkCenter,
     'checklist_points': checklistPoints,
-    if (supervisorEmployeeId != null) 'supervisor_employee_id': supervisorEmployeeId,
+    if (supervisorEmployeeId != null)
+      'supervisor_employee_id': supervisorEmployeeId,
     'conducted_at': conductedAt.toUtc().toIso8601String(),
     'attendances': attendances.map((a) => a.toJson()).toList(),
   };
@@ -157,7 +173,9 @@ class NearMissReport {
   String? get location {
     final tag = siteTag?.trim();
     final hasFix = latitude != null && longitude != null;
-    final fix = hasFix ? '${latitude!.toStringAsFixed(5)},${longitude!.toStringAsFixed(5)}' : null;
+    final fix = hasFix
+        ? '${latitude!.toStringAsFixed(5)},${longitude!.toStringAsFixed(5)}'
+        : null;
     if (tag != null && tag.isNotEmpty) return fix == null ? tag : '$tag @ $fix';
     return fix;
   }
@@ -184,7 +202,10 @@ class HseBadge {
   /// Null when the code is not a worker badge (a PPE box label or any other tag).
   static HseBadge? parse(String code) {
     final parts = code.trim().split(':');
-    if (parts.length != 2 || parts.first.toUpperCase() != 'EMP' || !PpeScan._uuid.hasMatch(parts[1].trim())) return null;
+    if (parts.length != 2 ||
+        parts.first.toUpperCase() != 'EMP' ||
+        !PpeScan._uuid.hasMatch(parts[1].trim()))
+      return null;
     return HseBadge(parts[1].trim().toLowerCase());
   }
 }

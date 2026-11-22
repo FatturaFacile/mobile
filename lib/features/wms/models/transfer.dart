@@ -24,7 +24,8 @@ enum TransferPurpose {
   const TransferPurpose(this.wire);
   final String wire;
 
-  static TransferPurpose parse(Object? value) => TransferPurpose.values.firstWhere(
+  static TransferPurpose parse(Object? value) =>
+      TransferPurpose.values.firstWhere(
         (p) => p.wire == value,
         orElse: () => TransferPurpose.unknown,
       );
@@ -44,10 +45,8 @@ enum TransferStatus {
   const TransferStatus(this.wire);
   final String wire;
 
-  static TransferStatus parse(Object? value) => TransferStatus.values.firstWhere(
-        (s) => s.wire == value,
-        orElse: () => TransferStatus.unknown,
-      );
+  static TransferStatus parse(Object? value) => TransferStatus.values
+      .firstWhere((s) => s.wire == value, orElse: () => TransferStatus.unknown);
 }
 
 /// Direction of a transfer relative to the selected warehouse.
@@ -72,15 +71,15 @@ class TransferLine {
   });
 
   factory TransferLine.fromJson(Map<String, dynamic> json) => TransferLine(
-        id: json['id'].toString(),
-        productId: (json['product_id'] ?? '').toString(),
-        description: (json['description'] ?? '').toString(),
-        quantity: parseDecimal(json['quantity']),
-        shippedQty: parseDecimal(json['shipped_qty']),
-        receivedQty: parseDecimal(json['received_qty']),
-        damagedQty: parseDecimal(json['damaged_qty']),
-        discrepancyQty: parseDecimal(json['discrepancy_qty']),
-      );
+    id: json['id'].toString(),
+    productId: (json['product_id'] ?? '').toString(),
+    description: (json['description'] ?? '').toString(),
+    quantity: parseDecimal(json['quantity']),
+    shippedQty: parseDecimal(json['shipped_qty']),
+    receivedQty: parseDecimal(json['received_qty']),
+    damagedQty: parseDecimal(json['damaged_qty']),
+    discrepancyQty: parseDecimal(json['discrepancy_qty']),
+  );
 
   final String id;
   final String productId;
@@ -103,7 +102,8 @@ class TransferDiscrepancy {
     required this.status,
   });
 
-  factory TransferDiscrepancy.fromJson(Map<String, dynamic> json) => TransferDiscrepancy(
+  factory TransferDiscrepancy.fromJson(Map<String, dynamic> json) =>
+      TransferDiscrepancy(
         id: json['id'].toString(),
         shortageQty: parseDecimal(json['shortage_qty']),
         damageQty: parseDecimal(json['damage_qty']),
@@ -129,15 +129,19 @@ class Transfer {
   });
 
   factory Transfer.fromJson(Map<String, dynamic> json) => Transfer(
-        id: json['id'].toString(),
-        transferNumber: (json['transfer_number'] ?? '').toString(),
-        purpose: TransferPurpose.parse(json['purpose']),
-        status: TransferStatus.parse(json['status']),
-        originWarehouseId: json['origin_warehouse_id']?.toString(),
-        destinationWarehouseId: json['destination_warehouse_id']?.toString(),
-        lines: _list(json['lines']).map(TransferLine.fromJson).toList(growable: false),
-        discrepancies: _list(json['discrepancies']).map(TransferDiscrepancy.fromJson).toList(growable: false),
-      );
+    id: json['id'].toString(),
+    transferNumber: (json['transfer_number'] ?? '').toString(),
+    purpose: TransferPurpose.parse(json['purpose']),
+    status: TransferStatus.parse(json['status']),
+    originWarehouseId: json['origin_warehouse_id']?.toString(),
+    destinationWarehouseId: json['destination_warehouse_id']?.toString(),
+    lines: _list(json['lines'])
+        .map(TransferLine.fromJson)
+        .toList(growable: false),
+    discrepancies: _list(json['discrepancies'])
+        .map(TransferDiscrepancy.fromJson)
+        .toList(growable: false),
+  );
 
   final String id;
   final String transferNumber;
@@ -161,9 +165,9 @@ class ScanResult {
   const ScanResult({required this.line, required this.outstandingQty});
 
   factory ScanResult.fromJson(Map<String, dynamic> json) => ScanResult(
-        line: TransferLine.fromJson(Map<String, dynamic>.from(json['line'] as Map)),
-        outstandingQty: parseDecimal(json['outstanding_qty']),
-      );
+    line: TransferLine.fromJson(Map<String, dynamic>.from(json['line'] as Map)),
+    outstandingQty: parseDecimal(json['outstanding_qty']),
+  );
 
   final TransferLine line;
   final double outstandingQty;
@@ -174,10 +178,10 @@ class Warehouse {
   const Warehouse({required this.id, required this.code, required this.name});
 
   factory Warehouse.fromJson(Map<String, dynamic> json) => Warehouse(
-        id: json['id'].toString(),
-        code: (json['code'] ?? '').toString(),
-        name: (json['name'] ?? '').toString(),
-      );
+    id: json['id'].toString(),
+    code: (json['code'] ?? '').toString(),
+    name: (json['name'] ?? '').toString(),
+  );
 
   final String id;
   final String code;
@@ -188,5 +192,7 @@ class Warehouse {
 
 List<Map<String, dynamic>> _list(Object? value) {
   if (value is! List) return const [];
-  return value.map((e) => Map<String, dynamic>.from(e as Map)).toList(growable: false);
+  return value
+      .map((e) => Map<String, dynamic>.from(e as Map))
+      .toList(growable: false);
 }

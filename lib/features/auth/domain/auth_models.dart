@@ -1,6 +1,10 @@
 /// Immutable result of a completed sign-in.
 class AuthSession {
-  const AuthSession({required this.accessToken, required this.tenantId, this.deviceSessionId});
+  const AuthSession({
+    required this.accessToken,
+    required this.tenantId,
+    this.deviceSessionId,
+  });
 
   final String accessToken;
   final String tenantId;
@@ -44,12 +48,18 @@ class Bootstrap {
   });
 
   factory Bootstrap.fromJson(Map<String, dynamic> j) {
-    final Map<String, dynamic> user = (j['user'] as Map<String, dynamic>?) ?? <String, dynamic>{};
-    final Map<String, dynamic> tenant = (j['tenant'] as Map<String, dynamic>?) ?? <String, dynamic>{};
-    final Map<String, dynamic> badges = (j['badges'] as Map<String, dynamic>?) ?? <String, dynamic>{};
-    final Map<String, dynamic> sync = (j['sync'] as Map<String, dynamic>?) ?? <String, dynamic>{};
-    final Map<String, dynamic> app = (j['app'] as Map<String, dynamic>?) ?? <String, dynamic>{};
-    List<String> strings(Object? v) => (v as List<dynamic>? ?? <dynamic>[]).map((dynamic e) => '$e').toList();
+    final Map<String, dynamic> user =
+        (j['user'] as Map<String, dynamic>?) ?? <String, dynamic>{};
+    final Map<String, dynamic> tenant =
+        (j['tenant'] as Map<String, dynamic>?) ?? <String, dynamic>{};
+    final Map<String, dynamic> badges =
+        (j['badges'] as Map<String, dynamic>?) ?? <String, dynamic>{};
+    final Map<String, dynamic> sync =
+        (j['sync'] as Map<String, dynamic>?) ?? <String, dynamic>{};
+    final Map<String, dynamic> app =
+        (j['app'] as Map<String, dynamic>?) ?? <String, dynamic>{};
+    List<String> strings(Object? v) =>
+        (v as List<dynamic>? ?? <dynamic>[]).map((dynamic e) => '$e').toList();
     return Bootstrap(
       userId: '${user['id']}',
       userName: '${user['name'] ?? ''}',

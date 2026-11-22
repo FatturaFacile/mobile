@@ -9,7 +9,12 @@ import 'wms_labels.dart';
 
 /// Step 2: scan each line, enter good / damaged quantities and confirm the receipt.
 class ReceiptScreen extends StatelessWidget {
-  const ReceiptScreen({super.key, required this.controller, this.cameraScanner, this.onDone});
+  const ReceiptScreen({
+    super.key,
+    required this.controller,
+    this.cameraScanner,
+    this.onDone,
+  });
 
   final ReceiptController controller;
   final CameraScanner? cameraScanner;
@@ -26,12 +31,19 @@ class ReceiptScreen extends StatelessWidget {
         final draft = c.draft;
         final submitted = c.phase == ReceiptPhase.submitted;
         return Scaffold(
-          appBar: AppBar(title: Text(s.t(L.receiptTitle, {'number': c.transfer.transferNumber}))),
+          appBar: AppBar(
+            title: Text(
+              s.t(L.receiptTitle, {'number': c.transfer.transferNumber}),
+            ),
+          ),
           body: ListView(
             padding: const EdgeInsets.all(FfSpace.space4),
             children: [
               if (draft.lines.isEmpty)
-                Text(s.t(L.nothingOutstanding), key: const Key('receipt-nothing'))
+                Text(
+                  s.t(L.nothingOutstanding),
+                  key: const Key('receipt-nothing'),
+                )
               else ...[
                 ScanField(
                   onScan: (code) async {
@@ -43,7 +55,11 @@ class ReceiptScreen extends StatelessWidget {
                 if (c.error != null)
                   Padding(
                     padding: const EdgeInsets.only(top: FfSpace.space2),
-                    child: Text(c.error!, key: const Key('receipt-error'), style: TextStyle(color: colors.danger)),
+                    child: Text(
+                      c.error!,
+                      key: const Key('receipt-error'),
+                      style: TextStyle(color: colors.danger),
+                    ),
                   ),
                 const SizedBox(height: FfSpace.space3),
                 for (final line in draft.lines)
@@ -78,7 +94,11 @@ class ReceiptScreen extends StatelessWidget {
                     key: const Key('receipt-confirm'),
                     onPressed: c.canSubmit ? c.submit : null,
                     child: c.phase == ReceiptPhase.submitting
-                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                         : Text(s.t(L.confirmReceipt)),
                   ),
               ],
@@ -114,16 +134,25 @@ class _Result extends StatelessWidget {
           Container(
             key: const Key('manager-approval'),
             padding: const EdgeInsets.all(FfSpace.space3),
-            decoration: BoxDecoration(color: colors.warningBg, borderRadius: BorderRadius.circular(FfRadius.md)),
+            decoration: BoxDecoration(
+              color: colors.warningBg,
+              borderRadius: BorderRadius.circular(FfRadius.md),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   s.t(L.needsManagerApproval),
-                  style: TextStyle(color: colors.warning, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    color: colors.warning,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: FfSpace.space1),
-                Text(s.t(L.managerApprovalNote), style: TextStyle(color: colors.text, fontSize: FfFont.sm)),
+                Text(
+                  s.t(L.managerApprovalNote),
+                  style: TextStyle(color: colors.text, fontSize: FfFont.sm),
+                ),
                 for (final d in transfer.discrepancies)
                   Text(
                     '${s.t(L.shortageQty)}: ${formatQty(d.shortageQty)} / ${s.t(L.damagedQty)}: ${formatQty(d.damageQty)}',
@@ -141,7 +170,12 @@ class _Result extends StatelessWidget {
 }
 
 class _ReceiptLineCard extends StatelessWidget {
-  const _ReceiptLineCard({super.key, required this.line, required this.locked, required this.controller});
+  const _ReceiptLineCard({
+    super.key,
+    required this.line,
+    required this.locked,
+    required this.controller,
+  });
 
   final ReceiptLineDraft line;
   final bool locked;
@@ -167,17 +201,30 @@ class _ReceiptLineCard extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  line.scanned ? Icons.check_circle : Icons.radio_button_unchecked,
+                  line.scanned
+                      ? Icons.check_circle
+                      : Icons.radio_button_unchecked,
                   color: line.scanned ? colors.success : colors.textMuted,
                 ),
                 const SizedBox(width: FfSpace.space2),
-                Expanded(child: Text(line.line.description, style: const TextStyle(fontWeight: FontWeight.w600))),
-                Text('${s.t(L.outstanding)}: ${formatQty(line.outstanding)}', key: Key('outstanding-$id')),
+                Expanded(
+                  child: Text(
+                    line.line.description,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Text(
+                  '${s.t(L.outstanding)}: ${formatQty(line.outstanding)}',
+                  key: Key('outstanding-$id'),
+                ),
               ],
             ),
             const SizedBox(height: FfSpace.space2),
             if (!line.scanned)
-              Text(s.t(L.scanFirst), style: TextStyle(color: colors.textSecondary))
+              Text(
+                s.t(L.scanFirst),
+                style: TextStyle(color: colors.textSecondary),
+              )
             else ...[
               Row(
                 children: [
@@ -208,12 +255,18 @@ class _ReceiptLineCard extends StatelessWidget {
                 key: Key('shortage-$id'),
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: line.shortage > 0 ? colors.danger : colors.textSecondary,
+                  color: line.shortage > 0
+                      ? colors.danger
+                      : colors.textSecondary,
                 ),
               ),
               if (issue != null)
                 Text(
-                  s.t(issue == LineIssue.negative ? L.negativeQuantity : L.exceedsOutstanding),
+                  s.t(
+                    issue == LineIssue.negative
+                        ? L.negativeQuantity
+                        : L.exceedsOutstanding,
+                  ),
                   key: Key('issue-$id'),
                   style: TextStyle(color: colors.danger, fontSize: FfFont.sm),
                 ),
@@ -222,7 +275,10 @@ class _ReceiptLineCard extends StatelessWidget {
                 TextField(
                   key: Key('reason-$id'),
                   enabled: !locked,
-                  decoration: InputDecoration(labelText: s.t(L.reason), border: const OutlineInputBorder()),
+                  decoration: InputDecoration(
+                    labelText: s.t(L.reason),
+                    border: const OutlineInputBorder(),
+                  ),
                   onChanged: (v) => controller.setReason(id, v),
                 ),
               ],
@@ -257,7 +313,9 @@ class QuantityField extends StatefulWidget {
 }
 
 class _QuantityFieldState extends State<QuantityField> {
-  late final TextEditingController _text = TextEditingController(text: formatQty(widget.value));
+  late final TextEditingController _text = TextEditingController(
+    text: formatQty(widget.value),
+  );
   bool _invalid = false;
 
   @override
@@ -265,7 +323,8 @@ class _QuantityFieldState extends State<QuantityField> {
     super.didUpdateWidget(old);
     final typed = parseQuantityInput(_text.text);
     // Keep what the operator typed unless the draft changed from elsewhere (e.g. a scan pre-fill).
-    if (typed != null && typed != widget.value) _text.text = formatQty(widget.value);
+    if (typed != null && typed != widget.value)
+      _text.text = formatQty(widget.value);
   }
 
   @override

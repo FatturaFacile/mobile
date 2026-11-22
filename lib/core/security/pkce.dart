@@ -15,7 +15,9 @@ class PkcePair {
   }
 
   factory PkcePair.fromVerifier(String verifier) {
-    final String challenge = base64UrlEncode(sha256.convert(ascii.encode(verifier)).bytes).replaceAll('=', '');
+    final String challenge = base64UrlEncode(
+      sha256.convert(ascii.encode(verifier)).bytes,
+    ).replaceAll('=', '');
     return PkcePair(verifier: verifier, challenge: challenge);
   }
 

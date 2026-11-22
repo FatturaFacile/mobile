@@ -91,10 +91,12 @@ class _PpeDeliveryScreenState extends State<PpeDeliveryScreen> {
     final s = HseStrings.of(context);
     final locale = Localizations.localeOf(context);
     final worker = _worker.text.trim();
-    final quantity = double.tryParse(_quantity.text.trim().replaceAll(',', '.')) ?? 0;
+    final quantity =
+        double.tryParse(_quantity.text.trim().replaceAll(',', '.')) ?? 0;
     if (worker.isEmpty) return setState(() => _message = s.t(H.workerRequired));
     if (_scan == null) return setState(() => _message = s.t(H.scanPpeHint));
-    if (_signature.isEmpty || quantity <= 0) return setState(() => _message = s.t(H.signatureRequired));
+    if (_signature.isEmpty || quantity <= 0)
+      return setState(() => _message = s.t(H.signatureRequired));
 
     setState(() => _saving = true);
     await widget.repository.queuePpeHandOver(
@@ -131,13 +133,28 @@ class _PpeDeliveryScreenState extends State<PpeDeliveryScreen> {
           TextField(
             key: const Key('ppe-worker'),
             controller: _worker,
-            decoration: InputDecoration(labelText: s.t(H.workerLabel), helperText: s.t(H.workerHint)),
+            decoration: InputDecoration(
+              labelText: s.t(H.workerLabel),
+              helperText: s.t(H.workerHint),
+            ),
           ),
-          if (widget.readBadge != null) OutlinedButton(key: const Key('ppe-nfc'), onPressed: _readBadge, child: Text(s.t(H.readBadge))),
+          if (widget.readBadge != null)
+            OutlinedButton(
+              key: const Key('ppe-nfc'),
+              onPressed: _readBadge,
+              child: Text(s.t(H.readBadge)),
+            ),
           const SizedBox(height: FfSpace.space3),
-          Text(s.t(H.scanPpe), style: const TextStyle(fontWeight: FontWeight.w600)),
+          Text(
+            s.t(H.scanPpe),
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
           ScanField(onScan: _onScan, cameraScanner: widget.cameraScanner),
-          if (_scan != null) Text(fill(s.t(H.scannedItem), {'lot': _scan!.lotOrSerial}), key: const Key('ppe-scanned')),
+          if (_scan != null)
+            Text(
+              fill(s.t(H.scannedItem), {'lot': _scan!.lotOrSerial}),
+              key: const Key('ppe-scanned'),
+            ),
           const SizedBox(height: FfSpace.space3),
           TextField(
             key: const Key('ppe-quantity'),
@@ -148,15 +165,25 @@ class _PpeDeliveryScreenState extends State<PpeDeliveryScreen> {
           const SizedBox(height: FfSpace.space4),
           Text(s.legalNotice(widget.jurisdiction), key: const Key('ppe-legal')),
           const SizedBox(height: FfSpace.space3),
-          Text(s.t(H.signHere), style: const TextStyle(fontWeight: FontWeight.w600)),
+          Text(
+            s.t(H.signHere),
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
           SignaturePad(controller: _signature),
           Align(
             alignment: Alignment.centerRight,
-            child: TextButton(onPressed: _signature.clear, child: Text(s.t(H.clearSignature))),
+            child: TextButton(
+              onPressed: _signature.clear,
+              child: Text(s.t(H.clearSignature)),
+            ),
           ),
           if (_message != null) Text(_message!, key: const Key('ppe-message')),
           const SizedBox(height: FfSpace.space3),
-          FilledButton(key: const Key('ppe-confirm'), onPressed: _saving ? null : _confirm, child: Text(s.t(H.confirmHandOver))),
+          FilledButton(
+            key: const Key('ppe-confirm'),
+            onPressed: _saving ? null : _confirm,
+            child: Text(s.t(H.confirmHandOver)),
+          ),
         ],
       ),
     );

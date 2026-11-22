@@ -7,7 +7,9 @@ import 'support.dart';
 void main() {
   group('DispatchChecklist', () {
     test('is ready only when every line has been scanned', () {
-      var checklist = DispatchChecklist(lines: buildTransfer(status: 'approved').lines);
+      var checklist = DispatchChecklist(
+        lines: buildTransfer(status: 'approved').lines,
+      );
       expect(checklist.isReady, isFalse);
       checklist = checklist.markScanned('l1');
       expect(checklist.scannedCount, 1);
@@ -30,7 +32,10 @@ void main() {
 
     setUp(() {
       repo = FakeWmsRepository()..codes = {'111': 'l1', 'SKU-2': 'l2'};
-      controller = DispatchController(repository: repo, transfer: buildTransfer(status: 'approved'));
+      controller = DispatchController(
+        repository: repo,
+        transfer: buildTransfer(status: 'approved'),
+      );
     });
 
     test('confirm is refused until all lines are scanned', () async {
@@ -47,7 +52,11 @@ void main() {
       await controller.scan('SKU-2');
       expect(controller.canConfirm, isTrue);
 
-      const shipment = ShipmentInput(carrierName: 'DHL', packagesCount: 3, grossWeightKg: 12.5);
+      const shipment = ShipmentInput(
+        carrierName: 'DHL',
+        packagesCount: 3,
+        grossWeightKg: 12.5,
+      );
       expect(await controller.confirm(shipment), isTrue);
       expect(repo.lastShipment!.carrierName, 'DHL');
       expect(controller.phase, DispatchPhase.shipped);
@@ -55,11 +64,14 @@ void main() {
       expect(await controller.scan('111'), isFalse);
     });
 
-    test('unknown code keeps the checklist and surfaces the API message', () async {
-      expect(await controller.scan('nope'), isFalse);
-      expect(controller.error, 'Line not in transfer');
-      expect(controller.checklist.scannedCount, 0);
-    });
+    test(
+      'unknown code keeps the checklist and surfaces the API message',
+      () async {
+        expect(await controller.scan('nope'), isFalse);
+        expect(controller.error, 'Line not in transfer');
+        expect(controller.checklist.scannedCount, 0);
+      },
+    );
 
     test('ship failure is reported and dispatch can be retried', () async {
       await controller.scan('111');

@@ -4,17 +4,22 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'support.dart';
 
-ReceiptDraft draftFor({Map<String, dynamic>? second}) => ReceiptDraft.forTransfer(buildTransfer(
-      lines: [
-        lineJson('l1', shipped: '10.0000'),
-        second ?? lineJson('l2', shipped: '5.0000'),
-      ],
-    ));
+ReceiptDraft draftFor({Map<String, dynamic>? second}) =>
+    ReceiptDraft.forTransfer(
+      buildTransfer(
+        lines: [
+          lineJson('l1', shipped: '10.0000'),
+          second ?? lineJson('l2', shipped: '5.0000'),
+        ],
+      ),
+    );
 
 void main() {
   group('ReceiptDraft', () {
     test('only lines with outstanding quantity are included', () {
-      final draft = draftFor(second: lineJson('l2', shipped: '5.0000', received: '5.0000'));
+      final draft = draftFor(
+        second: lineJson('l2', shipped: '5.0000', received: '5.0000'),
+      );
       expect(draft.lines.map((l) => l.line.id), ['l1']);
     });
 
@@ -28,7 +33,10 @@ void main() {
     });
 
     test('re-scanning keeps edited quantities', () {
-      final draft = draftFor().markScanned('l1').setGood('l1', 7).markScanned('l1');
+      final draft = draftFor()
+          .markScanned('l1')
+          .setGood('l1', 7)
+          .markScanned('l1');
       expect(draft.lines.first.good, 7);
     });
 
@@ -82,26 +90,35 @@ void main() {
     });
 
     test('an empty draft can never be submitted', () {
-      final draft = ReceiptDraft.forTransfer(buildTransfer(lines: [lineJson('l1', received: '10.0000')]));
+      final draft = ReceiptDraft.forTransfer(
+        buildTransfer(lines: [lineJson('l1', received: '10.0000')]),
+      );
       expect(draft.lines, isEmpty);
       expect(draft.canSubmit, isFalse);
     });
 
-    test('partial vs final: switch drives finalReceipt and the expected outcome', () {
-      var draft = draftFor().markScanned('l1').markScanned('l2');
-      expect(draft.finalReceipt, isTrue);
-      expect(draft.expectedOutcome, ReceiptOutcome.received);
+    test(
+      'partial vs final: switch drives finalReceipt and the expected outcome',
+      () {
+        var draft = draftFor().markScanned('l1').markScanned('l2');
+        expect(draft.finalReceipt, isTrue);
+        expect(draft.expectedOutcome, ReceiptOutcome.received);
 
-      draft = draft.setGood('l1', 7);
-      expect(draft.expectedOutcome, ReceiptOutcome.discrepancyPending);
+        draft = draft.setGood('l1', 7);
+        expect(draft.expectedOutcome, ReceiptOutcome.discrepancyPending);
 
-      draft = draft.withPartial(true);
-      expect(draft.finalReceipt, isFalse);
-      expect(draft.expectedOutcome, ReceiptOutcome.partiallyReceived);
-    });
+        draft = draft.withPartial(true);
+        expect(draft.finalReceipt, isFalse);
+        expect(draft.expectedOutcome, ReceiptOutcome.partiallyReceived);
+      },
+    );
 
     test('damaged goods alone raise a discrepancy on a final receipt', () {
-      final draft = draftFor().markScanned('l1').markScanned('l2').setGood('l1', 9).setDamaged('l1', 1);
+      final draft = draftFor()
+          .markScanned('l1')
+          .markScanned('l2')
+          .setGood('l1', 9)
+          .setDamaged('l1', 1);
       expect(draft.totalShortage, 0);
       expect(draft.expectedOutcome, ReceiptOutcome.discrepancyPending);
     });
@@ -140,39 +157,48 @@ void main() {
 
     setUp(() {
       repo = FakeWmsRepository()..codes = {'111': 'l1', 'SKU-2': 'l2'};
-      controller = ReceiptController(repository: repo, transfer: buildTransfer());
+      controller = ReceiptController(
+        repository: repo,
+        transfer: buildTransfer(),
+      );
     });
 
-    test('scan matches a line by barcode or SKU and reports unknown codes', () async {
-      expect(await controller.scan('111'), isTrue);
-      expect(controller.draft.lines.first.scanned, isTrue);
+    test(
+      'scan matches a line by barcode or SKU and reports unknown codes',
+      () async {
+        expect(await controller.scan('111'), isTrue);
+        expect(controller.draft.lines.first.scanned, isTrue);
 
-      expect(await controller.scan('nope'), isFalse);
-      expect(controller.error, 'Line not in transfer');
+        expect(await controller.scan('nope'), isFalse);
+        expect(controller.error, 'Line not in transfer');
 
-      expect(await controller.scan('  '), isFalse);
-      expect(repo.calls.where((c) => c.startsWith('scan:')).length, 2);
-    });
+        expect(await controller.scan('  '), isFalse);
+        expect(repo.calls.where((c) => c.startsWith('scan:')).length, 2);
+      },
+    );
 
-    test('submit is blocked until everything is scanned, then posts the receipt', () async {
-      expect(await controller.submit(), isFalse);
-      expect(repo.calls.where((c) => c.startsWith('receive')), isEmpty);
+    test(
+      'submit is blocked until everything is scanned, then posts the receipt',
+      () async {
+        expect(await controller.submit(), isFalse);
+        expect(repo.calls.where((c) => c.startsWith('receive')), isEmpty);
 
-      await controller.scan('111');
-      await controller.scan('SKU-2');
-      controller.setGood('l1', 8);
-      controller.setDamaged('l1', 2);
-      controller.setReason('l1', 'crushed');
-      controller.setPartial(true);
+        await controller.scan('111');
+        await controller.scan('SKU-2');
+        controller.setGood('l1', 8);
+        controller.setDamaged('l1', 2);
+        controller.setReason('l1', 'crushed');
+        controller.setPartial(true);
 
-      expect(await controller.submit(), isTrue);
-      expect(repo.lastFinal, isFalse);
-      expect(repo.lastReceiptLines!.first.damagedQty, 2);
-      expect(repo.lastReceiptLines!.first.reason, 'crushed');
-      expect(controller.phase, ReceiptPhase.submitted);
-      expect(controller.result, isNotNull);
-      expect(controller.canSubmit, isFalse);
-    });
+        expect(await controller.submit(), isTrue);
+        expect(repo.lastFinal, isFalse);
+        expect(repo.lastReceiptLines!.first.damagedQty, 2);
+        expect(repo.lastReceiptLines!.first.reason, 'crushed');
+        expect(controller.phase, ReceiptPhase.submitted);
+        expect(controller.result, isNotNull);
+        expect(controller.canSubmit, isFalse);
+      },
+    );
 
     test('API errors are exposed and the form stays editable', () async {
       repo.receiveError = const ApiException('Not in transit', statusCode: 422);

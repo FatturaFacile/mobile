@@ -1,9 +1,11 @@
-import 'package:cupertino_ui/cupertino_ui.dart' show GlobalCupertinoLocalizations;
+import 'package:cupertino_ui/cupertino_ui.dart'
+    show GlobalCupertinoLocalizations;
 import 'package:fattura_facile/design/ff_tokens.dart';
 import 'package:fattura_facile/features/wms/data/wms_repository.dart';
 import 'package:fattura_facile/features/wms/models/transfer.dart';
 import 'package:fattura_facile/l10n/ff_strings.dart';
-import 'package:flutter_localizations/flutter_localizations.dart' show GlobalWidgetsLocalizations;
+import 'package:flutter_localizations/flutter_localizations.dart'
+    show GlobalWidgetsLocalizations;
 import 'package:flutter_test/flutter_test.dart' show WidgetTester, addTearDown;
 import 'package:material_ui/material_ui.dart';
 
@@ -14,17 +16,16 @@ Map<String, dynamic> lineJson(
   Object shipped = '10.0000',
   Object received = '0.0000',
   Object damaged = '0.0000',
-}) =>
-    {
-      'id': id,
-      'product_id': 'p-$id',
-      'description': description,
-      'quantity': quantity,
-      'shipped_qty': shipped,
-      'received_qty': received,
-      'damaged_qty': damaged,
-      'discrepancy_qty': '0.0000',
-    };
+}) => {
+  'id': id,
+  'product_id': 'p-$id',
+  'description': description,
+  'quantity': quantity,
+  'shipped_qty': shipped,
+  'received_qty': received,
+  'damaged_qty': damaged,
+  'discrepancy_qty': '0.0000',
+};
 
 Map<String, dynamic> transferJson({
   String id = 't1',
@@ -33,20 +34,27 @@ Map<String, dynamic> transferJson({
   String purpose = 'inter_warehouse',
   List<Map<String, dynamic>>? lines,
   List<Map<String, dynamic>> discrepancies = const [],
-}) =>
-    {
-      'id': id,
-      'transfer_number': number,
-      'purpose': purpose,
-      'status': status,
-      'origin_warehouse_id': 'w-main',
-      'destination_warehouse_id': 'w-branch',
-      'lines': lines ?? [lineJson('l1', description: 'Widget'), lineJson('l2', description: 'Gadget', shipped: '5.0000')],
-      'discrepancies': discrepancies,
-    };
+}) => {
+  'id': id,
+  'transfer_number': number,
+  'purpose': purpose,
+  'status': status,
+  'origin_warehouse_id': 'w-main',
+  'destination_warehouse_id': 'w-branch',
+  'lines':
+      lines ??
+      [
+        lineJson('l1', description: 'Widget'),
+        lineJson('l2', description: 'Gadget', shipped: '5.0000'),
+      ],
+  'discrepancies': discrepancies,
+};
 
-Transfer buildTransfer({String status = 'in_transit', List<Map<String, dynamic>>? lines, String id = 't1'}) =>
-    Transfer.fromJson(transferJson(status: status, lines: lines, id: id));
+Transfer buildTransfer({
+  String status = 'in_transit',
+  List<Map<String, dynamic>>? lines,
+  String id = 't1',
+}) => Transfer.fromJson(transferJson(status: status, lines: lines, id: id));
 
 /// In-memory repository recording its calls.
 class FakeWmsRepository implements WmsRepository {
@@ -78,7 +86,10 @@ class FakeWmsRepository implements WmsRepository {
   Future<List<Warehouse>> warehouses() async => warehouseList;
 
   @override
-  Future<List<Transfer>> queue({required String warehouseId, required TransferDirection direction}) async {
+  Future<List<Transfer>> queue({
+    required String warehouseId,
+    required TransferDirection direction,
+  }) async {
     calls.add('queue:$warehouseId:${direction.wire}');
     if (queueError != null) throw queueError!;
     return queues[direction] ?? const [];
@@ -94,8 +105,11 @@ class FakeWmsRepository implements WmsRepository {
   Future<ScanResult> scan(String transferId, String code) async {
     calls.add('scan:$code');
     final lineId = codes[code];
-    if (lineId == null) throw const ApiException('Line not in transfer', statusCode: 422);
-    final line = (transferResult ?? buildTransfer(id: transferId)).lineById(lineId)!;
+    if (lineId == null)
+      throw const ApiException('Line not in transfer', statusCode: 422);
+    final line = (transferResult ?? buildTransfer(id: transferId)).lineById(
+      lineId,
+    )!;
     return ScanResult(line: line, outstandingQty: line.outstandingQty);
   }
 
@@ -108,7 +122,11 @@ class FakeWmsRepository implements WmsRepository {
   }
 
   @override
-  Future<Transfer> receive(String transferId, {required bool finalReceipt, required List<ReceiptLineInput> lines}) async {
+  Future<Transfer> receive(
+    String transferId, {
+    required bool finalReceipt,
+    required List<ReceiptLineInput> lines,
+  }) async {
     calls.add('receive:$transferId');
     lastFinal = finalReceipt;
     lastReceiptLines = lines;
@@ -118,7 +136,8 @@ class FakeWmsRepository implements WmsRepository {
 }
 
 /// Wraps [child] with theme and localizations like the real app does.
-Widget testApp(Widget child, {Locale locale = const Locale('en')}) => MaterialApp(
+Widget testApp(Widget child, {Locale locale = const Locale('en')}) =>
+    MaterialApp(
       theme: ffThemeData(),
       locale: locale,
       supportedLocales: FfStrings.supportedLocales,

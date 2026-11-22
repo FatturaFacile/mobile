@@ -22,7 +22,10 @@ final class ForbiddenFailure extends Failure {
 
 /// 422: server-side validation errors keyed by field.
 final class ValidationFailure extends Failure {
-  const ValidationFailure(super.message, {this.fieldErrors = const <String, List<String>>{}});
+  const ValidationFailure(
+    super.message, {
+    this.fieldErrors = const <String, List<String>>{},
+  });
 
   final Map<String, List<String>> fieldErrors;
 }

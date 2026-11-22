@@ -106,8 +106,7 @@ class _FatturaFacileAppState extends ConsumerState<FatturaFacileApp> {
                 bottom: FfSpace.space6 * 2.5,
                 child: _CopilotTrigger(
                   onPressed: () {
-                    final BuildContext? navContext =
-                        navKey.currentContext;
+                    final BuildContext? navContext = navKey.currentContext;
                     if (navContext != null) showCopilotSheet(navContext);
                   },
                 ),

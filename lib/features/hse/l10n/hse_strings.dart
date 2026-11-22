@@ -55,19 +55,25 @@ class HseStrings {
 
   final Map<H, String> _table;
 
-  static HseStrings forLocale(Locale locale) => HseStrings._(switch (locale.languageCode) {
-    'it' => tables['it']!,
-    'de' => tables['de']!,
-    'fr' => tables['fr']!,
-    _ => tables['en']!,
-  });
+  static HseStrings forLocale(Locale locale) =>
+      HseStrings._(switch (locale.languageCode) {
+        'it' => tables['it']!,
+        'de' => tables['de']!,
+        'fr' => tables['fr']!,
+        _ => tables['en']!,
+      });
 
-  static HseStrings of(BuildContext context) => forLocale(Localizations.localeOf(context));
+  static HseStrings of(BuildContext context) =>
+      forLocale(Localizations.localeOf(context));
 
   String t(H key) => _table[key]!;
 
   /// The legal notice read before signing: D.Lgs. 81/08 Art. 75-78 in Italy, OLL Art. 5 and 90 in Switzerland.
-  String legalNotice(HseJurisdiction jurisdiction) => t(jurisdiction == HseJurisdiction.switzerland ? H.legalNoticeCh : H.legalNoticeIt);
+  String legalNotice(HseJurisdiction jurisdiction) => t(
+    jurisdiction == HseJurisdiction.switzerland
+        ? H.legalNoticeCh
+        : H.legalNoticeIt,
+  );
 
   static const Map<String, Map<H, String>> tables = <String, Map<H, String>>{
     'en': <H, String>{
@@ -82,12 +88,12 @@ class HseStrings {
       H.signHere: 'Worker signature',
       H.clearSignature: 'Clear',
       H.confirmHandOver: 'Confirm hand-over',
-      H.handOverQueued: 'Hand-over saved. It syncs as soon as the device is online.',
+      H.handOverQueued:
+          'Hand-over saved. It syncs as soon as the device is online.',
       H.signatureRequired: 'The worker must sign first',
       H.workerRequired: 'Choose the worker first',
       H.legalNoticeIt: 'Notice D.Lgs. 81/08 Art. 75-78: by signing, the worker confirms receipt of the PPE, instruction on its use and the duty to use and look after it.',
-      H.legalNoticeCh:
-          'Notice OLL/VUV Art. 5 and 90: by signing, the worker confirms receipt of the PPE, instruction on its use and the duty to use it.',
+      H.legalNoticeCh: 'Notice OLL/VUV Art. 5 and 90: by signing, the worker confirms receipt of the PPE, instruction on its use and the duty to use it.',
       H.toolBoxTitle: 'Tool-box talk',
       H.topic: 'Topic',
       H.siteOrWorkCenter: 'Site or work center',
@@ -97,22 +103,26 @@ class HseStrings {
       H.nextWorker: 'Next worker',
       H.signedBy: 'Signed: {count}',
       H.finishBriefing: 'Finish and send',
-      H.briefingQueued: 'Briefing saved. It syncs as soon as the device is online.',
+      H.briefingQueued:
+          'Briefing saved. It syncs as soon as the device is online.',
       H.noAttendees: 'At least one worker must sign',
       H.nearMissTitle: 'Near miss',
       H.nearMissWhat: 'What did you see?',
       H.nearMissWhere: 'Where (site or area)',
       H.useLocation: 'Tag my position',
       H.locationTagged: 'Position saved: {lat}, {lng}',
-      H.locationUnavailable: 'Position not available: check that location is on and allowed',
+      H.locationUnavailable:
+          'Position not available: check that location is on and allowed',
       H.addPhoto: 'Take a photo',
       H.photosCount: '{count} of {max} photos',
       H.removePhoto: 'Remove photo',
       H.readBadge: 'Read the badge (NFC)',
       H.badgeNotRecognised: 'This is not a worker badge',
-      H.nfcUnavailable: 'No badge read: check that NFC is on and hold the badge to the phone',
+      H.nfcUnavailable:
+          'No badge read: check that NFC is on and hold the badge to the phone',
       H.sendReport: 'Send report',
-      H.nearMissQueued: 'Report saved. It syncs as soon as the device is online.',
+      H.nearMissQueued:
+          'Report saved. It syncs as soon as the device is online.',
       H.descriptionRequired: 'Describe what you saw',
       H.pendingSync: '{count} waiting to sync',
     },
@@ -128,7 +138,8 @@ class HseStrings {
       H.signHere: 'Firma del lavoratore',
       H.clearSignature: 'Cancella',
       H.confirmHandOver: 'Conferma consegna',
-      H.handOverQueued: 'Consegna salvata. Si sincronizza appena il dispositivo è online.',
+      H.handOverQueued:
+          'Consegna salvata. Si sincronizza appena il dispositivo è online.',
       H.signatureRequired: 'Il lavoratore deve firmare',
       H.workerRequired: 'Scegli prima il lavoratore',
       H.legalNoticeIt: 'Informativa D.Lgs. 81/08 artt. 75-78: firmando, il lavoratore conferma la ricezione del DPI, la formazione sul suo uso e l’obbligo di utilizzarlo e curarlo.',
@@ -142,7 +153,8 @@ class HseStrings {
       H.nextWorker: 'Prossimo lavoratore',
       H.signedBy: 'Firme: {count}',
       H.finishBriefing: 'Termina e invia',
-      H.briefingQueued: 'Briefing salvato. Si sincronizza appena il dispositivo è online.',
+      H.briefingQueued:
+          'Briefing salvato. Si sincronizza appena il dispositivo è online.',
       H.noAttendees: 'Almeno un lavoratore deve firmare',
       H.nearMissTitle: 'Near miss',
       H.nearMissWhat: 'Cosa hai visto?',
@@ -194,7 +206,8 @@ class HseStrings {
       H.nearMissWhere: 'Wo (Baustelle oder Bereich)',
       H.useLocation: 'Meine Position erfassen',
       H.locationTagged: 'Position erfasst: {lat}, {lng}',
-      H.locationUnavailable: 'Position nicht verfügbar: Standort aktivieren und erlauben',
+      H.locationUnavailable:
+          'Position nicht verfügbar: Standort aktivieren und erlauben',
       H.addPhoto: 'Foto aufnehmen',
       H.photosCount: '{count} von {max} Fotos',
       H.removePhoto: 'Foto entfernen',
@@ -245,7 +258,8 @@ class HseStrings {
       H.removePhoto: 'Supprimer la photo',
       H.readBadge: 'Lire le badge (NFC)',
       H.badgeNotRecognised: 'Ce n’est pas un badge de travailleur',
-      H.nfcUnavailable: 'Aucun badge lu : activez le NFC et approchez le badge du téléphone',
+      H.nfcUnavailable:
+          'Aucun badge lu : activez le NFC et approchez le badge du téléphone',
       H.sendReport: 'Envoyer le signalement',
       H.nearMissQueued: 'Signalement enregistré. Il se synchronise dès que l’appareil est en ligne.',
       H.descriptionRequired: 'Décrivez ce que vous avez vu',
@@ -255,5 +269,7 @@ class HseStrings {
 }
 
 /// Replaces `{name}` placeholders in a label.
-String fill(String template, Map<String, Object> values) =>
-    values.entries.fold(template, (text, entry) => text.replaceAll('{${entry.key}}', '${entry.value}'));
+String fill(String template, Map<String, Object> values) => values.entries.fold(
+  template,
+  (text, entry) => text.replaceAll('{${entry.key}}', '${entry.value}'),
+);

@@ -1,6 +1,8 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:cupertino_ui/cupertino_ui.dart' show GlobalCupertinoLocalizations;
-import 'package:flutter_localizations/flutter_localizations.dart' show GlobalWidgetsLocalizations;
+import 'package:cupertino_ui/cupertino_ui.dart'
+    show GlobalCupertinoLocalizations;
+import 'package:flutter_localizations/flutter_localizations.dart'
+    show GlobalWidgetsLocalizations;
 
 import '../../../design/ff_tokens.dart';
 import '../../../l10n/ff_strings.dart';
@@ -16,7 +18,12 @@ import 'scan_field.dart';
 
 /// Root widget of the warehouse-operator app: queue -> dispatch (step 1) / receipt (step 2).
 class WmsApp extends StatelessWidget {
-  const WmsApp({super.key, required this.repository, this.cameraScanner, this.locale});
+  const WmsApp({
+    super.key,
+    required this.repository,
+    this.cameraScanner,
+    this.locale,
+  });
 
   final WmsRepository repository;
   final CameraScanner? cameraScanner;
@@ -53,7 +60,9 @@ class WmsHome extends StatefulWidget {
 }
 
 class _WmsHomeState extends State<WmsHome> {
-  late final TransferQueueController _queue = TransferQueueController(repository: widget.repository);
+  late final TransferQueueController _queue = TransferQueueController(
+    repository: widget.repository,
+  );
 
   @override
   void dispose() {
@@ -69,24 +78,45 @@ class _WmsHomeState extends State<WmsHome> {
     try {
       fresh = await widget.repository.transfer(listed.id);
     } on ApiException catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text(e.message.isEmpty ? strings.t(L.unexpectedError) : e.message)));
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            e.message.isEmpty ? strings.t(L.unexpectedError) : e.message,
+          ),
+        ),
+      );
       return;
     }
     if (!mounted) return;
-    await navigator.push(MaterialPageRoute<void>(
-      builder: (_) => direction == TransferDirection.outbound
-          ? _DispatchRoute(repository: widget.repository, transfer: fresh, cameraScanner: widget.cameraScanner)
-          : _ReceiptRoute(repository: widget.repository, transfer: fresh, cameraScanner: widget.cameraScanner),
-    ));
+    await navigator.push(
+      MaterialPageRoute<void>(
+        builder: (_) => direction == TransferDirection.outbound
+            ? _DispatchRoute(
+                repository: widget.repository,
+                transfer: fresh,
+                cameraScanner: widget.cameraScanner,
+              )
+            : _ReceiptRoute(
+                repository: widget.repository,
+                transfer: fresh,
+                cameraScanner: widget.cameraScanner,
+              ),
+      ),
+    );
     await _queue.refresh();
   }
 
   @override
-  Widget build(BuildContext context) => QueueScreen(controller: _queue, onOpen: _open);
+  Widget build(BuildContext context) =>
+      QueueScreen(controller: _queue, onOpen: _open);
 }
 
 class _DispatchRoute extends StatefulWidget {
-  const _DispatchRoute({required this.repository, required this.transfer, this.cameraScanner});
+  const _DispatchRoute({
+    required this.repository,
+    required this.transfer,
+    this.cameraScanner,
+  });
 
   final WmsRepository repository;
   final Transfer transfer;
@@ -97,8 +127,10 @@ class _DispatchRoute extends StatefulWidget {
 }
 
 class _DispatchRouteState extends State<_DispatchRoute> {
-  late final DispatchController _controller =
-      DispatchController(repository: widget.repository, transfer: widget.transfer);
+  late final DispatchController _controller = DispatchController(
+    repository: widget.repository,
+    transfer: widget.transfer,
+  );
 
   @override
   void dispose() {
@@ -108,14 +140,18 @@ class _DispatchRouteState extends State<_DispatchRoute> {
 
   @override
   Widget build(BuildContext context) => DispatchScreen(
-        controller: _controller,
-        cameraScanner: widget.cameraScanner,
-        onDone: () => Navigator.of(context).pop(),
-      );
+    controller: _controller,
+    cameraScanner: widget.cameraScanner,
+    onDone: () => Navigator.of(context).pop(),
+  );
 }
 
 class _ReceiptRoute extends StatefulWidget {
-  const _ReceiptRoute({required this.repository, required this.transfer, this.cameraScanner});
+  const _ReceiptRoute({
+    required this.repository,
+    required this.transfer,
+    this.cameraScanner,
+  });
 
   final WmsRepository repository;
   final Transfer transfer;
@@ -126,8 +162,10 @@ class _ReceiptRoute extends StatefulWidget {
 }
 
 class _ReceiptRouteState extends State<_ReceiptRoute> {
-  late final ReceiptController _controller =
-      ReceiptController(repository: widget.repository, transfer: widget.transfer);
+  late final ReceiptController _controller = ReceiptController(
+    repository: widget.repository,
+    transfer: widget.transfer,
+  );
 
   @override
   void dispose() {
@@ -137,8 +175,8 @@ class _ReceiptRouteState extends State<_ReceiptRoute> {
 
   @override
   Widget build(BuildContext context) => ReceiptScreen(
-        controller: _controller,
-        cameraScanner: widget.cameraScanner,
-        onDone: () => Navigator.of(context).pop(),
-      );
+    controller: _controller,
+    cameraScanner: widget.cameraScanner,
+    onDone: () => Navigator.of(context).pop(),
+  );
 }

@@ -355,7 +355,11 @@ class FfColors extends ThemeExtension<FfColors> {
       sidebar: Color.lerp(sidebar, other.sidebar, t)!,
       sidebarBorder: Color.lerp(sidebarBorder, other.sidebarBorder, t)!,
       sidebarText: Color.lerp(sidebarText, other.sidebarText, t)!,
-      sidebarTextActive: Color.lerp(sidebarTextActive, other.sidebarTextActive, t)!,
+      sidebarTextActive: Color.lerp(
+        sidebarTextActive,
+        other.sidebarTextActive,
+        t,
+      )!,
       sidebarHover: Color.lerp(sidebarHover, other.sidebarHover, t)!,
       sidebarActive: Color.lerp(sidebarActive, other.sidebarActive, t)!,
       overlay: Color.lerp(overlay, other.overlay, t)!,
@@ -428,7 +432,12 @@ abstract final class FfFont {
   static const double xl = 20.0;
   static const double size2xl = 24.0;
   static const String base = 'Inter';
-  static const List<String> baseFallback = ['Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial'];
+  static const List<String> baseFallback = [
+    'Segoe UI',
+    'Roboto',
+    'Helvetica Neue',
+    'Arial',
+  ];
   static const String mono = 'Consolas';
   static const List<String> monoFallback = [];
 }
@@ -511,7 +520,9 @@ ThemeData ffThemeData({
     focusColor: colors.focus,
     fontFamily: FfFont.base,
     fontFamilyFallback: FfFont.baseFallback,
-    visualDensity: density == FfDensity.compact ? VisualDensity.compact : VisualDensity.standard,
+    visualDensity: density == FfDensity.compact
+        ? VisualDensity.compact
+        : VisualDensity.standard,
     materialTapTargetSize: MaterialTapTargetSize.padded,
     extensions: <ThemeExtension<dynamic>>[colors],
   );

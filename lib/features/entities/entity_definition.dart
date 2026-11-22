@@ -2,7 +2,13 @@
 enum FieldKind { text, multiline, number, date, dateTime, relation }
 
 class FieldDef {
-  const FieldDef(this.key, this.kind, {this.required = false, this.defaultValue, this.relatedEntity});
+  const FieldDef(
+    this.key,
+    this.kind, {
+    this.required = false,
+    this.defaultValue,
+    this.relatedEntity,
+  });
 
   /// API field name; also the translation key suffix (`mobile.field.<key>`).
   final String key;
@@ -15,7 +21,9 @@ class FieldDef {
 }
 
 typedef RecordText = String Function(Map<String, dynamic> record);
-typedef BodyBuilder = Map<String, dynamic> Function(Map<String, dynamic> values);
+typedef BodyBuilder = Map<String, dynamic> Function(
+  Map<String, dynamic> values,
+);
 
 /// Declarative description of an offline-capable resource: where it syncs, what the form edits.
 class EntityDef {
@@ -51,7 +59,8 @@ class EntityDef {
 
 String _s(Object? v) => v == null ? '' : '$v';
 
-String _join(Iterable<Object?> parts) => parts.map(_s).where((String p) => p.isNotEmpty).join(' ');
+String _join(Iterable<Object?> parts) =>
+    parts.map(_s).where((String p) => p.isNotEmpty).join(' ');
 
 Map<String, dynamic> _workOrderBody(Map<String, dynamic> values) {
   final Map<String, dynamic> body = <String, dynamic>{
@@ -85,7 +94,12 @@ const Map<String, EntityDef> entityDefinitions = <String, EntityDef>{
       FieldDef('email', FieldKind.text),
       FieldDef('phone', FieldKind.text),
       FieldDef('type', FieldKind.text, required: true, defaultValue: 'client'),
-      FieldDef('legal_type', FieldKind.text, required: true, defaultValue: 'company'),
+      FieldDef(
+        'legal_type',
+        FieldKind.text,
+        required: true,
+        defaultValue: 'company',
+      ),
       FieldDef('country', FieldKind.text, required: true, defaultValue: 'CH'),
     ],
     title: _contactTitle,
@@ -97,7 +111,12 @@ const Map<String, EntityDef> entityDefinitions = <String, EntityDef>{
     fields: <FieldDef>[
       FieldDef('sku', FieldKind.text, required: true),
       FieldDef('name', FieldKind.text, required: true),
-      FieldDef('unit_measure', FieldKind.text, required: true, defaultValue: 'pz'),
+      FieldDef(
+        'unit_measure',
+        FieldKind.text,
+        required: true,
+        defaultValue: 'pz',
+      ),
       FieldDef('cost_price', FieldKind.number, required: true, defaultValue: 0),
       FieldDef('sale_price', FieldKind.number, required: true, defaultValue: 0),
       FieldDef('tax_rate', FieldKind.number, required: true, defaultValue: 22),
@@ -109,7 +128,12 @@ const Map<String, EntityDef> entityDefinitions = <String, EntityDef>{
     entity: 'work_orders',
     writePath: '/field-service/work-orders',
     fields: <FieldDef>[
-      FieldDef('client_id', FieldKind.relation, required: true, relatedEntity: 'contacts'),
+      FieldDef(
+        'client_id',
+        FieldKind.relation,
+        required: true,
+        relatedEntity: 'contacts',
+      ),
       FieldDef('date', FieldKind.date, required: true),
       FieldDef('intervention_address', FieldKind.text),
       FieldDef('notes', FieldKind.multiline),
@@ -176,30 +200,41 @@ const Map<String, EntityDef> entityDefinitions = <String, EntityDef>{
 
 String _contactTitle(Map<String, dynamic> r) {
   final String company = _s(r['company_name']);
-  return company.isNotEmpty ? company : _join(<Object?>[r['first_name'], r['last_name']]);
+  return company.isNotEmpty
+      ? company
+      : _join(<Object?>[r['first_name'], r['last_name']]);
 }
 
-String _contactSubtitle(Map<String, dynamic> r) => _join(<Object?>[r['email'], r['phone']]);
+String _contactSubtitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['email'], r['phone']]);
 
 String _productTitle(Map<String, dynamic> r) => _s(r['name']);
 
-String _productSubtitle(Map<String, dynamic> r) => _join(<Object?>[r['sku'], r['sale_price']]);
+String _productSubtitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['sku'], r['sale_price']]);
 
-String _workOrderTitle(Map<String, dynamic> r) => _join(<Object?>[r['number'] ?? r['code'], r['date']]);
+String _workOrderTitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['number'] ?? r['code'], r['date']]);
 
-String _workOrderSubtitle(Map<String, dynamic> r) => _join(<Object?>[r['intervention_address'], r['status']]);
+String _workOrderSubtitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['intervention_address'], r['status']]);
 
 String _appointmentTitle(Map<String, dynamic> r) => _s(r['title']);
 
-String _appointmentSubtitle(Map<String, dynamic> r) => _join(<Object?>[r['starts_at']]);
+String _appointmentSubtitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['starts_at']]);
 
-String _expenseTitle(Map<String, dynamic> r) => _join(<Object?>[r['merchant_name'], r['amount_gross']]);
+String _expenseTitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['merchant_name'], r['amount_gross']]);
 
-String _expenseSubtitle(Map<String, dynamic> r) => _join(<Object?>[r['date'], r['status']]);
+String _expenseSubtitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['date'], r['status']]);
 
-String _shiftTitle(Map<String, dynamic> r) => _join(<Object?>[r['starts_at'], r['ends_at']]);
+String _shiftTitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['starts_at'], r['ends_at']]);
 
-String _payslipTitle(Map<String, dynamic> r) => _join(<Object?>[r['title'], r['period']]);
+String _payslipTitle(Map<String, dynamic> r) =>
+    _join(<Object?>[r['title'], r['period']]);
 
 /// Which module of the bootstrap payload opens which resource.
 const Map<String, String> moduleEntity = <String, String>{

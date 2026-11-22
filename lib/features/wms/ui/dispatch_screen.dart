@@ -9,7 +9,12 @@ import 'wms_labels.dart';
 
 /// Step 1: scan every line of an approved transfer, then confirm the dispatch.
 class DispatchScreen extends StatefulWidget {
-  const DispatchScreen({super.key, required this.controller, this.cameraScanner, this.onDone});
+  const DispatchScreen({
+    super.key,
+    required this.controller,
+    this.cameraScanner,
+    this.onDone,
+  });
 
   final DispatchController controller;
   final CameraScanner? cameraScanner;
@@ -35,10 +40,10 @@ class _DispatchScreenState extends State<DispatchScreen> {
   }
 
   ShipmentInput _shipment() => ShipmentInput(
-        carrierName: _carrier.text,
-        packagesCount: int.tryParse(_packages.text.trim()),
-        grossWeightKg: double.tryParse(_weight.text.trim().replaceAll(',', '.')),
-      );
+    carrierName: _carrier.text,
+    packagesCount: int.tryParse(_packages.text.trim()),
+    grossWeightKg: double.tryParse(_weight.text.trim().replaceAll(',', '.')),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,11 @@ class _DispatchScreenState extends State<DispatchScreen> {
         final c = widget.controller;
         final shipped = c.phase == DispatchPhase.shipped;
         return Scaffold(
-          appBar: AppBar(title: Text(s.t(L.dispatchTitle, {'number': c.transfer.transferNumber}))),
+          appBar: AppBar(
+            title: Text(
+              s.t(L.dispatchTitle, {'number': c.transfer.transferNumber}),
+            ),
+          ),
           body: ListView(
             padding: const EdgeInsets.all(FfSpace.space4),
             children: [
@@ -68,7 +77,12 @@ class _DispatchScreenState extends State<DispatchScreen> {
                   key: const Key('scan-feedback'),
                   style: TextStyle(color: colors.success),
                 ),
-              if (c.error != null) Text(c.error!, key: const Key('dispatch-error'), style: TextStyle(color: colors.danger)),
+              if (c.error != null)
+                Text(
+                  c.error!,
+                  key: const Key('dispatch-error'),
+                  style: TextStyle(color: colors.danger),
+                ),
               const SizedBox(height: FfSpace.space3),
               Text(
                 s.t(L.scannedProgress, {
@@ -84,20 +98,32 @@ class _DispatchScreenState extends State<DispatchScreen> {
                   key: Key('line-${line.id}'),
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(
-                    c.checklist.isScanned(line.id) ? Icons.check_circle : Icons.radio_button_unchecked,
-                    color: c.checklist.isScanned(line.id) ? colors.success : colors.textMuted,
+                    c.checklist.isScanned(line.id)
+                        ? Icons.check_circle
+                        : Icons.radio_button_unchecked,
+                    color: c.checklist.isScanned(line.id)
+                        ? colors.success
+                        : colors.textMuted,
                   ),
                   title: Text(line.description),
                   subtitle: Text(
-                    c.checklist.isScanned(line.id) ? s.t(L.lineScanned) : s.t(L.lineNotScanned),
+                    c.checklist.isScanned(line.id)
+                        ? s.t(L.lineScanned)
+                        : s.t(L.lineNotScanned),
                   ),
-                  trailing: Text(formatQty(line.quantity), style: const TextStyle(fontWeight: FontWeight.w600)),
+                  trailing: Text(
+                    formatQty(line.quantity),
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
                 ),
               const Divider(),
               TextField(
                 key: const Key('carrier-input'),
                 controller: _carrier,
-                decoration: InputDecoration(labelText: s.t(L.carrier), border: const OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: s.t(L.carrier),
+                  border: const OutlineInputBorder(),
+                ),
               ),
               const SizedBox(height: FfSpace.space3),
               Row(
@@ -107,7 +133,10 @@ class _DispatchScreenState extends State<DispatchScreen> {
                       key: const Key('packages-input'),
                       controller: _packages,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(labelText: s.t(L.packagesCount), border: const OutlineInputBorder()),
+                      decoration: InputDecoration(
+                        labelText: s.t(L.packagesCount),
+                        border: const OutlineInputBorder(),
+                      ),
                     ),
                   ),
                   const SizedBox(width: FfSpace.space3),
@@ -115,8 +144,13 @@ class _DispatchScreenState extends State<DispatchScreen> {
                     child: TextField(
                       key: const Key('weight-input'),
                       controller: _weight,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: InputDecoration(labelText: s.t(L.grossWeight), border: const OutlineInputBorder()),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: s.t(L.grossWeight),
+                        border: const OutlineInputBorder(),
+                      ),
                     ),
                   ),
                 ],
@@ -125,22 +159,37 @@ class _DispatchScreenState extends State<DispatchScreen> {
               if (!c.checklist.isReady && !shipped)
                 Padding(
                   padding: const EdgeInsets.only(bottom: FfSpace.space2),
-                  child: Text(s.t(L.dispatchHint), style: TextStyle(color: colors.textSecondary)),
+                  child: Text(
+                    s.t(L.dispatchHint),
+                    style: TextStyle(color: colors.textSecondary),
+                  ),
                 ),
               if (shipped) ...[
                 Text(
-                  s.t(L.dispatchDone, {'status': statusLabel(s, c.transfer.status)}),
+                  s.t(L.dispatchDone, {
+                    'status': statusLabel(s, c.transfer.status),
+                  }),
                   key: const Key('dispatch-done'),
-                  style: TextStyle(color: colors.success, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    color: colors.success,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: FfSpace.space3),
-                OutlinedButton(onPressed: widget.onDone, child: Text(s.t(L.backToQueue))),
+                OutlinedButton(
+                  onPressed: widget.onDone,
+                  child: Text(s.t(L.backToQueue)),
+                ),
               ] else
                 FilledButton(
                   key: const Key('dispatch-confirm'),
                   onPressed: c.canConfirm ? () => c.confirm(_shipment()) : null,
                   child: c.phase == DispatchPhase.shipping
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : Text(s.t(L.confirmDispatch)),
                 ),
             ],

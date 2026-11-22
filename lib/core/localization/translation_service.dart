@@ -23,11 +23,20 @@ class TranslationService {
   Future<void> load(String locale, {String tenantId = ''}) async {
     _locale = supportedLanguages.contains(locale) ? locale : 'en';
     try {
-      final Response<dynamic> res = await _dio.get<dynamic>('/translations/$_locale');
+      final Response<dynamic> res = await _dio.get<dynamic>(
+        '/translations/$_locale',
+      );
       final dynamic body = res.data;
-      final dynamic raw = body is Map ? (body['translations'] ?? (body['data'] is Map ? (body['data'] as Map)['translations'] : null)) : null;
+      final dynamic raw = body is Map
+          ? (body['translations'] ??
+                (body['data'] is Map
+                    ? (body['data'] as Map)['translations']
+                    : null))
+          : null;
       if (raw is Map && raw.isNotEmpty) {
-        final Map<String, String> fresh = raw.map((dynamic k, dynamic v) => MapEntry<String, String>('$k', '$v'));
+        final Map<String, String> fresh = raw.map(
+          (dynamic k, dynamic v) => MapEntry<String, String>('$k', '$v'),
+        );
         await _persist(_locale, tenantId, fresh);
         _dictionary = fresh;
         return;
@@ -39,24 +48,49 @@ class TranslationService {
   }
 
   /// Translated label, with `{name}` placeholders replaced; empty when unknown.
-  String t(String key, {Map<String, Object> params = const <String, Object>{}}) {
+  String t(
+    String key, {
+    Map<String, Object> params = const <String, Object>{},
+  }) {
     String text = _dictionary[key] ?? '';
-    params.forEach((String k, Object v) => text = text.replaceAll('{$k}', '$v'));
+    params.forEach(
+      (String k, Object v) => text = text.replaceAll('{$k}', '$v'),
+    );
     return text;
   }
 
-  Future<void> _persist(String locale, String tenantId, Map<String, String> dict) async {
+  Future<void> _persist(
+    String locale,
+    String tenantId,
+    Map<String, String> dict,
+  ) async {
     await _db.batch((Batch b) {
-      b.deleteWhere(_db.translations, (Translations t) => t.locale.equals(locale) & t.tenantId.equals(tenantId));
+      b.deleteWhere(
+        _db.translations,
+        (Translations t) =>
+            t.locale.equals(locale) & t.tenantId.equals(tenantId),
+      );
       b.insertAll(
         _db.translations,
-        dict.entries.map((MapEntry<String, String> e) => TranslationsCompanion.insert(locale: locale, key: e.key, value: e.value, tenantId: Value<String>(tenantId))),
+        dict.entries.map(
+          (MapEntry<String, String> e) => TranslationsCompanion.insert(
+            locale: locale,
+            key: e.key,
+            value: e.value,
+            tenantId: Value<String>(tenantId),
+          ),
+        ),
       );
     });
   }
 
   Future<Map<String, String>> _cached(String locale, String tenantId) async {
-    final List<Translation> rows = await (_db.select(_db.translations)..where((Translations t) => t.locale.equals(locale) & t.tenantId.equals(tenantId))).get();
+    final List<Translation> rows =
+        await (_db.select(_db.translations)..where(
+              (Translations t) =>
+                  t.locale.equals(locale) & t.tenantId.equals(tenantId),
+            ))
+            .get();
     return <String, String>{for (final Translation r in rows) r.key: r.value};
   }
 }

@@ -15,18 +15,26 @@ void main() {
 
   setUp(() {
     db = AppDatabase(NativeDatabase.memory());
-    adapter = FakeAdapter((RequestOptions o) => json(200, <String, dynamic>{
-          'locale': 'it',
-          'translations': <String, String>{'hello': 'Ciao {name}'},
-        }));
-    service = TranslationService(db, Dio(BaseOptions(baseUrl: 'http://x/api/v1'))..httpClientAdapter = adapter);
+    adapter = FakeAdapter(
+      (RequestOptions o) => json(200, <String, dynamic>{
+        'locale': 'it',
+        'translations': <String, String>{'hello': 'Ciao {name}'},
+      }),
+    );
+    service = TranslationService(
+      db,
+      Dio(BaseOptions(baseUrl: 'http://x/api/v1'))..httpClientAdapter = adapter,
+    );
   });
 
   tearDown(() => db.close());
 
   test('loads from the API and interpolates params', () async {
     await service.load('it');
-    expect(service.t('hello', params: <String, Object>{'name': 'Anna'}), 'Ciao Anna');
+    expect(
+      service.t('hello', params: <String, Object>{'name': 'Anna'}),
+      'Ciao Anna',
+    );
   });
 
   test('missing keys are empty, never the raw key', () async {
@@ -36,10 +44,17 @@ void main() {
 
   test('falls back to the SQLite cache when offline', () async {
     await service.load('it');
-    adapter.handler = (RequestOptions o) => throw DioException.connectionError(requestOptions: o, reason: 'down');
-    final TranslationService offline = TranslationService(db, Dio(BaseOptions(baseUrl: 'http://x'))..httpClientAdapter = adapter);
+    adapter.handler = (RequestOptions o) =>
+        throw DioException.connectionError(requestOptions: o, reason: 'down');
+    final TranslationService offline = TranslationService(
+      db,
+      Dio(BaseOptions(baseUrl: 'http://x'))..httpClientAdapter = adapter,
+    );
     await offline.load('it');
-    expect(offline.t('hello', params: <String, Object>{'name': 'Bo'}), 'Ciao Bo');
+    expect(
+      offline.t('hello', params: <String, Object>{'name': 'Bo'}),
+      'Ciao Bo',
+    );
     expect(jsonEncode(offline.locale), '"it"');
   });
 }

@@ -74,7 +74,12 @@ class FfStrings {
 
   final Locale locale;
 
-  static const List<Locale> supportedLocales = [Locale('en'), Locale('it'), Locale('de'), Locale('fr')];
+  static const List<Locale> supportedLocales = [
+    Locale('en'),
+    Locale('it'),
+    Locale('de'),
+    Locale('fr'),
+  ];
 
   static const LocalizationsDelegate<FfStrings> delegate = _FfStringsDelegate();
 
@@ -87,7 +92,8 @@ class FfStrings {
   };
 
   static FfStrings of(BuildContext context) =>
-      Localizations.of<FfStrings>(context, FfStrings) ?? const FfStrings(Locale('en'));
+      Localizations.of<FfStrings>(context, FfStrings) ??
+      const FfStrings(Locale('en'));
 
   /// Returns the label for [key] with `{name}` placeholders replaced from [args].
   String t(L key, [Map<String, String> args = const {}]) {
@@ -125,18 +131,21 @@ class FfStrings {
     L.shortageQty: 'Shortage',
     L.reason: 'Reason (optional)',
     L.partialReceipt: 'Partial receipt',
-    L.partialReceiptHint: 'More goods are still on their way; the transfer stays open.',
+    L.partialReceiptHint:
+        'More goods are still on their way; the transfer stays open.',
     L.confirmReceipt: 'Confirm receipt',
     L.receiptResult: 'Receipt saved. Status: {status}',
     L.needsManagerApproval: 'Discrepancies need manager approval',
     L.managerApprovalNote: 'A manager must approve the discrepancies on the web back office. Operators cannot approve.',
-    L.exceedsOutstanding: 'Received plus damaged exceeds the outstanding quantity',
+    L.exceedsOutstanding:
+        'Received plus damaged exceeds the outstanding quantity',
     L.negativeQuantity: 'Quantity cannot be negative',
     L.invalidNumber: 'Enter a valid number',
     L.scanFirst: 'Scan the line to enter quantities',
     L.nothingOutstanding: 'Nothing left to receive on this transfer',
     L.expectedReceived: 'Expected result: received in full',
-    L.expectedDiscrepancy: 'Expected result: discrepancy pending manager approval',
+    L.expectedDiscrepancy:
+        'Expected result: discrepancy pending manager approval',
     L.expectedPartial: 'Expected result: partially received',
     L.newStatus: 'Status',
     L.backToQueue: 'Back to queue',
@@ -190,19 +199,21 @@ class FfStrings {
     L.shortageQty: 'Ammanco',
     L.reason: 'Motivo (facoltativo)',
     L.partialReceipt: 'Ricezione parziale',
-    L.partialReceiptHint: 'Altra merce è ancora in viaggio; il trasferimento resta aperto.',
+    L.partialReceiptHint:
+        'Altra merce è ancora in viaggio; il trasferimento resta aperto.',
     L.confirmReceipt: 'Conferma ricezione',
     L.receiptResult: 'Ricezione registrata. Stato: {status}',
-    L.needsManagerApproval: 'Le discrepanze richiedono l\'approvazione del responsabile',
-    L.managerApprovalNote:
-        'Un responsabile deve approvare le discrepanze dal gestionale web. Gli operatori non possono approvare.',
+    L.needsManagerApproval:
+        'Le discrepanze richiedono l\'approvazione del responsabile',
+    L.managerApprovalNote: 'Un responsabile deve approvare le discrepanze dal gestionale web. Gli operatori non possono approvare.',
     L.exceedsOutstanding: 'Ricevuta più danneggiata supera la quantità attesa',
     L.negativeQuantity: 'La quantità non può essere negativa',
     L.invalidNumber: 'Inserisci un numero valido',
     L.scanFirst: 'Scansiona la riga per inserire le quantità',
     L.nothingOutstanding: 'Nulla da ricevere su questo trasferimento',
     L.expectedReceived: 'Esito previsto: ricevuto per intero',
-    L.expectedDiscrepancy: 'Esito previsto: discrepanza in attesa di approvazione',
+    L.expectedDiscrepancy:
+        'Esito previsto: discrepanza in attesa di approvazione',
     L.expectedPartial: 'Esito previsto: ricevuto parzialmente',
     L.newStatus: 'Stato',
     L.backToQueue: 'Torna alla coda',
@@ -245,7 +256,8 @@ class FfStrings {
     L.lineNotScanned: 'Zu scannen',
     L.scanMatched: 'Gefunden: {line}',
     L.confirmDispatch: 'Versand bestätigen',
-    L.dispatchHint: 'Alle Positionen scannen, um die Bestätigung zu aktivieren.',
+    L.dispatchHint:
+        'Alle Positionen scannen, um die Bestätigung zu aktivieren.',
     L.carrier: 'Spediteur',
     L.packagesCount: 'Packstücke',
     L.grossWeight: 'Bruttogewicht (kg)',
@@ -256,19 +268,22 @@ class FfStrings {
     L.shortageQty: 'Fehlmenge',
     L.reason: 'Grund (optional)',
     L.partialReceipt: 'Teilwareneingang',
-    L.partialReceiptHint: 'Weitere Ware ist noch unterwegs; die Umlagerung bleibt offen.',
+    L.partialReceiptHint:
+        'Weitere Ware ist noch unterwegs; die Umlagerung bleibt offen.',
     L.confirmReceipt: 'Wareneingang bestätigen',
     L.receiptResult: 'Wareneingang gespeichert. Status: {status}',
-    L.needsManagerApproval: 'Abweichungen erfordern die Freigabe durch einen Vorgesetzten',
-    L.managerApprovalNote:
-        'Ein Vorgesetzter muss die Abweichungen im Web-Backoffice freigeben. Mitarbeiter im Lager können nicht freigeben.',
-    L.exceedsOutstanding: 'Erhalten plus beschädigt übersteigt die offene Menge',
+    L.needsManagerApproval:
+        'Abweichungen erfordern die Freigabe durch einen Vorgesetzten',
+    L.managerApprovalNote: 'Ein Vorgesetzter muss die Abweichungen im Web-Backoffice freigeben. Mitarbeiter im Lager können nicht freigeben.',
+    L.exceedsOutstanding:
+        'Erhalten plus beschädigt übersteigt die offene Menge',
     L.negativeQuantity: 'Die Menge darf nicht negativ sein',
     L.invalidNumber: 'Gültige Zahl eingeben',
     L.scanFirst: 'Position scannen, um Mengen einzugeben',
     L.nothingOutstanding: 'Bei dieser Umlagerung ist nichts mehr offen',
     L.expectedReceived: 'Erwartetes Ergebnis: vollständig erhalten',
-    L.expectedDiscrepancy: 'Erwartetes Ergebnis: Abweichung wartet auf Freigabe',
+    L.expectedDiscrepancy:
+        'Erwartetes Ergebnis: Abweichung wartet auf Freigabe',
     L.expectedPartial: 'Erwartetes Ergebnis: teilweise erhalten',
     L.newStatus: 'Status',
     L.backToQueue: 'Zurück zur Liste',
@@ -325,9 +340,9 @@ class FfStrings {
     L.partialReceiptHint: 'D\'autres marchandises sont encore en route ; le transfert reste ouvert.',
     L.confirmReceipt: 'Confirmer la réception',
     L.receiptResult: 'Réception enregistrée. Statut : {status}',
-    L.needsManagerApproval: 'Les écarts nécessitent l\'approbation d\'un responsable',
-    L.managerApprovalNote:
-        'Un responsable doit approuver les écarts dans le back-office web. Les opérateurs ne peuvent pas approuver.',
+    L.needsManagerApproval:
+        'Les écarts nécessitent l\'approbation d\'un responsable',
+    L.managerApprovalNote: 'Un responsable doit approuver les écarts dans le back-office web. Les opérateurs ne peuvent pas approuver.',
     L.exceedsOutstanding: 'Reçu plus endommagé dépasse la quantité attendue',
     L.negativeQuantity: 'La quantité ne peut pas être négative',
     L.invalidNumber: 'Saisissez un nombre valide',
@@ -364,11 +379,17 @@ class _FfStringsDelegate extends LocalizationsDelegate<FfStrings> {
   const _FfStringsDelegate();
 
   @override
-  bool isSupported(Locale locale) => FfStrings.tables.containsKey(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      FfStrings.tables.containsKey(locale.languageCode);
 
   @override
-  Future<FfStrings> load(Locale locale) =>
-      SynchronousFuture<FfStrings>(FfStrings(FfStrings.tables.containsKey(locale.languageCode) ? locale : const Locale('en')));
+  Future<FfStrings> load(Locale locale) => SynchronousFuture<FfStrings>(
+    FfStrings(
+      FfStrings.tables.containsKey(locale.languageCode)
+          ? locale
+          : const Locale('en'),
+    ),
+  );
 
   @override
   bool shouldReload(_FfStringsDelegate old) => false;

@@ -11,7 +11,8 @@ abstract interface class TokenStore {
 
 /// Keychain / Keystore backed implementation.
 class SecureTokenStore implements TokenStore {
-  SecureTokenStore([FlutterSecureStorage? storage]) : _storage = storage ?? const FlutterSecureStorage();
+  SecureTokenStore([FlutterSecureStorage? storage])
+    : _storage = storage ?? const FlutterSecureStorage();
 
   static const String _tokenKey = 'ff_access_token';
   static const String _tenantKey = 'ff_active_tenant_id';
@@ -31,7 +32,8 @@ class SecureTokenStore implements TokenStore {
   }
 
   @override
-  Future<void> saveTenantId(String tenantId) => _storage.write(key: _tenantKey, value: tenantId);
+  Future<void> saveTenantId(String tenantId) =>
+      _storage.write(key: _tenantKey, value: tenantId);
 
   @override
   Future<void> clear() async {

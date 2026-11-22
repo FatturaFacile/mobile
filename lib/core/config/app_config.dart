@@ -3,8 +3,11 @@ class AppConfig {
   const AppConfig({required this.apiBaseUrl});
 
   factory AppConfig.fromEnvironment() => const AppConfig(
-        apiBaseUrl: String.fromEnvironment('API_BASE_URL', defaultValue: productionUrl),
-      );
+    apiBaseUrl: String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: productionUrl,
+    ),
+  );
 
   /// Production backend used when no override is supplied.
   static const String productionUrl = 'https://api.fatturafacile.eu';

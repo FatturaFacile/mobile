@@ -21,7 +21,12 @@ abstract final class QueueState {
 
 /// Result of one [SyncEngine.flush] run.
 class FlushReport {
-  const FlushReport({this.sent = 0, this.failed = 0, this.conflicts = 0, this.offline = false});
+  const FlushReport({
+    this.sent = 0,
+    this.failed = 0,
+    this.conflicts = 0,
+    this.offline = false,
+  });
 
   final int sent;
   final int failed;
@@ -31,11 +36,19 @@ class FlushReport {
 
 /// Offline-first outbox + delta pull for one device. All data is tenant-scoped.
 class SyncEngine {
-  SyncEngine(this._db, this._dio, {Uuid? uuid, this.terminalEntities = defaultTerminalEntities}) : _uuid = uuid ?? const Uuid();
+  SyncEngine(
+    this._db,
+    this._dio, {
+    Uuid? uuid,
+    this.terminalEntities = defaultTerminalEntities,
+  }) : _uuid = uuid ?? const Uuid();
 
   /// Entities whose queued command is parked as [QueueState.rejected] on a 422/403 instead of being resent on
   /// every cycle (AI captures: the same text can never become valid on retry).
-  static const Set<String> defaultTerminalEntities = <String>{'ai_captures', 'shift_claims'};
+  static const Set<String> defaultTerminalEntities = <String>{
+    'ai_captures',
+    'shift_claims',
+  };
 
   final Set<String> terminalEntities;
 
@@ -46,7 +59,9 @@ class SyncEngine {
   /// Number of writes not yet acknowledged by the server for [tenantId].
   Stream<int> watchPending(String tenantId) {
     final Expression<bool> pending = _db.syncQueue.tenantId.equals(tenantId);
-    return (_db.select(_db.syncQueue)..where((SyncQueue t) => pending)).watch().map((List<QueueItem> r) => r.length);
+    return (_db.select(_db.syncQueue)..where((SyncQueue t) => pending))
+        .watch()
+        .map((List<QueueItem> r) => r.length);
   }
 
   /// Creates a record locally (UUID v7 client id) and enqueues the POST.
@@ -63,7 +78,9 @@ class SyncEngine {
     final DateTime now = DateTime.now().toUtc();
     final Map<String, dynamic> body = <String, dynamic>{...data, 'id': id};
     await _db.transaction(() async {
-      await _db.into(_db.entityRecords).insert(
+      await _db
+          .into(_db.entityRecords)
+          .insert(
             EntityRecordsCompanion.insert(
               entity: entity,
               id: id,
@@ -100,8 +117,12 @@ class SyncEngine {
         ...(jsonDecode(row.payload) as Map<String, dynamic>),
         ...changes,
       };
-      final SyncStatus next = row.syncStatus == SyncStatus.pendingCreate ? SyncStatus.pendingCreate : SyncStatus.pendingUpdate;
-      await (_db.update(_db.entityRecords)..where((EntityRecords t) => _key(t, tenantId, entity, id))).write(
+      final SyncStatus next = row.syncStatus == SyncStatus.pendingCreate
+          ? SyncStatus.pendingCreate
+          : SyncStatus.pendingUpdate;
+      await (_db.update(
+        _db.entityRecords,
+      )..where((EntityRecords t) => _key(t, tenantId, entity, id))).write(
         EntityRecordsCompanion(
           payload: Value<String>(jsonEncode(merged)),
           syncStatus: Value<SyncStatus>(next),
@@ -112,9 +133,15 @@ class SyncEngine {
       );
       if (row.syncStatus == SyncStatus.pendingCreate) {
         // The create has not left the device: fold the change into its payload.
-        await (_db.update(_db.syncQueue)
-              ..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.entityId.equals(id) & q.method.equals('POST')))
-            .write(SyncQueueCompanion(payload: Value<String?>(jsonEncode(merged))));
+        await (_db.update(_db.syncQueue)..where(
+              (SyncQueue q) =>
+                  q.tenantId.equals(tenantId) &
+                  q.entityId.equals(id) &
+                  q.method.equals('POST'),
+            ))
+            .write(
+              SyncQueueCompanion(payload: Value<String?>(jsonEncode(merged))),
+            );
       } else {
         await _enqueue(tenantId, entity, id, 'PUT', '$path/$id', changes, null);
       }
@@ -134,12 +161,20 @@ class SyncEngine {
         return;
       }
       if (row.syncStatus == SyncStatus.pendingCreate) {
-        await (_db.delete(_db.syncQueue)..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.entityId.equals(id))).go();
-        await (_db.delete(_db.entityRecords)..where((EntityRecords t) => _key(t, tenantId, entity, id))).go();
+        await (_db.delete(_db.syncQueue)..where(
+              (SyncQueue q) =>
+                  q.tenantId.equals(tenantId) & q.entityId.equals(id),
+            ))
+            .go();
+        await (_db.delete(
+          _db.entityRecords,
+        )..where((EntityRecords t) => _key(t, tenantId, entity, id))).go();
         return;
       }
       final DateTime now = DateTime.now().toUtc();
-      await (_db.update(_db.entityRecords)..where((EntityRecords t) => _key(t, tenantId, entity, id))).write(
+      await (_db.update(
+        _db.entityRecords,
+      )..where((EntityRecords t) => _key(t, tenantId, entity, id))).write(
         EntityRecordsCompanion(
           syncStatus: const Value<SyncStatus>(SyncStatus.pendingDelete),
           deletedAt: Value<DateTime?>(now),
@@ -166,46 +201,87 @@ class SyncEngine {
   /// Live queue rows of one [entity] (any state), oldest first.
   Stream<List<QueueItem>> watchQueue(String tenantId, String entity) {
     return (_db.select(_db.syncQueue)
-          ..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.entity.equals(entity))
-          ..orderBy(<OrderingTerm Function(SyncQueue)>[(SyncQueue q) => OrderingTerm.asc(q.sequence)]))
+          ..where(
+            (SyncQueue q) =>
+                q.tenantId.equals(tenantId) & q.entity.equals(entity),
+          )
+          ..orderBy(<OrderingTerm Function(SyncQueue)>[
+            (SyncQueue q) => OrderingTerm.asc(q.sequence),
+          ]))
         .watch();
   }
 
   /// One-shot read of the queue rows of [entity].
-  Future<List<QueueItem>> queued(String tenantId, String entity) => watchQueue(tenantId, entity).first;
+  Future<List<QueueItem>> queued(String tenantId, String entity) =>
+      watchQueue(tenantId, entity).first;
 
   /// Queue rows that need attention (failed or conflicting), oldest first.
   Stream<List<QueueItem>> watchIssues(String tenantId) {
     return (_db.select(_db.syncQueue)
-          ..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.state.isIn(<int>[QueueState.failed, QueueState.conflict, QueueState.rejected]))
-          ..orderBy(<OrderingTerm Function(SyncQueue)>[(SyncQueue q) => OrderingTerm.asc(q.sequence)]))
+          ..where(
+            (SyncQueue q) =>
+                q.tenantId.equals(tenantId) &
+                q.state.isIn(<int>[
+                  QueueState.failed,
+                  QueueState.conflict,
+                  QueueState.rejected,
+                ]),
+          )
+          ..orderBy(<OrderingTerm Function(SyncQueue)>[
+            (SyncQueue q) => OrderingTerm.asc(q.sequence),
+          ]))
         .watch();
   }
 
   /// Puts a failed/conflicting write back in line so the next flush resends the local edit.
   Future<void> retry(String queueUuid) async {
-    await (_db.update(_db.syncQueue)..where((SyncQueue q) => q.uuid.equals(queueUuid)))
-        .write(const SyncQueueCompanion(state: Value<int>(QueueState.pending), lastError: Value<String?>(null)));
+    await (_db.update(
+      _db.syncQueue,
+    )..where((SyncQueue q) => q.uuid.equals(queueUuid))).write(
+      const SyncQueueCompanion(
+        state: Value<int>(QueueState.pending),
+        lastError: Value<String?>(null),
+      ),
+    );
   }
 
   /// Drops the local edit: removes the queued write and the local copy, and resets the entity watermark so the
   /// next [pull] restores the server version.
   Future<void> discard(String queueUuid) async {
     await _db.transaction(() async {
-      final QueueItem? item = await (_db.select(_db.syncQueue)..where((SyncQueue q) => q.uuid.equals(queueUuid))).getSingleOrNull();
+      final QueueItem? item = await (_db.select(
+        _db.syncQueue,
+      )..where((SyncQueue q) => q.uuid.equals(queueUuid))).getSingleOrNull();
       if (item == null) {
         return;
       }
-      await (_db.delete(_db.syncQueue)..where((SyncQueue q) => q.entityId.equals(item.entityId) & q.tenantId.equals(item.tenantId))).go();
-      await (_db.delete(_db.entityRecords)..where((EntityRecords t) => _key(t, item.tenantId, item.entity, item.entityId))).go();
-      await (_db.delete(_db.syncCursors)..where((SyncCursors c) => c.tenantId.equals(item.tenantId) & c.entity.equals(item.entity))).go();
+      await (_db.delete(_db.syncQueue)..where(
+            (SyncQueue q) =>
+                q.entityId.equals(item.entityId) &
+                q.tenantId.equals(item.tenantId),
+          ))
+          .go();
+      await (_db.delete(_db.entityRecords)..where(
+            (EntityRecords t) =>
+                _key(t, item.tenantId, item.entity, item.entityId),
+          ))
+          .go();
+      await (_db.delete(_db.syncCursors)..where(
+            (SyncCursors c) =>
+                c.tenantId.equals(item.tenantId) & c.entity.equals(item.entity),
+          ))
+          .go();
     });
   }
 
   /// Live, tenant-scoped, non-deleted records of [entity].
   Stream<List<EntityRecord>> watch(String tenantId, String entity) {
-    return (_db.select(_db.entityRecords)
-          ..where((EntityRecords t) => t.tenantId.equals(tenantId) & t.entity.equals(entity) & t.deletedAt.isNull()))
+    return (_db.select(_db.entityRecords)..where(
+          (EntityRecords t) =>
+              t.tenantId.equals(tenantId) &
+              t.entity.equals(entity) &
+              t.deletedAt.isNull(),
+        ))
         .watch();
   }
 
@@ -214,10 +290,17 @@ class SyncEngine {
     int sent = 0;
     int failed = 0;
     int conflicts = 0;
-    final List<QueueItem> items = await (_db.select(_db.syncQueue)
-          ..where((SyncQueue q) => q.tenantId.equals(tenantId) & q.state.isIn(<int>[QueueState.pending, QueueState.failed]))
-          ..orderBy(<OrderingTerm Function(SyncQueue)>[(SyncQueue q) => OrderingTerm.asc(q.sequence)]))
-        .get();
+    final List<QueueItem> items =
+        await (_db.select(_db.syncQueue)
+              ..where(
+                (SyncQueue q) =>
+                    q.tenantId.equals(tenantId) &
+                    q.state.isIn(<int>[QueueState.pending, QueueState.failed]),
+              )
+              ..orderBy(<OrderingTerm Function(SyncQueue)>[
+                (SyncQueue q) => OrderingTerm.asc(q.sequence),
+              ]))
+            .get();
     for (final QueueItem item in items) {
       if (item.dependsOn != null && await _stillQueued(item.dependsOn!)) {
         continue;
@@ -226,20 +309,30 @@ class SyncEngine {
         final Response<dynamic> res = await _dio.request<dynamic>(
           item.path,
           data: item.payload == null ? null : jsonDecode(item.payload!),
-          options: Options(method: item.method, headers: <String, dynamic>{'Idempotency-Key': item.uuid}),
+          options: Options(
+            method: item.method,
+            headers: <String, dynamic>{'Idempotency-Key': item.uuid},
+          ),
         );
         await _acknowledge(item, res.data);
         sent++;
       } on DioException catch (e) {
         final Failure f = mapDioError(e);
         if (f is NetworkFailure) {
-          return FlushReport(sent: sent, failed: failed, conflicts: conflicts, offline: true);
+          return FlushReport(
+            sent: sent,
+            failed: failed,
+            conflicts: conflicts,
+            offline: true,
+          );
         }
         if (f is UnauthorizedFailure) {
           return FlushReport(sent: sent, failed: failed, conflicts: conflicts);
         }
         final bool isConflict = f is ConflictFailure;
-        final bool terminal = terminalEntities.contains(item.entity) && (f is ValidationFailure || f is ForbiddenFailure);
+        final bool terminal =
+            terminalEntities.contains(item.entity) &&
+            (f is ValidationFailure || f is ForbiddenFailure);
         await _markFailed(item, f.message, isConflict, rejected: terminal);
         isConflict ? conflicts++ : failed++;
       }
@@ -249,9 +342,12 @@ class SyncEngine {
 
   /// Pulls every page of `/mobile/sync/{entity}` since the stored watermark (server wins).
   Future<int> pull(String tenantId, String entity) async {
-    final SyncCursor? cursorRow = await (_db.select(_db.syncCursors)
-          ..where((SyncCursors t) => t.tenantId.equals(tenantId) & t.entity.equals(entity)))
-        .getSingleOrNull();
+    final SyncCursor? cursorRow =
+        await (_db.select(_db.syncCursors)..where(
+              (SyncCursors t) =>
+                  t.tenantId.equals(tenantId) & t.entity.equals(entity),
+            ))
+            .getSingleOrNull();
     final String? since = cursorRow?.serverTime;
     String? cursor;
     String? serverTime;
@@ -265,38 +361,73 @@ class SyncEngine {
           'cursor': ?cursor,
         },
       );
-      final Map<String, dynamic> data = (res.data as Map<String, dynamic>)['data'] as Map<String, dynamic>;
+      final Map<String, dynamic> data =
+          (res.data as Map<String, dynamic>)['data'] as Map<String, dynamic>;
       await _db.transaction(() async {
         for (final dynamic raw in data['data'] as List<dynamic>) {
-          count += await _applyServerRecord(tenantId, entity, raw as Map<String, dynamic>) ? 1 : 0;
+          count +=
+              await _applyServerRecord(
+                tenantId,
+                entity,
+                raw as Map<String, dynamic>,
+              )
+              ? 1
+              : 0;
         }
-        for (final dynamic id in (data['deleted'] as List<dynamic>? ?? <dynamic>[])) {
-          await (_db.update(_db.entityRecords)..where((EntityRecords t) => _key(t, tenantId, entity, '$id') & t.syncStatus.equals(SyncStatus.synced.index)))
-              .write(EntityRecordsCompanion(deletedAt: Value<DateTime?>(DateTime.now().toUtc())));
+        for (final dynamic id
+            in (data['deleted'] as List<dynamic>? ?? <dynamic>[])) {
+          await (_db.update(_db.entityRecords)..where(
+                (EntityRecords t) =>
+                    _key(t, tenantId, entity, '$id') &
+                    t.syncStatus.equals(SyncStatus.synced.index),
+              ))
+              .write(
+                EntityRecordsCompanion(
+                  deletedAt: Value<DateTime?>(DateTime.now().toUtc()),
+                ),
+              );
         }
       });
       more = data['has_more'] == true;
       cursor = data['next_cursor'] as String?;
       serverTime = data['server_time'] as String?;
     }
-    await _db.into(_db.syncCursors).insertOnConflictUpdate(
-          SyncCursorsCompanion.insert(tenantId: tenantId, entity: entity, serverTime: Value<String?>(serverTime)),
+    await _db
+        .into(_db.syncCursors)
+        .insertOnConflictUpdate(
+          SyncCursorsCompanion.insert(
+            tenantId: tenantId,
+            entity: entity,
+            serverTime: Value<String?>(serverTime),
+          ),
         );
     return count;
   }
 
   /// Server record wins unless the local copy has unsent edits (then it is flagged as conflict).
-  Future<bool> _applyServerRecord(String tenantId, String entity, Map<String, dynamic> record) async {
+  Future<bool> _applyServerRecord(
+    String tenantId,
+    String entity,
+    Map<String, dynamic> record,
+  ) async {
     final String id = '${record['id']}';
     final EntityRecord? local = await _find(tenantId, entity, id);
     final DateTime now = DateTime.now().toUtc();
-    final DateTime serverUpdated = DateTime.tryParse('${record['updated_at']}') ?? now;
+    final DateTime serverUpdated =
+        DateTime.tryParse('${record['updated_at']}') ?? now;
     if (local != null && local.syncStatus != SyncStatus.synced) {
-      await (_db.update(_db.entityRecords)..where((EntityRecords t) => _key(t, tenantId, entity, id)))
-          .write(const EntityRecordsCompanion(syncStatus: Value<SyncStatus>(SyncStatus.conflict)));
+      await (_db.update(
+        _db.entityRecords,
+      )..where((EntityRecords t) => _key(t, tenantId, entity, id))).write(
+        const EntityRecordsCompanion(
+          syncStatus: Value<SyncStatus>(SyncStatus.conflict),
+        ),
+      );
       return false;
     }
-    await _db.into(_db.entityRecords).insertOnConflictUpdate(
+    await _db
+        .into(_db.entityRecords)
+        .insertOnConflictUpdate(
           EntityRecordsCompanion.insert(
             entity: entity,
             id: id,
@@ -308,14 +439,26 @@ class SyncEngine {
             serverUpdatedAt: Value<DateTime?>(serverUpdated),
             createdAt: DateTime.tryParse('${record['created_at']}') ?? now,
             updatedAt: serverUpdated,
-            deletedAt: Value<DateTime?>(DateTime.tryParse('${record['deleted_at']}')),
+            deletedAt: Value<DateTime?>(
+              DateTime.tryParse('${record['deleted_at']}'),
+            ),
           ),
         );
     return true;
   }
 
-  Future<void> _enqueue(String tenantId, String entity, String entityId, String method, String path, Map<String, dynamic>? body, String? dependsOn) async {
-    await _db.into(_db.syncQueue).insert(
+  Future<void> _enqueue(
+    String tenantId,
+    String entity,
+    String entityId,
+    String method,
+    String path,
+    Map<String, dynamic>? body,
+    String? dependsOn,
+  ) async {
+    await _db
+        .into(_db.syncQueue)
+        .insert(
           SyncQueueCompanion.insert(
             uuid: _uuid.v4(),
             tenantId: tenantId,
@@ -332,50 +475,100 @@ class SyncEngine {
 
   Future<void> _acknowledge(QueueItem item, dynamic responseBody) async {
     await _db.transaction(() async {
-      await (_db.delete(_db.syncQueue)..where((SyncQueue q) => q.uuid.equals(item.uuid))).go();
-      final bool remaining = await (_db.select(_db.syncQueue)..where((SyncQueue q) => q.entityId.equals(item.entityId) & q.tenantId.equals(item.tenantId))).get().then((List<QueueItem> r) => r.isNotEmpty);
+      await (_db.delete(
+        _db.syncQueue,
+      )..where((SyncQueue q) => q.uuid.equals(item.uuid))).go();
+      final bool remaining =
+          await (_db.select(_db.syncQueue)..where(
+                (SyncQueue q) =>
+                    q.entityId.equals(item.entityId) &
+                    q.tenantId.equals(item.tenantId),
+              ))
+              .get()
+              .then((List<QueueItem> r) => r.isNotEmpty);
       if (item.method == 'DELETE') {
-        await (_db.delete(_db.entityRecords)..where((EntityRecords t) => _key(t, item.tenantId, item.entity, item.entityId))).go();
+        await (_db.delete(_db.entityRecords)..where(
+              (EntityRecords t) =>
+                  _key(t, item.tenantId, item.entity, item.entityId),
+            ))
+            .go();
         return;
       }
       String? serverId;
-      if (responseBody is Map && responseBody['data'] is Map && (responseBody['data'] as Map)['id'] != null) {
+      if (responseBody is Map &&
+          responseBody['data'] is Map &&
+          (responseBody['data'] as Map)['id'] != null) {
         serverId = '${(responseBody['data'] as Map)['id']}';
       }
-      await (_db.update(_db.entityRecords)..where((EntityRecords t) => _key(t, item.tenantId, item.entity, item.entityId))).write(
-        EntityRecordsCompanion(
-          serverId: Value<String?>(serverId),
-          syncStatus: remaining ? const Value<SyncStatus>.absent() : const Value<SyncStatus>(SyncStatus.synced),
-          serverUpdatedAt: Value<DateTime?>(DateTime.now().toUtc()),
-        ),
-      );
+      await (_db.update(_db.entityRecords)..where(
+            (EntityRecords t) =>
+                _key(t, item.tenantId, item.entity, item.entityId),
+          ))
+          .write(
+            EntityRecordsCompanion(
+              serverId: Value<String?>(serverId),
+              syncStatus: remaining
+                  ? const Value<SyncStatus>.absent()
+                  : const Value<SyncStatus>(SyncStatus.synced),
+              serverUpdatedAt: Value<DateTime?>(DateTime.now().toUtc()),
+            ),
+          );
     });
   }
 
-  Future<void> _markFailed(QueueItem item, String message, bool conflict, {bool rejected = false}) async {
-    await (_db.update(_db.syncQueue)..where((SyncQueue q) => q.uuid.equals(item.uuid))).write(
+  Future<void> _markFailed(
+    QueueItem item,
+    String message,
+    bool conflict, {
+    bool rejected = false,
+  }) async {
+    await (_db.update(
+      _db.syncQueue,
+    )..where((SyncQueue q) => q.uuid.equals(item.uuid))).write(
       SyncQueueCompanion(
         attempts: Value<int>(item.attempts + 1),
         lastError: Value<String?>(message),
-        state: Value<int>(conflict ? QueueState.conflict : (rejected ? QueueState.rejected : QueueState.failed)),
+        state: Value<int>(
+          conflict
+              ? QueueState.conflict
+              : (rejected ? QueueState.rejected : QueueState.failed),
+        ),
       ),
     );
     if (conflict) {
-      await (_db.update(_db.entityRecords)..where((EntityRecords t) => _key(t, item.tenantId, item.entity, item.entityId)))
-          .write(const EntityRecordsCompanion(syncStatus: Value<SyncStatus>(SyncStatus.conflict)));
+      await (_db.update(_db.entityRecords)..where(
+            (EntityRecords t) =>
+                _key(t, item.tenantId, item.entity, item.entityId),
+          ))
+          .write(
+            const EntityRecordsCompanion(
+              syncStatus: Value<SyncStatus>(SyncStatus.conflict),
+            ),
+          );
     }
   }
 
   Future<bool> _stillQueued(String uuid) async {
-    final QueueItem? row = await (_db.select(_db.syncQueue)..where((SyncQueue q) => q.uuid.equals(uuid))).getSingleOrNull();
+    final QueueItem? row = await (_db.select(
+      _db.syncQueue,
+    )..where((SyncQueue q) => q.uuid.equals(uuid))).getSingleOrNull();
     return row != null;
   }
 
   Future<EntityRecord?> _find(String tenantId, String entity, String id) {
-    return (_db.select(_db.entityRecords)..where((EntityRecords t) => _key(t, tenantId, entity, id))).getSingleOrNull();
+    return (_db.select(_db.entityRecords)
+          ..where((EntityRecords t) => _key(t, tenantId, entity, id)))
+        .getSingleOrNull();
   }
 
-  Expression<bool> _key(EntityRecords t, String tenantId, String entity, String id) {
-    return t.tenantId.equals(tenantId) & t.entity.equals(entity) & t.id.equals(id);
+  Expression<bool> _key(
+    EntityRecords t,
+    String tenantId,
+    String entity,
+    String id,
+  ) {
+    return t.tenantId.equals(tenantId) &
+        t.entity.equals(entity) &
+        t.id.equals(id);
   }
 }

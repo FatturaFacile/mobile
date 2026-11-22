@@ -54,14 +54,20 @@ class ReceiptLineInput {
       'line_id': lineId,
       'received_qty': receivedQty,
       'damaged_qty': damagedQty,
-      'discrepancy_reason': (trimmed == null || trimmed.isEmpty) ? null : trimmed,
+      'discrepancy_reason': (trimmed == null || trimmed.isEmpty)
+          ? null
+          : trimmed,
     };
   }
 }
 
 /// Optional transport data of the dispatch confirmation.
 class ShipmentInput {
-  const ShipmentInput({this.carrierName, this.packagesCount, this.grossWeightKg});
+  const ShipmentInput({
+    this.carrierName,
+    this.packagesCount,
+    this.grossWeightKg,
+  });
 
   final String? carrierName;
   final int? packagesCount;
@@ -80,41 +86,57 @@ class ShipmentInput {
 /// Contract of the WMS API used by the operator screens (fakeable in tests).
 abstract class WmsRepository {
   Future<List<Warehouse>> warehouses();
-  Future<List<Transfer>> queue({required String warehouseId, required TransferDirection direction});
+  Future<List<Transfer>> queue({
+    required String warehouseId,
+    required TransferDirection direction,
+  });
   Future<Transfer> transfer(String id);
   Future<ScanResult> scan(String transferId, String code);
   Future<Transfer> ship(String transferId, ShipmentInput shipment);
-  Future<Transfer> receive(String transferId, {required bool finalReceipt, required List<ReceiptLineInput> lines});
+  Future<Transfer> receive(
+    String transferId, {
+    required bool finalReceipt,
+    required List<ReceiptLineInput> lines,
+  });
 }
 
 /// HTTP implementation. The [http.Client] is injected so tests can swap it.
 class HttpWmsRepository implements WmsRepository {
-  HttpWmsRepository({required this.config, http.Client? client}) : _client = client ?? http.Client();
+  HttpWmsRepository({required this.config, http.Client? client})
+    : _client = client ?? http.Client();
 
   final ApiConfig config;
   final http.Client _client;
 
   Map<String, String> get _headers => {
-        'Authorization': 'Bearer ${config.token}',
-        'X-Tenant-Id': config.tenantId,
-        'Accept': 'application/json',
-        'Accept-Language': config.locale,
-        'Content-Type': 'application/json',
-      };
+    'Authorization': 'Bearer ${config.token}',
+    'X-Tenant-Id': config.tenantId,
+    'Accept': 'application/json',
+    'Accept-Language': config.locale,
+    'Content-Type': 'application/json',
+  };
 
   Uri _uri(String path, [Map<String, String>? query]) {
-    final base = config.baseUrl.endsWith('/') ? config.baseUrl.substring(0, config.baseUrl.length - 1) : config.baseUrl;
+    final base = config.baseUrl.endsWith('/')
+        ? config.baseUrl.substring(0, config.baseUrl.length - 1)
+        : config.baseUrl;
     return Uri.parse('$base$path').replace(queryParameters: query);
   }
 
   @override
   Future<List<Warehouse>> warehouses() async {
-    final data = await _send('GET', _uri('/api/v1/logistics/lookups/warehouses'));
+    final data = await _send(
+      'GET',
+      _uri('/api/v1/logistics/lookups/warehouses'),
+    );
     return _rows(data).map(Warehouse.fromJson).toList(growable: false);
   }
 
   @override
-  Future<List<Transfer>> queue({required String warehouseId, required TransferDirection direction}) async {
+  Future<List<Transfer>> queue({
+    required String warehouseId,
+    required TransferDirection direction,
+  }) async {
     // Outbound transfers wait for dispatch once approved; inbound ones wait for receipt once on the road.
     final statuses = direction == TransferDirection.outbound
         ? [TransferStatus.approved]
@@ -138,13 +160,21 @@ class HttpWmsRepository implements WmsRepository {
 
   @override
   Future<ScanResult> scan(String transferId, String code) async {
-    final data = await _send('POST', _uri('/api/v1/wms/transfers/$transferId/scan'), body: {'code': code});
+    final data = await _send(
+      'POST',
+      _uri('/api/v1/wms/transfers/$transferId/scan'),
+      body: {'code': code},
+    );
     return ScanResult.fromJson(_row(data));
   }
 
   @override
   Future<Transfer> ship(String transferId, ShipmentInput shipment) async {
-    final data = await _send('POST', _uri('/api/v1/wms/transfers/$transferId/ship'), body: shipment.toJson());
+    final data = await _send(
+      'POST',
+      _uri('/api/v1/wms/transfers/$transferId/ship'),
+      body: shipment.toJson(),
+    );
     return Transfer.fromJson(_row(data));
   }
 
@@ -157,12 +187,19 @@ class HttpWmsRepository implements WmsRepository {
     final data = await _send(
       'POST',
       _uri('/api/v1/wms/transfers/$transferId/receive'),
-      body: {'final': finalReceipt, 'lines': lines.map((l) => l.toJson()).toList()},
+      body: {
+        'final': finalReceipt,
+        'lines': lines.map((l) => l.toJson()).toList(),
+      },
     );
     return Transfer.fromJson(_row(data));
   }
 
-  Future<Object?> _send(String method, Uri uri, {Map<String, dynamic>? body}) async {
+  Future<Object?> _send(
+    String method,
+    Uri uri, {
+    Map<String, dynamic>? body,
+  }) async {
     final request = http.Request(method, uri)..headers.addAll(_headers);
     if (method != 'GET') request.body = jsonEncode(body ?? const {});
     final http.Response response;
@@ -173,12 +210,16 @@ class HttpWmsRepository implements WmsRepository {
     }
     Object? decoded;
     try {
-      decoded = response.body.isEmpty ? null : jsonDecode(utf8.decode(response.bodyBytes));
+      decoded = response.body.isEmpty
+          ? null
+          : jsonDecode(utf8.decode(response.bodyBytes));
     } on FormatException {
       decoded = null;
     }
     final map = decoded is Map ? decoded : const <String, dynamic>{};
-    if (response.statusCode < 200 || response.statusCode >= 300 || map['success'] == false) {
+    if (response.statusCode < 200 ||
+        response.statusCode >= 300 ||
+        map['success'] == false) {
       throw ApiException(
         (map['message'] ?? 'HTTP ${response.statusCode}').toString(),
         statusCode: response.statusCode,
@@ -194,7 +235,9 @@ class HttpWmsRepository implements WmsRepository {
 
   List<Map<String, dynamic>> _rows(Object? data) {
     if (data is! List) throw const ApiException('Unexpected response shape');
-    return data.map((e) => Map<String, dynamic>.from(e as Map)).toList(growable: false);
+    return data
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList(growable: false);
   }
 
   void close() => _client.close();

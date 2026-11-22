@@ -11,46 +11,73 @@ void main() {
   late FakeWmsRepository repo;
 
   setUp(() {
-    repo = FakeWmsRepository(queues: {
-      TransferDirection.outbound: [buildTransfer(status: 'approved', id: 'out-1')],
-      TransferDirection.inbound: [
-        buildTransfer(id: 'in-1'),
-        Transfer.fromJson(transferJson(id: 'in-2', number: 'TR-002', status: 'partially_received')),
-      ],
-    });
+    repo = FakeWmsRepository(
+      queues: {
+        TransferDirection.outbound: [
+          buildTransfer(status: 'approved', id: 'out-1'),
+        ],
+        TransferDirection.inbound: [
+          buildTransfer(id: 'in-1'),
+          Transfer.fromJson(
+            transferJson(
+              id: 'in-2',
+              number: 'TR-002',
+              status: 'partially_received',
+            ),
+          ),
+        ],
+      },
+    );
   });
 
-  Future<(TransferQueueController, List<(Transfer, TransferDirection)>)> pump(WidgetTester tester) async {
+  Future<(TransferQueueController, List<(Transfer, TransferDirection)>)> pump(
+    WidgetTester tester,
+  ) async {
     final controller = TransferQueueController(repository: repo);
     final opened = <(Transfer, TransferDirection)>[];
-    await tester.pumpWidget(testApp(QueueScreen(controller: controller, onOpen: (t, d) => opened.add((t, d)))));
+    await tester.pumpWidget(
+      testApp(
+        QueueScreen(
+          controller: controller,
+          onOpen: (t, d) => opened.add((t, d)),
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
     return (controller, opened);
   }
 
-  testWidgets('loads the first warehouse and lists outbound transfers to dispatch', (tester) async {
-    await pump(tester);
+  testWidgets(
+    'loads the first warehouse and lists outbound transfers to dispatch',
+    (tester) async {
+      await pump(tester);
 
-    expect(repo.calls, contains('queue:w-main:outbound'));
-    expect(find.text('TR-001'), findsOneWidget);
-    expect(find.text('Approved'), findsOneWidget);
-    expect(find.text('Inter-warehouse - 2 lines'), findsOneWidget);
-    expect(find.byKey(const Key('transfer-out-1')), findsOneWidget);
-  });
+      expect(repo.calls, contains('queue:w-main:outbound'));
+      expect(find.text('TR-001'), findsOneWidget);
+      expect(find.text('Approved'), findsOneWidget);
+      expect(find.text('Inter-warehouse - 2 lines'), findsOneWidget);
+      expect(find.byKey(const Key('transfer-out-1')), findsOneWidget);
+    },
+  );
 
-  testWidgets('switching to inbound lists transfers to receive with their status chips', (tester) async {
-    await pump(tester);
+  testWidgets(
+    'switching to inbound lists transfers to receive with their status chips',
+    (tester) async {
+      await pump(tester);
 
-    await tester.tap(find.text('To receive'));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text('To receive'));
+      await tester.pumpAndSettle();
 
-    expect(repo.calls, contains('queue:w-main:inbound'));
-    expect(find.byKey(const Key('transfer-in-1')), findsOneWidget);
-    expect(find.text('In transit'), findsOneWidget);
-    expect(find.text('Partially received'), findsOneWidget);
-  });
+      expect(repo.calls, contains('queue:w-main:inbound'));
+      expect(find.byKey(const Key('transfer-in-1')), findsOneWidget);
+      expect(find.text('In transit'), findsOneWidget);
+      expect(find.text('Partially received'), findsOneWidget);
+    },
+  );
 
-  testWidgets('changing the warehouse reloads the queue for it', (tester) async {
+  testWidgets('changing the warehouse reloads the queue for it', (
+    tester,
+  ) async {
     await pump(tester);
 
     await tester.tap(find.byKey(const Key('warehouse-select')));
@@ -61,7 +88,9 @@ void main() {
     expect(repo.calls, contains('queue:w-branch:outbound'));
   });
 
-  testWidgets('tapping a transfer reports it with the active direction', (tester) async {
+  testWidgets('tapping a transfer reports it with the active direction', (
+    tester,
+  ) async {
     final (_, opened) = await pump(tester);
 
     await tester.tap(find.byKey(const Key('transfer-out-1')));
@@ -89,7 +118,10 @@ void main() {
   testWidgets('labels are translated (Italian)', (tester) async {
     final controller = TransferQueueController(repository: repo);
     await tester.pumpWidget(
-      testApp(QueueScreen(controller: controller, onOpen: (_, _) {}), locale: const Locale('it')),
+      testApp(
+        QueueScreen(controller: controller, onOpen: (_, _) {}),
+        locale: const Locale('it'),
+      ),
     );
     await tester.pumpAndSettle();
     expect(find.text('Trasferimenti'), findsOneWidget);

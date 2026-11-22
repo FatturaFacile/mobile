@@ -26,11 +26,17 @@ class HseDeviceServices {
     try {
       if (!await Geolocator.isLocationServiceEnabled()) return null;
       var permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) return null;
+      if (permission == LocationPermission.denied)
+        permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever)
+        return null;
 
       final position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high, timeLimit: Duration(seconds: 15)),
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 15),
+        ),
       );
       return (latitude: position.latitude, longitude: position.longitude);
     } on TimeoutException {
@@ -44,7 +50,12 @@ class HseDeviceServices {
   /// accepts. Null when the user cancels or the camera is refused.
   static Future<String?> takePhoto() async {
     try {
-      final file = await ImagePicker().pickImage(source: ImageSource.camera, maxWidth: 1600, maxHeight: 1600, imageQuality: 70);
+      final file = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        maxWidth: 1600,
+        maxHeight: 1600,
+        imageQuality: 70,
+      );
       return file == null ? null : base64Encode(await file.readAsBytes());
     } on PlatformException {
       return null;
@@ -55,14 +66,19 @@ class HseDeviceServices {
   /// switched off, the tag carries no text, or nothing is presented within 30 seconds.
   static Future<String?> readBadge() async {
     try {
-      if (await NfcManager.instance.checkAvailability() != NfcAvailability.enabled) return null;
+      if (await NfcManager.instance.checkAvailability() !=
+          NfcAvailability.enabled)
+        return null;
     } on PlatformException {
       return null;
     }
 
     final read = Completer<String?>();
     await NfcManager.instance.startSession(
-      pollingOptions: <NfcPollingOption>{NfcPollingOption.iso14443, NfcPollingOption.iso15693},
+      pollingOptions: <NfcPollingOption>{
+        NfcPollingOption.iso14443,
+        NfcPollingOption.iso15693,
+      },
       onDiscovered: (NfcTag tag) async {
         if (!read.isCompleted) read.complete(_badgeText(tag));
         await NfcManager.instance.stopSession();
@@ -79,18 +95,27 @@ class HseDeviceServices {
   }
 
   static String? _badgeText(NfcTag tag) {
-    final message = Platform.isIOS ? NdefIos.from(tag)?.cachedNdefMessage : NdefAndroid.from(tag)?.cachedNdefMessage;
+    final message = Platform.isIOS
+        ? NdefIos.from(tag)?.cachedNdefMessage
+        : NdefAndroid.from(tag)?.cachedNdefMessage;
     for (final record in message?.records ?? const <NdefRecord>[]) {
-      final isText = record.typeNameFormat == TypeNameFormat.wellKnown && record.type.length == 1 && record.type.first == 0x54;
-      final text = isText ? ndefTextFromPayload(record.payload) : utf8.decode(record.payload, allowMalformed: true).trim();
+      final isText =
+          record.typeNameFormat == TypeNameFormat.wellKnown &&
+          record.type.length == 1 &&
+          record.type.first == 0x54;
+      final text = isText
+          ? ndefTextFromPayload(record.payload)
+          : utf8.decode(record.payload, allowMalformed: true).trim();
       if (text != null && text.isNotEmpty) return text;
     }
     return null;
   }
 
   /// Full-screen camera scanner for QR codes and barcodes (PPE box labels, worker badges). Returns the first code read.
-  static Future<String?> scanCode(BuildContext context) =>
-      Navigator.of(context).push<String>(MaterialPageRoute<String>(builder: (_) => const _ScannerPage()));
+  static Future<String?> scanCode(BuildContext context) => Navigator.of(context)
+      .push<String>(
+        MaterialPageRoute<String>(builder: (_) => const _ScannerPage()),
+      );
 }
 
 class _ScannerPage extends StatefulWidget {
@@ -108,7 +133,10 @@ class _ScannerPageState extends State<_ScannerPage> {
     appBar: AppBar(),
     body: MobileScanner(
       onDetect: (BarcodeCapture capture) {
-        final code = capture.barcodes.map((b) => b.rawValue).whereType<String>().firstOrNull;
+        final code = capture.barcodes
+            .map((b) => b.rawValue)
+            .whereType<String>()
+            .firstOrNull;
         if (_done || code == null) return;
         _done = true;
         Navigator.of(context).pop(code);
