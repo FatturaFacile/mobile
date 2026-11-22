@@ -51,6 +51,7 @@ class SyncEngine {
     'gl_journals',
     'helpdesk_time_entries',
     'helpdesk_escalations',
+    'rebate_proposal_actions',
   };
 
   final Set<String> terminalEntities;
