@@ -3,7 +3,14 @@ import 'package:dio/dio.dart';
 import '../domain/customer_lifecycle_models.dart';
 
 /// Why a request failed.
-enum LifecycleErrorKind { offline, unauthorized, forbidden, notFound, failed }
+enum LifecycleErrorKind {
+  offline,
+  unauthorized,
+  forbidden,
+  notFound,
+  validation,
+  failed,
+}
 
 class LifecycleRemoteException implements Exception {
   const LifecycleRemoteException(this.kind, [this.detail = '']);
@@ -72,7 +79,10 @@ class CustomerLifecycleRemoteDataSource {
     final dynamic body = response.data;
     final dynamic data = body is Map ? body['data'] : null;
     if (data is! Map) {
-      throw const LifecycleRemoteException(LifecycleErrorKind.failed, 'no data');
+      throw const LifecycleRemoteException(
+        LifecycleErrorKind.failed,
+        'no data',
+      );
     }
     return CustomerLifecycleSummary.fromJson(Map<String, dynamic>.from(data));
   }
@@ -105,6 +115,43 @@ class CustomerLifecycleRemoteDataSource {
         .toList();
   }
 
+  static const String activitiesPath = '/crm/activities';
+
+  /// The `crm/activities` request body of a quick action.
+  static Map<String, dynamic> activityBody({
+    required String accountId,
+    required String type,
+    required String subject,
+    String? dueDate,
+  }) => <String, dynamic>{
+    'type': type,
+    'subject': subject,
+    'due_date': dueDate,
+    'related_type': 'account',
+    'related_id': accountId,
+  };
+
+  /// Logs a CRM activity (`meeting` for a visit, `follow_up`) on [accountId]. Throws [LifecycleRemoteException]:
+  /// kind `offline` when the network is unreachable, `validation` on a 4xx validation error.
+  Future<void> createActivity({
+    required String accountId,
+    required String type,
+    required String subject,
+    String? dueDate,
+  }) async {
+    await _request(
+      () => _dio.post<dynamic>(
+        activitiesPath,
+        data: activityBody(
+          accountId: accountId,
+          type: type,
+          subject: subject,
+          dueDate: dueDate,
+        ),
+      ),
+    );
+  }
+
   Future<Response<dynamic>> _request(
     Future<Response<dynamic>> Function() run,
   ) async {
@@ -117,6 +164,7 @@ class CustomerLifecycleRemoteDataSource {
         401 => LifecycleErrorKind.unauthorized,
         403 => LifecycleErrorKind.forbidden,
         404 => LifecycleErrorKind.notFound,
+        400 || 422 => LifecycleErrorKind.validation,
         _ => LifecycleErrorKind.failed,
       }, '${status ?? e.message ?? ''}');
     }
