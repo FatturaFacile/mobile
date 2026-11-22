@@ -64,6 +64,18 @@ Never hand-edit; resync with `pnpm tokens:sync` in web-frontend.
 1. Only 10 entities have delta feeds; invoices, orders, quotes, stock are not offline-syncable server-side.
 2. The web SPA authenticates with session cookies, not Bearer — mobile must use the PKCE path above.
 3. Translations are flat `key → value` maps; no versioning/ETag, so the app refetches per launch and keeps the last copy.
+
+## 8. Analytical cost accounting (Mod 018)
+
+Offline read models and queue in the generic entity store (`analytical_snapshot`, `analytical_operation`); workspace module `analytical_accounting` (executive).
+
+| Use | Endpoint |
+| --- | --- |
+| Center tree | `GET /analytical/centers/tree` |
+| Apportionment history | `GET /analytical/runs` |
+| Contribution margin statement | `GET /analytical/reports/contribution-margin` |
+| Direct versus apportioned | `GET /analytical/reports/direct-vs-apportioned` |
+| Manual analytical entry (queued offline) | `POST /analytical/entries` |
 4. Field Service (`/api/v1/fsm`, Mod 17, #196/#202): the offline-bundle does not carry the contract coverage rules
    (`coverage_type`, `status`) of a work order, only `service_contract_id`. The app reads `service_contract: {id,
    coverage_type, status}` (or flat `contract_coverage_type` / `contract_status`) when the API adds it and otherwise assumes
