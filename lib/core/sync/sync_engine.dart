@@ -35,7 +35,7 @@ class SyncEngine {
 
   /// Entities whose queued command is parked as [QueueState.rejected] on a 422/403 instead of being resent on
   /// every cycle (AI captures: the same text can never become valid on retry).
-  static const Set<String> defaultTerminalEntities = <String>{'ai_captures', 'shift_claims'};
+  static const Set<String> defaultTerminalEntities = <String>{'ai_captures', 'shift_claims', 'gl_journals'};
 
   final Set<String> terminalEntities;
 
@@ -157,8 +157,9 @@ class SyncEngine {
     required String path,
     Map<String, dynamic>? data,
     String method = 'POST',
+    String? entityId,
   }) async {
-    final String id = _uuid.v7();
+    final String id = entityId ?? _uuid.v7();
     await _enqueue(tenantId, entity, id, method, path, data, null);
     return id;
   }

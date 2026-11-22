@@ -11,6 +11,8 @@ import '../features/copilot/presentation/copilot_controller.dart'
     show copilotStrings;
 import '../features/entities/entity_definition.dart';
 import '../features/dss/presentation/executive_dss_page.dart';
+import '../features/general_ledger/presentation/gl_pages.dart';
+import '../features/general_ledger/presentation/gl_strings.dart';
 import '../features/security/presentation/security_providers.dart';
 import '../features/payslip_vault/presentation/payslip_pages.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
@@ -161,6 +163,7 @@ class HomePage extends ConsumerWidget {
       'executive_dss' => const ExecutiveDssPage(),
       aiReviewModule => const AiSuggestionsPage(),
       shiftSelfServiceModule => const ShiftHomePage(),
+      generalLedgerModule => const GlHomePage(),
       payslipVaultModule => const PayslipVaultPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
         tenantId: b.tenantId,
@@ -213,6 +216,9 @@ class HomePage extends ConsumerWidget {
     }
     if (shopFloorModules.contains(module)) {
       return AppLocalizations.of(context).mfgTitle;
+    }
+    if (module == generalLedgerModule) {
+      return GlStrings(ref.read(requestContextProvider).languageCode)(GL.title);
     }
     if (module == aiReviewModule) {
       return copilotStrings(ref.read(requestContextProvider).languageCode)
