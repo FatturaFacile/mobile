@@ -64,3 +64,22 @@ Never hand-edit; resync with `pnpm tokens:sync` in web-frontend.
 1. Only 10 entities have delta feeds; invoices, orders, quotes, stock are not offline-syncable server-side.
 2. The web SPA authenticates with session cookies, not Bearer — mobile must use the PKCE path above.
 3. Translations are flat `key → value` maps; no versioning/ETag, so the app refetches per launch and keeps the last copy.
+4. Field Service (`/api/v1/fsm`, Mod 17, #196/#202): the offline-bundle does not carry the contract coverage rules
+   (`coverage_type`, `status`) of a work order, only `service_contract_id`. The app reads `service_contract: {id,
+   coverage_type, status}` (or flat `contract_coverage_type` / `contract_status`) when the API adds it and otherwise assumes
+   the server defaults (`parts_and_labor`, active), flagging the covered/chargeable indicator as an estimate.
+5. Field Service photos: `photos.*.path` of the service report is a string reference; no upload endpoint exists yet, so the
+   JPEG stays on the phone (`fsm_photos`) and only the reference travels with the report.
+
+## 7. Field Service (`lib/features/field_service`)
+
+| Purpose | Call |
+| --- | --- |
+| Delta bundle (work orders, customers, equipment + history, checklist templates, van stock) | `GET /fsm/technicians/{id}/offline-bundle?since=<server_time>` |
+| Offline outbox, one batch of up to 200 operations in queue order | `POST /fsm/mobile-sync` `{operations:[{client_uuid, type, work_order_id, payload}]}` |
+
+Operation types: `status_transition` (`{status: en_route|on_site, at}`), `part_consumption` (`{product_id, quantity, unit_price,
+lot_number?, lot_or_serial_id?}`), `service_report` (the `SignServiceReportRules` payload with `signature_svg`, `signed_at`,
+checklist, `labor_hours`, `travel_hours`, `travel_km`, `apply_callout_fee`, photos, GPS, `locale`). Results per operation:
+`applied`, `duplicate` (same `client_uuid` already applied) or `rejected` (field `errors`, kept as a conflict). Local tables
+(`fsm_*`) are created on first use with plain SQL, so no Drift codegen or schema bump is involved.
