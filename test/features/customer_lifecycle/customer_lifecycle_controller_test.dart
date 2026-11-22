@@ -32,14 +32,21 @@ ProviderContainer _container(FakeAdapter adapter) {
 }
 
 void main() {
-  const LifecycleContact contact = LifecycleContact(id: 'c1', label: 'Rossi SA');
+  const LifecycleContact contact = LifecycleContact(
+    id: 'c1',
+    label: 'Rossi SA',
+  );
 
   test('searches contacts and ignores an empty query', () async {
     final FakeAdapter adapter = FakeAdapter(
       (RequestOptions o) => json(200, <String, dynamic>{
         'data': <Map<String, dynamic>>[
           <String, dynamic>{'id': 'c1', 'company_name': 'Rossi SA'},
-          <String, dynamic>{'id': 'c2', 'first_name': 'Anna', 'last_name': 'Verdi'},
+          <String, dynamic>{
+            'id': 'c2',
+            'first_name': 'Anna',
+            'last_name': 'Verdi',
+          },
         ],
       }),
     );
@@ -170,11 +177,9 @@ void main() {
         expect(table.value[key], isNotNull, reason: '${table.key} misses $key');
       }
     }
-    expect(CustomerLifecycleStrings.tables.keys, containsAll(<String>[
-      'it',
-      'en',
-      'de',
-      'fr',
-    ]));
+    expect(
+      CustomerLifecycleStrings.tables.keys,
+      containsAll(<String>['it', 'en', 'de', 'fr']),
+    );
   });
 }
