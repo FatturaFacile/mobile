@@ -106,3 +106,27 @@ photos of a work order are stored before its `service_report`, whose payload the
 uploaded so far). Missing file, 413, 422, 403, 404 -> conflict (retry or discard, discard drops the photo); offline and 401
 stop the flush; 5xx/429 back off and hold back later operations. A photo already on the server cannot be removed from the
 phone. Per photo the screen shows queued / uploaded / failed.
+
+## 8. Accounts Receivable and Credit Management (`lib/features/receivables`, Mod 013)
+
+Base `/invoicing/receivables` (Dio base URL already carries `/api/v1`). Amounts are decimal strings, held as `Money` (integer
+cents); aging buckets always come from the `buckets` array of the answer.
+
+| Purpose | Call |
+| --- | --- |
+| Overview (KPIs, aging, blocked customers) | `GET /dashboard?currency=` |
+| Aging of all customers or one | `GET /aging?customer_id=&currency=` |
+| Open items of a customer (paginated, all pages read) | `GET /items?customer_id=&open_only=1&per_page=100&page=` |
+| One item with its allocations | `GET /items/{id}` |
+| Credit position, risk, unreconciled payments, limit history | `GET /customers/{id}/credit`, `/risk`, `/unreconciled-payments`, `/credit-limits` |
+| DSO and bad debt provision | `GET /dso`, `GET /provision` |
+| Customer statement (JSON, PDF, XLSX) | `GET /customers/{id}/statement`, `/statement/pdf`, `/statement/xlsx` |
+| Book payment, credit note, write-off, discount | `POST /allocations` `{allocations:[{receivable_item_id, type, amount, value_date, source_id?, reference?, notes?}]}` |
+| Reverse an allocation | `POST /allocations/{id}/reverse` |
+| Dispute or lift | `POST /items/{id}/dispute` `{disputed, reason?}` |
+
+Reads are cached as JSON in the shared `entity_records` table (entities `receivables_snapshot`, `receivable_items`), so no
+Drift codegen or schema bump is involved. The three writes go through the outbox (entities `receivable_allocations`,
+`receivable_reversals`, `receivable_disputes`, all terminal: 422/403 parks the row as rejected); the queue row UUID is the
+`Idempotency-Key`, an identical request still waiting is not queued twice, and the cached item is updated at once. Credit
+limits and overrides are read-only on the phone.

@@ -16,6 +16,8 @@ import '../features/dss/presentation/executive_dss_page.dart';
 import '../features/analytical_accounting/presentation/analytical_page.dart';
 import '../features/customer_lifecycle/presentation/customer_lifecycle_page.dart';
 import '../features/project_evm/presentation/project_evm_page.dart';
+import '../features/receivables/presentation/receivables_pages.dart';
+import '../features/receivables/presentation/receivables_strings.dart';
 import '../features/general_ledger/presentation/gl_pages.dart';
 import '../features/general_ledger/presentation/gl_strings.dart';
 import '../features/security/presentation/security_providers.dart';
@@ -187,6 +189,7 @@ class HomePage extends ConsumerWidget {
         technicianId: b.userId,
       ),
       helpdeskModule => const HelpdeskQueuePage(),
+      receivablesModule => const ReceivablesDashboardPage(),
       payslipVaultModule => const PayslipVaultPage(),
       inventoryCountModule => const InventoryCountListPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
@@ -252,6 +255,15 @@ class HomePage extends ConsumerWidget {
       return FieldServiceStrings.forLocale(
         Locale(tag.first, tag.length > 1 ? tag[1] : null),
       ).t(FsmText.moduleTitle);
+    }
+    if (module == receivablesModule) {
+      final List<String> tag = ref
+          .read(requestContextProvider)
+          .languageCode
+          .split(RegExp('[-_]'));
+      return ReceivablesStrings.forLocale(
+        Locale(tag.first, tag.length > 1 ? tag[1] : null),
+      ).t(RC.title);
     }
     if (module == helpdeskModule) {
       return HelpdeskStrings(ref.read(requestContextProvider).languageCode)(
