@@ -10,6 +10,8 @@ import '../features/auth/domain/auth_models.dart';
 import '../features/copilot/presentation/copilot_controller.dart'
     show copilotStrings;
 import '../features/entities/entity_definition.dart';
+import '../features/field_service/l10n/field_service_strings.dart';
+import '../features/field_service/presentation/field_service_home_page.dart';
 import '../features/dss/presentation/executive_dss_page.dart';
 import '../features/analytical_accounting/presentation/analytical_page.dart';
 import '../features/customer_lifecycle/presentation/customer_lifecycle_page.dart';
@@ -175,6 +177,10 @@ class HomePage extends ConsumerWidget {
       shiftSelfServiceModule => const ShiftHomePage(),
       gelatoModule => const GelatoHomePage(),
       generalLedgerModule => const GlHomePage(),
+      _ when fieldServiceModules.contains(module) => FieldServiceHomePage(
+        tenantId: b.tenantId,
+        technicianId: b.userId,
+      ),
       payslipVaultModule => const PayslipVaultPage(),
       inventoryCountModule => const InventoryCountListPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
@@ -231,6 +237,15 @@ class HomePage extends ConsumerWidget {
     }
     if (module == generalLedgerModule) {
       return GlStrings(ref.read(requestContextProvider).languageCode)(GL.title);
+    }
+    if (fieldServiceModules.contains(module)) {
+      final List<String> tag = ref
+          .read(requestContextProvider)
+          .languageCode
+          .split(RegExp('[-_]'));
+      return FieldServiceStrings.forLocale(
+        Locale(tag.first, tag.length > 1 ? tag[1] : null),
+      ).t(FsmText.moduleTitle);
     }
     if (module == aiReviewModule) {
       return copilotStrings(ref.read(requestContextProvider).languageCode)
