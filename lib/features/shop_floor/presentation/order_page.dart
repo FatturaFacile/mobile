@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -9,6 +7,7 @@ import '../../../l10n/gen/app_localizations.dart';
 import '../data/shop_floor_repository.dart';
 import '../domain/scan_resolver.dart';
 import '../domain/shop_floor_models.dart';
+import 'genealogy_view.dart';
 import 'operation_terminal_page.dart';
 import 'shop_floor_providers.dart';
 import 'terminal_widgets.dart';
@@ -188,11 +187,9 @@ class _OrderPageState extends ConsumerState<OrderPage> {
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: Text(l10n.mfgGenealogy),
-          content: SingleChildScrollView(
-            child: Text(
-              const JsonEncoder.withIndent('  ').convert(data),
-              style: const TextStyle(fontFamily: 'monospace'),
-            ),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: SingleChildScrollView(child: GenealogyView(data: data)),
           ),
           actions: <Widget>[
             TextButton(

@@ -1389,6 +1389,18 @@ class AppLocalizationsIt extends AppLocalizations {
   String get mfgGenealogyOffline => 'La genealogia richiede una connessione.';
 
   @override
+  String get mfgGenealogyOutputLots => 'Lotti prodotti';
+
+  @override
+  String get mfgGenealogyOperations => 'Operazioni';
+
+  @override
+  String get mfgGenealogyMachineEvents => 'Eventi macchina';
+
+  @override
+  String get mfgGenealogyEmpty => 'Nessun dato di genealogia.';
+
+  @override
   String mfgProgress(String done, String target, String uom) {
     return '$done di $target $uom';
   }

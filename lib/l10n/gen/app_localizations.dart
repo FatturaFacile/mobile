@@ -2594,6 +2594,30 @@ abstract class AppLocalizations {
   /// **'Genealogy needs a connection.'**
   String get mfgGenealogyOffline;
 
+  /// No description provided for @mfgGenealogyOutputLots.
+  ///
+  /// In en, this message translates to:
+  /// **'Output lots'**
+  String get mfgGenealogyOutputLots;
+
+  /// No description provided for @mfgGenealogyOperations.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get mfgGenealogyOperations;
+
+  /// No description provided for @mfgGenealogyMachineEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine events'**
+  String get mfgGenealogyMachineEvents;
+
+  /// No description provided for @mfgGenealogyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No genealogy data yet.'**
+  String get mfgGenealogyEmpty;
+
   /// No description provided for @mfgProgress.
   ///
   /// In en, this message translates to:

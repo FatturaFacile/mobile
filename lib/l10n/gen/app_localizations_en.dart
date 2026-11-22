@@ -1384,6 +1384,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mfgGenealogyOffline => 'Genealogy needs a connection.';
 
   @override
+  String get mfgGenealogyOutputLots => 'Output lots';
+
+  @override
+  String get mfgGenealogyOperations => 'Operations';
+
+  @override
+  String get mfgGenealogyMachineEvents => 'Machine events';
+
+  @override
+  String get mfgGenealogyEmpty => 'No genealogy data yet.';
+
+  @override
   String mfgProgress(String done, String target, String uom) {
     return '$done of $target $uom';
   }
