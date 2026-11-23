@@ -36,6 +36,10 @@ import '../features/helpdesk/presentation/helpdesk_pages.dart';
 import '../features/helpdesk/presentation/helpdesk_strings.dart';
 import '../features/resource_planning/presentation/resource_planning_pages.dart';
 import '../features/shift_planning/presentation/shift_pages.dart';
+import '../features/supplier_rebates/domain/supplier_rebate_models.dart'
+    show supplierRebatesModules;
+import '../features/supplier_rebates/presentation/supplier_rebates_pages.dart';
+import '../features/supplier_rebates/presentation/supplier_rebates_strings.dart';
 import '../features/shop_floor/presentation/shop_floor_home_page.dart';
 import '../features/security/presentation/security_screen.dart';
 import '../features/entities/entity_pages.dart';
@@ -197,6 +201,9 @@ class HomePage extends ConsumerWidget {
       ),
       helpdeskModule => const HelpdeskQueuePage(),
       receivablesModule => const ReceivablesDashboardPage(),
+
+      _ when supplierRebatesModules.contains(module) =>
+        const SupplierRebatesHomePage(),
       payslipVaultModule => const PayslipVaultPage(),
       inventoryCountModule => const InventoryCountListPage(),
       _ when shopFloorModules.contains(module) => ShopFloorHomePage(
@@ -281,6 +288,11 @@ class HomePage extends ConsumerWidget {
       return HelpdeskStrings(ref.read(requestContextProvider).languageCode)(
         HL.title,
       );
+    }
+    if (supplierRebatesModules.contains(module)) {
+      return SupplierRebatesStrings(
+        ref.read(requestContextProvider).languageCode,
+      )(RB.title);
     }
     if (module == aiReviewModule) {
       return copilotStrings(ref.read(requestContextProvider).languageCode)

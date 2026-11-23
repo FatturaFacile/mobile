@@ -55,6 +55,8 @@ class SyncEngine {
     'receivable_allocations',
     'receivable_reversals',
     'receivable_disputes',
+
+    'rebate_proposal_actions',
   };
 
   final Set<String> terminalEntities;
