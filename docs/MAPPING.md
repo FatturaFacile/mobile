@@ -180,3 +180,21 @@ backend `RebateTierCalculator`, exact decimals with the backend scale of 10) fro
 A 403/409/422 on a queued action parks it as rejected (retry or dismiss); a repeated tap on the same queued action adds nothing.
 Strings: `presentation/supplier_rebates_strings.dart` (it, en, de, fr; a region tag such as `de-CH` selects its language), texts
 from the web-api `SupplierRebatesFrontendTranslations` seeder.
+
+## 6. Purchase orders and dropshipment (Mod 046) — `lib/features/purchase_orders/`
+
+REST under `/api/v1/procurement` (no delta feed: cached reads in the generic `entity_records` store, writes through the
+outbox, so no Drift schema change). Rights: module key `purchase_orders` / `procurement_orders`.
+
+| Use | Endpoint | Offline |
+| --- | --- | --- |
+| Order list / detail | `GET purchase-orders`, `GET purchase-orders/{id}` | cached (`po_orders`) |
+| Overdue radar | `GET purchase-orders/overdue` | cached (`po_overdue`); also derived locally from the cached dates |
+| Supplier confirmation | `POST purchase-orders/{id}/confirmations` (+ `GET`) | outbox `po_confirmations`, order turns `confirmed` locally |
+| Reminders | `POST purchase-orders/{id}/reminders` (+ `GET`) | outbox `po_reminders`, counter bumped locally |
+| Dropshipments | `GET dropshipments`, `GET dropshipments/{id}` | cached (`po_dropships`) |
+| Delivery notice | `POST dropshipments/{id}/deliveries` | outbox `po_dropship_deliveries` |
+| Pricing preview | `POST purchase-orders/pricing-preview` | falls back to `PoPricing` (same arithmetic) |
+
+The three outbox entities are terminal (`SyncEngine.defaultTerminalEntities`): a 422/403 parks the row as rejected.
+Strings live in `purchase_order_strings.dart` (it/de/fr/en tables, parity enforced by a test), like `supplier_rebates`.

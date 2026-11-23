@@ -57,6 +57,9 @@ class SyncEngine {
     'receivable_disputes',
 
     'rebate_proposal_actions',
+    'po_confirmations',
+    'po_reminders',
+    'po_dropship_deliveries',
   };
 
   final Set<String> terminalEntities;
