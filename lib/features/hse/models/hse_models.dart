@@ -35,8 +35,9 @@ class PpeScan {
     final parts = code.trim().split(':');
     if (parts.length < 3 ||
         parts.first.toUpperCase() != 'PPE' ||
-        !_uuid.hasMatch(parts[1]))
+        !_uuid.hasMatch(parts[1])) {
       return null;
+    }
     final lot = parts.sublist(2).join(':').trim();
     if (lot.isEmpty) return null;
     return PpeScan(productId: parts[1], lotOrSerial: lot);
@@ -204,8 +205,9 @@ class HseBadge {
     final parts = code.trim().split(':');
     if (parts.length != 2 ||
         parts.first.toUpperCase() != 'EMP' ||
-        !PpeScan._uuid.hasMatch(parts[1].trim()))
+        !PpeScan._uuid.hasMatch(parts[1].trim())) {
       return null;
+    }
     return HseBadge(parts[1].trim().toLowerCase());
   }
 }

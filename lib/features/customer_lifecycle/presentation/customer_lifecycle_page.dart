@@ -66,7 +66,9 @@ class _CustomerLifecyclePageState extends ConsumerState<CustomerLifecyclePage> {
                   child: Text(
                     key: const Key('lifecycle-error'),
                     _errorText(s, state.error!),
-                    style: TextStyle(color: Theme.of(context).colorScheme.error),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                   ),
                 ),
               if (state.selected == null || view == null) ...<Widget>[
@@ -140,12 +142,14 @@ class _CustomerLifecyclePageState extends ConsumerState<CustomerLifecyclePage> {
     );
   }
 
-  static String _errorText(CustomerLifecycleStrings s, LifecycleErrorKind kind) =>
-      switch (kind) {
-        LifecycleErrorKind.offline => s.t(CL.offline),
-        LifecycleErrorKind.forbidden => s.t(CL.forbidden),
-        _ => s.t(CL.failed),
-      };
+  static String _errorText(
+    CustomerLifecycleStrings s,
+    LifecycleErrorKind kind,
+  ) => switch (kind) {
+    LifecycleErrorKind.offline => s.t(CL.offline),
+    LifecycleErrorKind.forbidden => s.t(CL.forbidden),
+    _ => s.t(CL.failed),
+  };
 }
 
 class _Kpis extends StatelessWidget {

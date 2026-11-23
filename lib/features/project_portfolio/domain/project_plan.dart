@@ -30,12 +30,11 @@ class ProjectPlan {
     scheduled.sort(
       (WbsNode a, WbsNode b) => compareWbsCodes(a.wbsCode, b.wbsCode),
     );
-    final List<ProjectBaseline> orderedBaselines = <ProjectBaseline>[
-      ...baselines,
-    ]..sort(
-      (ProjectBaseline a, ProjectBaseline b) =>
-          b.baselineNumber.compareTo(a.baselineNumber),
-    );
+    final List<ProjectBaseline> orderedBaselines =
+        <ProjectBaseline>[...baselines]..sort(
+          (ProjectBaseline a, ProjectBaseline b) =>
+              b.baselineNumber.compareTo(a.baselineNumber),
+        );
     return ProjectPlan(
       project: WbsRollup.project(project, scheduled),
       nodes: scheduled,

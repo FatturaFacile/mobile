@@ -56,7 +56,9 @@ class AnalyticalRepositoryImpl implements AnalyticalRepository {
       analyticalComparisonId,
     );
     return AnalyticalOverview(
-      centers: centers == null ? <AnalyticalCenter>[] : parseCenters(centers.data),
+      centers: centers == null
+          ? <AnalyticalCenter>[]
+          : parseCenters(centers.data),
       runs: runs == null ? <ApportionmentRun>[] : parseRuns(runs.data),
       margin: margin == null
           ? null
@@ -161,9 +163,8 @@ class AnalyticalRepositoryImpl implements AnalyticalRepository {
     return <int>[sent, failed];
   }
 
-  Map<String, dynamic> _decode(String body) => Map<String, dynamic>.from(
-    jsonDecode(body) as Map<dynamic, dynamic>,
-  );
+  Map<String, dynamic> _decode(String body) =>
+      Map<String, dynamic>.from(jsonDecode(body) as Map<dynamic, dynamic>);
 
   AnalyticalSyncStatus _status(AnalyticalErrorKind kind) => switch (kind) {
     AnalyticalErrorKind.offline => AnalyticalSyncStatus.offline,

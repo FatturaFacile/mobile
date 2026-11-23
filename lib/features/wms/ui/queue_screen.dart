@@ -97,8 +97,9 @@ class _QueueScreenState extends State<QueueScreen> {
   }
 
   Widget _body(BuildContext context, FfStrings s, TransferQueueController c) {
-    if (c.phase == QueuePhase.loading)
+    if (c.phase == QueuePhase.loading) {
       return const Center(child: CircularProgressIndicator());
+    }
     if (c.phase == QueuePhase.failed) {
       return Center(
         child: Column(
@@ -115,10 +116,11 @@ class _QueueScreenState extends State<QueueScreen> {
         ),
       );
     }
-    if (c.transfers.isEmpty)
+    if (c.transfers.isEmpty) {
       return Center(
         child: Text(s.t(L.noTransfers), key: const Key('queue-empty')),
       );
+    }
     return RefreshIndicator(
       onRefresh: c.refresh,
       child: ListView.separated(

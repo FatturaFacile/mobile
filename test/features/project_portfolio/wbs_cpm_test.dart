@@ -158,43 +158,69 @@ void main() {
       expect(tree.nextChildCode('a2'), '1.2.1');
     });
 
-    test('flatten honours collapsed nodes and a missing parent goes to the root', () {
-      final WbsTree tree = WbsTree(<WbsNode>[
-        _node('a', '1'),
-        _node('a1', '1.1', parent: 'a'),
-        _node('a11', '1.1.1', parent: 'a1'),
-        _node('orphan', '9', parent: 'not-synced-yet'),
-      ]);
-      expect(
-        tree.flatten().map((WbsRow r) => r.node.id),
-        <String>['a', 'a1', 'a11', 'orphan'],
-      );
-      expect(
-        tree.flatten(collapsed: <String>{'a'}).map((WbsRow r) => r.node.id),
-        <String>['a', 'orphan'],
-      );
-      expect(tree.flatten()[2].depth, 2);
-      expect(tree.subtreeIds('a'), <String>['a', 'a1', 'a11']);
-      expect(tree.isInSubtree('a', 'a11'), isTrue);
-      expect(tree.isInSubtree('a1', 'a'), isFalse);
-    });
+    test(
+      'flatten honours collapsed nodes and a missing parent goes to the root',
+      () {
+        final WbsTree tree = WbsTree(<WbsNode>[
+          _node('a', '1'),
+          _node('a1', '1.1', parent: 'a'),
+          _node('a11', '1.1.1', parent: 'a1'),
+          _node('orphan', '9', parent: 'not-synced-yet'),
+        ]);
+        expect(tree.flatten().map((WbsRow r) => r.node.id), <String>[
+          'a',
+          'a1',
+          'a11',
+          'orphan',
+        ]);
+        expect(
+          tree.flatten(collapsed: <String>{'a'}).map((WbsRow r) => r.node.id),
+          <String>['a', 'orphan'],
+        );
+        expect(tree.flatten()[2].depth, 2);
+        expect(tree.subtreeIds('a'), <String>['a', 'a1', 'a11']);
+        expect(tree.isInSubtree('a', 'a11'), isTrue);
+        expect(tree.isInSubtree('a1', 'a'), isFalse);
+      },
+    );
 
-    test('a summary shows the sum of its children and hours-weighted progress', () {
-      final List<WbsNode> rolled = WbsRollup.apply(<WbsNode>[
-        _node('p', '1', hours: 999, progress: 99),
-        _node('c1', '1.1', parent: 'p', hours: 10, cost: 100, progress: 100, start: 1, end: 3),
-        _node('c2', '1.2', parent: 'p', hours: 30, cost: 300, progress: 0, start: 5, end: 10),
-      ]);
-      final WbsNode parent = rolled.firstWhere((WbsNode n) => n.id == 'p');
-      expect(parent.plannedHours, 40);
-      expect(parent.plannedCost, 400);
-      expect(parent.percentComplete, 25);
-      expect(parent.startDate, _d(1));
-      expect(parent.endDate, _d(10));
-      // The leaves are untouched and the order of the input is kept.
-      expect(rolled.map((WbsNode n) => n.id), <String>['p', 'c1', 'c2']);
-      expect(rolled[1].plannedHours, 10);
-    });
+    test(
+      'a summary shows the sum of its children and hours-weighted progress',
+      () {
+        final List<WbsNode> rolled = WbsRollup.apply(<WbsNode>[
+          _node('p', '1', hours: 999, progress: 99),
+          _node(
+            'c1',
+            '1.1',
+            parent: 'p',
+            hours: 10,
+            cost: 100,
+            progress: 100,
+            start: 1,
+            end: 3,
+          ),
+          _node(
+            'c2',
+            '1.2',
+            parent: 'p',
+            hours: 30,
+            cost: 300,
+            progress: 0,
+            start: 5,
+            end: 10,
+          ),
+        ]);
+        final WbsNode parent = rolled.firstWhere((WbsNode n) => n.id == 'p');
+        expect(parent.plannedHours, 40);
+        expect(parent.plannedCost, 400);
+        expect(parent.percentComplete, 25);
+        expect(parent.startDate, _d(1));
+        expect(parent.endDate, _d(10));
+        // The leaves are untouched and the order of the input is kept.
+        expect(rolled.map((WbsNode n) => n.id), <String>['p', 'c1', 'c2']);
+        expect(rolled[1].plannedHours, 10);
+      },
+    );
 
     test('progress falls back to a plain average when no child has hours', () {
       final List<WbsNode> rolled = WbsRollup.apply(<WbsNode>[
@@ -224,41 +250,53 @@ void main() {
   });
 
   group('critical path', () {
-    test('finish to start chain is critical, a short parallel task has float', () {
-      final List<WbsNode> nodes = <WbsNode>[
-        _node('a', '1', start: 1, end: 3),
-        _node('b', '2', start: 1, end: 2),
-        _node('c', '3', start: 1, end: 1),
-      ];
-      final CpmResult r = CpmScheduler.schedule(nodes, <TaskDependency>[
-        _dep('a', 'b'),
-      ]);
-      expect(r.hasCycle, isFalse);
-      expect(r.nodes['b']!.earlyStart, _d(4));
-      expect(r.nodes['b']!.earlyFinish, _d(5));
-      expect(r.projectFinish, _d(5));
-      expect(r.nodes['a']!.isCritical, isTrue);
-      expect(r.nodes['b']!.isCritical, isTrue);
-      expect(r.nodes['c']!.isCritical, isFalse);
-      expect(r.nodes['c']!.totalFloatDays, 4);
-      expect(r.nodes['c']!.freeFloatDays, 4);
-      expect(r.criticalPath, <String>['a', 'b']);
-    });
+    test(
+      'finish to start chain is critical, a short parallel task has float',
+      () {
+        final List<WbsNode> nodes = <WbsNode>[
+          _node('a', '1', start: 1, end: 3),
+          _node('b', '2', start: 1, end: 2),
+          _node('c', '3', start: 1, end: 1),
+        ];
+        final CpmResult r = CpmScheduler.schedule(nodes, <TaskDependency>[
+          _dep('a', 'b'),
+        ]);
+        expect(r.hasCycle, isFalse);
+        expect(r.nodes['b']!.earlyStart, _d(4));
+        expect(r.nodes['b']!.earlyFinish, _d(5));
+        expect(r.projectFinish, _d(5));
+        expect(r.nodes['a']!.isCritical, isTrue);
+        expect(r.nodes['b']!.isCritical, isTrue);
+        expect(r.nodes['c']!.isCritical, isFalse);
+        expect(r.nodes['c']!.totalFloatDays, 4);
+        expect(r.nodes['c']!.freeFloatDays, 4);
+        expect(r.criticalPath, <String>['a', 'b']);
+      },
+    );
 
-    test('start to start with lag delays the successor and leaves it float', () {
-      final CpmResult r = CpmScheduler.schedule(
-        <WbsNode>[_node('a', '1', start: 1, end: 5), _node('b', '2', start: 1, end: 2)],
-        <TaskDependency>[_dep('a', 'b', type: DependencyType.ss, lag: 2)],
-      );
-      expect(r.nodes['b']!.earlyStart, _d(3));
-      expect(r.nodes['b']!.totalFloatDays, 1);
-      expect(r.nodes['b']!.isCritical, isFalse);
-      expect(r.nodes['a']!.isCritical, isTrue);
-    });
+    test(
+      'start to start with lag delays the successor and leaves it float',
+      () {
+        final CpmResult r = CpmScheduler.schedule(
+          <WbsNode>[
+            _node('a', '1', start: 1, end: 5),
+            _node('b', '2', start: 1, end: 2),
+          ],
+          <TaskDependency>[_dep('a', 'b', type: DependencyType.ss, lag: 2)],
+        );
+        expect(r.nodes['b']!.earlyStart, _d(3));
+        expect(r.nodes['b']!.totalFloatDays, 1);
+        expect(r.nodes['b']!.isCritical, isFalse);
+        expect(r.nodes['a']!.isCritical, isTrue);
+      },
+    );
 
     test('finish to finish pulls the successor start so both end together', () {
       final CpmResult r = CpmScheduler.schedule(
-        <WbsNode>[_node('a', '1', start: 1, end: 3), _node('b', '2', start: 1, end: 1)],
+        <WbsNode>[
+          _node('a', '1', start: 1, end: 3),
+          _node('b', '2', start: 1, end: 1),
+        ],
         <TaskDependency>[_dep('a', 'b', type: DependencyType.ff)],
       );
       expect(r.nodes['b']!.earlyStart, _d(3));
@@ -269,7 +307,10 @@ void main() {
 
     test('start to finish with lag', () {
       final CpmResult r = CpmScheduler.schedule(
-        <WbsNode>[_node('a', '1', start: 1, end: 4), _node('b', '2', start: 1, end: 2)],
+        <WbsNode>[
+          _node('a', '1', start: 1, end: 4),
+          _node('b', '2', start: 1, end: 2),
+        ],
         <TaskDependency>[_dep('a', 'b', type: DependencyType.sf, lag: 3)],
       );
       expect(r.nodes['b']!.earlyStart, _d(2));
@@ -278,7 +319,10 @@ void main() {
 
     test('a negative lag is a lead', () {
       final CpmResult r = CpmScheduler.schedule(
-        <WbsNode>[_node('a', '1', start: 1, end: 3), _node('b', '2', start: 1, end: 2)],
+        <WbsNode>[
+          _node('a', '1', start: 1, end: 3),
+          _node('b', '2', start: 1, end: 2),
+        ],
         <TaskDependency>[_dep('a', 'b', lag: -1)],
       );
       expect(r.nodes['b']!.earlyStart, _d(3));
@@ -286,7 +330,10 @@ void main() {
 
     test('the planned start is a start-no-earlier-than constraint', () {
       final CpmResult r = CpmScheduler.schedule(
-        <WbsNode>[_node('a', '1', start: 1, end: 3), _node('b', '2', start: 10, end: 11)],
+        <WbsNode>[
+          _node('a', '1', start: 1, end: 3),
+          _node('b', '2', start: 10, end: 11),
+        ],
         <TaskDependency>[_dep('a', 'b')],
       );
       expect(r.nodes['b']!.earlyStart, _d(10));
@@ -306,29 +353,37 @@ void main() {
       expect(r.nodes['m']!.earlyFinish, _d(4));
     });
 
-    test('summary nodes are outside the network and their links are ignored', () {
-      final List<WbsNode> nodes = <WbsNode>[
-        _node('p', '1', start: 1, end: 5),
-        _node('c', '1.1', parent: 'p', start: 1, end: 5),
-        _node('x', '2', start: 1, end: 2),
-      ];
-      final CpmResult r = CpmScheduler.schedule(nodes, <TaskDependency>[
-        _dep('p', 'x'),
-      ]);
-      expect(r.nodes.containsKey('p'), isFalse);
-      expect(r.nodes['x']!.earlyStart, _d(1));
-    });
+    test(
+      'summary nodes are outside the network and their links are ignored',
+      () {
+        final List<WbsNode> nodes = <WbsNode>[
+          _node('p', '1', start: 1, end: 5),
+          _node('c', '1.1', parent: 'p', start: 1, end: 5),
+          _node('x', '2', start: 1, end: 2),
+        ];
+        final CpmResult r = CpmScheduler.schedule(nodes, <TaskDependency>[
+          _dep('p', 'x'),
+        ]);
+        expect(r.nodes.containsKey('p'), isFalse);
+        expect(r.nodes['x']!.earlyStart, _d(1));
+      },
+    );
 
     test('undated nodes are skipped and an empty plan has no result', () {
       expect(
-        CpmScheduler.schedule(<WbsNode>[_node('a', '1')], const <TaskDependency>[]).nodes,
+        CpmScheduler.schedule(<WbsNode>[
+          _node('a', '1'),
+        ], const <TaskDependency>[]).nodes,
         isEmpty,
       );
     });
 
     test('a loop in the links is reported instead of looping', () {
       final CpmResult r = CpmScheduler.schedule(
-        <WbsNode>[_node('a', '1', start: 1, end: 2), _node('b', '2', start: 1, end: 2)],
+        <WbsNode>[
+          _node('a', '1', start: 1, end: 2),
+          _node('b', '2', start: 1, end: 2),
+        ],
         <TaskDependency>[_dep('a', 'b'), _dep('b', 'a')],
       );
       expect(r.hasCycle, isTrue);
@@ -349,7 +404,12 @@ void main() {
 
     test('the plan applies the schedule on top of the roll-up', () {
       final ProjectPlan plan = ProjectPlan.build(
-        project: const Project(id: 'p1', tenantId: 't1', projectCode: 'P', name: 'N'),
+        project: const Project(
+          id: 'p1',
+          tenantId: 't1',
+          projectCode: 'P',
+          name: 'N',
+        ),
         nodes: <WbsNode>[
           _node('ph', '1', hours: 1),
           _node('a', '1.1', parent: 'ph', start: 1, end: 3, hours: 10),
@@ -407,8 +467,16 @@ void main() {
         _node('b', '2', start: 6, end: 8, hours: 4),
         _node('new', '4', start: 9, end: 9),
       ];
-      final List<NodeVariance> result = BaselineVariance.compare(baseline, current);
-      expect(result.map((NodeVariance v) => v.nodeId), <String>['a', 'b', 'new', 'gone']);
+      final List<NodeVariance> result = BaselineVariance.compare(
+        baseline,
+        current,
+      );
+      expect(result.map((NodeVariance v) => v.nodeId), <String>[
+        'a',
+        'b',
+        'new',
+        'gone',
+      ]);
 
       final NodeVariance a = result[0];
       expect(a.startSlipDays, 2);
@@ -423,11 +491,12 @@ void main() {
     });
 
     test('an early finish is a negative slip', () {
-      final ProjectBaseline baseline = baselineOf(<WbsNode>[_node('a', '1', start: 1, end: 9)]);
-      final NodeVariance v = BaselineVariance.compare(
-        baseline,
-        <WbsNode>[_node('a', '1', start: 1, end: 6)],
-      ).single;
+      final ProjectBaseline baseline = baselineOf(<WbsNode>[
+        _node('a', '1', start: 1, end: 9),
+      ]);
+      final NodeVariance v = BaselineVariance.compare(baseline, <WbsNode>[
+        _node('a', '1', start: 1, end: 6),
+      ]).single;
       expect(v.finishSlipDays, -3);
       expect(v.startSlipDays, 0);
     });
@@ -443,7 +512,9 @@ void main() {
       );
       expect(BaselineVariance.nodesOf(broken), isEmpty);
       expect(
-        BaselineVariance.compare(broken, <WbsNode>[_node('a', '1')]).single.addedSinceBaseline,
+        BaselineVariance.compare(broken, <WbsNode>[
+          _node('a', '1'),
+        ]).single.addedSinceBaseline,
         isTrue,
       );
     });

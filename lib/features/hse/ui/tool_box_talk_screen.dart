@@ -58,8 +58,9 @@ class _ToolBoxTalkScreenState extends State<ToolBoxTalkScreen> {
     final s = HseStrings.of(context);
     final id = _worker.text.trim();
     if (id.isEmpty) return setState(() => _message = s.t(H.workerRequired));
-    if (_signature.isEmpty)
+    if (_signature.isEmpty) {
       return setState(() => _message = s.t(H.signatureRequired));
+    }
 
     final image = await _signature.toPngBase64();
     if (!mounted) return;

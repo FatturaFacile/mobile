@@ -323,8 +323,9 @@ class _QuantityFieldState extends State<QuantityField> {
     super.didUpdateWidget(old);
     final typed = parseQuantityInput(_text.text);
     // Keep what the operator typed unless the draft changed from elsewhere (e.g. a scan pre-fill).
-    if (typed != null && typed != widget.value)
+    if (typed != null && typed != widget.value) {
       _text.text = formatQty(widget.value);
+    }
   }
 
   @override

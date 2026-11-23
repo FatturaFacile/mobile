@@ -49,10 +49,10 @@ class ProjectPortfolioRepositoryImpl implements ProjectPortfolioRepository {
       );
 
   @override
-  Stream<ProjectPlan?> watchPlan(String tenantId, String projectId) =>
-      _watch(tenantId, portfolioEntities).map(
-        (List<EntityRecord> rows) => _plan(rows, projectId),
-      );
+  Stream<ProjectPlan?> watchPlan(String tenantId, String projectId) => _watch(
+    tenantId,
+    portfolioEntities,
+  ).map((List<EntityRecord> rows) => _plan(rows, projectId));
 
   Stream<List<EntityRecord>> _watch(String tenantId, List<String> entities) {
     return (_db.select(_db.entityRecords)..where(
@@ -68,7 +68,9 @@ class ProjectPortfolioRepositoryImpl implements ProjectPortfolioRepository {
       _watch(tenantId, portfolioEntities).first;
 
   static Map<String, dynamic> _json(EntityRecord row) =>
-      Map<String, dynamic>.from(jsonDecode(row.payload) as Map<dynamic, dynamic>);
+      Map<String, dynamic>.from(
+        jsonDecode(row.payload) as Map<dynamic, dynamic>,
+      );
 
   static ProjectPlan? _plan(List<EntityRecord> rows, String projectId) {
     Project? project;
@@ -137,10 +139,7 @@ class ProjectPortfolioRepositoryImpl implements ProjectPortfolioRepository {
     }
     return failedPulls == 0
         ? const PortfolioSyncResult(PortfolioSyncStatus.synced)
-        : PortfolioSyncResult(
-            PortfolioSyncStatus.failed,
-            pending: failedPulls,
-          );
+        : PortfolioSyncResult(PortfolioSyncStatus.failed, pending: failedPulls);
   }
 
   /// Sends the outbox right after a write; whatever goes wrong, the write is safe in the queue and the next sync
@@ -275,10 +274,7 @@ class ProjectPortfolioRepositoryImpl implements ProjectPortfolioRepository {
     final WbsNode stored = WbsNode.fromJson(_json(row));
     final bool milestone = edited.nodeType == WbsNodeType.milestone;
     final WbsNode next = milestone
-        ? edited.copyWith(
-            plannedHours: 0,
-            endDate: () => edited.startDate,
-          )
+        ? edited.copyWith(plannedHours: 0, endDate: () => edited.startDate)
         : edited;
     _validate(
       title: next.title,
@@ -333,7 +329,8 @@ class ProjectPortfolioRepositoryImpl implements ProjectPortfolioRepository {
     final String projectId = '${_json(row)['project_id']}';
     final WbsTree tree = WbsTree(<WbsNode>[
       for (final EntityRecord r in rows)
-        if (r.entity == wbsNodeEntity && '${_json(r)['project_id']}' == projectId)
+        if (r.entity == wbsNodeEntity &&
+            '${_json(r)['project_id']}' == projectId)
           WbsNode.fromJson(_json(r)),
     ]);
     final List<String> doomed = tree.subtreeIds(nodeId);
@@ -389,7 +386,11 @@ class ProjectPortfolioRepositoryImpl implements ProjectPortfolioRepository {
         throw const PortfolioException(PortfolioErrorKind.duplicateDependency);
       }
     }
-    if (wouldCreateCycle(plan.dependencies, predecessorNodeId, successorNodeId)) {
+    if (wouldCreateCycle(
+      plan.dependencies,
+      predecessorNodeId,
+      successorNodeId,
+    )) {
       throw const PortfolioException(PortfolioErrorKind.dependencyCycle);
     }
     final String id = await _engine.create(

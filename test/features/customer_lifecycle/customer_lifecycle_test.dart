@@ -41,7 +41,9 @@ void main() {
   });
 
   test('returns null when the contact has no CRM account', () async {
-    serve((RequestOptions o) => json(200, <String, dynamic>{'data': <dynamic>[]}));
+    serve(
+      (RequestOptions o) => json(200, <String, dynamic>{'data': <dynamic>[]}),
+    );
 
     expect(await remote.findAccountId('c1'), isNull);
   });
@@ -50,7 +52,10 @@ void main() {
     serve(
       (RequestOptions o) => json(200, <String, dynamic>{
         'data': <String, dynamic>{
-          'health': <String, dynamic>{'health_index': 70.5, 'churn_risk': 'medium'},
+          'health': <String, dynamic>{
+            'health_index': 70.5,
+            'churn_risk': 'medium',
+          },
           'kpis': <String, dynamic>{
             'lifetime_value': '1000.00',
             'open_pipeline_value': '500.00',

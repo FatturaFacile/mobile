@@ -45,7 +45,11 @@ class AnalyticalLocalDataSource {
   final AppDatabase _db;
 
   Future<AnalyticalStoredPayload?> snapshot(String tenantId, String id) async {
-    final EntityRecord? row = await _row(tenantId, analyticalSnapshotEntity, id);
+    final EntityRecord? row = await _row(
+      tenantId,
+      analyticalSnapshotEntity,
+      id,
+    );
     if (row == null) {
       return null;
     }
@@ -60,24 +64,16 @@ class AnalyticalLocalDataSource {
     String id,
     dynamic data,
     DateTime syncedAt,
-  ) => _put(
-    tenantId,
-    analyticalSnapshotEntity,
-    id,
-    <String, dynamic>{'data': data},
-    syncedAt,
-  );
+  ) => _put(tenantId, analyticalSnapshotEntity, id, <String, dynamic>{
+    'data': data,
+  }, syncedAt);
 
-  Future<void> enqueue(
-    String tenantId,
-    String id,
-    String body,
-    DateTime now,
-  ) => _put(tenantId, analyticalOperationEntity, id, <String, dynamic>{
-    'status': operationPending,
-    'body': body,
-    'error': null,
-  }, now);
+  Future<void> enqueue(String tenantId, String id, String body, DateTime now) =>
+      _put(tenantId, analyticalOperationEntity, id, <String, dynamic>{
+        'status': operationPending,
+        'body': body,
+        'error': null,
+      }, now);
 
   /// The entries still to be sent, oldest first.
   Future<List<PendingOperation>> pending(String tenantId) async {
@@ -119,7 +115,11 @@ class AnalyticalLocalDataSource {
     String? error,
     DateTime now,
   ) async {
-    final EntityRecord? row = await _row(tenantId, analyticalOperationEntity, id);
+    final EntityRecord? row = await _row(
+      tenantId,
+      analyticalOperationEntity,
+      id,
+    );
     if (row == null) {
       return;
     }

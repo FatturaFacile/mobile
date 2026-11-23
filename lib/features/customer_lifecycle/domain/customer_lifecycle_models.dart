@@ -29,7 +29,8 @@ class CustomerLifecycleKpis {
       CustomerLifecycleKpis(
         lifetimeValue: '${json['lifetime_value'] ?? '0.00'}',
         openPipelineValue: '${json['open_pipeline_value'] ?? '0.00'}',
-        overdueReceivableAmount: '${json['overdue_receivable_amount'] ?? '0.00'}',
+        overdueReceivableAmount:
+            '${json['overdue_receivable_amount'] ?? '0.00'}',
         openTickets: (json['open_tickets'] as num?)?.toInt() ?? 0,
         slaBreachRate: (json['sla_breach_rate'] as num?)?.toDouble() ?? 0,
         mttrHours: (json['mttr_hours'] as num?)?.toDouble(),
@@ -122,8 +123,8 @@ class LifecycleContact {
 
   factory LifecycleContact.fromJson(Map<String, dynamic> json) {
     final String company = '${json['company_name'] ?? ''}'.trim();
-    final String person = '${json['first_name'] ?? ''} ${json['last_name'] ?? ''}'
-        .trim();
+    final String person =
+        '${json['first_name'] ?? ''} ${json['last_name'] ?? ''}'.trim();
     return LifecycleContact(
       id: '${json['id']}',
       label: company.isNotEmpty ? company : (person.isNotEmpty ? person : '-'),

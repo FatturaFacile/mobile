@@ -154,9 +154,7 @@ List<AnalyticalCenter> parseCenters(dynamic data) {
     throw const AnalyticalFormatException('the center tree must be a list');
   }
   return data
-      .map(
-        (dynamic c) => AnalyticalCenter.fromJson(c as Map<dynamic, dynamic>),
-      )
+      .map((dynamic c) => AnalyticalCenter.fromJson(c as Map<dynamic, dynamic>))
       .toList();
 }
 
@@ -308,9 +306,7 @@ List<ApportionmentRun> parseRuns(dynamic data) {
     throw const AnalyticalFormatException('the run history must be a list');
   }
   return data
-      .map(
-        (dynamic r) => ApportionmentRun.fromJson(r as Map<dynamic, dynamic>),
-      )
+      .map((dynamic r) => ApportionmentRun.fromJson(r as Map<dynamic, dynamic>))
       .toList();
 }
 
@@ -411,7 +407,10 @@ List<int> allocateCents(int totalCents, List<int> weights) {
 
 /// The result of splitting a line over vectors: the error codes (string keys of the labels) or the cents of every vector.
 class SplitResult {
-  const SplitResult({this.errors = const <String>[], this.amounts = const <int>[]});
+  const SplitResult({
+    this.errors = const <String>[],
+    this.amounts = const <int>[],
+  });
 
   final List<String> errors;
   final List<int> amounts;

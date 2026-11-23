@@ -65,8 +65,9 @@ class _PartPickerState extends State<PartPicker> {
   Future<void> _confirm() async {
     final FieldServiceStrings s = FieldServiceStrings.of(context);
     final VanStockItem? item = _selected;
-    if (item == null)
+    if (item == null) {
       return setState(() => _message = s.t(FsmText.partNotOnVan));
+    }
     final double? quantity = double.tryParse(
       _quantity.text.trim().replaceAll(',', '.'),
     );

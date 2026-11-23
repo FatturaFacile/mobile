@@ -72,7 +72,10 @@ class CustomerLifecycleRemoteDataSource {
     final dynamic body = response.data;
     final dynamic data = body is Map ? body['data'] : null;
     if (data is! Map) {
-      throw const LifecycleRemoteException(LifecycleErrorKind.failed, 'no data');
+      throw const LifecycleRemoteException(
+        LifecycleErrorKind.failed,
+        'no data',
+      );
     }
     return CustomerLifecycleSummary.fromJson(Map<String, dynamic>.from(data));
   }

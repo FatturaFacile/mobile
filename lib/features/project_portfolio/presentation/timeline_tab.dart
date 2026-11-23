@@ -5,7 +5,6 @@ import '../domain/project_plan.dart';
 import '../domain/project_portfolio_models.dart';
 import '../domain/wbs_tree.dart';
 import '../l10n/project_portfolio_strings.dart';
-import 'project_portfolio_labels.dart';
 
 const double _dayWidth = 10;
 const double _rowHeight = 36;
@@ -197,10 +196,7 @@ class _BarRow extends StatelessWidget {
           Positioned(
             left: left,
             top: 20,
-            child: Text(
-              label,
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
+            child: Text(label, style: Theme.of(context).textTheme.labelSmall),
           ),
         ],
       ),

@@ -110,13 +110,23 @@ void main() {
 
     test('splits with the leftover going to the earliest weight', () {
       expect(allocateCents(100, <int>[10000, 10000, 10000]), <int>[34, 33, 33]);
-      expect(allocateCents(-100, <int>[10000, 10000, 10000]), <int>[-34, -33, -33]);
+      expect(allocateCents(-100, <int>[10000, 10000, 10000]), <int>[
+        -34,
+        -33,
+        -33,
+      ]);
       expect(allocateCents(100, <int>[0, 0]), <int>[0, 0]);
     });
 
     test('always adds up to the total', () {
       for (final int total in <int>[1, 7, 99, 12345, 999999]) {
-        final List<int> shares = allocateCents(total, <int>[173333, 1, 999000, 31416, 420000]);
+        final List<int> shares = allocateCents(total, <int>[
+          173333,
+          1,
+          999000,
+          31416,
+          420000,
+        ]);
         expect(shares.fold<int>(0, (int a, int b) => a + b), total);
       }
     });
@@ -151,7 +161,9 @@ void main() {
     });
 
     test('every broken rule is reported', () {
-      expect(splitVectors(10, const <AllocationVector>[]).errors, <String>['vectorRequired']);
+      expect(splitVectors(10, const <AllocationVector>[]).errors, <String>[
+        'vectorRequired',
+      ]);
       expect(
         splitVectors(10, const <AllocationVector>[
           AllocationVector(costCenterId: 'a', percentage: 60),
@@ -167,11 +179,15 @@ void main() {
         contains('vectorMixedModes'),
       );
       expect(
-        splitVectors(10, const <AllocationVector>[AllocationVector(percentage: 100)]).errors,
+        splitVectors(10, const <AllocationVector>[
+          AllocationVector(percentage: 100),
+        ]).errors,
         contains('vectorTargetRequired'),
       );
       expect(
-        splitVectors(10, const <AllocationVector>[AllocationVector(costCenterId: 'a')]).errors,
+        splitVectors(10, const <AllocationVector>[
+          AllocationVector(costCenterId: 'a'),
+        ]).errors,
         contains('vectorValueRequired'),
       );
     });
@@ -195,7 +211,8 @@ void main() {
       );
 
       final Map<String, dynamic> body = draft.toJson();
-      final Map<String, dynamic> line = (body['lines'] as List<dynamic>).first as Map<String, dynamic>;
+      final Map<String, dynamic> line =
+          (body['lines'] as List<dynamic>).first as Map<String, dynamic>;
       expect(draft.validate(), isEmpty);
       expect(body['posting_date'], '2027-03-15');
       expect(line['amount'], '100.00');
@@ -204,18 +221,32 @@ void main() {
     });
 
     test('is refused when incomplete', () {
-      expect(const EntryDraft(postingDate: '2027-03-15', lines: <EntryLineDraft>[]).validate(), <String>['entryNeedsLines']);
       expect(
         const EntryDraft(
           postingDate: '2027-03-15',
-          lines: <EntryLineDraft>[EntryLineDraft(amount: 1, costElementType: 'BOGUS', costCenterId: 'a')],
+          lines: <EntryLineDraft>[],
+        ).validate(),
+        <String>['entryNeedsLines'],
+      );
+      expect(
+        const EntryDraft(
+          postingDate: '2027-03-15',
+          lines: <EntryLineDraft>[
+            EntryLineDraft(
+              amount: 1,
+              costElementType: 'BOGUS',
+              costCenterId: 'a',
+            ),
+          ],
         ).validate(),
         <String>['invalidCostElement'],
       );
       expect(
         const EntryDraft(
           postingDate: '2027-03-15',
-          lines: <EntryLineDraft>[EntryLineDraft(amount: 1, costElementType: 'REVENUE')],
+          lines: <EntryLineDraft>[
+            EntryLineDraft(amount: 1, costElementType: 'REVENUE'),
+          ],
         ).validate(),
         <String>['vectorTargetRequired'],
       );
@@ -226,7 +257,11 @@ void main() {
     test('reads the tree and flattens it depth first', () {
       final List<AnalyticalCenter> roots = parseCenters(_centers);
       final List<AnalyticalCenter> flat = flattenCenters(roots);
-      expect(flat.map((AnalyticalCenter c) => c.code), <String>['ROOT', 'IT', 'PC']);
+      expect(flat.map((AnalyticalCenter c) => c.code), <String>[
+        'ROOT',
+        'IT',
+        'PC',
+      ]);
       expect(roots.single.managerName, 'Rita Rossi');
       expect(flat.last.isActive, isFalse);
       expect(flat.last.isCostCenter, isFalse);
@@ -249,25 +284,61 @@ void main() {
     test('reads the comparison and the runs, and refuses a wrong shape', () {
       expect(parseComparison(_comparison).single.variance, -1000);
       expect(parseRuns(_runs).single.status, 'CONSOLIDATED');
-      expect(() => parseCenters(<String, dynamic>{}), throwsA(isA<AnalyticalFormatException>()));
+      expect(
+        () => parseCenters(<String, dynamic>{}),
+        throwsA(isA<AnalyticalFormatException>()),
+      );
       expect(() => parseRuns('x'), throwsA(isA<AnalyticalFormatException>()));
-      expect(() => parseComparison(<String, dynamic>{}), throwsA(isA<AnalyticalFormatException>()));
-      expect(() => ContributionMargin.fromJson(<String, dynamic>{}), throwsA(isA<AnalyticalFormatException>()));
+      expect(
+        () => parseComparison(<String, dynamic>{}),
+        throwsA(isA<AnalyticalFormatException>()),
+      );
+      expect(
+        () => ContributionMargin.fromJson(<String, dynamic>{}),
+        throwsA(isA<AnalyticalFormatException>()),
+      );
     });
 
     test('the enum values are the ones of the web-api contract', () {
-      expect(analyticalCenterCategories, <String>['STRUCTURAL', 'AUXILIARY', 'PRODUCTION', 'LOGISTICS', 'COMMERCIAL', 'PROFIT']);
-      expect(analyticalDriverTypes, <String>['AREA_SQM', 'HEADCOUNT_FTE', 'MACHINE_HOURS', 'REVENUE_VOLUME', 'FIXED_PERCENTAGE', 'CUSTOM']);
-      expect(analyticalCostElementTypes, <String>['VARIABLE_DIRECT', 'FIXED_DIRECT', 'INDIRECT_AUXILIARY', 'REVENUE', 'NON_OPERATING']);
-      expect(analyticalRunStatuses, <String>['PREVIEW', 'CONSOLIDATED', 'REVERSED']);
+      expect(analyticalCenterCategories, <String>[
+        'STRUCTURAL',
+        'AUXILIARY',
+        'PRODUCTION',
+        'LOGISTICS',
+        'COMMERCIAL',
+        'PROFIT',
+      ]);
+      expect(analyticalDriverTypes, <String>[
+        'AREA_SQM',
+        'HEADCOUNT_FTE',
+        'MACHINE_HOURS',
+        'REVENUE_VOLUME',
+        'FIXED_PERCENTAGE',
+        'CUSTOM',
+      ]);
+      expect(analyticalCostElementTypes, <String>[
+        'VARIABLE_DIRECT',
+        'FIXED_DIRECT',
+        'INDIRECT_AUXILIARY',
+        'REVENUE',
+        'NON_OPERATING',
+      ]);
+      expect(analyticalRunStatuses, <String>[
+        'PREVIEW',
+        'CONSOLIDATED',
+        'REVERSED',
+      ]);
       expect(analyticalCenterTypes, <String>['COST_CENTER', 'PROFIT_CENTER']);
     });
   });
 
   group('strings', () {
     test('every language has every label', () {
-      for (final MapEntry<String, Map<A, String>> table in AnalyticalStrings.tables.entries) {
-        final List<A> missing = A.values.where((A key) => (table.value[key] ?? '').trim().isEmpty).toList();
+      for (final MapEntry<String, Map<A, String>> table
+          in AnalyticalStrings.tables.entries) {
+        final List<A> missing = A.values
+            .where((A key) => (table.value[key] ?? '').trim().isEmpty)
+            .toList();
         expect(missing, isEmpty, reason: '${table.key} misses $missing');
       }
     });
@@ -278,10 +349,19 @@ void main() {
         final Set<String> variants = AnalyticalStrings.tables.values
             .map(
               (Map<A, String> table) =>
-                  (placeholder.allMatches(table[key]!).map((RegExpMatch m) => m.group(1)!).toList()..sort()).join(','),
+                  (placeholder
+                          .allMatches(table[key]!)
+                          .map((RegExpMatch m) => m.group(1)!)
+                          .toList()
+                        ..sort())
+                      .join(','),
             )
             .toSet();
-        expect(variants, hasLength(1), reason: '$key has different placeholders');
+        expect(
+          variants,
+          hasLength(1),
+          reason: '$key has different placeholders',
+        );
       }
     });
 
@@ -293,8 +373,16 @@ void main() {
       expect(s.runStatus('REVERSED'), 'Reversed');
       expect(s.error('vectorPercentSum'), 'The percentages must add up to 100');
       expect(s.error('other'), 'other');
-      expect(fillAnalytical('Entries waiting to be sent: {count}', <String, Object>{'count': 2}), 'Entries waiting to be sent: 2');
-      expect(AnalyticalStrings.forLanguage('de').centerType('PROFIT_CENTER'), 'Profitcenter');
+      expect(
+        fillAnalytical('Entries waiting to be sent: {count}', <String, Object>{
+          'count': 2,
+        }),
+        'Entries waiting to be sent: 2',
+      );
+      expect(
+        AnalyticalStrings.forLanguage('de').centerType('PROFIT_CENTER'),
+        'Profitcenter',
+      );
     });
   });
 
@@ -311,20 +399,36 @@ void main() {
         throw DioException.connectionError(requestOptions: o, reason: 'down');
       }
       if (o.method == 'POST' && o.path == '/analytical/entries') {
-        return json(postStatus, <String, dynamic>{'message': postStatus == 422 ? 'Period consolidated' : 'ok'});
+        return json(postStatus, <String, dynamic>{
+          'message': postStatus == 422 ? 'Period consolidated' : 'ok',
+        });
       }
       return switch (o.path) {
-        '/analytical/centers/tree' => json(200, <String, dynamic>{'data': _centers}),
+        '/analytical/centers/tree' => json(200, <String, dynamic>{
+          'data': _centers,
+        }),
         '/analytical/runs' => json(200, <String, dynamic>{'data': _runs}),
-        '/analytical/reports/contribution-margin' => json(200, <String, dynamic>{'data': _margin}),
-        '/analytical/reports/direct-vs-apportioned' => json(200, <String, dynamic>{'data': _comparison}),
+        '/analytical/reports/contribution-margin' => json(
+          200,
+          <String, dynamic>{'data': _margin},
+        ),
+        '/analytical/reports/direct-vs-apportioned' => json(
+          200,
+          <String, dynamic>{'data': _comparison},
+        ),
         _ => json(404, <String, dynamic>{}),
       };
     }
 
     const EntryDraft draft = EntryDraft(
       postingDate: '2027-03-15',
-      lines: <EntryLineDraft>[EntryLineDraft(amount: 50, costElementType: 'FIXED_DIRECT', costCenterId: 'it')],
+      lines: <EntryLineDraft>[
+        EntryLineDraft(
+          amount: 50,
+          costElementType: 'FIXED_DIRECT',
+          costCenterId: 'it',
+        ),
+      ],
     );
 
     setUp(() {
@@ -333,7 +437,8 @@ void main() {
       clock = DateTime.utc(2027, 3, 1, 8);
       db = AppDatabase(NativeDatabase.memory());
       adapter = FakeAdapter(serve);
-      final Dio dio = Dio(BaseOptions(baseUrl: 'http://x/api/v1'))..httpClientAdapter = adapter;
+      final Dio dio = Dio(BaseOptions(baseUrl: 'http://x/api/v1'))
+        ..httpClientAdapter = adapter;
       repo = AnalyticalRepositoryImpl(
         AnalyticalLocalDataSource(db),
         AnalyticalRemoteDataSource(dio),
@@ -351,16 +456,19 @@ void main() {
       expect(overview.pending, 0);
     });
 
-    test('a sync stores the four read models and the cache serves them', () async {
-      expect((await repo.sync('t1')).status, AnalyticalSyncStatus.synced);
+    test(
+      'a sync stores the four read models and the cache serves them',
+      () async {
+        expect((await repo.sync('t1')).status, AnalyticalSyncStatus.synced);
 
-      final AnalyticalOverview overview = await repo.overview('t1');
-      expect(flattenCenters(overview.centers), hasLength(3));
-      expect(overview.runs.single.totalAllocated, 1000);
-      expect(overview.margin!.operatingResult, 3350);
-      expect(overview.comparison.single.code, 'IT');
-      expect(overview.syncedAt!.toUtc(), clock);
-    });
+        final AnalyticalOverview overview = await repo.overview('t1');
+        expect(flattenCenters(overview.centers), hasLength(3));
+        expect(overview.runs.single.totalAllocated, 1000);
+        expect(overview.margin!.operatingResult, 3350);
+        expect(overview.comparison.single.code, 'IT');
+        expect(overview.syncedAt!.toUtc(), clock);
+      },
+    );
 
     test('the cache is tenant scoped', () async {
       await repo.sync('t1');
@@ -382,7 +490,8 @@ void main() {
       await repo.sync('t1');
       final Dio bad = Dio(BaseOptions(baseUrl: 'http://x/api/v1'))
         ..httpClientAdapter = FakeAdapter(
-          (RequestOptions o) => o.path == '/analytical/reports/contribution-margin'
+          (RequestOptions o) =>
+              o.path == '/analytical/reports/contribution-margin'
               ? json(200, <String, dynamic>{'data': <String, dynamic>{}})
               : serve(o),
         );
@@ -418,20 +527,23 @@ void main() {
       expect((await repo.overview('t1')).pending, 0);
     });
 
-    test('a refused entry is parked, an unreachable server leaves it pending', () async {
-      await repo.queueEntry('t1', draft);
+    test(
+      'a refused entry is parked, an unreachable server leaves it pending',
+      () async {
+        await repo.queueEntry('t1', draft);
 
-      postStatus = 422;
-      final AnalyticalSyncResult refused = await repo.sync('t1');
-      expect(refused.failed, 1);
-      expect((await repo.overview('t1')).pending, 0);
+        postStatus = 422;
+        final AnalyticalSyncResult refused = await repo.sync('t1');
+        expect(refused.failed, 1);
+        expect((await repo.overview('t1')).pending, 0);
 
-      await repo.queueEntry('t1', draft);
-      postStatus = 503;
-      final AnalyticalSyncResult retry = await repo.sync('t1');
-      expect(retry.sent, 0);
-      expect(retry.failed, 0);
-      expect((await repo.overview('t1')).pending, 1);
-    });
+        await repo.queueEntry('t1', draft);
+        postStatus = 503;
+        final AnalyticalSyncResult retry = await repo.sync('t1');
+        expect(retry.sent, 0);
+        expect(retry.failed, 0);
+        expect((await repo.overview('t1')).pending, 1);
+      },
+    );
   });
 }

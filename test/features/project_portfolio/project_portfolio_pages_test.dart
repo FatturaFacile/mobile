@@ -133,7 +133,7 @@ WbsNode _node(
 );
 
 ProjectPlan _plan() => ProjectPlan.build(
-  project: Project(
+  project: const Project(
     id: 'p1',
     tenantId: 't1',
     projectCode: 'PRJ-1',
@@ -214,7 +214,10 @@ void main() {
     )..syncResult = const PortfolioSyncResult(PortfolioSyncStatus.offline);
     await tester.pumpWidget(host(repo, const ProjectPortfolioPage()));
     await tester.pumpAndSettle();
-    expect(find.text('Offline: showing the data stored on this device'), findsOneWidget);
+    expect(
+      find.text('Offline: showing the data stored on this device'),
+      findsOneWidget,
+    );
     expect(find.text('PRJ-1 · Bridge'), findsOneWidget);
   });
 
@@ -225,7 +228,9 @@ void main() {
       projects: const <Project>[],
       plan: _plan(),
     );
-    await tester.pumpWidget(host(repo, const ProjectDetailPage(projectId: 'p1')));
+    await tester.pumpWidget(
+      host(repo, const ProjectDetailPage(projectId: 'p1')),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('PRJ-1'), findsOneWidget);
@@ -236,36 +241,48 @@ void main() {
     expect(find.text('2  Sign-off'), findsOneWidget);
   });
 
-  testWidgets('the board puts finished work in Done and moves a card with the menu', (
+  testWidgets(
+    'the board puts finished work in Done and moves a card with the menu',
+    (WidgetTester tester) async {
+      final FakePortfolioRepository repo = FakePortfolioRepository(
+        projects: const <Project>[],
+        plan: _plan(),
+      );
+      await tester.pumpWidget(
+        host(repo, const ProjectDetailPage(projectId: 'p1')),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Board'));
+      await tester.pumpAndSettle();
+
+      // Summary nodes are not cards: Drawings and Sign-off are to do, Review is done.
+      expect(find.text('To do (2)'), findsOneWidget);
+      expect(find.text('In progress (0)'), findsOneWidget);
+      expect(find.text('Done (1)'), findsOneWidget);
+
+      await tester.tap(find.byTooltip('Move to').first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Move to Done'));
+      await tester.pumpAndSettle();
+      expect(
+        repo.calls.any(
+          (String c) => c.endsWith(':100') && c.startsWith('updateNode:'),
+        ),
+        isTrue,
+      );
+    },
+  );
+
+  testWidgets('the timeline lists the critical path', (
     WidgetTester tester,
   ) async {
     final FakePortfolioRepository repo = FakePortfolioRepository(
       projects: const <Project>[],
       plan: _plan(),
     );
-    await tester.pumpWidget(host(repo, const ProjectDetailPage(projectId: 'p1')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Board'));
-    await tester.pumpAndSettle();
-
-    // Summary nodes are not cards: Drawings and Sign-off are to do, Review is done.
-    expect(find.text('To do (2)'), findsOneWidget);
-    expect(find.text('In progress (0)'), findsOneWidget);
-    expect(find.text('Done (1)'), findsOneWidget);
-
-    await tester.tap(find.byTooltip('Move to').first);
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Move to Done'));
-    await tester.pumpAndSettle();
-    expect(repo.calls.any((String c) => c.endsWith(':100') && c.startsWith('updateNode:')), isTrue);
-  });
-
-  testWidgets('the timeline lists the critical path', (WidgetTester tester) async {
-    final FakePortfolioRepository repo = FakePortfolioRepository(
-      projects: const <Project>[],
-      plan: _plan(),
+    await tester.pumpWidget(
+      host(repo, const ProjectDetailPage(projectId: 'p1')),
     );
-    await tester.pumpWidget(host(repo, const ProjectDetailPage(projectId: 'p1')));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Timeline'));
     await tester.pumpAndSettle();
@@ -281,7 +298,9 @@ void main() {
       projects: const <Project>[],
       plan: _plan(),
     );
-    await tester.pumpWidget(host(repo, const ProjectDetailPage(projectId: 'p1')));
+    await tester.pumpWidget(
+      host(repo, const ProjectDetailPage(projectId: 'p1')),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.text('Baseline'));
     await tester.pumpAndSettle();
@@ -295,13 +314,17 @@ void main() {
     expect(repo.calls, contains('captureBaseline:Kick-off'));
   });
 
-  testWidgets('adding an element sends the typed title', (WidgetTester tester) async {
+  testWidgets('adding an element sends the typed title', (
+    WidgetTester tester,
+  ) async {
     final FakePortfolioRepository repo = FakePortfolioRepository(
       projects: const <Project>[],
       plan: _plan(),
     );
     tallScreen(tester);
-    await tester.pumpWidget(host(repo, const ProjectDetailPage(projectId: 'p1')));
+    await tester.pumpWidget(
+      host(repo, const ProjectDetailPage(projectId: 'p1')),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.text('Add element'));
     await tester.pumpAndSettle();
@@ -318,7 +341,9 @@ void main() {
       projects: const <Project>[],
       plan: _plan(),
     );
-    await tester.pumpWidget(host(repo, const ProjectDetailPage(projectId: 'p1')));
+    await tester.pumpWidget(
+      host(repo, const ProjectDetailPage(projectId: 'p1')),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Public funding codes'));
     await tester.pumpAndSettle();
@@ -344,7 +369,9 @@ void main() {
       plan: _plan(),
     );
     tallScreen(tester);
-    await tester.pumpWidget(host(repo, const ProjectDetailPage(projectId: 'p1')));
+    await tester.pumpWidget(
+      host(repo, const ProjectDetailPage(projectId: 'p1')),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.text('1.1  Drawings'));
     await tester.pumpAndSettle();

@@ -36,8 +36,9 @@ class ReceiptLineDraft {
 
   LineIssue? get issue {
     if (good < 0 || damaged < 0) return LineIssue.negative;
-    if (roundQty(good + damaged) > outstanding)
+    if (roundQty(good + damaged) > outstanding) {
       return LineIssue.exceedsOutstanding;
+    }
     return null;
   }
 
@@ -97,8 +98,9 @@ class ReceiptDraft {
   /// Status the backend will assign. A final receipt with shortage or damage needs manager approval.
   ReceiptOutcome get expectedOutcome {
     if (partial) return ReceiptOutcome.partiallyReceived;
-    if (totalShortage > 0 || totalDamaged > 0)
+    if (totalShortage > 0 || totalDamaged > 0) {
       return ReceiptOutcome.discrepancyPending;
+    }
     return ReceiptOutcome.received;
   }
 

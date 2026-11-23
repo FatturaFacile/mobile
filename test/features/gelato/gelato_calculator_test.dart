@@ -26,33 +26,65 @@ GelatoIngredient ingredient(
 );
 
 List<GelatoLine> creamLines() => <GelatoLine>[
-  GelatoLine(ingredient('sucrose', pod: 100, pac: 100, solids: 100, water: 0, cost: 1.1), 160),
-  GelatoLine(ingredient('milk', pod: 0.8, milkFat: 3.6, slng: 8.6, solids: 12.2, water: 87.8, cost: 1.3), 600),
-  GelatoLine(ingredient('cream', pod: 0.5, milkFat: 35, slng: 5.6, solids: 40.6, water: 59.4, cost: 4.2), 100),
+  GelatoLine(
+    ingredient('sucrose', pod: 100, pac: 100, solids: 100, water: 0, cost: 1.1),
+    160,
+  ),
+  GelatoLine(
+    ingredient(
+      'milk',
+      pod: 0.8,
+      milkFat: 3.6,
+      slng: 8.6,
+      solids: 12.2,
+      water: 87.8,
+      cost: 1.3,
+    ),
+    600,
+  ),
+  GelatoLine(
+    ingredient(
+      'cream',
+      pod: 0.5,
+      milkFat: 35,
+      slng: 5.6,
+      solids: 40.6,
+      water: 59.4,
+      cost: 4.2,
+    ),
+    100,
+  ),
   GelatoLine(ingredient('water'), 140),
 ];
 
 void main() {
   const GelatoCalculator calculator = GelatoCalculator();
 
-  test('computes POD, PAC, SLNG, solids and the lactose ceiling per 1000 g', () {
-    final GelatoMetrics m = calculator.analyze(creamLines());
+  test(
+    'computes POD, PAC, SLNG, solids and the lactose ceiling per 1000 g',
+    () {
+      final GelatoMetrics m = calculator.analyze(creamLines());
 
-    expect(m.pod, closeTo(165.3, 0.001));
-    expect(m.pac, closeTo(190.888, 0.001));
-    expect(m.slng, closeTo(5.72, 0.001));
-    expect(m.milkFat, closeTo(5.66, 0.001));
-    expect(m.totalSolids, closeTo(27.38, 0.001));
-    expect(m.slngMax, closeTo(10.525, 0.001));
-    expect(m.lactoseRisk, isFalse);
-  });
+      expect(m.pod, closeTo(165.3, 0.001));
+      expect(m.pac, closeTo(190.888, 0.001));
+      expect(m.slng, closeTo(5.72, 0.001));
+      expect(m.milkFat, closeTo(5.66, 0.001));
+      expect(m.totalSolids, closeTo(27.38, 0.001));
+      expect(m.slngMax, closeTo(10.525, 0.001));
+      expect(m.lactoseRisk, isFalse);
+    },
+  );
 
   test('does not depend on the batch weight', () {
     final List<GelatoLine> doubled = <GelatoLine>[
-      for (final GelatoLine l in creamLines()) GelatoLine(l.ingredient, l.grams * 3.5),
+      for (final GelatoLine l in creamLines())
+        GelatoLine(l.ingredient, l.grams * 3.5),
     ];
 
-    expect(calculator.analyze(doubled).pac, closeTo(calculator.analyze(creamLines()).pac, 1e-9));
+    expect(
+      calculator.analyze(doubled).pac,
+      closeTo(calculator.analyze(creamLines()).pac, 1e-9),
+    );
   });
 
   test('flags the lactose crystallization risk', () {
@@ -65,7 +97,11 @@ void main() {
   });
 
   test('costs the batch, the litre of gelato and the portion', () {
-    final GelatoMetrics m = calculator.analyze(creamLines(), overrunPercent: 30, portionGrams: 100);
+    final GelatoMetrics m = calculator.analyze(
+      creamLines(),
+      overrunPercent: 30,
+      portionGrams: 100,
+    );
 
     expect(m.costPerKg, closeTo(1.376, 1e-9));
     expect(m.batchCost, closeTo(1.376, 1e-9));
@@ -80,10 +116,13 @@ void main() {
 
   test('rejects an empty recipe and scales the weighing targets', () {
     expect(() => calculator.analyze(<GelatoLine>[]), throwsArgumentError);
-    expect(calculator.scale(<GelatoLine>[
-      GelatoLine(ingredient('a'), 600),
-      GelatoLine(ingredient('b'), 400),
-    ], 3500), <double>[2100, 1400]);
+    expect(
+      calculator.scale(<GelatoLine>[
+        GelatoLine(ingredient('a'), 600),
+        GelatoLine(ingredient('b'), 400),
+      ], 3500),
+      <double>[2100, 1400],
+    );
   });
 
   test('parses an ingredient of the API and falls back to English labels', () {
@@ -103,7 +142,11 @@ void main() {
   test('every locale table defines every label', () {
     for (final String locale in <String>['it', 'en', 'de', 'fr']) {
       for (final GL key in GL.values) {
-        expect(gelatoStrings[locale]![key], isNotNull, reason: '$locale is missing ${key.name}');
+        expect(
+          gelatoStrings[locale]![key],
+          isNotNull,
+          reason: '$locale is missing ${key.name}',
+        );
         expect(gelatoStrings[locale]![key], isNotEmpty);
       }
     }

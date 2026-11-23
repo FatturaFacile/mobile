@@ -179,7 +179,8 @@ class CustomerLifecycleStrings {
       CL.search: 'Rechercher un client',
       CL.noResults: 'Aucun client trouvé',
       CL.noAccount: "Aucun compte CRM n'est lié à ce client",
-      CL.offline: 'Hors ligne : les données du client nécessitent une connexion',
+      CL.offline:
+          'Hors ligne : les données du client nécessitent une connexion',
       CL.forbidden: 'Votre rôle ne peut pas lire les données clients',
       CL.failed: "Les données n'ont pas pu être chargées",
       CL.health: 'Indice de santé',

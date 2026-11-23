@@ -105,8 +105,9 @@ class FakeWmsRepository implements WmsRepository {
   Future<ScanResult> scan(String transferId, String code) async {
     calls.add('scan:$code');
     final lineId = codes[code];
-    if (lineId == null)
+    if (lineId == null) {
       throw const ApiException('Line not in transfer', statusCode: 422);
+    }
     final line = (transferResult ?? buildTransfer(id: transferId)).lineById(
       lineId,
     )!;

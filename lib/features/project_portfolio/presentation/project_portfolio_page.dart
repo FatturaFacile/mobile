@@ -92,9 +92,8 @@ class _ProjectPortfolioPageState extends ConsumerState<ProjectPortfolioPage> {
                   );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (Object e, StackTrace _) => Center(
-                  child: Text(s.t(PP.syncFailed)),
-                ),
+                error: (Object e, StackTrace _) =>
+                    Center(child: Text(s.t(PP.syncFailed))),
               ),
             ),
           ),
@@ -193,8 +192,7 @@ class _ProjectTile extends StatelessWidget {
       trailing: Text(formatPercent(project.percentComplete)),
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (BuildContext _) =>
-              ProjectDetailPage(projectId: project.id),
+          builder: (BuildContext _) => ProjectDetailPage(projectId: project.id),
         ),
       ),
     );

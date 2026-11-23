@@ -100,7 +100,7 @@ abstract final class CpmScheduler {
 
   static int _dayIndex(DateTime date, DateTime origin) =>
       (DateTime.utc(date.year, date.month, date.day).millisecondsSinceEpoch -
-              origin.millisecondsSinceEpoch) ~/
+          origin.millisecondsSinceEpoch) ~/
       _day;
 
   static DateTime _at(DateTime origin, int index) =>
@@ -150,9 +150,7 @@ abstract final class CpmScheduler {
     final Map<String, List<TaskDependency>> outgoing =
         <String, List<TaskDependency>>{};
     for (final TaskDependency d in links) {
-      incoming
-          .putIfAbsent(d.successorNodeId, () => <TaskDependency>[])
-          .add(d);
+      incoming.putIfAbsent(d.successorNodeId, () => <TaskDependency>[]).add(d);
       outgoing
           .putIfAbsent(d.predecessorNodeId, () => <TaskDependency>[])
           .add(d);
@@ -203,7 +201,8 @@ abstract final class CpmScheduler {
     for (final _Item i in items.values) {
       final int total = i.ls - i.es;
       int free = projectEnd - i.ef;
-      for (final TaskDependency d in outgoing[i.node.id] ?? const <TaskDependency>[]) {
+      for (final TaskDependency d
+          in outgoing[i.node.id] ?? const <TaskDependency>[]) {
         final _Item s = items[d.successorNodeId]!;
         final int slack = switch (d.dependencyType) {
           DependencyType.fs => s.es - (i.ef + d.lagDays),
@@ -241,21 +240,22 @@ abstract final class CpmScheduler {
   }
 
   /// Copies the computed dates, floats and critical flag onto the nodes of [result].
-  static List<WbsNode> apply(List<WbsNode> nodes, CpmResult result) => <WbsNode>[
-    for (final WbsNode node in nodes)
-      if (result.nodes[node.id] case final CpmNode cpm)
-        node.copyWith(
-          earlyStart: () => cpm.earlyStart,
-          earlyFinish: () => cpm.earlyFinish,
-          lateStart: () => cpm.lateStart,
-          lateFinish: () => cpm.lateFinish,
-          totalFloatDays: () => cpm.totalFloatDays,
-          freeFloatDays: () => cpm.freeFloatDays,
-          isCritical: cpm.isCritical,
-        )
-      else
-        node,
-  ];
+  static List<WbsNode> apply(List<WbsNode> nodes, CpmResult result) =>
+      <WbsNode>[
+        for (final WbsNode node in nodes)
+          if (result.nodes[node.id] case final CpmNode cpm)
+            node.copyWith(
+              earlyStart: () => cpm.earlyStart,
+              earlyFinish: () => cpm.earlyFinish,
+              lateStart: () => cpm.lateStart,
+              lateFinish: () => cpm.lateFinish,
+              totalFloatDays: () => cpm.totalFloatDays,
+              freeFloatDays: () => cpm.freeFloatDays,
+              isCritical: cpm.isCritical,
+            )
+          else
+            node,
+      ];
 
   /// Kahn's algorithm; null when the links contain a loop.
   static List<String>? _topologicalOrder(
@@ -268,9 +268,9 @@ abstract final class CpmScheduler {
     final Map<String, List<String>> next = <String, List<String>>{};
     for (final TaskDependency d in links) {
       inDegree[d.successorNodeId] = (inDegree[d.successorNodeId] ?? 0) + 1;
-      next.putIfAbsent(d.predecessorNodeId, () => <String>[]).add(
-        d.successorNodeId,
-      );
+      next
+          .putIfAbsent(d.predecessorNodeId, () => <String>[])
+          .add(d.successorNodeId);
     }
     final List<String> ready = <String>[
       for (final MapEntry<String, int> e in inDegree.entries)

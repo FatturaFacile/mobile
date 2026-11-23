@@ -83,9 +83,7 @@ class _BaselineTabState extends ConsumerState<BaselineTab> {
                     children: <Widget>[
                       for (final ProjectBaseline b in widget.plan.baselines)
                         Padding(
-                          padding: const EdgeInsets.only(
-                            right: FfSpace.space2,
-                          ),
+                          padding: const EdgeInsets.only(right: FfSpace.space2),
                           child: ChoiceChip(
                             label: Text('#${b.baselineNumber} ${b.name}'),
                             selected: b.id == selected.id,

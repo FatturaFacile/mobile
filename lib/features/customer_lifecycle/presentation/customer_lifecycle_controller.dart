@@ -97,8 +97,7 @@ class CustomerLifecycleController extends Notifier<CustomerLifecycleState> {
         accountId,
       );
       state = state.copyWith(
-        view: () =>
-            CustomerLifecycleView(summary: summary, timeline: timeline),
+        view: () => CustomerLifecycleView(summary: summary, timeline: timeline),
         loading: false,
       );
     } on LifecycleRemoteException catch (e) {
@@ -120,10 +119,8 @@ class CustomerLifecycleController extends Notifier<CustomerLifecycleState> {
         types: types,
       );
       state = state.copyWith(
-        view: () => CustomerLifecycleView(
-          summary: current.summary,
-          timeline: timeline,
-        ),
+        view: () =>
+            CustomerLifecycleView(summary: current.summary, timeline: timeline),
       );
     } on LifecycleRemoteException catch (e) {
       state = state.copyWith(error: () => e.kind);

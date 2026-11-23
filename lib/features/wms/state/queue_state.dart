@@ -40,8 +40,9 @@ class TransferQueueController extends ChangeNotifier {
       _fail(e);
       return;
     }
-    if (_warehouseId == null && _warehouses.isNotEmpty)
+    if (_warehouseId == null && _warehouses.isNotEmpty) {
       _warehouseId = _warehouses.first.id;
+    }
     await refresh();
   }
 

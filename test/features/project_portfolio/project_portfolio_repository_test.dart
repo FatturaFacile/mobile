@@ -68,8 +68,9 @@ void main() {
 
   Future<List<QueueItem>> queue() => db.select(db.syncQueue).get();
 
-  void goOffline() => adapter.handler = (RequestOptions o) =>
-      throw DioException.connectionError(requestOptions: o, reason: 'down');
+  void goOffline() =>
+      adapter.handler = (RequestOptions o) =>
+          throw DioException.connectionError(requestOptions: o, reason: 'down');
 
   setUp(() async {
     db = AppDatabase(NativeDatabase.memory());
@@ -91,35 +92,48 @@ void main() {
 
   tearDown(() => db.close());
 
-  test('the project list and the plan come from SQLite, scoped by tenant', () async {
-    await seedNode('a', '1', start: '2027-01-01', end: '2027-01-03', hours: 8);
-    await db
-        .into(db.entityRecords)
-        .insert(
-          EntityRecordsCompanion.insert(
-            entity: projectEntity,
-            id: 'other',
-            tenantId: 'someone-else',
-            payload: jsonEncode(<String, dynamic>{'id': 'other', 'project_code': 'X'}),
-            syncStatus: SyncStatus.synced,
-            localUpdatedAt: DateTime.utc(2027),
-            createdAt: DateTime.utc(2027),
-            updatedAt: DateTime.utc(2027),
-          ),
-        );
-    final List<Project> projects = await repo.watchProjects(_tenant).first;
-    expect(projects.single.projectCode, 'PRJ-1');
-    final ProjectPlan p = await plan();
-    expect(p.project.plannedHours, 8);
-    expect(await repo.watchPlan(_tenant, 'missing').first, isNull);
-  });
+  test(
+    'the project list and the plan come from SQLite, scoped by tenant',
+    () async {
+      await seedNode(
+        'a',
+        '1',
+        start: '2027-01-01',
+        end: '2027-01-03',
+        hours: 8,
+      );
+      await db
+          .into(db.entityRecords)
+          .insert(
+            EntityRecordsCompanion.insert(
+              entity: projectEntity,
+              id: 'other',
+              tenantId: 'someone-else',
+              payload: jsonEncode(<String, dynamic>{
+                'id': 'other',
+                'project_code': 'X',
+              }),
+              syncStatus: SyncStatus.synced,
+              localUpdatedAt: DateTime.utc(2027),
+              createdAt: DateTime.utc(2027),
+              updatedAt: DateTime.utc(2027),
+            ),
+          );
+      final List<Project> projects = await repo.watchProjects(_tenant).first;
+      expect(projects.single.projectCode, 'PRJ-1');
+      final ProjectPlan p = await plan();
+      expect(p.project.plannedHours, 8);
+      expect(await repo.watchPlan(_tenant, 'missing').first, isNull);
+    },
+  );
 
   test('a deleted record is not shown', () async {
     await seedNode('a', '1');
-    await (db.update(db.entityRecords)..where(
-          (EntityRecords t) => t.id.equals('a'),
-        ))
-        .write(EntityRecordsCompanion(deletedAt: Value<DateTime?>(DateTime.utc(2027))));
+    await (db.update(
+      db.entityRecords,
+    )..where((EntityRecords t) => t.id.equals('a'))).write(
+      EntityRecordsCompanion(deletedAt: Value<DateTime?>(DateTime.utc(2027))),
+    );
     expect((await plan()).nodes, isEmpty);
   });
 
@@ -161,8 +175,15 @@ void main() {
 
     final List<QueueItem> items = await queue();
     expect(items.map((QueueItem i) => i.method), everyElement('POST'));
-    expect(items.map((QueueItem i) => i.path), everyElement('/projects/p1/wbs-nodes'));
-    expect(items.map((QueueItem i) => i.entityId), <String>[phase, child, second]);
+    expect(
+      items.map((QueueItem i) => i.path),
+      everyElement('/projects/p1/wbs-nodes'),
+    );
+    expect(items.map((QueueItem i) => i.entityId), <String>[
+      phase,
+      child,
+      second,
+    ]);
     // A child waits for the create of its parent.
     expect(items[1].dependsOn, items[0].uuid);
     expect(items[0].dependsOn, isNull);
@@ -182,11 +203,18 @@ void main() {
 
   test('invalid input is refused before it reaches the outbox', () async {
     goOffline();
-    Future<void> expectKind(Future<Object?> action, PortfolioErrorKind kind) async {
+    Future<void> expectKind(
+      Future<Object?> action,
+      PortfolioErrorKind kind,
+    ) async {
       await expectLater(
         action,
         throwsA(
-          isA<PortfolioException>().having((PortfolioException e) => e.kind, 'kind', kind),
+          isA<PortfolioException>().having(
+            (PortfolioException e) => e.kind,
+            'kind',
+            kind,
+          ),
         ),
       );
     }
@@ -206,11 +234,21 @@ void main() {
       PortfolioErrorKind.invalidDates,
     );
     await expectKind(
-      repo.createNode(_tenant, projectId: _project, title: 'x', plannedCost: -1),
+      repo.createNode(
+        _tenant,
+        projectId: _project,
+        title: 'x',
+        plannedCost: -1,
+      ),
       PortfolioErrorKind.invalidAmount,
     );
     await expectKind(
-      repo.createNode(_tenant, projectId: _project, title: 'x', parentNodeId: 'nope'),
+      repo.createNode(
+        _tenant,
+        projectId: _project,
+        title: 'x',
+        parentNodeId: 'nope',
+      ),
       PortfolioErrorKind.notFound,
     );
     await seedNode('a', '1');
@@ -226,7 +264,10 @@ void main() {
     await seedNode('a', '1', start: '2027-01-01', end: '2027-01-03', hours: 8);
     goOffline();
     final WbsNode a = (await plan()).node('a')!;
-    await repo.updateNode(_tenant, a.copyWith(percentComplete: 60, actualHours: 5));
+    await repo.updateNode(
+      _tenant,
+      a.copyWith(percentComplete: 60, actualHours: 5),
+    );
 
     final QueueItem put = (await queue()).single;
     expect(put.method, 'PUT');
@@ -244,15 +285,22 @@ void main() {
     expect(await queue(), hasLength(1));
   });
 
-  test('editing a node that is still a pending create folds into the POST', () async {
-    goOffline();
-    final String id = await repo.createNode(_tenant, projectId: _project, title: 'Draft');
-    final WbsNode n = (await plan()).node(id)!;
-    await repo.updateNode(_tenant, n.copyWith(title: 'Final'));
-    final QueueItem only = (await queue()).single;
-    expect(only.method, 'POST');
-    expect(jsonDecode(only.payload!)['title'], 'Final');
-  });
+  test(
+    'editing a node that is still a pending create folds into the POST',
+    () async {
+      goOffline();
+      final String id = await repo.createNode(
+        _tenant,
+        projectId: _project,
+        title: 'Draft',
+      );
+      final WbsNode n = (await plan()).node(id)!;
+      await repo.updateNode(_tenant, n.copyWith(title: 'Final'));
+      final QueueItem only = (await queue()).single;
+      expect(only.method, 'POST');
+      expect(jsonDecode(only.payload!)['title'], 'Final');
+    },
+  );
 
   test('deleting a node removes its subtree and the links that touch it, deepest first', () async {
     await seedNode('a', '1');
@@ -269,7 +317,9 @@ void main() {
     final ProjectPlan p = await plan();
     expect(p.nodes.map((WbsNode n) => n.id), <String>['b']);
     expect(p.dependencies, isEmpty);
-    final List<String> paths = (await queue()).map((QueueItem i) => i.path).toList();
+    final List<String> paths = (await queue())
+        .map((QueueItem i) => i.path)
+        .toList();
     expect(paths, <String>[
       '/projects/task-dependencies/d1',
       '/projects/wbs-nodes/a1',
@@ -281,56 +331,93 @@ void main() {
     );
   });
 
-  test('a dependency that closes a loop or repeats a link is refused', () async {
-    await seedNode('a', '1', start: '2027-01-01', end: '2027-01-02');
-    await seedNode('b', '2', start: '2027-01-01', end: '2027-01-02');
-    await seedNode('c', '3', start: '2027-01-01', end: '2027-01-02');
-    goOffline();
-    await repo.addDependency(_tenant, projectId: _project, predecessorNodeId: 'a', successorNodeId: 'b');
-    await repo.addDependency(
-      _tenant,
-      projectId: _project,
-      predecessorNodeId: 'b',
-      successorNodeId: 'c',
-      type: DependencyType.ss,
-      lagDays: 2,
-    );
+  test(
+    'a dependency that closes a loop or repeats a link is refused',
+    () async {
+      await seedNode('a', '1', start: '2027-01-01', end: '2027-01-02');
+      await seedNode('b', '2', start: '2027-01-01', end: '2027-01-02');
+      await seedNode('c', '3', start: '2027-01-01', end: '2027-01-02');
+      goOffline();
+      await repo.addDependency(
+        _tenant,
+        projectId: _project,
+        predecessorNodeId: 'a',
+        successorNodeId: 'b',
+      );
+      await repo.addDependency(
+        _tenant,
+        projectId: _project,
+        predecessorNodeId: 'b',
+        successorNodeId: 'c',
+        type: DependencyType.ss,
+        lagDays: 2,
+      );
 
-    Future<void> expectKind(Future<Object?> action, PortfolioErrorKind kind) =>
-        expectLater(
-          action,
-          throwsA(isA<PortfolioException>().having((PortfolioException e) => e.kind, 'kind', kind)),
-        );
+      Future<void> expectKind(
+        Future<Object?> action,
+        PortfolioErrorKind kind,
+      ) => expectLater(
+        action,
+        throwsA(
+          isA<PortfolioException>().having(
+            (PortfolioException e) => e.kind,
+            'kind',
+            kind,
+          ),
+        ),
+      );
 
-    await expectKind(
-      repo.addDependency(_tenant, projectId: _project, predecessorNodeId: 'c', successorNodeId: 'a'),
-      PortfolioErrorKind.dependencyCycle,
-    );
-    await expectKind(
-      repo.addDependency(_tenant, projectId: _project, predecessorNodeId: 'a', successorNodeId: 'a'),
-      PortfolioErrorKind.dependencyCycle,
-    );
-    await expectKind(
-      repo.addDependency(_tenant, projectId: _project, predecessorNodeId: 'a', successorNodeId: 'b'),
-      PortfolioErrorKind.duplicateDependency,
-    );
-    await expectKind(
-      repo.addDependency(_tenant, projectId: _project, predecessorNodeId: 'a', successorNodeId: 'zzz'),
-      PortfolioErrorKind.crossProject,
-    );
-    final List<QueueItem> items = await queue();
-    expect(items, hasLength(2));
-    expect(items.first.path, '/projects/p1/dependencies');
-    final Map<String, dynamic> body = jsonDecode(items.last.payload!) as Map<String, dynamic>;
-    expect(body['dependency_type'], 'ss');
-    expect(body['lag_days'], 2);
+      await expectKind(
+        repo.addDependency(
+          _tenant,
+          projectId: _project,
+          predecessorNodeId: 'c',
+          successorNodeId: 'a',
+        ),
+        PortfolioErrorKind.dependencyCycle,
+      );
+      await expectKind(
+        repo.addDependency(
+          _tenant,
+          projectId: _project,
+          predecessorNodeId: 'a',
+          successorNodeId: 'a',
+        ),
+        PortfolioErrorKind.dependencyCycle,
+      );
+      await expectKind(
+        repo.addDependency(
+          _tenant,
+          projectId: _project,
+          predecessorNodeId: 'a',
+          successorNodeId: 'b',
+        ),
+        PortfolioErrorKind.duplicateDependency,
+      );
+      await expectKind(
+        repo.addDependency(
+          _tenant,
+          projectId: _project,
+          predecessorNodeId: 'a',
+          successorNodeId: 'zzz',
+        ),
+        PortfolioErrorKind.crossProject,
+      );
+      final List<QueueItem> items = await queue();
+      expect(items, hasLength(2));
+      expect(items.first.path, '/projects/p1/dependencies');
+      final Map<String, dynamic> body =
+          jsonDecode(items.last.payload!) as Map<String, dynamic>;
+      expect(body['dependency_type'], 'ss');
+      expect(body['lag_days'], 2);
 
-    // The schedule of the plan already reflects the new links.
-    final ProjectPlan p = await plan();
-    expect(p.node('b')!.earlyStart, DateTime.utc(2027, 1, 3));
-    expect(p.node('c')!.earlyStart, DateTime.utc(2027, 1, 5));
-    expect(p.node('c')!.isCritical, isTrue);
-  });
+      // The schedule of the plan already reflects the new links.
+      final ProjectPlan p = await plan();
+      expect(p.node('b')!.earlyStart, DateTime.utc(2027, 1, 3));
+      expect(p.node('c')!.earlyStart, DateTime.utc(2027, 1, 5));
+      expect(p.node('c')!.isCritical, isTrue);
+    },
+  );
 
   test('removing a dependency queues its DELETE', () async {
     await seedNode('a', '1');
@@ -348,20 +435,38 @@ void main() {
     expect(del.path, '/projects/task-dependencies/d1');
   });
 
-  test('capturing a baseline numbers it, freezes the plan and queues it', () async {
-    await seedNode('a', '1', start: '2027-01-01', end: '2027-01-05', hours: 10);
-    goOffline();
-    final String first = await repo.captureBaseline(_tenant, projectId: _project, name: 'Kick-off');
-    await repo.captureBaseline(_tenant, projectId: _project, name: '');
-    final ProjectPlan p = await plan();
-    expect(p.baselines.map((ProjectBaseline b) => b.baselineNumber), <int>[2, 1]);
-    expect(p.baselines.first.name, 'B2');
-    final ProjectBaseline kickoff = p.baselines.firstWhere((ProjectBaseline b) => b.id == first);
-    expect(kickoff.snapshotJson, contains('"wbs_code":"1"'));
-    final QueueItem item = (await queue()).first;
-    expect(item.path, '/projects/p1/baselines');
-    expect(jsonDecode(item.payload!)['baseline_number'], 1);
-  });
+  test(
+    'capturing a baseline numbers it, freezes the plan and queues it',
+    () async {
+      await seedNode(
+        'a',
+        '1',
+        start: '2027-01-01',
+        end: '2027-01-05',
+        hours: 10,
+      );
+      goOffline();
+      final String first = await repo.captureBaseline(
+        _tenant,
+        projectId: _project,
+        name: 'Kick-off',
+      );
+      await repo.captureBaseline(_tenant, projectId: _project, name: '');
+      final ProjectPlan p = await plan();
+      expect(p.baselines.map((ProjectBaseline b) => b.baselineNumber), <int>[
+        2,
+        1,
+      ]);
+      expect(p.baselines.first.name, 'B2');
+      final ProjectBaseline kickoff = p.baselines.firstWhere(
+        (ProjectBaseline b) => b.id == first,
+      );
+      expect(kickoff.snapshotJson, contains('"wbs_code":"1"'));
+      final QueueItem item = (await queue()).first;
+      expect(item.path, '/projects/p1/baselines');
+      expect(jsonDecode(item.payload!)['baseline_number'], 1);
+    },
+  );
 
   test('project edits validate CUP and CIG, normalize them and send only the changes', () async {
     goOffline();
@@ -434,7 +539,8 @@ void main() {
     goOffline();
     expect((await repo.sync(_tenant)).status, PortfolioSyncStatus.offline);
 
-    adapter.handler = (RequestOptions o) => json(500, <String, dynamic>{'message': 'boom'});
+    adapter.handler = (RequestOptions o) =>
+        json(500, <String, dynamic>{'message': 'boom'});
     final PortfolioSyncResult failed = await repo.sync(_tenant);
     expect(failed.status, PortfolioSyncStatus.failed);
     expect(failed.pending, portfolioEntities.length);

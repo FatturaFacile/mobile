@@ -95,8 +95,9 @@ class _PpeDeliveryScreenState extends State<PpeDeliveryScreen> {
         double.tryParse(_quantity.text.trim().replaceAll(',', '.')) ?? 0;
     if (worker.isEmpty) return setState(() => _message = s.t(H.workerRequired));
     if (_scan == null) return setState(() => _message = s.t(H.scanPpeHint));
-    if (_signature.isEmpty || quantity <= 0)
+    if (_signature.isEmpty || quantity <= 0) {
       return setState(() => _message = s.t(H.signatureRequired));
+    }
 
     setState(() => _saving = true);
     await widget.repository.queuePpeHandOver(
