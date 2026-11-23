@@ -58,6 +58,9 @@ class SyncEngine {
     'vat_intent_letters',
     'vat_lipe_requests',
     'vat_cu_requests',
+    'swiss_vat_bezugsteuer_requests',
+    'swiss_vat_adjustment_requests',
+    'swiss_vat_return_requests',
 
     'rebate_proposal_actions',
     'po_confirmations',
