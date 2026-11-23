@@ -12,7 +12,9 @@ abstract final class ProcurementCodes {
 
   /// Upper-cases and strips blanks; null when nothing is left.
   static String? normalize(String? raw) {
-    final String value = (raw ?? '').replaceAll(RegExp(r'\s'), '').toUpperCase();
+    final String value = (raw ?? '')
+        .replaceAll(RegExp(r'\s'), '')
+        .toUpperCase();
     return value.isEmpty ? null : value;
   }
 

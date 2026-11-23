@@ -201,7 +201,8 @@ class ProjectPortfolioStrings {
       PP.days: '{count} d',
       PP.criticalPath: 'Critical path',
       PP.noCriticalPath: 'Add dates and links to see the critical path',
-      PP.cycleDetected: 'The links form a loop: the schedule cannot be computed',
+      PP.cycleDetected:
+          'The links form a loop: the schedule cannot be computed',
       PP.projectFinish: 'Scheduled finish',
       PP.earlyDates: 'Early dates',
       PP.lateDates: 'Late dates',
@@ -294,8 +295,7 @@ class ProjectPortfolioStrings {
       PP.addChild: 'Aggiungi sotto-elemento',
       PP.noNodes: 'Questa commessa non ha ancora una WBS',
       PP.deleteNodeTitle: 'Eliminare l\'elemento?',
-      PP.deleteNodeMessage:
-          '"{title}" e tutto ciò che contiene verranno eliminati, con i suoi collegamenti.',
+      PP.deleteNodeMessage: '"{title}" e tutto ciò che contiene verranno eliminati, con i suoi collegamenti.',
       PP.boardNotStarted: 'Da fare',
       PP.boardInProgress: 'In corso',
       PP.boardDone: 'Completato',
@@ -305,8 +305,10 @@ class ProjectPortfolioStrings {
       PP.freeFloat: 'Float libero',
       PP.days: '{count} g',
       PP.criticalPath: 'Percorso critico',
-      PP.noCriticalPath: 'Aggiungi date e collegamenti per vedere il percorso critico',
-      PP.cycleDetected: 'I collegamenti formano un ciclo: il piano non può essere calcolato',
+      PP.noCriticalPath:
+          'Aggiungi date e collegamenti per vedere il percorso critico',
+      PP.cycleDetected:
+          'I collegamenti formano un ciclo: il piano non può essere calcolato',
       PP.projectFinish: 'Fine pianificata',
       PP.earlyDates: 'Date al più presto',
       PP.lateDates: 'Date al più tardi',
@@ -340,7 +342,8 @@ class ProjectPortfolioStrings {
       PP.errAmount: 'Ore e importi non possono essere negativi',
       PP.errCycle: 'Questo collegamento creerebbe un ciclo',
       PP.errDuplicate: 'I due elementi sono già collegati',
-      PP.errCrossProject: 'Entrambi gli elementi devono appartenere a questa commessa',
+      PP.errCrossProject:
+          'Entrambi gli elementi devono appartenere a questa commessa',
       PP.invalidNumber: 'Inserisci un numero valido',
       PP.required: 'Obbligatorio',
       PP.milestones: 'Milestone',
@@ -410,7 +413,8 @@ class ProjectPortfolioStrings {
       PP.freeFloat: 'Freier Puffer',
       PP.days: '{count} T',
       PP.criticalPath: 'Kritischer Pfad',
-      PP.noCriticalPath: 'Mit Terminen und Verknüpfungen erscheint der kritische Pfad',
+      PP.noCriticalPath:
+          'Mit Terminen und Verknüpfungen erscheint der kritische Pfad',
       PP.cycleDetected: 'Die Verknüpfungen bilden eine Schleife: der Plan kann nicht berechnet werden',
       PP.projectFinish: 'Geplantes Ende',
       PP.earlyDates: 'Früheste Termine',
@@ -504,8 +508,7 @@ class ProjectPortfolioStrings {
       PP.addChild: 'Ajouter un sous-élément',
       PP.noNodes: 'Ce projet n\'a pas encore de structure WBS',
       PP.deleteNodeTitle: 'Supprimer l\'élément ?',
-      PP.deleteNodeMessage:
-          '« {title} » et tout ce qu\'il contient seront supprimés, avec leurs liens.',
+      PP.deleteNodeMessage: '« {title} » et tout ce qu\'il contient seront supprimés, avec leurs liens.',
       PP.boardNotStarted: 'À faire',
       PP.boardInProgress: 'En cours',
       PP.boardDone: 'Terminé',
@@ -515,8 +518,10 @@ class ProjectPortfolioStrings {
       PP.freeFloat: 'Marge libre',
       PP.days: '{count} j',
       PP.criticalPath: 'Chemin critique',
-      PP.noCriticalPath: 'Ajoutez des dates et des liens pour voir le chemin critique',
-      PP.cycleDetected: 'Les liens forment une boucle : le planning ne peut pas être calculé',
+      PP.noCriticalPath:
+          'Ajoutez des dates et des liens pour voir le chemin critique',
+      PP.cycleDetected:
+          'Les liens forment une boucle : le planning ne peut pas être calculé',
       PP.projectFinish: 'Fin planifiée',
       PP.earlyDates: 'Dates au plus tôt',
       PP.lateDates: 'Dates au plus tard',

@@ -153,9 +153,7 @@ abstract final class WbsRollup {
     for (final WbsNode root in tree.roots) {
       visit(root);
     }
-    return <WbsNode>[
-      for (final WbsNode node in nodes) rolled[node.id] ?? node,
-    ];
+    return <WbsNode>[for (final WbsNode node in nodes) rolled[node.id] ?? node];
   }
 
   /// Project-level figures from the already rolled-up [nodes]: the sum of the root nodes.
@@ -181,8 +179,7 @@ abstract final class WbsRollup {
     }
     final double hours = _sum(nodes, (WbsNode n) => n.plannedHours);
     final double value = hours > 0
-        ? _sum(nodes, (WbsNode n) => n.percentComplete * n.plannedHours) /
-              hours
+        ? _sum(nodes, (WbsNode n) => n.percentComplete * n.plannedHours) / hours
         : _sum(nodes, (WbsNode n) => n.percentComplete) / nodes.length;
     return value.clamp(0, 100).toDouble();
   }

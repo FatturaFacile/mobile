@@ -350,12 +350,11 @@ class NodeDetailSheet extends ConsumerWidget {
                   icon: const Icon(Icons.link),
                   label: Text(s.t(PP.addDependency)),
                   onPressed: () async {
-                    final DependencyFormResult? form =
-                        await showDependencyForm(
-                          context,
-                          plan,
-                          fixedNodeId: n.id,
-                        );
+                    final DependencyFormResult? form = await showDependencyForm(
+                      context,
+                      plan,
+                      fixedNodeId: n.id,
+                    );
                     if (form == null || !context.mounted) {
                       return;
                     }

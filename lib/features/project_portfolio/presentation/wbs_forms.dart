@@ -262,10 +262,7 @@ class _NodeFormState extends State<_NodeForm> {
                     child: Text(s.t(PP.cancel)),
                   ),
                   const SizedBox(width: FfSpace.space2),
-                  FilledButton(
-                    onPressed: _submit,
-                    child: Text(s.t(PP.save)),
-                  ),
+                  FilledButton(onPressed: _submit, child: Text(s.t(PP.save))),
                 ],
               ),
             ],
@@ -401,9 +398,7 @@ class _DependencyFormState extends State<_DependencyForm> {
             ),
             TextField(
               controller: _lag,
-              keyboardType: const TextInputType.numberWithOptions(
-                signed: true,
-              ),
+              keyboardType: const TextInputType.numberWithOptions(signed: true),
               decoration: InputDecoration(
                 labelText: s.t(PP.lagDays),
                 errorText: lag == null ? s.t(PP.invalidNumber) : null,
@@ -426,7 +421,7 @@ class _DependencyFormState extends State<_DependencyForm> {
                             predecessorNodeId: _predecessor!,
                             successorNodeId: _successor!,
                             type: _type,
-                            lagDays: lag!,
+                            lagDays: lag,
                           ),
                         )
                       : null,
