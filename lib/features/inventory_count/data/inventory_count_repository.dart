@@ -248,7 +248,7 @@ class InventoryCountRepository {
           (EntityRecords t) =>
               t.tenantId.equals(tenantId) &
               t.entity.equals(countEntryEntity) &
-              t.syncStatus.equalsValue(SyncStatus.pendingCreate),
+              t.syncStatus.equals(SyncStatus.pendingCreate.index),
         ))
         .watch()
         .map((List<EntityRecord> rows) => rows.length);

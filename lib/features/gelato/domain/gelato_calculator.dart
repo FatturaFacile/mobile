@@ -24,7 +24,9 @@ class GelatoIngredient {
     return GelatoIngredient(
       id: json['id'] as String,
       code: json['code'] as String? ?? '',
-      names: names.map((String k, dynamic v) => MapEntry<String, String>(k, '$v')),
+      names: names.map(
+        (String k, dynamic v) => MapEntry<String, String>(k, '$v'),
+      ),
       pod: n('pod'),
       pac: n('pac'),
       milkFat: n('milk_fat_percent'),
@@ -112,13 +114,22 @@ class GelatoCalculator {
   }) {
     final double total = lines.fold(0, (double s, GelatoLine l) => s + l.grams);
     if (total <= 0) {
-      throw ArgumentError('A recipe needs at least one ingredient with a positive weight.');
+      throw ArgumentError(
+        'A recipe needs at least one ingredient with a positive weight.',
+      );
     }
     double weighted(double Function(GelatoIngredient) v) =>
-        lines.fold(0.0, (double s, GelatoLine l) => s + l.grams * v(l.ingredient)) / total;
+        lines.fold(
+          0.0,
+          (double s, GelatoLine l) => s + l.grams * v(l.ingredient),
+        ) /
+        total;
 
     final double slng = weighted((GelatoIngredient i) => i.slng);
-    final double solids = math.min(100, weighted((GelatoIngredient i) => i.totalSolids));
+    final double solids = math.min(
+      100,
+      weighted((GelatoIngredient i) => i.totalSolids),
+    );
     final double costPerKg = weighted((GelatoIngredient i) => i.costPerKg);
     final double batchCost = costPerKg * total / 1000;
     final double mixLitres = total / 1000 / density;
@@ -127,7 +138,9 @@ class GelatoCalculator {
     return GelatoMetrics(
       totalGrams: total,
       pod: weighted((GelatoIngredient i) => i.pod) * 10,
-      pac: weighted((GelatoIngredient i) => i.pac) * 10 + slng * 10 * milkSaltsFactor,
+      pac:
+          weighted((GelatoIngredient i) => i.pac) * 10 +
+          slng * 10 * milkSaltsFactor,
       milkFat: weighted((GelatoIngredient i) => i.milkFat),
       otherFat: weighted((GelatoIngredient i) => i.otherFat),
       slng: slng,
@@ -155,7 +168,8 @@ class GelatoCalculator {
       return <double>[for (final GelatoLine l in lines) l.grams];
     }
     return <double>[
-      for (final GelatoLine l in lines) (l.grams * batchWeight / total * 100).roundToDouble() / 100,
+      for (final GelatoLine l in lines)
+        (l.grams * batchWeight / total * 100).roundToDouble() / 100,
     ];
   }
 }

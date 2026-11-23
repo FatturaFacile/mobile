@@ -202,7 +202,8 @@ class AnalyticalStrings {
       A.vectorRequired: 'At least one allocation is required',
       A.vectorMixedModes: 'Use percentages only or amounts only',
       A.vectorTargetRequired: 'Every allocation needs a center or a project',
-      A.vectorValueRequired: 'Enter the percentage or amount of every allocation',
+      A.vectorValueRequired:
+          'Enter the percentage or amount of every allocation',
       A.vectorPercentSum: 'The percentages must add up to 100',
       A.vectorAmountSum: 'The amounts must add up to the line amount',
       A.splitPreview: 'Split: {first} / {second}',
@@ -265,14 +266,17 @@ class AnalyticalStrings {
       A.secondCenter: 'Secondo centro (ripartizione)',
       A.splitPercent: '% sul primo centro',
       A.queueEntry: 'Metti in coda',
-      A.entryQueued: 'Registrazione in coda: sarà inviata alla sincronizzazione',
+      A.entryQueued:
+          'Registrazione in coda: sarà inviata alla sincronizzazione',
       A.invalidAmount: 'Importo, centro o percentuale non validi',
       A.entryNeedsLines: 'Serve almeno una riga',
       A.invalidCostElement: 'Elemento di costo non valido',
       A.vectorRequired: 'Serve almeno una ripartizione',
       A.vectorMixedModes: 'Usa solo percentuali o solo importi',
-      A.vectorTargetRequired: 'Ogni ripartizione ha bisogno di un centro o di una commessa',
-      A.vectorValueRequired: 'Indica la percentuale o l’importo di ogni ripartizione',
+      A.vectorTargetRequired:
+          'Ogni ripartizione ha bisogno di un centro o di una commessa',
+      A.vectorValueRequired:
+          'Indica la percentuale o l’importo di ogni ripartizione',
       A.vectorPercentSum: 'Le percentuali devono dare 100',
       A.vectorAmountSum: 'Gli importi devono dare l’importo della riga',
       A.splitPreview: 'Ripartizione: {first} / {second}',
@@ -301,7 +305,8 @@ class AnalyticalStrings {
       A.categoryLogistics: 'Logistik',
       A.categoryCommercial: 'Vertrieb',
       A.categoryProfit: 'Profit',
-      A.noCenters: 'Noch keine Center: synchronisieren oder in der Web-App anlegen',
+      A.noCenters:
+          'Noch keine Center: synchronisieren oder in der Web-App anlegen',
       A.revenues: 'Betriebserlöse',
       A.variableCosts: 'Direkte variable Kosten',
       A.margin1: 'Deckungsbeitrag I',
@@ -335,13 +340,16 @@ class AnalyticalStrings {
       A.secondCenter: 'Zweites Center (Verteilung)',
       A.splitPercent: '% auf das erste Center',
       A.queueEntry: 'In Warteschlange',
-      A.entryQueued: 'Buchung eingereiht: wird bei der nächsten Synchronisierung gesendet',
-      A.invalidAmount: 'Ungültiger Betrag, ungültiges Center oder ungültiger Prozentsatz',
+      A.entryQueued:
+          'Buchung eingereiht: wird bei der nächsten Synchronisierung gesendet',
+      A.invalidAmount:
+          'Ungültiger Betrag, ungültiges Center oder ungültiger Prozentsatz',
       A.entryNeedsLines: 'Mindestens eine Zeile ist erforderlich',
       A.invalidCostElement: 'Ungültige Kostenart',
       A.vectorRequired: 'Mindestens eine Verteilung ist erforderlich',
       A.vectorMixedModes: 'Nur Prozente oder nur Beträge verwenden',
-      A.vectorTargetRequired: 'Jede Verteilung braucht ein Center oder ein Projekt',
+      A.vectorTargetRequired:
+          'Jede Verteilung braucht ein Center oder ein Projekt',
       A.vectorValueRequired: 'Prozent oder Betrag jeder Verteilung angeben',
       A.vectorPercentSum: 'Die Prozente müssen 100 ergeben',
       A.vectorAmountSum: 'Die Beträge müssen den Zeilenbetrag ergeben',
@@ -405,16 +413,21 @@ class AnalyticalStrings {
       A.secondCenter: 'Second centre (répartition)',
       A.splitPercent: '% sur le premier centre',
       A.queueEntry: 'Mettre en file',
-      A.entryQueued: 'Écriture en file : elle sera envoyée à la prochaine synchronisation',
+      A.entryQueued:
+          'Écriture en file : elle sera envoyée à la prochaine synchronisation',
       A.invalidAmount: 'Montant, centre ou pourcentage invalide',
       A.entryNeedsLines: 'Au moins une ligne est requise',
       A.invalidCostElement: 'Élément de coût invalide',
       A.vectorRequired: 'Au moins une répartition est requise',
-      A.vectorMixedModes: 'Utilisez uniquement des pourcentages ou des montants',
-      A.vectorTargetRequired: 'Chaque répartition requiert un centre ou un projet',
-      A.vectorValueRequired: 'Indiquez le pourcentage ou le montant de chaque répartition',
+      A.vectorMixedModes:
+          'Utilisez uniquement des pourcentages ou des montants',
+      A.vectorTargetRequired:
+          'Chaque répartition requiert un centre ou un projet',
+      A.vectorValueRequired:
+          'Indiquez le pourcentage ou le montant de chaque répartition',
       A.vectorPercentSum: 'Les pourcentages doivent totaliser 100',
-      A.vectorAmountSum: 'Les montants doivent totaliser le montant de la ligne',
+      A.vectorAmountSum:
+          'Les montants doivent totaliser le montant de la ligne',
       A.splitPreview: 'Répartition : {first} / {second}',
     },
   };

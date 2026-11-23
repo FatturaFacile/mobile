@@ -166,19 +166,15 @@ abstract class FieldServiceRepository {
 /// The repository on the phone: local SQLite first, the outbox sends the rest.
 class LocalFieldServiceRepository implements FieldServiceRepository {
   LocalFieldServiceRepository({
-    required FieldServiceStore store,
-    required Dio dio,
-    required FieldServiceOutbox outbox,
+    required this._store,
+    required this._dio,
+    required this._outbox,
     required this.tenantId,
     required this.technicianId,
-    CoveragePolicy coverage = const CoveragePolicy(),
+    this._coverage = const CoveragePolicy(),
     String Function()? newUuid,
     DateTime Function()? clock,
-  }) : _store = store,
-       _dio = dio,
-       _outbox = outbox,
-       _coverage = coverage,
-       _newUuid = newUuid ?? (() => const Uuid().v7()),
+  }) : _newUuid = newUuid ?? (() => const Uuid().v7()),
        _clock = clock ?? DateTime.now;
 
   final FieldServiceStore _store;
@@ -304,8 +300,9 @@ class LocalFieldServiceRepository implements FieldServiceRepository {
     DateTime? at,
   }) async {
     final FsmWorkOrder wo = await _openWorkOrder(workOrderId);
-    if (wo.status == target)
+    if (wo.status == target) {
       return; // A repeated tap is a no-op, like on the server.
+    }
     if (!wo.status.canMoveTo(target)) {
       throw const FsmException(<String, String>{
         'status': 'transition_invalid',

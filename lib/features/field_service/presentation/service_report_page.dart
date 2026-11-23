@@ -180,11 +180,13 @@ class _ServiceReportPageState extends State<ServiceReportPage> {
     final double? meterHours = _number(_meterHours);
     final double? meterCycles = _number(_meterCycles);
     if (labor == null || labor.isNaN) errors['labor_hours'] = 'required';
-    if (travelHours != null && travelHours.isNaN)
+    if (travelHours != null && travelHours.isNaN) {
       errors['travel_hours'] = 'invalid';
+    }
     if (travelKm != null && travelKm.isNaN) errors['travel_km'] = 'invalid';
-    if (meterHours != null && meterHours.isNaN)
+    if (meterHours != null && meterHours.isNaN) {
       errors['meter_reading_hours'] = 'invalid';
+    }
     if (meterCycles != null &&
         (meterCycles.isNaN || meterCycles != meterCycles.roundToDouble())) {
       errors['meter_reading_cycles'] = 'invalid';

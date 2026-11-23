@@ -70,14 +70,16 @@ class _NearMissScreenState extends State<NearMissScreen> {
 
   Future<void> _addPhoto() async {
     final photo = await widget.capturePhoto!();
-    if (mounted && photo != null && _photos.length < hseMaxPhotos)
+    if (mounted && photo != null && _photos.length < hseMaxPhotos) {
       setState(() => _photos.add(photo));
+    }
   }
 
   Future<void> _send() async {
     final s = HseStrings.of(context);
-    if (_what.text.trim().isEmpty)
+    if (_what.text.trim().isEmpty) {
       return setState(() => _message = s.t(H.descriptionRequired));
+    }
 
     setState(() => _saving = true);
     await widget.repository.queueNearMiss(

@@ -92,12 +92,11 @@ class FieldServiceOutbox {
     this._store,
     this._dio, {
     DateTime Function()? clock,
-    FsmPhotoReader? readPhoto,
+    this._readPhoto,
     this.batchSize = 200,
     this.baseBackoff = const Duration(seconds: 5),
     this.maxBackoff = const Duration(minutes: 15),
-  }) : _clock = clock ?? DateTime.now,
-       _readPhoto = readPhoto;
+  }) : _clock = clock ?? DateTime.now;
 
   final FieldServiceStore _store;
   final Dio _dio;

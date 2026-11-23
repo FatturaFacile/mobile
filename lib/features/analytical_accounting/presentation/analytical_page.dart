@@ -46,13 +46,25 @@ class _AnalyticalAccountingPageState
           children: <Widget>[
             if (state.syncing) const LinearProgressIndicator(minHeight: 2),
             if (state.offline)
-              _Banner(key: const Key('analytical-offline'), text: s.t(A.offlineBanner))
+              _Banner(
+                key: const Key('analytical-offline'),
+                text: s.t(A.offlineBanner),
+              )
             else if (state.lastSync == AnalyticalSyncStatus.failed)
-              _Banner(key: const Key('analytical-failed'), text: s.t(A.syncFailed))
+              _Banner(
+                key: const Key('analytical-failed'),
+                text: s.t(A.syncFailed),
+              )
             else if (state.lastSync == AnalyticalSyncStatus.unauthorized)
-              _Banner(key: const Key('analytical-signin'), text: s.t(A.signInRequired))
+              _Banner(
+                key: const Key('analytical-signin'),
+                text: s.t(A.signInRequired),
+              )
             else if (state.lastSync == AnalyticalSyncStatus.forbidden)
-              _Banner(key: const Key('analytical-forbidden'), text: s.t(A.forbidden)),
+              _Banner(
+                key: const Key('analytical-forbidden'),
+                text: s.t(A.forbidden),
+              ),
             if (state.overview.pending > 0)
               _Banner(
                 key: const Key('analytical-pending'),
@@ -163,9 +175,19 @@ class _MarginTab extends ConsumerWidget {
           else ...<Widget>[
             _Line(strings.t(A.revenues), margin.revenues),
             _Line(strings.t(A.variableCosts), margin.variableCosts),
-            _Line(strings.t(A.margin1), margin.margin1, percent: margin.margin1Percent, bold: true),
+            _Line(
+              strings.t(A.margin1),
+              margin.margin1,
+              percent: margin.margin1Percent,
+              bold: true,
+            ),
             _Line(strings.t(A.fixedCosts), margin.fixedCosts),
-            _Line(strings.t(A.margin2), margin.margin2, percent: margin.margin2Percent, bold: true),
+            _Line(
+              strings.t(A.margin2),
+              margin.margin2,
+              percent: margin.margin2Percent,
+              bold: true,
+            ),
             _Line(strings.t(A.indirectCosts), margin.indirectCosts),
             _Line(strings.t(A.apportionedCosts), margin.apportionedCosts),
             _Line(
@@ -176,7 +198,10 @@ class _MarginTab extends ConsumerWidget {
             ),
           ],
           const SizedBox(height: 16),
-          Text(strings.t(A.comparison), style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            strings.t(A.comparison),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           for (final ComparisonRow row in state.overview.comparison)
             ListTile(
               key: Key('comparison-${row.centerId}'),
@@ -190,11 +215,16 @@ class _MarginTab extends ConsumerWidget {
               trailing: Text(row.netCost.toStringAsFixed(2)),
             ),
           const SizedBox(height: 16),
-          Text(strings.t(A.runs), style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            strings.t(A.runs),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           for (final ApportionmentRun run in state.overview.runs)
             ListTile(
               key: Key('run-${run.id}'),
-              title: Text('${run.periodKey} · ${strings.runStatus(run.status)}'),
+              title: Text(
+                '${run.periodKey} · ${strings.runStatus(run.status)}',
+              ),
               subtitle: Text(
                 '${strings.t(A.pool)} ${run.totalPool.toStringAsFixed(2)} · '
                 '${strings.t(A.allocated)} ${run.totalAllocated.toStringAsFixed(2)}',
@@ -350,7 +380,10 @@ class _EntryTabState extends ConsumerState<_EntryTab> {
           decoration: InputDecoration(labelText: s.t(A.costElement)),
           items: <DropdownMenuItem<String>>[
             for (final String type in analyticalCostElementTypes)
-              DropdownMenuItem<String>(value: type, child: Text(s.element(type))),
+              DropdownMenuItem<String>(
+                value: type,
+                child: Text(s.element(type)),
+              ),
           ],
           onChanged: (String? value) =>
               setState(() => _element = value ?? _element),
@@ -366,7 +399,8 @@ class _EntryTabState extends ConsumerState<_EntryTab> {
                 child: Text('${c.code} ${c.name}'),
               ),
           ],
-          onChanged: (AnalyticalCenter? value) => setState(() => _first = value),
+          onChanged: (AnalyticalCenter? value) =>
+              setState(() => _first = value),
         ),
         const SizedBox(height: 12),
         DropdownButtonFormField<AnalyticalCenter>(
@@ -379,7 +413,8 @@ class _EntryTabState extends ConsumerState<_EntryTab> {
                 child: Text('${c.code} ${c.name}'),
               ),
           ],
-          onChanged: (AnalyticalCenter? value) => setState(() => _second = value),
+          onChanged: (AnalyticalCenter? value) =>
+              setState(() => _second = value),
         ),
         const SizedBox(height: 12),
         TextField(

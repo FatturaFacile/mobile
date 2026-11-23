@@ -114,7 +114,7 @@ class FieldServiceStore {
         final int i => Variable<int>(i),
         final double d => Variable<double>(d),
         final bool b => Variable<int>(b ? 1 : 0),
-        _ => Variable<String>(null),
+        _ => const Variable<String>(null),
       },
   ];
 

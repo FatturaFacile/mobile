@@ -26,11 +26,13 @@ class HseDeviceServices {
     try {
       if (!await Geolocator.isLocationServiceEnabled()) return null;
       var permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied)
+      if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
+      }
       if (permission == LocationPermission.denied ||
-          permission == LocationPermission.deniedForever)
+          permission == LocationPermission.deniedForever) {
         return null;
+      }
 
       final position = await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
@@ -67,8 +69,9 @@ class HseDeviceServices {
   static Future<String?> readBadge() async {
     try {
       if (await NfcManager.instance.checkAvailability() !=
-          NfcAvailability.enabled)
+          NfcAvailability.enabled) {
         return null;
+      }
     } on PlatformException {
       return null;
     }
