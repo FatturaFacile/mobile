@@ -55,6 +55,9 @@ class SyncEngine {
     'receivable_allocations',
     'receivable_reversals',
     'receivable_disputes',
+    'vat_intent_letters',
+    'vat_lipe_requests',
+    'vat_cu_requests',
 
     'rebate_proposal_actions',
     'po_confirmations',

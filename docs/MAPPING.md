@@ -198,3 +198,36 @@ outbox, so no Drift schema change). Rights: module key `purchase_orders` / `proc
 
 The three outbox entities are terminal (`SyncEngine.defaultTerminalEntities`): a 422/403 parks the row as rejected.
 Strings live in `purchase_order_strings.dart` (it/de/fr/en tables, parity enforced by a test), like `supplier_rebates`.
+
+## 10. Italian VAT registers, LIPE, annual VAT and CU (Mod 029, `lib/features/italian_vat`)
+
+Module keys `italian_vat` / `vat_registers` / `vat_compliance` (web-api routes sit behind `module.access:ledger`). Reads are cached as JSON
+in the generic `entity_records` store (`vat_registers`, `vat_settlements`, `vat_annual`, `vat_certificates`, `vat_intent_letters`), so
+there is no Drift schema change. The three writes go through the outbox (entities `vat_intent_letters`, `vat_lipe_requests`,
+`vat_cu_requests`, all terminal: 422/403 parks the row as rejected, retry or dismiss); the queue row UUID is the `Idempotency-Key`,
+an identical request still waiting is not queued twice. Files (register CSV, LIPE XML, settlement PDF, CU PDF, CU telematic file) are
+online-only downloads handed to the system share sheet. Amounts are decimal strings held as `Amount4` (integer ten-thousandths).
+
+| Use | Endpoint | Status in web-api |
+| --- | --- | --- |
+| Register of a period | `GET /general-ledger/vat-registers/{sales\|purchases\|receipts\|third-party-goods}?from&to` (`&format=csv`) | `sales`/`purchases` exist (lines + `totals`); the rest is the Mod 029 extension |
+| Register extras | answer `meta`: `currency`, `sectionals[{code,label,last_protocol}]`, `lock{definitive,locked_at,last_protocol,stamp_duty_pages}`, `pro_rata_percent`, `ventilation{enabled,purchase_basis[{vat_rate,amount}]}`; line extras `sectional`, `deductible_vat`, `non_deductible_vat` | extension |
+| Letters of intent | `GET /vat/intent-letters`; `POST /vat/intent-letters` `{customer_id?, customer_name, protocol, kind, authorized_amount, valid_from, valid_to, received_on, currency}` | extension |
+| Letter shape | `id, customer_name, protocol` (`17 digits-6 digits`), `kind` single_operation\|up_to_amount\|period, `status` active\|exhausted\|expired\|revoked, `valid_from/to`, `authorized_amount`, `consumed_amount` | extension |
+| Periodic settlements | `GET /vat/settlements`, `GET /vat/settlements/{id}` (`VatSettlementResource`) | exists |
+| LIPE file and ledger reconciliation | settlement detail adds `lipe{generated_at,xsd_valid,xsd_errors[],signature_status unsigned\|signed\|invalid,protocol}` and `reconciliation{erario_balance}` | extension |
+| Generate LIPE (outbox) | `POST /vat/settlements/{id}/lipe` | extension |
+| LIPE XML / settlement PDF | `GET /vat/settlements/{id}/export-xml`, `/export-pdf` | exists |
+| Annual summary | `GET /vat/annual-returns/{year}` → `{output_vat_amount,input_vat_amount,balance,paid_amount,credit_carried_forward,erario_balance}`; a 404 is fine, the phone sums the cached settlements instead | extension |
+| Certificazioni Uniche | `GET /general-ledger/withholding-certificates?year=` (`recipient_name, recipient_kind professional\|agent, tax_code, vat_number, causale, gross_amount, taxable_amount, withheld_amount, f24_paid_amount, f24_paid_on, f24_tribute_code, pdf_available`) | extension |
+| CU files | `GET /general-ledger/withholding-certificates/{id}/pdf`, `GET /general-ledger/withholding-certificates/telematic-file?year=` | extension |
+| Generate CU (outbox) | `POST /general-ledger/withholding-certificates/generate` `{year}` | extension |
+
+Computed on the phone, so it works offline and mirrors the server rules: the pro-rata split of the input VAT (`ProRata`, the yearly
+percentage rounded up to the next unit), the ventilation of the retail receipts (`Ventilation`: gross split by purchases per rate, then
+scorporated, the last rate absorbing the rounding), the plafond control of art. 8 c. 1 lett. c DPR 633/1972 (`PlafondGuard`: blocks when the
+invoice exceeds the remaining plafond, the letter is outside its validity, revoked or without the 17+6 digit AdE protocol; warns from
+90% used), the Erario c/IVA reconciliation (ledger movement minus the settlement's output-minus-input VAT, tolerance one cent) and the
+annual summary (server figures win field by field). The server stays the authority: the extension endpoints above are the contract the
+phone expects and must be matched by web-api (the sales/purchases register and the settlements already exist).
+Strings: `presentation/italian_vat_strings.dart` (it, en, de, fr tables; `it-CH`/`it-IT` use `it`, `de-CH` `de`, `fr-CH` `fr`).
