@@ -48,6 +48,10 @@ import '../features/italian_vat/domain/italian_vat_models.dart'
     show italianVatModules;
 import '../features/italian_vat/presentation/italian_vat_pages.dart';
 import '../features/italian_vat/presentation/italian_vat_strings.dart';
+import '../features/swiss_vat/domain/swiss_vat_models.dart'
+    show swissVatModules;
+import '../features/swiss_vat/presentation/swiss_vat_pages.dart';
+import '../features/swiss_vat/presentation/swiss_vat_strings.dart';
 import '../features/shop_floor/presentation/shop_floor_home_page.dart';
 import '../features/security/presentation/security_screen.dart';
 import '../features/entities/entity_pages.dart';
@@ -213,6 +217,7 @@ class HomePage extends ConsumerWidget {
       _ when purchaseOrdersModules.contains(module) =>
         const PurchaseOrdersHomePage(),
       _ when italianVatModules.contains(module) => const ItalianVatHomePage(),
+      _ when swissVatModules.contains(module) => const SwissVatHomePage(),
       _ when supplierRebatesModules.contains(module) =>
         const SupplierRebatesHomePage(),
       payslipVaultModule => const PayslipVaultPage(),
@@ -308,6 +313,11 @@ class HomePage extends ConsumerWidget {
     if (italianVatModules.contains(module)) {
       return ItalianVatStrings(ref.read(requestContextProvider).languageCode)(
         IV.title,
+      );
+    }
+    if (swissVatModules.contains(module)) {
+      return SwissVatStrings(ref.read(requestContextProvider).languageCode)(
+        SV.title,
       );
     }
     if (supplierRebatesModules.contains(module)) {

@@ -231,3 +231,23 @@ invoice exceeds the remaining plafond, the letter is outside its validity, revok
 annual summary (server figures win field by field). The server stays the authority: the extension endpoints above are the contract the
 phone expects and must be matched by web-api (the sales/purchases register and the settlements already exist).
 Strings: `presentation/italian_vat_strings.dart` (it, en, de, fr tables; `it-CH`/`it-IT` use `it`, `de-CH` `de`, `fr-CH` `fr`).
+
+## 11. Swiss VAT / MWST / IVA / TVA (Mod 024, `lib/features/swiss_vat`)
+
+Module keys `swiss_vat` / `swiss_mwst` (web-api `module.access:swiss_vat`). Offline snapshots live in the generic
+`entity_records` store (`swiss_vat_config`, `swiss_vat_tax_codes`, `swiss_vat_returns`, `swiss_vat_bezugsteuer`,
+`swiss_vat_adjustments`); queued mutations use `SyncEngine` terminal entities (`swiss_vat_bezugsteuer_requests`,
+`swiss_vat_adjustment_requests`, `swiss_vat_return_requests`).
+
+| Use | Endpoint |
+| --- | --- |
+| Company VAT regime config | `GET /swiss-vat/config`, `PUT /swiss-vat/config` |
+| Tax codes catalog | `GET /swiss-vat/tax-codes`, `GET /swiss-vat/sss-sectors` |
+| Periodic returns & calculate | `GET /swiss-vat/returns`, `POST /swiss-vat/returns/calculate` |
+| AFC box schedule & quadratura | `GET /swiss-vat/returns/{id}/reconciliation` |
+| SuisseTax XSD validate & XML export/share | `POST /swiss-vat/returns/{id}/validate`, `POST /swiss-vat/returns/{id}/export-xml`, `GET /swiss-vat/exports/{id}/download` |
+| Bezugsteuer (Art. 45 LIVA) | `GET /swiss-vat/bezugsteuer`, `POST /swiss-vat/bezugsteuer`, `POST /swiss-vat/bezugsteuer/{id}/confirm\|exclude` |
+| Input tax adjustments (Art. 30-33 LIVA) | `GET /swiss-vat/adjustments`, `POST /swiss-vat/adjustments`, `POST /swiss-vat/adjustments/{id}/approve` |
+
+Strings: `presentation/swiss_vat_strings.dart` (`it-CH`, `it-IT`, `de-CH`, `fr-CH`, `en`).
+
