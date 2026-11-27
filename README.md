@@ -1,136 +1,102 @@
-# Fattura Facile — Mobile Application
+# FatturaFacile Mobile
 
-[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
-[![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web%20%7C%20Desktop-blue?style=for-the-badge)](#architecture--tech-stack)
+[![CI](https://github.com/FatturaFacile/mobile/actions/workflows/build.yml/badge.svg)](https://github.com/FatturaFacile/mobile/actions/workflows/build.yml)
+[![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white)](https://dart.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
----
+Flutter client for the [FatturaFacile](https://github.com/FatturaFacile/FatturaFacile) ERP. It talks to the [`web-api`](https://github.com/FatturaFacile/web-api) REST API and works offline first: the UI reads from a local SQLite database and a sync engine exchanges changes with the server.
 
-## 1. Project Overview & Purpose
+> **Status: early stage.** The app foundation (authentication, local database, sync, permissions, translations) and many feature modules are in the codebase, but the app has not been released. Expect incomplete screens.
 
-**Fattura Facile Mobile** is a cross-platform client tailored for freelancers, small business owners, consultants, and accounting professionals. The application simplifies and streamlines electronic and standard invoicing workflows, enabling users to generate, track, and manage commercial invoices, customer directories, and tax-compliant documents directly from their mobile or desktop devices.
+## Overview
 
-### Primary Capabilities & Objectives
-- **Invoice Generation & Lifecycle Management**: Create, view, revise, and dispatch digital invoices and receipts with automated tax calculations.
-- **Client & Directory Records**: Maintain client details, VAT numbers, tax IDs (*Codice Fiscale*), and billing addresses.
-- **Status & Payment Tracking**: Monitor invoice statuses (draft, issued, paid, overdue) with clear financial summaries.
-- **Multi-Platform Flexibility**: Unified codebase delivering a native user experience across iOS, Android, Web, and Desktop environments.
+- **Targets:** Android, iOS, web, Windows, macOS and Linux (one codebase).
+- **Offline first:** local SQLite (Drift), writes go to an outbox queue and are sent with idempotency keys, delta pull from the server, server wins by default, fiscal documents go to a conflict log for manual review.
+- **Authentication:** OAuth2 authorization code with PKCE against the API, Sanctum bearer token, tokens in secure storage, optional biometrics.
+- **Multi-tenancy and roles:** every request carries the tenant (`X-Tenant-Id`); permissions are checked on the client with `PermissionService`.
+- **Languages:** `it`, `en`, `de`, `fr` (static ARB files plus translations fetched from the API).
+- **Feature modules** under `lib/features/`, for example `auth`, `entities`, `field_service`, `inventory_count`, `wms`, `purchase_orders`, `general_ledger`, `italian_vat`, `swiss_vat`, `project_billing`, `shop_floor`, `shift_planning`. Their maturity varies.
+- The API contract the app relies on is summarized in [docs/MAPPING.md](docs/MAPPING.md).
 
----
+Main packages: `flutter_riverpod`, `drift`, `dio`, `fpdart`, `flutter_secure_storage`, `connectivity_plus`, `local_auth`, `intl`.
 
-## 2. Architecture & Tech Stack
+## Requirements
 
-The application is built using the **Flutter** framework and **Dart**, following an architectural separation that cleanly isolates platform integrations, business logic, and UI components.
+- Flutter stable with Dart `^3.13.5` (see `pubspec.yaml`)
+- Android Studio (Android), Xcode and CocoaPods (iOS and macOS), Chrome (web), Visual Studio with the C++ workload (Windows) or Clang and CMake (Linux)
+- A running `web-api` for anything beyond the login screen
 
-### Core Technology Stack
-- **Framework**: [Flutter](https://flutter.dev/) (SDK `>=3.13.5`)
-- **Language**: [Dart](https://dart.dev/)
-- **UI Guidelines**: Material Design 3 (`uses-material-design: true`) and iOS Cupertino styling (`cupertino_icons: ^1.0.8`)
-- **Linting & Code Quality**: Recommended Dart & Flutter rules configured via [`analysis_options.yaml`](./src/analysis_options.yaml) and `flutter_lints`
+## Getting started
 
-### Architectural Design & Standards
-The project adopts modern Clean Architecture and feature-driven design principles:
-- **Presentation Layer**: Stateless and Stateful widgets encapsulating responsive layouts, theme adaptations, and UI event handling.
-- **State Management**: Reactive state management pattern isolating business rules from platform view rendering.
-- **Data & Domain Abstraction**: Decoupled repository patterns and service layers facilitating API communication, persistent caching, and offline support.
-- **Workspace Decoupling**: Root-level project configurations, repository rules, and security controls wrap the dedicated Flutter source directory located inside [`src/`](./src/).
+Run the commands from the repository root.
 
----
-
-## 3. Repository Structure
-
-```text
-fattura-facile/mobile/
-├── .gitattributes              # Line ending and Git path normalization
-├── .gitignore                  # Global VCS ignore policies (ephemeral, secrets, builds)
-├── LICENSE                     # MIT License specification
-├── README.md                   # Project documentation & architectural manual
-└── src/                        # Flutter workspace directory
-    ├── analysis_options.yaml   # Static analysis and linting rules
-    ├── pubspec.yaml            # Package manifest, dependencies, and environment constraints
-    ├── pubspec.lock            # Exact resolved dependency graph
-    ├── android/                # Android native host project & Gradle configuration
-    ├── ios/                    # iOS native host project & CocoaPods configuration
-    ├── linux/                  # Linux desktop native project runners
-    ├── macos/                  # macOS native desktop host project
-    ├── web/                    # Web runner, index.html, and PWA manifest
-    ├── windows/                # Windows desktop native C++ runner
-    ├── lib/                    # Application source code
-    │   └── main.dart           # Application entrypoint & base widget tree
-    └── test/                   # Automated unit, widget, and integration test suites
+```bash
+git clone https://github.com/FatturaFacile/mobile.git
+cd mobile
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs   # Drift code
+flutter gen-l10n                                           # localization classes
+flutter run                                                # default device
+flutter run -d chrome
 ```
 
----
+## Configuration
 
-## 4. Getting Started / Prerequisites
+The API address is set at build time with `--dart-define`:
 
-### Prerequisites
-Before running the application, ensure your environment meets the following requirements:
-1. **Flutter SDK**: Version `^3.13.5` or higher installed. Verify your installation:
-   ```bash
-   flutter doctor
-   ```
-2. **Platform Toolchains**:
-   - **Android**: Android Studio with SDK build tools and an active emulator or physical device.
-   - **iOS/macOS**: Xcode (latest stable recommended) and CocoaPods installed (for macOS/iOS targets).
-   - **Desktop/Web**: Chrome (for Web) or native build prerequisites (Visual Studio C++ for Windows, Clang/CMake for Linux).
+```bash
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000   # Android emulator to a local API
+```
 
-### Installation & Execution
+Variable: `API_BASE_URL` (defaults to the production API). There is no `.env` file. Android signing and Firebase files (`key.properties`, `google-services.json`, `GoogleService-Info.plist`) are local only and ignored by git.
 
-All Flutter CLI commands must be executed from within the [`src/`](./src/) directory:
+## Testing and linting
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-org/fattura-facile-mobile.git
-   cd fattura-facile/mobile/src
-   ```
+```bash
+dart format --output=none --set-exit-if-changed .   # formatting
+flutter analyze                                     # static analysis (flutter_lints)
+flutter test                                        # unit and widget tests
+flutter test --coverage                             # as in CI
+```
 
-2. **Install project dependencies**:
-   ```bash
-   flutter pub get
-   ```
+Pre-push gate: format, analyze and test must all pass with no warnings.
 
-3. **Verify static analysis**:
-   ```bash
-   flutter analyze
-   ```
+## CI/CD and branching
 
-4. **Run automated tests**:
-   ```bash
-   flutter test
-   ```
+- `dev` is the default branch. Open pull requests against `dev`. `main` is the release line.
+- `Build & Test` (`build.yml`) runs `flutter analyze`, `flutter test --coverage` and a SonarQube scan on pushes and pull requests to `main`. It is not triggered by pull requests to `dev`, so run the gate above locally before pushing.
+- There is no store release or deployment workflow yet.
 
-5. **Launch the application**:
-   ```bash
-   # Run on the default connected device
-   flutter run
+## Project structure
 
-   # Or target a specific platform
-   flutter run -d chrome
-   flutter run -d windows
-   flutter run -d android
-   ```
+```text
+lib/
+├── main.dart
+├── app/        # app widget, providers, routing, session controller
+├── core/       # config, database (Drift), error, localization, network (Dio), security, sync
+├── design/     # design tokens generated from web-frontend (do not edit by hand)
+├── features/   # one folder per module: domain/, data/, presentation/
+└── l10n/       # ARB files and generated localization classes
+test/           # mirrors lib/ (app, core, features)
+docs/MAPPING.md # API contract used by the app
+android/ ios/ linux/ macos/ web/ windows/   # platform hosts
+```
 
----
+## Related repositories
 
-## 5. Configuration & Environment
+| Repository | Relation |
+| :--- | :--- |
+| [`web-api`](https://github.com/FatturaFacile/web-api) | Backend API (`/api/v1`, mobile endpoints under `/mobile`) |
+| [`web-frontend`](https://github.com/FatturaFacile/web-frontend) | Web client; the design tokens come from it |
+| [`database`](https://github.com/FatturaFacile/database) | Reference relational schema |
+| [`FatturaFacile`](https://github.com/FatturaFacile/FatturaFacile) | Organization overview and repository map |
 
-### Environment Variables & Secrets
-To separate operational configuration from the codebase:
-- Use an environment configuration file (e.g., `src/.env`) for backend API URLs, authentication tenant keys, and environment flags.
-- When introducing environment configurations, establish a `src/.env.example` template with redacted placeholders for onboarding developers.
-- Both root-level and workspace `.gitignore` rules prevent private files (`.env`, `.env.*`, keystores, and credentials) from being committed to source control.
+## Documentation
 
-### Platform Credentials & Signing
-- **Android**: Place local developer properties in `src/android/local.properties` and keystore configurations in `src/android/key.properties` (strictly ignored by VCS).
-- **iOS / Firebase**: If using Firebase services, supply `google-services.json` (Android) and `GoogleService-Info.plist` (iOS) in their designated platform folders; these paths are governed under ignore policies.
+- [docs/MAPPING.md](docs/MAPPING.md): mobile, API and web client mapping
+- Project wiki: [FatturaFacile/FatturaFacile wiki](https://github.com/FatturaFacile/FatturaFacile/wiki)
 
----
+## License
 
-## 6. License & Acknowledgments
-
-This project is licensed under the terms of the **MIT License**. For full terms, refer to the [LICENSE](./LICENSE) file.
-
----
-*Maintained with strict software engineering standards for the Fattura Facile platform.*
+[MIT](LICENSE)
